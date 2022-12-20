@@ -1,0 +1,31 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_34_3079)">
+<rect x="1" y="1" width="6" height="6" stroke="#4A4A4A" stroke-width="2"/>
+<rect x="1" y="17" width="6" height="6" stroke="#4A4A4A" stroke-width="2"/>
+<rect x="17" y="1" width="6" height="6" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M10 1H14" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M10 4H14" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M12 12H16" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M13 18H18" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M8 10H12" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M0 12H4" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M6 12H10" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M10 14H12" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M20 20H22" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M22 15H24" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M14 10H16" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M10 18H13" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M19 11H24" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M16 16H20" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M10 23H18" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M11 1V8" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M13 15V22" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M23 19V24" stroke="#4A4A4A" stroke-width="2"/>
+<path d="M19 10V16" stroke="#4A4A4A" stroke-width="2"/>
+</g>
+<defs>
+<clipPath id="clip0_34_3079">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

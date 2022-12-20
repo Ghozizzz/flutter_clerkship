@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Clerkship Dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=ENVIRONMENT=DEV",
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "Clerkship Production",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=ENVIRONMENT=PROD",
+                "--flavor",
+                "prod"
+            ]
+        },
+    ]
+}
