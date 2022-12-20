@@ -33,9 +33,6 @@ jobs:
       - name: Building APK dev
         run: flutter build apk --release --dart-define=ENVIRONMENT=DEV --flavor dev
 
-      - name: Building APK staging
-        run: flutter build apk --release --dart-define=ENVIRONMENT=STAGING --flavor staging
-
       - name: Building APK production
         run: flutter build apk --release --dart-define=ENVIRONMENT=PROD --flavor prod
 
