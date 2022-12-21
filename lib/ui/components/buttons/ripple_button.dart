@@ -16,7 +16,7 @@ class RippleButton extends StatefulWidget {
   final Widget? child;
   final EdgeInsets? padding;
   final Border? border;
-  final double? radius;
+  final double radius;
   final bool lightButton;
   final bool loading;
   final MainAxisAlignment axisAlignment;
@@ -37,7 +37,7 @@ class RippleButton extends StatefulWidget {
     this.child,
     this.padding,
     this.border,
-    this.radius,
+    this.radius = 8,
     this.lightButton = true,
     this.loading = false,
     this.axisAlignment = MainAxisAlignment.center,
@@ -75,7 +75,8 @@ class _RippleButtonState extends State<RippleButton> {
             : widget.onTap != null
                 ? color
                 : widget.disableColor ?? color.withOpacity(0.2),
-        borderRadius: widget.borderRadius,
+        borderRadius:
+            widget.borderRadius ?? BorderRadius.circular(widget.radius),
         boxShadow: widget.onTap != null
             ? [if (widget.shadow != null) widget.shadow!]
             : [],
@@ -84,7 +85,8 @@ class _RippleButtonState extends State<RippleButton> {
             : widget.disableGradientColor,
       ),
       child: ClipRRect(
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(0),
+        borderRadius:
+            widget.borderRadius ?? BorderRadius.circular(widget.radius),
         child: Material(
           color: Colors.transparent,
           child: InkWell(

@@ -1,8 +1,11 @@
+import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
+import 'package:clerkship/ui/components/buttons/secondary_button.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/components/commons/primary_checkbox.dart';
 import 'package:clerkship/ui/components/textareas/otp_field.dart';
 import 'package:clerkship/ui/components/textareas/password_textarea.dart';
+import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -26,16 +29,27 @@ class TestComponent extends StatelessWidget {
                   onTap: () {},
                   text: 'Primary Button',
                 ),
+                SecondaryButton(
+                  onTap: () {},
+                  text: 'Secondary Button',
+                ).addMarginTop(24),
                 PrimaryButton(
                   enable: false,
                   onTap: () {},
                   text: 'Disabled Button',
+                ).addMarginTop(24),
+                DatePickerButton(
+                  controller: DatePickerController(),
                 ).addMarginTop(24),
                 const TextArea(
                   hint: 'General Textfield',
                 ).addMarginTop(24),
                 const PasswordTextarea(
                   hint: 'General Textfield',
+                ).addMarginTop(24),
+                const SizedBox(
+                  height: 250,
+                  child: RichTextEditor(),
                 ).addMarginTop(24),
                 const PrimaryCheckbox(
                   title: 'Test checkbox',

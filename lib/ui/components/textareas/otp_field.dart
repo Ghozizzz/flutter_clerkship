@@ -22,7 +22,7 @@ class OtpField extends StatelessWidget {
         appContext: context,
         onChanged: (tex) {},
         onCompleted: onComplete,
-        autoFocus: true,
+        autoFocus: false,
         controller: controller,
         keyboardType: TextInputType.number,
         animationType: AnimationType.scale,
@@ -35,6 +35,8 @@ class OtpField extends StatelessWidget {
           activeColor: Themes.stroke,
           inactiveColor: Themes.stroke,
           selectedColor: Themes.text,
+          borderRadius: BorderRadius.circular(8),
+          borderWidth: 1,
         ),
       ),
     );
