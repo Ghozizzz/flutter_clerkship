@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/secondary_button.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
@@ -36,6 +37,9 @@ class TestComponent extends StatelessWidget {
                   enable: false,
                   onTap: () {},
                   text: 'Disabled Button',
+                ).addMarginTop(24),
+                DatePickerButton(
+                  controller: DatePickerController(),
                 ).addMarginTop(24),
                 const TextArea(
                   hint: 'General Textfield',

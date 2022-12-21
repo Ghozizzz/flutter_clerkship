@@ -85,7 +85,8 @@ class _RippleButtonState extends State<RippleButton> {
             : widget.disableGradientColor,
       ),
       child: ClipRRect(
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(0),
+        borderRadius:
+            widget.borderRadius ?? BorderRadius.circular(widget.radius),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
