@@ -5,7 +5,7 @@ import 'package:responsive/responsive.dart';
 import '../../../config/themes.dart';
 import 'ripple_button.dart';
 
-class PrimaryButton extends StatefulWidget {
+class SecondaryButton extends StatefulWidget {
   final String? text;
   final VoidCallback? onTap;
   final Color? textColor;
@@ -17,7 +17,7 @@ class PrimaryButton extends StatefulWidget {
   final bool loading;
   final LinearGradient? gradientColor;
 
-  const PrimaryButton({
+  const SecondaryButton({
     Key? key,
     this.text,
     this.onTap,
@@ -32,10 +32,10 @@ class PrimaryButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PrimaryButton> createState() => _PrimaryButtonState();
+  State<SecondaryButton> createState() => _SecondaryButtonState();
 }
 
-class _PrimaryButtonState extends State<PrimaryButton> {
+class _SecondaryButtonState extends State<SecondaryButton> {
   late Color textColor;
   late EdgeInsets padding;
 
@@ -47,7 +47,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
     return Stack(
       children: [
         RippleButton(
-          color: Themes.primary,
+          color: Themes.lightPrimary,
           shadow: Themes.dropShadow,
           disableColor: Themes.disable,
           radius: widget.radius,

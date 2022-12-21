@@ -52,7 +52,8 @@ class PrimaryCheckboxState extends State<PrimaryCheckbox> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.w),
               border: Border.all(
-                color: value ? (widget.color ?? Themes.checkbox) : Themes.black,
+                color:
+                    value ? (widget.color ?? Themes.checkbox) : Themes.stroke,
               ),
               color: value
                   ? (widget.color ?? Themes.checkbox)

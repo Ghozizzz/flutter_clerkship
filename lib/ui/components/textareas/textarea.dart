@@ -107,7 +107,6 @@ class _TextAreaState extends State<TextArea> {
           color: Themes.stroke,
         ),
         color: widget.color ?? Themes.white,
-        borderRadius: BorderRadius.circular(widget.radius ?? 0),
         shadow: widget.shadow,
         padding: EdgeInsets.zero,
         child: TextField(

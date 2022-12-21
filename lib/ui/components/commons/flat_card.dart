@@ -1,4 +1,3 @@
-import 'package:responsive/responsive.dart';
 import 'package:flutter/material.dart';
 
 class FlatCard extends StatefulWidget {
@@ -37,7 +36,7 @@ class _FlatCardState extends State<FlatCard> {
       height: widget.height,
       decoration: BoxDecoration(
         color: widget.color ?? Colors.white,
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(8.w),
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
         border: widget.border,
         boxShadow: widget.shadow != null ? [widget.shadow!] : [],
       ),
