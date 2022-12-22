@@ -20,13 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () {
-        NavHelper.navigateReplace(context, LoginScreen());
+        NavHelper.navigateReplace(LoginScreen());
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    NavHelper.initNavHelper(context);
     Tools.changeStatusbarIconColor(darkIcon: false);
     Responsive.setDesignSize(360, 1295);
     Responsive.initScreenSize(context);

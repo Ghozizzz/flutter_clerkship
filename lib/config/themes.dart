@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Themes {
-  static const text = Color(0xff363636);
-  static const black = Color(0xff231F20);
+  static const text = Color(0xff5A7180);
+  static const black = Color(0xff0F1B41);
   static const primary = Color(0xff006950);
   static const darkPrimary = Color(0xff006950);
   static const lightPrimary = Color(0xff00AD84);
@@ -113,6 +113,7 @@ class Themes {
 
   TextStyle? primary12;
   TextStyle? primary14;
+  TextStyle? primaryBold20;
   TextStyle? primaryBold22;
   TextStyle? primaryBold24;
   TextStyle? primaryBold18;
@@ -164,6 +165,13 @@ class Themes {
     primaryBold14 ??= GoogleFonts.poppins(
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
+      color: Themes.darkPrimary,
+      fontWeight: FontWeight.bold,
+    );
+
+    primaryBold20 ??= GoogleFonts.poppins(
+      height: withLineHeight ? 1.5 : 1.2,
+      fontSize: 20,
       color: Themes.darkPrimary,
       fontWeight: FontWeight.bold,
     );
