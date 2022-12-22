@@ -1,4 +1,5 @@
 import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
+import 'package:clerkship/ui/components/buttons/modal_dropdown.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/secondary_button.dart';
 import 'package:clerkship/ui/components/buttons/time_picker_button.dart';
@@ -44,6 +45,20 @@ class TestComponent extends StatelessWidget {
                 ).addMarginTop(24),
                 TimePickerButton(
                   controller: TimePickerController(),
+                ).addMarginTop(24),
+                ModalDropdown(
+                  controller: ModalDropDownController(),
+                  hint: 'Pilih Jenis Kegiatan',
+                  items: [
+                    DropDownItem(
+                      title: 'Pembuatan status',
+                      value: 0,
+                    ),
+                    DropDownItem(
+                      title: 'Bed-side teaching (BST)',
+                      value: 1,
+                    ),
+                  ],
                 ).addMarginTop(24),
                 const TextArea(
                   hint: 'General Textfield',
