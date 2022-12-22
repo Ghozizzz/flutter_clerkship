@@ -18,8 +18,8 @@ import 'package:widget_helper/widget_helper.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: 'dummmy@gmail.com');
+  final passwordController = TextEditingController(text: 'Password123');
   final checkboxController = CheckboxController(false);
 
   @override
