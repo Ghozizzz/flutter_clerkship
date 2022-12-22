@@ -38,6 +38,7 @@ class PrimaryAppBar extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16.w),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (showBackButton)
                   RippleButton(
