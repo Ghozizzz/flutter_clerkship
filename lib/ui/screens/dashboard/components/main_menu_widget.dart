@@ -1,4 +1,5 @@
 import 'package:clerkship/ui/screens/clinic_activity/clinic_activity_screen.dart';
+import 'package:clerkship/ui/screens/scientific_event/scientific_event_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -29,7 +30,9 @@ class MainMenuWidget extends StatelessWidget {
             ItemMenu(
               icon: AssetIcons.icScienceShow,
               title: 'Acara\nIlmiah',
-              onTap: () {},
+              onTap: () {
+                NavHelper.navigatePush(const ScientificEventScreen());
+              },
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
