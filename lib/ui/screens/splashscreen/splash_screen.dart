@@ -1,5 +1,5 @@
 import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/ui/screens/test_component/test_component.dart';
+import 'package:clerkship/ui/screens/login/login_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Tools.onViewCreated(() {
-      NavHelper.navigatePush(context, const TestComponent());
+      Future.delayed(const Duration(seconds: 1), () {
+        NavHelper.navigateReplace(context, LoginScreen());
+      });
     });
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Themes {
-  static const text = Color(0xff777777);
+  static const text = Color(0xff363636);
   static const black = Color(0xff231F20);
   static const primary = Color(0xff006950);
   static const darkPrimary = Color(0xff006950);

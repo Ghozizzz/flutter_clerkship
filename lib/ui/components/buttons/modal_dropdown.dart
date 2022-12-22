@@ -174,9 +174,11 @@ class _ModalDropDownWidgetState extends State<ModalDropDownWidget> {
         }
       }
       if (!index.isNegative) {
-        controller.jumpTo(
-          56.0 * index,
-        );
+        if (widget.items.length > 6) {
+          controller.jumpTo(
+            56.0 * index,
+          );
+        }
       }
     });
   }
