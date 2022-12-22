@@ -70,7 +70,8 @@ class TestComponent extends StatelessWidget {
                   height: 250,
                   child: RichTextEditor(),
                 ).addMarginTop(24),
-                const PrimaryCheckbox(
+                PrimaryCheckbox(
+                  controller: CheckboxController(false),
                   title: 'Test checkbox',
                 ).addMarginTop(24),
                 const OtpField().addMarginTop(24),
