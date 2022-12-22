@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 
 class NavHelper {
+  static late BuildContext buildContext;
+
+  static void initNavHelper(BuildContext context) {
+    buildContext = context;
+  }
+
   static void navigateRefresh(
-    BuildContext context,
     Widget screen,
     String route,
   ) {
     Navigator.pushAndRemoveUntil<void>(
-      context,
+      buildContext,
       MaterialPageRoute(builder: (context) => screen),
       ModalRoute.withName(route),
     );
   }
 
   static void navigateReplace(
-    BuildContext context,
     Widget screen,
   ) {
     Navigator.pushReplacement(
-      context,
+      buildContext,
       MaterialPageRoute<void>(builder: (context) {
         return screen;
       }),
@@ -26,11 +30,10 @@ class NavHelper {
   }
 
   static void navigatePush(
-    BuildContext context,
     Widget screen,
   ) {
     Navigator.push<void>(
-      context,
+      buildContext,
       MaterialPageRoute(builder: (context) {
         return screen;
       }),
@@ -38,11 +41,10 @@ class NavHelper {
   }
 
   static Future<T?> navigatePushAsync<T>(
-    BuildContext context,
     Widget screen,
   ) async {
     return Navigator.push<T>(
-      context,
+      buildContext,
       MaterialPageRoute(builder: (context) {
         return screen;
       }),
