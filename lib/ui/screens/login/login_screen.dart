@@ -5,6 +5,7 @@ import 'package:clerkship/ui/components/commons/primary_checkbox.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:clerkship/ui/components/textareas/password_textarea.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
+import 'package:clerkship/ui/screens/dashboard/student_dashboard_screen.dart';
 import 'package:clerkship/ui/screens/forgot_password/forgot_password_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
@@ -109,7 +110,9 @@ class LoginScreen extends StatelessWidget {
               builder: (context, _, __) {
                 return PrimaryButton(
                   enable: isFormValid(),
-                  onTap: () {},
+                  onTap: () {
+                    NavHelper.navigateReplace(const StudentDashboardScreen());
+                  },
                   text: 'Sign In',
                 ).addAllMargin(20.w);
               },

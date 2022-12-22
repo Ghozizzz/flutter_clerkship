@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Themes {
   static const text = Color(0xff5A7180);
   static const black = Color(0xff0F1B41);
+  static const content = Color(0xff4A4A4A);
   static const primary = Color(0xff006950);
   static const darkPrimary = Color(0xff006950);
   static const lightPrimary = Color(0xff00AD84);
