@@ -8,7 +8,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
-import '../commons/flat_card.dart';
+import 'flat_card.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({super.key});
@@ -135,7 +135,7 @@ class _CalendarViewState extends State<CalendarView> {
                 return Center(
                   child: Text(
                     text,
-                    style: Themes().black12,
+                    style: Themes().black14,
                   ),
                 );
               },
@@ -160,7 +160,7 @@ class _CalendarViewState extends State<CalendarView> {
               },
               defaultBuilder: (context, day, focusedDay) {
                 final text = DateFormat.d().format(day);
-                final isSunday = DateFormat.E().format(day) == 'Sun';
+                final isSunday = day.weekday == DateTime.sunday;
 
                 return Center(
                   child: Text(
@@ -168,6 +168,18 @@ class _CalendarViewState extends State<CalendarView> {
                     style: Themes().black14?.withColor(
                           isSunday ? Themes.hint : Themes.text,
                         ),
+                  ),
+                );
+              },
+              outsideBuilder: (context, day, focusedDay) {
+                final text = DateFormat.d().format(day);
+
+                return Center(
+                  child: Text(
+                    text,
+                    style: Themes()
+                        .black14
+                        ?.withColor(Themes.hint.withOpacity(0.5)),
                   ),
                 );
               },

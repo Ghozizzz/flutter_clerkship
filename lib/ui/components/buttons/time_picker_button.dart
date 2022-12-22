@@ -1,26 +1,25 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/commons/calendar_view.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/utils/extensions.dart';
+import 'package:clerkship/ui/components/commons/time_picker_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 
-class DatePickerController extends ValueNotifier<DateTime?> {
-  DateTime? selected;
-  DatePickerController({DateTime? selected}) : super(selected);
+class TimePickerController extends ValueNotifier<TimeOfDay?> {
+  TimeOfDay? selected;
+  TimePickerController({TimeOfDay? selected}) : super(selected);
 
-  void setValue(DateTime value) {
+  void setValue(TimeOfDay value) {
     selected = value;
     notifyListeners();
   }
 }
 
-class DatePickerButton extends StatelessWidget {
-  final DatePickerController controller;
+class TimePickerButton extends StatelessWidget {
+  final TimePickerController controller;
 
-  const DatePickerButton({
+  const TimePickerButton({
     super.key,
     required this.controller,
   });
@@ -28,8 +27,8 @@ class DatePickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {
-        showDatePickerModal(context);
+      onTap: () async {
+        showTimePickerModal(context);
       },
       padding: EdgeInsets.symmetric(
         horizontal: 16.w,
@@ -45,8 +44,8 @@ class DatePickerButton extends StatelessWidget {
             builder: (context, _, __) {
               return Text(
                 controller.selected != null
-                    ? controller.selected!.formatDate('dd MMMM yyyy')
-                    : 'Pilih Tanggal',
+                    ? controller.selected!.format(context)
+                    : 'Pilih Jam',
                 style: Themes().black14?.withColor(
                       controller.selected != null ? Themes.text : Themes.hint,
                     ),
@@ -54,22 +53,22 @@ class DatePickerButton extends StatelessWidget {
             },
           ),
           SvgPicture.asset(
-            AssetIcons.icCalendar,
+            AssetIcons.icTime,
           ),
         ],
       ),
     );
   }
 
-  void showDatePickerModal(BuildContext context) async {
-    final date = await showModalBottomSheet(
+  void showTimePickerModal(BuildContext context) async {
+    final time = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Themes.transparent,
       builder: (context) {
-        return const CalendarView();
+        return const TimePickerView();
       },
     );
-    if (date != null) controller.setValue(date);
+    if (time != null) controller.setValue(time);
   }
 }
