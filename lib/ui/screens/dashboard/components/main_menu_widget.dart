@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/clinic_activity/clinic_activity_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -19,7 +21,9 @@ class MainMenuWidget extends StatelessWidget {
             ItemMenu(
               icon: AssetIcons.icClinicActivity,
               title: 'Kegiatan\nKlinik',
-              onTap: () {},
+              onTap: () {
+                NavHelper.navigatePush(const ClinicActivityScreen());
+              },
             ).addExpanded,
             Container(width: 20.w),
             ItemMenu(

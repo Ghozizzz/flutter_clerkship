@@ -16,7 +16,7 @@ class Themes {
   static const pink = Color(0xffEA9898);
   static const disable = Color(0xff777777);
 
-  static const blue = Color(0xff2D8AE8);
+  static const blue = Color(0xff74BCFF);
   static const reddish = Color(0xffFF576B);
   static const cyan = Color(0xff0CEAE2);
   static const orange = Color(0xFFFF8E24);
@@ -98,6 +98,7 @@ class Themes {
   TextStyle? black20;
   TextStyle? black24;
 
+  TextStyle? blackBold10;
   TextStyle? blackBold12;
   TextStyle? blackBold14;
   TextStyle? blackBold16;
@@ -260,6 +261,13 @@ class Themes {
     blackBold16 ??= GoogleFonts.poppins(
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
+      color: Themes.text,
+      fontWeight: FontWeight.bold,
+    );
+
+    blackBold10 ??= GoogleFonts.poppins(
+      height: withLineHeight ? 1.5 : 1.2,
+      fontSize: 10,
       color: Themes.text,
       fontWeight: FontWeight.bold,
     );
