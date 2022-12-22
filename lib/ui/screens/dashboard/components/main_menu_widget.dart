@@ -33,14 +33,14 @@ class MainMenuWidget extends StatelessWidget {
         Row(
           children: [
             ItemMenu(
-              icon: AssetIcons.icClinicActivity,
-              title: 'Kegiatan\nKlinik',
+              icon: AssetIcons.icStandartCompetence,
+              title: 'Standar\nKompetensi',
               onTap: () {},
             ).addExpanded,
             Container(width: 20.w),
             ItemMenu(
-              icon: AssetIcons.icScienceShow,
-              title: 'Acara\nIlmiah',
+              icon: AssetIcons.icFinalAssesment,
+              title: 'Penilaian\nAkhir',
               onTap: () {},
             ).addExpanded,
           ],
