@@ -33,9 +33,8 @@ class DropDownItem {
   });
 }
 
-class ModalDropdown<T> extends StatefulWidget {
+class ModalDropdown extends StatefulWidget {
   final ModalDropDownController controller;
-  final T? selected;
   final String? hint;
   final Color? iconColor;
   final double? iconSize;
@@ -63,7 +62,6 @@ class ModalDropdown<T> extends StatefulWidget {
     this.height,
     this.color,
     this.border,
-    this.selected,
     this.enable = true,
     this.icon,
     this.showSubtitle = true,
