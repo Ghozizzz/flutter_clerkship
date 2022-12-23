@@ -1,9 +1,9 @@
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../buttons/primary_button.dart';
 import 'flat_card.dart';
 
 class TimePickerView extends StatefulWidget {

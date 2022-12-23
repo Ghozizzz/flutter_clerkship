@@ -1,6 +1,7 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/ui/screens/splashscreen/splash_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'config/themes.dart';
+import 'ui/screens/splashscreen/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Clerkship Logbook',
       theme: ThemeData(
         primarySwatch: Themes.primaryMaterialColor,
+        scaffoldBackgroundColor: Themes.white,
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),

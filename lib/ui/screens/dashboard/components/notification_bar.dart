@@ -4,7 +4,9 @@ import 'package:responsive/responsive.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
+import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/ripple_button.dart';
+import '../../notification/notification_screen.dart';
 
 class NotificationBar extends StatelessWidget {
   const NotificationBar({
@@ -19,7 +21,9 @@ class NotificationBar extends StatelessWidget {
         Stack(
           children: [
             RippleButton(
-              onTap: () {},
+              onTap: () {
+                NavHelper.navigatePush(const NotificationScreen());
+              },
               child: SvgPicture.asset(
                 AssetIcons.icNotification,
                 height: 18.h,

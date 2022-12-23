@@ -1,12 +1,12 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
+import '../../../r.dart';
+import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
 import '../login/login_screen.dart';
 

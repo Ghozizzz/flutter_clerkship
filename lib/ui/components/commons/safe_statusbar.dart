@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/themes.dart';
 import 'status_bar.dart';
 
 class SafeStatusBar extends StatelessWidget {
@@ -9,8 +10,8 @@ class SafeStatusBar extends StatelessWidget {
 
   const SafeStatusBar({
     Key? key,
-    this.lightIcon = false,
-    this.statusBarColor = Colors.white,
+    this.lightIcon = true,
+    this.statusBarColor = Themes.primary,
     required this.child,
   }) : super(key: key);
 

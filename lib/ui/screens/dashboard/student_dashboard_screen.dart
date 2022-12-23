@@ -1,15 +1,15 @@
 import 'dart:math';
 
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
+import '../../../r.dart';
 import '../../../utils/dialog_helper.dart';
 import '../../../utils/nav_helper.dart';
+import '../../components/commons/safe_statusbar.dart';
 import 'components/main_menu_widget.dart';
 import 'components/notification_bar.dart';
 import 'components/user_data_widget.dart';
@@ -23,8 +23,6 @@ class StudentDashboardScreen extends StatelessWidget {
     DialogHelper.initDialogHelper(context);
 
     return SafeStatusBar(
-      lightIcon: true,
-      statusBarColor: Themes.primary,
       child: Scaffold(
         body: Stack(
           children: [
