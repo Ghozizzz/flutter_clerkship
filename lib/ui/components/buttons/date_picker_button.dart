@@ -68,7 +68,9 @@ class DatePickerButton extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Themes.transparent,
       builder: (context) {
-        return const CalendarView();
+        return CalendarView(
+          selectedDate: controller.selected,
+        );
       },
     );
     if (date != null) controller.setValue(date);

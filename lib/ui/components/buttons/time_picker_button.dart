@@ -67,7 +67,9 @@ class TimePickerButton extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Themes.transparent,
       builder: (context) {
-        return const TimePickerView();
+        return TimePickerView(
+          selectedTime: controller.selected,
+        );
       },
     );
     if (time != null) controller.setValue(time);

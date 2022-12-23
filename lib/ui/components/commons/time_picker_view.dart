@@ -1,3 +1,4 @@
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -7,15 +8,36 @@ import '../buttons/primary_button.dart';
 import 'flat_card.dart';
 
 class TimePickerView extends StatefulWidget {
-  const TimePickerView({super.key});
+  final TimeOfDay? selectedTime;
+
+  const TimePickerView({
+    super.key,
+    this.selectedTime,
+  });
 
   @override
   State<TimePickerView> createState() => _TimePickerViewState();
 }
 
 class _TimePickerViewState extends State<TimePickerView> {
-  ValueNotifier<int> hour = ValueNotifier(0);
-  ValueNotifier<int> minutes = ValueNotifier(0);
+  final ValueNotifier<int> hour = ValueNotifier(0);
+  final ValueNotifier<int> minutes = ValueNotifier(0);
+  final hourScrollController = FixedExtentScrollController();
+  final minuteScrollController = FixedExtentScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    Tools.onViewCreated(() {
+      if (widget.selectedTime != null) {
+        hour.value = widget.selectedTime!.hour;
+        minutes.value = widget.selectedTime!.minute;
+
+        hourScrollController.jumpTo(hour.value * 100);
+        minuteScrollController.jumpTo(minutes.value * 100);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +66,7 @@ class _TimePickerViewState extends State<TimePickerView> {
                     valueListenable: hour,
                     builder: (context, _, __) {
                       return ListWheelScrollView(
+                        controller: hourScrollController,
                         physics: const FixedExtentScrollPhysics(),
                         itemExtent: 100,
                         children: List.generate(
@@ -70,6 +93,7 @@ class _TimePickerViewState extends State<TimePickerView> {
                     valueListenable: minutes,
                     builder: (context, _, __) {
                       return ListWheelScrollView(
+                        controller: minuteScrollController,
                         physics: const FixedExtentScrollPhysics(),
                         itemExtent: 100,
                         children: List.generate(

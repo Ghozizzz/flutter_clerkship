@@ -15,12 +15,12 @@ extension DateExtension on DateTime {
 }
 
 extension HtmlString on String {
-  InlineSpan toSpan(BuildContext context) {
+  InlineSpan toSpan(BuildContext context, {TextStyle? textStyle}) {
     return HTML.toTextSpan(
       context,
       this,
       overrideStyle: {
-        'p': Themes(withLineHeight: true).black12!,
+        'p': textStyle ?? Themes(withLineHeight: true).black12!,
       },
     );
   }
