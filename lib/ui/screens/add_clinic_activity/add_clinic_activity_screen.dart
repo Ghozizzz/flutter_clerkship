@@ -81,6 +81,12 @@ class AddClinicActivityScreen extends StatelessWidget {
                           value: 6,
                         ),
                       ],
+                    ).addMarginBottom(6),
+                    Text(
+                      '*dapat pilih lebih dari satu',
+                      style: Themes()
+                          .gray12
+                          ?.copyWith(fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
