@@ -1,20 +1,21 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/commons/primary_checkbox.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/components/textareas/password_textarea.dart';
-import 'package:clerkship/ui/components/textareas/textarea.dart';
-import 'package:clerkship/ui/screens/dashboard/student_dashboard_screen.dart';
-import 'package:clerkship/ui/screens/forgot_password/forgot_password_screen.dart';
-import 'package:clerkship/utils/dialog_helper.dart';
-import 'package:clerkship/utils/nav_helper.dart';
-import 'package:clerkship/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+
+import '../../../config/themes.dart';
+import '../../../r.dart';
+import '../../../utils/dialog_helper.dart';
+import '../../../utils/nav_helper.dart';
+import '../../../utils/string_helper.dart';
+import '../../components/buttons/primary_button.dart';
+import '../../components/commons/primary_checkbox.dart';
+import '../../components/commons/safe_statusbar.dart';
+import '../../components/textareas/password_textarea.dart';
+import '../../components/textareas/textarea.dart';
+import '../dashboard/student_dashboard_screen.dart';
+import '../forgot_password/forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -29,10 +30,7 @@ class LoginScreen extends StatelessWidget {
     DialogHelper.initDialogHelper(context);
 
     return SafeStatusBar(
-      lightIcon: true,
-      statusBarColor: Themes.primary,
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Column(
           children: [
             SingleChildScrollView(

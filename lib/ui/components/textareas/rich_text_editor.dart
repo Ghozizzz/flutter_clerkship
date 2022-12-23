@@ -1,11 +1,11 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 
+import '../../../config/themes.dart';
+import '../../../r.dart';
 import '../buttons/toggle_button.dart';
+import '../commons/flat_card.dart';
 
 class RichTextEditor extends StatefulWidget {
   const RichTextEditor({super.key});

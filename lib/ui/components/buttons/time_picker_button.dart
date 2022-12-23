@@ -1,10 +1,11 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/ui/components/commons/time_picker_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
+
+import '../../../config/themes.dart';
+import '../../../r.dart';
+import '../commons/time_picker_view.dart';
+import 'ripple_button.dart';
 
 class TimePickerController extends ValueNotifier<TimeOfDay?> {
   TimeOfDay? selected;

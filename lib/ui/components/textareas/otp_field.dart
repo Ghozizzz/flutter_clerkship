@@ -1,7 +1,8 @@
-import 'package:clerkship/config/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:responsive/responsive.dart';
+
+import '../../../config/themes.dart';
 
 class OtpField extends StatelessWidget {
   final TextEditingController? controller;

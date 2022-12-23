@@ -1,10 +1,10 @@
-import 'package:clerkship/r.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../r.dart';
 import '../buttons/ripple_button.dart';
 import '../commons/flat_card.dart';
 
