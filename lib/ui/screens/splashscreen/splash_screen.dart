@@ -8,6 +8,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../utils/tools.dart';
+import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () {
-        // NavHelper.navigateReplace(LoginScreen());
+        NavHelper.navigateReplace(LoginScreen());
       });
     });
   }
