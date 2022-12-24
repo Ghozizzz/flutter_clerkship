@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.18.5 <3.0.0"
 
 dependencies:
+  another_dashed_container: ^1.0.0
   cached_network_image: ^3.2.3
   crop_your_image: ^0.7.3
   cupertino_icons: ^1.0.2

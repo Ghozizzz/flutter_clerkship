@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_dashed_container/another_dashed_container.dart';
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
@@ -102,49 +103,54 @@ class FilePickerButton extends StatelessWidget {
                 ).addMarginBottom(8);
               },
             ),
-            RippleButton(
-              border: Border.all(color: Themes.stroke),
-              onTap: () async {
-                String? path = await FilesystemPicker.open(
-                  context: context,
-                  fileTileSelectMode: FileTileSelectMode.wholeTile,
-                  fsType: FilesystemType.file,
-                  requestPermission: () {
-                    return Permission.storage.request().isGranted;
-                  },
-                  rootDirectory: Directory('/storage/emulated/0'),
-                );
-                if (path != null) {
-                  final mimeType = lookupMimeType(path);
-                  if (mimeType?.contains('image') ?? false) {
-                    File? croppedFile = await navigator.push(
-                      MaterialPageRoute(
-                        builder: (context) => CropImageScreen(
-                          imageFile: File(path),
+            DashedContainer(
+              borderRadius: 8,
+              dashColor: Themes.stroke,
+              strokeWidth: 1.4,
+              dashedLength: 6,
+              child: RippleButton(
+                onTap: () async {
+                  String? path = await FilesystemPicker.open(
+                    context: context,
+                    fileTileSelectMode: FileTileSelectMode.wholeTile,
+                    fsType: FilesystemType.file,
+                    requestPermission: () {
+                      return Permission.storage.request().isGranted;
+                    },
+                    rootDirectory: Directory('/storage/emulated/0'),
+                  );
+                  if (path != null) {
+                    final mimeType = lookupMimeType(path);
+                    if (mimeType?.contains('image') ?? false) {
+                      File? croppedFile = await navigator.push(
+                        MaterialPageRoute(
+                          builder: (context) => CropImageScreen(
+                            imageFile: File(path),
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                    if (croppedFile == null) return;
-                    controller.addFile(croppedFile);
-                  } else {
-                    controller.addFile(File(path));
+                      if (croppedFile == null) return;
+                      controller.addFile(croppedFile);
+                    } else {
+                      controller.addFile(File(path));
+                    }
                   }
-                }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Pilih file',
-                    style: Themes().gray12?.withColor(Themes.hint),
-                  ),
-                  SvgPicture.asset(
-                    AssetIcons.icAttachment,
-                    width: 20.w,
-                    height: 20.w,
-                  )
-                ],
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Pilih file',
+                      style: Themes().gray12?.withColor(Themes.hint),
+                    ),
+                    SvgPicture.asset(
+                      AssetIcons.icAttachment,
+                      width: 20.w,
+                      height: 20.w,
+                    )
+                  ],
+                ),
               ),
             ),
           ],
