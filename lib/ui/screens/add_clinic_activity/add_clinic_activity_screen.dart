@@ -1,7 +1,7 @@
 import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/data/models/doctor.dart';
 import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
-import 'package:clerkship/ui/components/buttons/modal_dropdown.dart';
-import 'package:clerkship/ui/components/buttons/modal_multi_dropdown.dart';
+import 'package:clerkship/ui/components/buttons/doctor_field.dart';
 import 'package:clerkship/ui/components/buttons/time_picker_button.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
@@ -9,12 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../data/models/dropdown_item.dart';
+import '../../components/buttons/multi_dropdown_field.dart';
+
 class AddClinicActivityScreen extends StatelessWidget {
   AddClinicActivityScreen({super.key});
 
   final dateController = DatePickerController();
   final timeController = TimePickerController();
-  final activityTypeController = ModalMultiDropDownController();
+  final activityTypeController = MultiDropDownController();
+  final doctorController = DoctorController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,45 +52,37 @@ class AddClinicActivityScreen extends StatelessWidget {
                       mandatory: true,
                       text: 'Jenis Kegiatan',
                     ).addMarginBottom(8),
-                    ModalMultiDropdown(
+                    MultiDropdownField(
                       hint: 'Pilih Jenis Kegiatan',
                       controller: activityTypeController,
-                      items: [
-                        DropDownItem(
+                      items: List.generate(
+                        8,
+                        (index) => DropDownItem(
                           title: 'Pembuatan status',
-                          value: 0,
+                          value: index,
                         ),
-                        DropDownItem(
-                          title: 'Bed-side teaching (BST)',
-                          value: 1,
-                        ),
-                        DropDownItem(
-                          title: 'Visit Bangsal',
-                          value: 2,
-                        ),
-                        DropDownItem(
-                          title: 'Poliklinik',
-                          value: 3,
-                        ),
-                        DropDownItem(
-                          title: 'Jaga Malam',
-                          value: 4,
-                        ),
-                        DropDownItem(
-                          title: 'Tindakan/Prosedur',
-                          value: 5,
-                        ),
-                        DropDownItem(
-                          title: 'Mini CEX',
-                          value: 6,
-                        ),
-                      ],
+                      ),
                     ).addMarginBottom(6),
                     Text(
                       '*dapat pilih lebih dari satu',
                       style: Themes()
                           .gray12
                           ?.copyWith(fontStyle: FontStyle.italic),
+                    ).addMarginBottom(20),
+                    const LabelText(
+                      mandatory: true,
+                      text: 'Preseptor',
+                    ).addMarginBottom(8),
+                    DoctorField(
+                      hint: 'Pilih Dokter',
+                      controller: doctorController,
+                      items: List.generate(
+                        8,
+                        (index) => Doctor(
+                          title: 'dr. Budiman',
+                          value: index,
+                        ),
+                      ),
                     ),
                   ],
                 ),
