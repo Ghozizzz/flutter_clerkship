@@ -36,6 +36,7 @@ class PrimaryAppBar extends StatelessWidget {
             color: Themes.primary,
           ),
           Container(
+            color: Themes.white,
             padding: EdgeInsets.all(16.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

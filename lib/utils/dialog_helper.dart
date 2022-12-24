@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ui/components/dialog/custom_progress_dialog.dart';
+
 class DialogHelper {
   static late BuildContext context;
 
@@ -11,18 +13,18 @@ class DialogHelper {
     context = buildContext;
   }
 
-  // static void showProgressDialog({
-  //   String? title,
-  //   String? message,
-  // }) {
-  //   return showCustomDialog(
-  //     dismissable: false,
-  //     builder: (dialogContext) => CustomProgressDialog(
-  //       title: title ?? 'common.loading'.translate,
-  //       message: message ?? 'common.please_wait'.translate,
-  //     ),
-  //   );
-  // }
+  static void showProgressDialog({
+    String? title,
+    String? message,
+  }) {
+    return showCustomDialog(
+      dismissable: false,
+      builder: (dialogContext) => CustomProgressDialog(
+        title: title ?? 'Loading',
+        message: message ?? 'Tunggu Sebentar...',
+      ),
+    );
+  }
 
   static void showCustomDialog({
     Widget Function(BuildContext context)? builder,

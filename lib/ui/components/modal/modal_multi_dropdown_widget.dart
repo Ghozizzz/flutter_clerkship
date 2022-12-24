@@ -31,6 +31,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
   final controller = ScrollController();
   final searchController = TextEditingController();
   final List<DropDownItem> result = [];
+  final focusNode = FocusNode();
 
   @override
   void initState() {
@@ -40,8 +41,9 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
 
   Widget listView() => ListView.builder(
         controller: controller,
-        physics:
-            result.length > 8 ? null : const NeverScrollableScrollPhysics(),
+        physics: result.length > 8 || focusNode.hasFocus
+            ? null
+            : const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: result.length,
         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -110,48 +112,54 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FlatCard(
-      height: result.length > 8 ? 80.hp : null,
-      borderRadius: BorderRadius.circular(0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          TextArea(
-            hint: 'Cari',
-            controller: searchController,
-            onChangedText: (text) {
-              result.clear();
-              for (DropDownItem item in widget.items) {
-                if (item.title.toLowerCase().contains(text)) {
-                  result.add(item);
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: FlatCard(
+        height: widget.items.length > 8 ? 80.hp : null,
+        borderRadius: BorderRadius.circular(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextArea(
+              focusNode: focusNode,
+              hint: 'Cari',
+              controller: searchController,
+              onChangedText: (text) {
+                result.clear();
+                for (DropDownItem item in widget.items) {
+                  if (item.title.toLowerCase().contains(text)) {
+                    result.add(item);
+                  }
                 }
-              }
-              setState(() {});
-            },
-            endIcon: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: SvgPicture.asset(
-                AssetIcons.icSearch,
-                color: Themes.hint,
+                setState(() {});
+              },
+              endIcon: Padding(
+                padding: EdgeInsets.all(12.w),
+                child: SvgPicture.asset(
+                  AssetIcons.icSearch,
+                  color: Themes.hint,
+                ),
               ),
+            ).addMarginOnly(
+              top: 20.w,
+              left: 20.w,
+              right: 20.w,
             ),
-          ).addMarginOnly(
-            top: 20.w,
-            left: 20.w,
-            right: 20.w,
-          ),
-          result.length > 8 ? listView().addExpanded : listView(),
-          PrimaryButton(
-            onTap: () {
-              widget.onSelected(
-                widget.items.where((element) => element.selected).toList(),
-              );
-            },
-            text: 'Pilih',
-          ).addAllMargin(20.w),
-        ],
+            result.length > 8 || focusNode.hasFocus
+                ? listView().addExpanded
+                : listView(),
+            PrimaryButton(
+              onTap: () {
+                widget.onSelected(
+                  widget.items.where((element) => element.selected).toList(),
+                );
+              },
+              text: 'Pilih',
+            ).addAllMargin(20.w),
+          ],
+        ),
       ),
     );
   }

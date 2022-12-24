@@ -8,7 +8,14 @@ import '../buttons/toggle_button.dart';
 import '../commons/flat_card.dart';
 
 class RichTextEditor extends StatefulWidget {
-  const RichTextEditor({super.key});
+  final FleatherController controller;
+  final String? hint;
+
+  const RichTextEditor({
+    super.key,
+    this.hint,
+    required this.controller,
+  });
 
   @override
   State<RichTextEditor> createState() => _RichTextEditorState();
@@ -16,7 +23,6 @@ class RichTextEditor extends StatefulWidget {
 
 class _RichTextEditorState extends State<RichTextEditor> {
   final FocusNode focusNode = FocusNode();
-  final FleatherController controller = FleatherController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,37 +40,37 @@ class _RichTextEditorState extends State<RichTextEditor> {
             child: FleatherToolbar(
               children: [
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.bold,
                   icon: AssetIcons.icBold,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.italic,
                   icon: AssetIcons.icItalic,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.underline,
                   icon: AssetIcons.icUnderline,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.left,
                   icon: AssetIcons.icAlignLeft,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.center,
                   icon: AssetIcons.icAlignCenter,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.right,
                   icon: AssetIcons.icAlignRight,
                 ),
                 ToggleButton(
-                  controller: controller,
+                  controller: widget.controller,
                   attribute: ParchmentAttribute.justify,
                   icon: AssetIcons.icAlignJustify,
                 ),
@@ -73,7 +79,7 @@ class _RichTextEditorState extends State<RichTextEditor> {
           ),
           Expanded(
             child: FleatherEditor(
-              controller: controller,
+              controller: widget.controller,
               focusNode: focusNode,
               padding: EdgeInsets.symmetric(
                 vertical: 12,

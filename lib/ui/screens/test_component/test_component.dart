@@ -1,4 +1,5 @@
 import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -67,9 +68,11 @@ class TestComponent extends StatelessWidget {
                 const PasswordTextarea(
                   hint: 'General Textfield',
                 ).addMarginTop(24),
-                const SizedBox(
+                SizedBox(
                   height: 250,
-                  child: RichTextEditor(),
+                  child: RichTextEditor(
+                    controller: FleatherController(),
+                  ),
                 ).addMarginTop(24),
                 PrimaryCheckbox(
                   controller: CheckboxController(false),

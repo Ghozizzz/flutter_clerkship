@@ -42,6 +42,7 @@ class TextArea extends StatefulWidget {
   final Border? border;
   final List<String>? autofillHints;
   final BoxShadow? shadow;
+  final FocusNode? focusNode;
 
   const TextArea({
     Key? key,
@@ -78,6 +79,7 @@ class TextArea extends StatefulWidget {
     this.border,
     this.autofillHints,
     this.shadow,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -110,6 +112,7 @@ class _TextAreaState extends State<TextArea> {
         shadow: widget.shadow,
         padding: EdgeInsets.zero,
         child: TextField(
+          focusNode: widget.focusNode,
           autofillHints: widget.autofillHints ?? [],
           textAlign: widget.textAlign,
           autofocus: widget.autoFocus,
