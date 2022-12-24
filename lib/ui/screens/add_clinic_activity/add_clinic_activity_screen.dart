@@ -4,10 +4,13 @@ import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
 import 'package:clerkship/ui/components/buttons/doctor_field.dart';
 import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
 import 'package:clerkship/ui/components/buttons/file_picker_button.dart';
+import 'package:clerkship/ui/components/buttons/primary_button.dart';
+import 'package:clerkship/ui/components/buttons/secondary_button.dart';
 import 'package:clerkship/ui/components/buttons/time_picker_button.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
+import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -208,7 +211,23 @@ class AddClinicActivityScreen extends StatelessWidget {
                     Text(
                       'pdf, jpg, png, xlsx, xls, jpeg, docx, doc, csv, txt, ppt, pptx with maximum size 10MB',
                       style: Themes().gray12,
-                    ).addMarginBottom(20),
+                    ).addMarginBottom(24),
+                    SecondaryButton(
+                      onTap: () {},
+                      text: 'Simpan Perubahan',
+                    ).addMarginBottom(18),
+                    PrimaryButton(
+                      onTap: () {
+                        DialogHelper.showModalConfirmation(
+                          title: 'Konfirmasi Pengiriman',
+                          message:
+                              'Data yang dimasukkan\ntidak akan bisa diubah lagi.',
+                          positiveText: 'Kirim untuk Disetujui',
+                          negativeText: 'Batal',
+                        );
+                      },
+                      text: 'Kirim untuk Disetujui',
+                    ),
                   ],
                 ),
               ),

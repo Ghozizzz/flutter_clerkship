@@ -130,6 +130,7 @@ class Themes {
     double? height,
   }) {
     return GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: height != null ? height / size : null,
       fontSize: size,
       color: color ?? Themes.text,
@@ -139,18 +140,21 @@ class Themes {
 
   Themes({bool withLineHeight = false}) {
     primary12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Themes.darkPrimary,
     );
 
     primary14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Themes.darkPrimary,
     );
 
     primaryBold12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Themes.darkPrimary,
@@ -158,6 +162,7 @@ class Themes {
     );
 
     primaryBold16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Themes.darkPrimary,
@@ -165,6 +170,7 @@ class Themes {
     );
 
     primaryBold14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Themes.darkPrimary,
@@ -172,6 +178,7 @@ class Themes {
     );
 
     primaryBold20 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 20,
       color: Themes.darkPrimary,
@@ -179,6 +186,7 @@ class Themes {
     );
 
     primaryBold22 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 22,
       color: Themes.darkPrimary,
@@ -186,6 +194,7 @@ class Themes {
     );
 
     primaryBold24 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 24,
       color: Themes.darkPrimary,
@@ -193,6 +202,7 @@ class Themes {
     );
 
     primaryBold18 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 18,
       color: Themes.darkPrimary,
@@ -200,6 +210,7 @@ class Themes {
     );
 
     blackBold20 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 20,
       color: Themes.text,
@@ -207,6 +218,7 @@ class Themes {
     );
 
     blackBold24 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 24,
       color: Themes.text,
@@ -214,6 +226,7 @@ class Themes {
     );
 
     blackBold22 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 22,
       color: Themes.text,
@@ -221,6 +234,7 @@ class Themes {
     );
 
     blackBold26 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 26,
       color: Themes.text,
@@ -228,30 +242,35 @@ class Themes {
     );
 
     black16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Themes.text,
     );
 
     black18 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 18,
       color: Themes.text,
     );
 
     black20 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 20,
       color: Themes.text,
     );
 
     black24 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 24,
       color: Themes.text,
     );
 
     blackBold18 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 18,
       color: Themes.text,
@@ -259,6 +278,7 @@ class Themes {
     );
 
     blackBold16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Themes.text,
@@ -266,6 +286,7 @@ class Themes {
     );
 
     blackBold10 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 10,
       color: Themes.text,
@@ -273,6 +294,7 @@ class Themes {
     );
 
     blackBold12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Themes.text,
@@ -280,6 +302,7 @@ class Themes {
     );
 
     blackBold14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Themes.text,
@@ -287,78 +310,91 @@ class Themes {
     );
 
     gray12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Themes.abu,
     );
 
     gray10 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 10,
       color: Themes.abu,
     );
 
     black10 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 10,
       color: Themes.text,
     );
 
     black12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Themes.text,
     );
 
     white18 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 18,
       color: Colors.white,
     );
 
     white16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Colors.white,
     );
 
     white14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Colors.white,
     );
 
     white12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Colors.white,
     );
 
     white10 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.2 : null,
       fontSize: 10,
       color: Colors.white,
     );
 
     gray14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Themes.abu,
     );
 
     gray16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Themes.abu,
     );
 
     black14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Themes.text,
     );
 
     whiteBold20 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 20,
       color: Colors.white,
@@ -366,6 +402,7 @@ class Themes {
     );
 
     whiteBold18 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 18,
       color: Colors.white,
@@ -373,6 +410,7 @@ class Themes {
     );
 
     whiteBold16 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 16,
       color: Colors.white,
@@ -380,6 +418,7 @@ class Themes {
     );
 
     whiteBold12 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 12,
       color: Colors.white,
@@ -387,6 +426,7 @@ class Themes {
     );
 
     whiteBold14 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 14,
       color: Colors.white,
@@ -394,24 +434,28 @@ class Themes {
     );
 
     whiteBold32 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       fontSize: 32,
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
 
     whiteBold28 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       fontSize: 28,
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
 
     whiteBold26 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       fontSize: 26,
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
 
     whiteBold24 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 24,
       color: Colors.white,
@@ -419,6 +463,7 @@ class Themes {
     );
 
     whiteBold22 ??= GoogleFonts.poppins(
+      letterSpacing: 0.75,
       height: withLineHeight ? 1.5 : 1.2,
       fontSize: 22,
       color: Colors.white,

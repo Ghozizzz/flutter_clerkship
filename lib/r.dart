@@ -1,4 +1,5 @@
 class AssetIcons {
+	static const String icAlert = 'assets/icons/ic_alert.svg';
 	static const String icAlignCenter = 'assets/icons/ic_align_center.svg';
 	static const String icAlignJustify = 'assets/icons/ic_align_justify.svg';
 	static const String icAlignLeft = 'assets/icons/ic_align_left.svg';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../config/themes.dart';
 import 'ripple_button.dart';
@@ -63,12 +62,7 @@ class _TertiaryButtonState extends State<TertiaryButton> {
                 Center(
                   child: Text(
                     widget.loading ? '' : (widget.text ?? ''),
-                    style: widget.buttonTextStyle ??
-                        GoogleFonts.montserrat(
-                          fontSize: 14,
-                          color: Themes.darkPrimary,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    style: widget.buttonTextStyle ?? Themes().primaryBold14,
                   ),
                 ),
           ),

@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/r.dart';
+import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive/responsive.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../screens/crop/crop_image_screen.dart';
 import 'ripple_button.dart';
@@ -60,50 +62,92 @@ class FilePickerButton extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: controller,
       builder: (context, __, _) {
-        return RippleButton(
-          border: Border.all(color: Themes.stroke),
-          onTap: () async {
-            String? path = await FilesystemPicker.open(
-              context: context,
-              fileTileSelectMode: FileTileSelectMode.wholeTile,
-              fsType: FilesystemType.file,
-              requestPermission: () {
-                return Permission.storage.request().isGranted;
-              },
-              rootDirectory: Directory('/storage/emulated/0'),
-            );
-            if (path != null) {
-              final mimeType = lookupMimeType(path);
-              if (mimeType?.contains('image') ?? false) {
-                File? croppedFile = await navigator.push(
-                  MaterialPageRoute(
-                    builder: (context) => CropImageScreen(
-                      imageFile: File(path),
-                    ),
-                  ),
-                );
+        return Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              primary: true,
+              shrinkWrap: true,
+              itemCount: controller.selectedFiles.length,
+              itemBuilder: (context, index) {
+                final file = controller.selectedFiles[index];
 
-                if (croppedFile == null) return;
-                controller.addFile(croppedFile);
-              } else {
-                controller.addFile(File(path));
-              }
-            }
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Pilih file',
-                style: Themes().gray12?.withColor(Themes.hint),
+                return FlatCard(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(12.w),
+                        child: SvgPicture.asset(
+                          AssetIcons.icAttachment,
+                          width: 20.w,
+                        ),
+                      ),
+                      Text(
+                        file.file.path.split('/').last,
+                        style: Themes().black12,
+                      ).addExpanded,
+                      RippleButton(
+                        padding: EdgeInsets.all(12.w),
+                        onTap: () {
+                          controller.removeFile(file);
+                        },
+                        child: SvgPicture.asset(
+                          AssetIcons.icDelete,
+                          width: 20.w,
+                          color: Themes.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).addMarginBottom(8);
+              },
+            ),
+            RippleButton(
+              border: Border.all(color: Themes.stroke),
+              onTap: () async {
+                String? path = await FilesystemPicker.open(
+                  context: context,
+                  fileTileSelectMode: FileTileSelectMode.wholeTile,
+                  fsType: FilesystemType.file,
+                  requestPermission: () {
+                    return Permission.storage.request().isGranted;
+                  },
+                  rootDirectory: Directory('/storage/emulated/0'),
+                );
+                if (path != null) {
+                  final mimeType = lookupMimeType(path);
+                  if (mimeType?.contains('image') ?? false) {
+                    File? croppedFile = await navigator.push(
+                      MaterialPageRoute(
+                        builder: (context) => CropImageScreen(
+                          imageFile: File(path),
+                        ),
+                      ),
+                    );
+
+                    if (croppedFile == null) return;
+                    controller.addFile(croppedFile);
+                  } else {
+                    controller.addFile(File(path));
+                  }
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Pilih file',
+                    style: Themes().gray12?.withColor(Themes.hint),
+                  ),
+                  SvgPicture.asset(
+                    AssetIcons.icAttachment,
+                    width: 20.w,
+                    height: 20.w,
+                  )
+                ],
               ),
-              SvgPicture.asset(
-                AssetIcons.icAttachment,
-                width: 20.w,
-                height: 20.w,
-              )
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

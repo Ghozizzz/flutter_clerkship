@@ -1,3 +1,5 @@
+import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/components/dialog/custom_progress_dialog.dart';
@@ -11,6 +13,31 @@ class DialogHelper {
 
   static void initDialogHelper(BuildContext buildContext) {
     context = buildContext;
+  }
+
+  static void showModalConfirmation({
+    required String title,
+    required String message,
+    String positiveText = 'Ok',
+    String negativeText = 'Batal',
+    VoidCallback? onPositiveTap,
+    VoidCallback? onNegativeTap,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Themes.transparent,
+      builder: ((context) {
+        return ModalConfirmation(
+          title: title,
+          message: message,
+          positiveText: positiveText,
+          negativeText: negativeText,
+          onPositiveTap: onPositiveTap,
+          onNegativeTap: onNegativeTap,
+        );
+      }),
+    );
   }
 
   static void showProgressDialog({
