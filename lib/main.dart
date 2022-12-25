@@ -1,9 +1,9 @@
-import 'package:clerkship/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'config/environment.dart';
+import 'injection.dart';
 
 final getIt = GetIt.instance;
 

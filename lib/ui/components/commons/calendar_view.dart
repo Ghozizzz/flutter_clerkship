@@ -1,6 +1,3 @@
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive/responsive.dart';
@@ -8,10 +5,18 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../utils/extensions.dart';
+import '../buttons/primary_button.dart';
+import '../buttons/ripple_button.dart';
 import 'flat_card.dart';
 
 class CalendarView extends StatefulWidget {
-  const CalendarView({super.key});
+  final DateTime? selectedDate;
+
+  const CalendarView({
+    super.key,
+    this.selectedDate,
+  });
 
   @override
   State<CalendarView> createState() => _CalendarViewState();
@@ -37,6 +42,15 @@ class _CalendarViewState extends State<CalendarView> {
     return firstDate.day == lastDate.day &&
         firstDate.month == lastDate.month &&
         firstDate.year == lastDate.year;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.selectedDate != null) {
+      selectedDate = widget.selectedDate!;
+      pageDate = widget.selectedDate!;
+    }
   }
 
   @override

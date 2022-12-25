@@ -1,11 +1,11 @@
-import 'package:clerkship/ui/screens/clinic_activity/clinic_activity_screen.dart';
-import 'package:clerkship/ui/screens/scientific_event/scientific_event_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../r.dart';
+import '../../../../utils/nav_helper.dart';
+import '../../clinic_activity/clinic_activity_screen.dart';
+import '../../scientific_event/scientific_event_screen.dart';
 import 'item_menu.dart';
 
 class MainMenuWidget extends StatelessWidget {

@@ -1,17 +1,20 @@
-import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
-import 'package:clerkship/ui/components/buttons/modal_dropdown.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/buttons/secondary_button.dart';
-import 'package:clerkship/ui/components/buttons/time_picker_button.dart';
-import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/components/commons/primary_checkbox.dart';
-import 'package:clerkship/ui/components/textareas/otp_field.dart';
-import 'package:clerkship/ui/components/textareas/password_textarea.dart';
-import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
-import 'package:clerkship/ui/components/textareas/textarea.dart';
+import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+
+import '../../../data/models/dropdown_item.dart';
+import '../../components/buttons/date_picker_button.dart';
+import '../../components/buttons/primary_button.dart';
+import '../../components/buttons/secondary_button.dart';
+import '../../components/buttons/time_picker_button.dart';
+import '../../components/commons/primary_appbar.dart';
+import '../../components/commons/primary_checkbox.dart';
+import '../../components/textareas/otp_field.dart';
+import '../../components/textareas/password_textarea.dart';
+import '../../components/textareas/rich_text_editor.dart';
+import '../../components/textareas/textarea.dart';
 
 class TestComponent extends StatelessWidget {
   const TestComponent({super.key});
@@ -19,7 +22,6 @@ class TestComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           const PrimaryAppBar(title: 'Test Appbar'),
@@ -46,8 +48,8 @@ class TestComponent extends StatelessWidget {
                 TimePickerButton(
                   controller: TimePickerController(),
                 ).addMarginTop(24),
-                ModalDropdown(
-                  controller: ModalDropDownController(),
+                DropdownField(
+                  controller: DropDownController(),
                   hint: 'Pilih Jenis Kegiatan',
                   items: [
                     DropDownItem(
@@ -66,9 +68,11 @@ class TestComponent extends StatelessWidget {
                 const PasswordTextarea(
                   hint: 'General Textfield',
                 ).addMarginTop(24),
-                const SizedBox(
+                SizedBox(
                   height: 250,
-                  child: RichTextEditor(),
+                  child: RichTextEditor(
+                    controller: FleatherController(),
+                  ),
                 ).addMarginTop(24),
                 PrimaryCheckbox(
                   controller: CheckboxController(false),

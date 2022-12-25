@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive/responsive.dart';
 
 import '../../../config/themes.dart';
@@ -62,12 +61,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                 Center(
                   child: Text(
                     widget.loading ? '' : (widget.text ?? ''),
-                    style: widget.buttonTextStyle ??
-                        GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: widget.buttonTextStyle ?? Themes().whiteBold14,
                   ),
                 ),
           ),

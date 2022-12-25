@@ -1,14 +1,14 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
 import '../../../r.dart';
+import '../../components/buttons/primary_button.dart';
+import '../../components/commons/primary_appbar.dart';
+import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/password_textarea.dart';
 
 class UpdatePasswordScreen extends StatelessWidget {
@@ -22,16 +22,13 @@ class UpdatePasswordScreen extends StatelessWidget {
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
 
     return SafeStatusBar(
-      lightIcon: true,
-      statusBarColor: Themes.primary,
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: SizedBox(
             height: 100.hp - statusBarHeight,
             child: Column(
               children: [
-                const PrimaryAppBar(title: 'Back'),
+                const PrimaryAppBar(title: 'Kembali'),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,

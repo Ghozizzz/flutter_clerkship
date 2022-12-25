@@ -38,7 +38,7 @@ class PrimaryCheckboxState extends State<PrimaryCheckbox> {
     if (widget.checkBoxSize != null) {
       size = widget.checkBoxSize;
     } else {
-      size = Size(20.w, 20.w);
+      size = Size(22.w, 22.w);
     }
 
     return GestureDetector(

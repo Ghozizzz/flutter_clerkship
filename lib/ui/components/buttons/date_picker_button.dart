@@ -1,11 +1,12 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/commons/calendar_view.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
+
+import '../../../config/themes.dart';
+import '../../../r.dart';
+import '../../../utils/extensions.dart';
+import '../commons/calendar_view.dart';
+import 'ripple_button.dart';
 
 class DatePickerController extends ValueNotifier<DateTime?> {
   DateTime? selected;
@@ -67,7 +68,9 @@ class DatePickerButton extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Themes.transparent,
       builder: (context) {
-        return const CalendarView();
+        return CalendarView(
+          selectedDate: controller.selected,
+        );
       },
     );
     if (date != null) controller.setValue(date);

@@ -1,16 +1,16 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/components/textareas/otp_field.dart';
-import 'package:clerkship/ui/screens/forgot_password/update_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
+import '../../components/buttons/primary_button.dart';
+import '../../components/commons/primary_appbar.dart';
+import '../../components/commons/safe_statusbar.dart';
+import '../../components/textareas/otp_field.dart';
+import 'update_password_screen.dart';
 
 class ForgotPasswordOtpScreen extends StatelessWidget {
   ForgotPasswordOtpScreen({super.key});
@@ -22,16 +22,13 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
 
     return SafeStatusBar(
-      lightIcon: true,
-      statusBarColor: Themes.primary,
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: SizedBox(
             height: 100.hp - statusBarHeight,
             child: Column(
               children: [
-                const PrimaryAppBar(title: 'Back'),
+                const PrimaryAppBar(title: 'Kembali'),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

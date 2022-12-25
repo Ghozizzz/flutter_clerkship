@@ -1,14 +1,17 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/ui/components/commons/animated_item.dart';
-import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/screens/scientific_event/components/item_event.dart';
+import 'package:clerkship/ui/screens/add_scientific_event/add_scientific_event_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+
+import '../../../config/themes.dart';
+import '../../../r.dart';
+import '../../components/buttons/ripple_button.dart';
+import '../../components/commons/animated_item.dart';
+import '../../components/commons/primary_appbar.dart';
+import '../../components/commons/safe_statusbar.dart';
+import 'components/item_event.dart';
 
 class ScientificEventScreen extends StatefulWidget {
   const ScientificEventScreen({super.key});
@@ -33,14 +36,12 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
   @override
   Widget build(BuildContext context) {
     return SafeStatusBar(
-      lightIcon: true,
-      statusBarColor: Themes.primary,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             PrimaryAppBar(
-              title: 'Back',
+              title: 'Kembali',
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
@@ -102,7 +103,9 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                   right: 20.w,
                   bottom: 20.w,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      NavHelper.navigatePush(AddScientificEventScreen());
+                    },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),
                 )
