@@ -1,5 +1,3 @@
-import 'package:clerkship/ui/screens/detail_approval/detail_approval_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -9,6 +7,7 @@ import '../../../config/themes.dart';
 import '../../../data/models/doctor.dart';
 import '../../../data/models/dropdown_item.dart';
 import '../../../utils/dialog_helper.dart';
+import '../../../utils/nav_helper.dart';
 import '../../components/buttons/date_picker_button.dart';
 import '../../components/buttons/doctor_field.dart';
 import '../../components/buttons/dropdown_field.dart';
@@ -20,6 +19,7 @@ import '../../components/buttons/time_picker_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
+import '../clinic_detail_approval/clinic_detail_approval_screen.dart';
 import 'components/item_procedure.dart';
 import 'components/label_text.dart';
 
@@ -242,7 +242,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                             onPositiveTap: () {
                               NavHelper.pop();
                               NavHelper.navigateReplace(
-                                const DetailApprovalScreen(),
+                                const ClinicDetailApprovalScreen(),
                               );
                             });
                       },

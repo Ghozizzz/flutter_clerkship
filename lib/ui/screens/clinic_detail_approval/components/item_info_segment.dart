@@ -29,7 +29,7 @@ class ItemInfoSegment extends StatelessWidget {
             valueWidget ??
                 Text(
                   value!,
-                  style: Themes().blackBold12,
+                  style: Themes().blackBold12?.withFontWeight(FontWeight.w500),
                 ),
           ],
         ).addSymmetricPadding(vertical: 20),
