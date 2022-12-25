@@ -1,23 +1,25 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/data/models/doctor.dart';
-import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
-import 'package:clerkship/ui/components/buttons/doctor_field.dart';
-import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
-import 'package:clerkship/ui/components/buttons/file_picker_button.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/buttons/secondary_button.dart';
-import 'package:clerkship/ui/components/buttons/time_picker_button.dart';
-import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
-import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
+import '../../../data/models/doctor.dart';
 import '../../../data/models/dropdown_item.dart';
+import '../../../utils/dialog_helper.dart';
+import '../../components/buttons/date_picker_button.dart';
+import '../../components/buttons/doctor_field.dart';
+import '../../components/buttons/dropdown_field.dart';
+import '../../components/buttons/file_picker_button.dart';
 import '../../components/buttons/multi_dropdown_field.dart';
+import '../../components/buttons/primary_button.dart';
+import '../../components/buttons/secondary_button.dart';
+import '../../components/buttons/time_picker_button.dart';
+import '../../components/commons/primary_appbar.dart';
+import '../../components/commons/safe_statusbar.dart';
+import '../../components/textareas/rich_text_editor.dart';
+import 'components/item_procedure.dart';
+import 'components/label_text.dart';
 
 class AddClinicActivityScreen extends StatelessWidget {
   AddClinicActivityScreen({super.key});
@@ -162,6 +164,13 @@ class AddClinicActivityScreen extends StatelessWidget {
                       otherHint: 'Tulis Prosedur',
                       hint: 'Pilih Jenis Prosedur',
                       controller: procedureController,
+                      customItem: (item, onRemoveItem) {
+                        return ItemProcedure(
+                          item: item,
+                          onRemoveItem: onRemoveItem,
+                          procedureController: procedureController,
+                        ).addMarginBottom(8);
+                      },
                       items: List.generate(
                         24,
                         (index) => DropDownItem(
@@ -239,34 +248,6 @@ class AddClinicActivityScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class LabelText extends StatelessWidget {
-  final bool mandatory;
-  final String text;
-
-  const LabelText({
-    super.key,
-    this.mandatory = false,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          text,
-          style: Themes().blackBold12,
-        ),
-        if (mandatory)
-          Text(
-            '*',
-            style: Themes().blackBold12?.withColor(Themes.red),
-          ),
-      ],
     );
   }
 }
