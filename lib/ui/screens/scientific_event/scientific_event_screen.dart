@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/add_scientific_event/add_scientific_event_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -101,7 +103,9 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                   right: 20.w,
                   bottom: 20.w,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      NavHelper.navigatePush(AddScientificEventScreen());
+                    },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),
                 )
