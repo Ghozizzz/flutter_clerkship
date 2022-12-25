@@ -15,6 +15,26 @@ class MultiDropDownController extends ValueNotifier<List<DropDownItem>?> {
 
   MultiDropDownController({this.selected}) : super(selected);
 
+  void addCount(DropDownItem item) {
+    for (DropDownItem itemSelected in selected ?? []) {
+      if (itemSelected.value == item.value) {
+        itemSelected.count++;
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
+  void subtractCount(DropDownItem item) {
+    for (DropDownItem itemSelected in selected ?? []) {
+      if (itemSelected.value == item.value) {
+        if (itemSelected.count > 0) itemSelected.count--;
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
   void setSelected(List<DropDownItem> value) {
     selected = value;
     notifyListeners();
