@@ -118,6 +118,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                     ).addMarginBottom(8),
                     MultiDropdownField(
                       hint: 'Pilih Jenis Penyakit',
+                      otherHint: 'Tulis Penyakit',
                       controller: diseaseController,
                       items: List.generate(
                         24,
@@ -137,8 +138,9 @@ class AddClinicActivityScreen extends StatelessWidget {
                       text: 'Keterampilan',
                     ).addMarginBottom(8),
                     MultiDropdownField(
+                      otherHint: 'Tulis Keterampilan',
                       hint: 'Pilih Jenis Keterampilan',
-                      controller: diseaseController,
+                      controller: skillController,
                       items: List.generate(
                         24,
                         (index) => DropDownItem(
@@ -157,8 +159,9 @@ class AddClinicActivityScreen extends StatelessWidget {
                       text: 'Prosedur',
                     ).addMarginBottom(8),
                     MultiDropdownField(
+                      otherHint: 'Tulis Prosedur',
                       hint: 'Pilih Jenis Prosedur',
-                      controller: diseaseController,
+                      controller: procedureController,
                       items: List.generate(
                         24,
                         (index) => DropDownItem(
@@ -177,8 +180,9 @@ class AddClinicActivityScreen extends StatelessWidget {
                       text: 'Gejala',
                     ).addMarginBottom(8),
                     MultiDropdownField(
+                      otherHint: 'Tulis Gejala',
                       hint: 'Pilih Jenis Gejala',
-                      controller: diseaseController,
+                      controller: symptomsController,
                       items: List.generate(
                         24,
                         (index) => DropDownItem(

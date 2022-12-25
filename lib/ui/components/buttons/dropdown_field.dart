@@ -9,12 +9,12 @@ import '../buttons/ripple_button.dart';
 import '../commons/flat_card.dart';
 import '../modal/modal_dropdown_widget.dart';
 
-class DropDownController extends ValueNotifier<dynamic> {
-  dynamic selected;
+class DropDownController extends ValueNotifier<DropDownItem?> {
+  DropDownItem? selected;
 
   DropDownController({this.selected}) : super(selected);
 
-  void setSelected(dynamic value) {
+  void setSelected(DropDownItem value) {
     selected = value;
     notifyListeners();
   }
@@ -87,7 +87,8 @@ class _DropdownFieldState<T> extends State<DropdownField> {
                   valueListenable: widget.controller,
                   builder: (context, value, _) {
                     final searchItem = widget.items.where(
-                      (element) => element.value == widget.controller.selected,
+                      (element) =>
+                          element.value == widget.controller.selected?.value,
                     );
                     return Text(
                       searchItem.isNotEmpty
@@ -95,7 +96,7 @@ class _DropdownFieldState<T> extends State<DropdownField> {
                           : widget.hint ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Themes().black14?.withColor(searchItem.isNotEmpty
+                      style: Themes().black12?.withColor(searchItem.isNotEmpty
                           ? widget.textColor
                           : Themes.hint),
                     );
@@ -117,12 +118,12 @@ class _DropdownFieldState<T> extends State<DropdownField> {
       isScrollControlled: true,
       builder: (context) => ModalDropDownWidget(
         onSelected: (item) {
-          widget.controller.setSelected(item.value);
+          widget.controller.setSelected(item);
           if (widget.onSelected != null) widget.onSelected!(item);
           Navigator.pop(context);
         },
         items: widget.items,
-        selected: widget.controller.selected,
+        selected: widget.controller.selected?.value,
       ),
     );
   }

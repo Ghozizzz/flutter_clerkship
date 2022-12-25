@@ -14,12 +14,14 @@ class ModalMultiDropDownWidget extends StatefulWidget {
   final Function(List<DropDownItem> values) onSelected;
   final List<DropDownItem> items;
   final List<dynamic> selected;
+  final String otherHint;
 
   const ModalMultiDropDownWidget({
     super.key,
     required this.onSelected,
     required this.items,
     required this.selected,
+    required this.otherHint,
   });
 
   @override
@@ -30,6 +32,7 @@ class ModalMultiDropDownWidget extends StatefulWidget {
 class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
   final controller = ScrollController();
   final searchController = TextEditingController();
+  final otherController = TextEditingController();
   final List<DropDownItem> result = [];
   final focusNode = FocusNode();
 
@@ -37,6 +40,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
   void initState() {
     super.initState();
     result.addAll(widget.items);
+    otherController.text = widget.items.last.other;
   }
 
   Widget listView() => ListView.builder(
@@ -48,55 +52,72 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
         itemCount: result.length,
         padding: const EdgeInsets.symmetric(vertical: 12),
         itemBuilder: (context, index) {
-          final item = widget.items[index];
+          final item = result[index];
 
           return Column(
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
                 margin: EdgeInsets.symmetric(horizontal: 12.w),
-                height: 56,
+                height: item.value == -1 ? null : 56,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color:
                       item.selected ? Themes.primary.withOpacity(0.08) : null,
                 ),
-                child: ListTile(
-                  minLeadingWidth: 24.w,
-                  onTap: () {
-                    setState(() {
-                      item.selected = !item.selected;
-                    });
-                  },
-                  title: Stack(
-                    children: [
-                      Center(
-                        child: Text(
-                          item.title,
-                          textAlign: TextAlign.center,
-                          style: Themes()
-                              .black14
-                              ?.withColor(
-                                item.selected ? Themes.primary : Themes.text,
-                              )
-                              .copyWith(
-                                fontWeight: item.selected
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                              ),
-                        ),
-                      ),
-                      if (item.selected)
-                        Positioned(
-                          right: 0,
-                          top: 16,
-                          child: SvgPicture.asset(
-                            AssetIcons.icCheck,
-                            color: Themes.primary,
+                child: Column(
+                  children: [
+                    ListTile(
+                      minLeadingWidth: 24.w,
+                      onTap: () {
+                        setState(() {
+                          item.selected = !item.selected;
+                        });
+                      },
+                      title: Stack(
+                        children: [
+                          Center(
+                            child: Text(
+                              item.title,
+                              textAlign: TextAlign.center,
+                              style: Themes()
+                                  .black14
+                                  ?.withColor(
+                                    item.selected
+                                        ? Themes.primary
+                                        : Themes.text,
+                                  )
+                                  .copyWith(
+                                    fontWeight: item.selected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                            ),
                           ),
-                        )
-                    ],
-                  ),
+                          if (item.selected)
+                            Positioned(
+                              right: 0,
+                              child: SvgPicture.asset(
+                                AssetIcons.icCheck,
+                                color: Themes.primary,
+                              ),
+                            )
+                        ],
+                      ),
+                    ),
+                    if (item.value == -1 && item.selected)
+                      TextArea(
+                        controller: otherController,
+                        hint: widget.otherHint,
+                        onChangedText: (text) {
+                          item.other = text;
+                        },
+                      ).addMarginOnly(
+                        left: 12.w,
+                        right: 12.w,
+                        bottom: 12.w,
+                      ),
+                  ],
                 ),
               ),
               Container(
@@ -115,7 +136,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: FlatCard(
-        height: widget.items.length > 8 ? 80.hp : null,
+        height: widget.items.length + 1 > 8 ? 80.hp : null,
         borderRadius: BorderRadius.circular(0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -152,8 +173,10 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                 : listView(),
             PrimaryButton(
               onTap: () {
+                final selectedItems =
+                    widget.items.where((element) => element.selected).toList();
                 widget.onSelected(
-                  widget.items.where((element) => element.selected).toList(),
+                  selectedItems,
                 );
               },
               text: 'Pilih',
