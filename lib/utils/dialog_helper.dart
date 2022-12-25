@@ -2,6 +2,7 @@ import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:flutter/material.dart';
 
+import '../ui/components/dialog/custom_alert_dialog.dart';
 import '../ui/components/dialog/custom_progress_dialog.dart';
 
 class DialogHelper {
@@ -22,6 +23,7 @@ class DialogHelper {
     String negativeText = 'Batal',
     VoidCallback? onPositiveTap,
     VoidCallback? onNegativeTap,
+    ConfirmationType? type,
   }) {
     showModalBottomSheet(
       context: context,
@@ -35,6 +37,7 @@ class DialogHelper {
           negativeText: negativeText,
           onPositiveTap: onPositiveTap,
           onNegativeTap: onNegativeTap,
+          type: type ?? ConfirmationType.verticalButton,
         );
       }),
     );
@@ -89,17 +92,19 @@ class DialogHelper {
     );
   }
 
-  // static void showMessageDialog({
-  //   String? title = "There's something wrong",
-  //   String? body,
-  // }) {
-  //   showCustomDialog(
-  //     child: CustomAlertDialog(
-  //       title: title ?? '',
-  //       message: body ?? '',
-  //     ),
-  //   );
-  // }
+  static void showMessageDialog({
+    String? title,
+    String? body,
+    AlertType? alertType,
+  }) {
+    showCustomDialog(
+      child: CustomAlertDialog(
+        title: title ?? '',
+        message: body ?? '',
+        alertType: alertType ?? AlertType.sucecss,
+      ),
+    );
+  }
 
   // static void showMessage(
   //   String title,

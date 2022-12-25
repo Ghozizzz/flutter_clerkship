@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class NavHelper {
   static late BuildContext buildContext;
 
+  static void pop({dynamic data}) {
+    Navigator.pop(buildContext, data);
+  }
+
   static void initNavHelper(BuildContext context) {
     buildContext = context;
   }
