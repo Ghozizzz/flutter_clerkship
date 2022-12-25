@@ -6,7 +6,8 @@ import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
-import 'package:clerkship/ui/screens/detail_approval/components/item_info_segment.dart';
+import 'package:clerkship/ui/screens/clinic_detail_approval/components/item_info_segment.dart';
+import 'package:clerkship/ui/screens/scientific_event_detail_approval/components/other_info_segment.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
-import 'components/bullet_list.dart';
-import 'components/item_file.dart';
+import '../clinic_detail_approval/components/item_file.dart';
 
-class DetailApprovalScreen extends StatelessWidget {
-  const DetailApprovalScreen({super.key});
+class ScientificEventDetailApprovalScreen extends StatelessWidget {
+  const ScientificEventDetailApprovalScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class DetailApprovalScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'Pembuatan Status',
+                          'Mini Referat',
                           style:
                               Themes().blackBold20?.withColor(Themes.content),
                         ).addMarginBottom(12),
@@ -92,11 +92,23 @@ class DetailApprovalScreen extends StatelessWidget {
                     value: '10 Agustus 2022',
                   ),
                   const ItemInfoSegment(
+                    title: 'Jam',
+                    value: '9.00',
+                  ),
+                  const ItemInfoSegment(
                     title: 'Kegiatan',
-                    value: 'Pembuatan Status',
+                    value: 'Mini Referat',
+                  ),
+                  const ItemInfoSegment(
+                    title: 'Peran',
+                    value: 'Hadirin Acara',
+                  ),
+                  const ItemInfoSegment(
+                    title: 'Departemen',
+                    value: 'Ilmu Penyakit Dalam',
                   ),
                   ItemInfoSegment(
-                    title: 'Preseptor',
+                    title: 'Pembimbing',
                     valueWidget: Row(
                       children: [
                         ClipOval(
@@ -113,20 +125,14 @@ class DetailApprovalScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  const ItemInfoSegment(
-                    title: 'Departemen',
-                    value: 'Ilmu Penyakit Dalam',
-                  ),
-                  const BulletList(
-                    title: 'Penyakit',
-                  ),
-                  const BulletList(
-                    title: 'Prosedur',
-                    withCount: true,
-                  ),
-                  const BulletList(
+                  ).addMarginBottom(20),
+                  const OtherInfoSegment(
+                    title: 'Topik',
+                    value: 'Penanganan Medis',
+                  ).addMarginBottom(20),
+                  const OtherInfoSegment(
                     title: 'Catatan',
+                    value: 'Lorem ipsum doloir site amet',
                   ).addMarginBottom(20),
                   Text(
                     'Attachment',
