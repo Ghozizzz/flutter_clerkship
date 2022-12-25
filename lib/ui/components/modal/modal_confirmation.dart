@@ -25,11 +25,11 @@ class ModalConfirmation extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
+    required this.type,
     this.positiveText = 'Ok',
     this.negativeText = 'Batal',
     this.onPositiveTap,
     this.onNegativeTap,
-    this.type = ConfirmationType.verticalButton,
   });
 
   @override
@@ -47,15 +47,18 @@ class ModalConfirmation extends StatelessWidget {
             padding: EdgeInsets.all(20.w),
             child: Column(
               children: [
-                SvgPicture.asset(
-                  AssetIcons.icAlert,
-                  width: 40.w,
-                ).addMarginBottom(20),
+                if (type == ConfirmationType.verticalButton)
+                  SvgPicture.asset(
+                    AssetIcons.icAlert,
+                    width: 40.w,
+                  ).addMarginBottom(20),
                 Text(
                   title,
                   textAlign: TextAlign.center,
                   style: Themes().blackBold14?.withColor(Themes.content),
-                ).addMarginBottom(20),
+                ).addMarginBottom(
+                  type == ConfirmationType.verticalButton ? 20 : 32,
+                ),
                 Text(
                   message,
                   textAlign: TextAlign.center,
@@ -102,7 +105,7 @@ class ModalConfirmation extends StatelessWidget {
                         text: positiveText,
                       ).addExpanded,
                     ],
-                  ).addMarginTop(20),
+                  ).addMarginTop(32),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/detail_approval/detail_approval_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -232,12 +234,17 @@ class AddClinicActivityScreen extends StatelessWidget {
                     PrimaryButton(
                       onTap: () {
                         DialogHelper.showModalConfirmation(
-                          title: 'Konfirmasi Pengiriman',
-                          message:
-                              'Data yang dimasukkan\ntidak akan bisa diubah lagi.',
-                          positiveText: 'Kirim untuk Disetujui',
-                          negativeText: 'Batal',
-                        );
+                            title: 'Konfirmasi Pengiriman',
+                            message:
+                                'Data yang dimasukkan\ntidak akan bisa diubah lagi.',
+                            positiveText: 'Kirim untuk Disetujui',
+                            negativeText: 'Batal',
+                            onPositiveTap: () {
+                              NavHelper.pop();
+                              NavHelper.navigateReplace(
+                                const DetailApprovalScreen(),
+                              );
+                            });
                       },
                       text: 'Kirim untuk Disetujui',
                     ),
