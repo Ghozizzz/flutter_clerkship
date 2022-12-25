@@ -48,7 +48,7 @@ class AddClinicActivityScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -247,7 +247,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                             });
                       },
                       text: 'Kirim untuk Disetujui',
-                    ),
+                    ).addMarginBottom(20.w),
                   ],
                 ),
               ),
