@@ -241,7 +241,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                             negativeText: 'Batal',
                             onPositiveTap: () {
                               NavHelper.pop();
-                              NavHelper.navigatePush(
+                              NavHelper.navigateReplace(
                                 const DetailApprovalScreen(),
                               );
                             });
