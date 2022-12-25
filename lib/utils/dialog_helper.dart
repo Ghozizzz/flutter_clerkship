@@ -1,4 +1,8 @@
+import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:flutter/material.dart';
+
+import '../ui/components/dialog/custom_progress_dialog.dart';
 
 class DialogHelper {
   static late BuildContext context;
@@ -11,18 +15,43 @@ class DialogHelper {
     context = buildContext;
   }
 
-  // static void showProgressDialog({
-  //   String? title,
-  //   String? message,
-  // }) {
-  //   return showCustomDialog(
-  //     dismissable: false,
-  //     builder: (dialogContext) => CustomProgressDialog(
-  //       title: title ?? 'common.loading'.translate,
-  //       message: message ?? 'common.please_wait'.translate,
-  //     ),
-  //   );
-  // }
+  static void showModalConfirmation({
+    required String title,
+    required String message,
+    String positiveText = 'Ok',
+    String negativeText = 'Batal',
+    VoidCallback? onPositiveTap,
+    VoidCallback? onNegativeTap,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Themes.transparent,
+      builder: ((context) {
+        return ModalConfirmation(
+          title: title,
+          message: message,
+          positiveText: positiveText,
+          negativeText: negativeText,
+          onPositiveTap: onPositiveTap,
+          onNegativeTap: onNegativeTap,
+        );
+      }),
+    );
+  }
+
+  static void showProgressDialog({
+    String? title,
+    String? message,
+  }) {
+    return showCustomDialog(
+      dismissable: false,
+      builder: (dialogContext) => CustomProgressDialog(
+        title: title ?? 'Loading',
+        message: message ?? 'Tunggu Sebentar...',
+      ),
+    );
+  }
 
   static void showCustomDialog({
     Widget Function(BuildContext context)? builder,

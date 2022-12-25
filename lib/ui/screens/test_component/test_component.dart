@@ -1,9 +1,11 @@
+import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../data/models/dropdown_item.dart';
 import '../../components/buttons/date_picker_button.dart';
-import '../../components/buttons/modal_dropdown.dart';
 import '../../components/buttons/primary_button.dart';
 import '../../components/buttons/secondary_button.dart';
 import '../../components/buttons/time_picker_button.dart';
@@ -46,8 +48,8 @@ class TestComponent extends StatelessWidget {
                 TimePickerButton(
                   controller: TimePickerController(),
                 ).addMarginTop(24),
-                ModalDropdown(
-                  controller: ModalDropDownController(),
+                DropdownField(
+                  controller: DropDownController(),
                   hint: 'Pilih Jenis Kegiatan',
                   items: [
                     DropDownItem(
@@ -66,9 +68,11 @@ class TestComponent extends StatelessWidget {
                 const PasswordTextarea(
                   hint: 'General Textfield',
                 ).addMarginTop(24),
-                const SizedBox(
+                SizedBox(
                   height: 250,
-                  child: RichTextEditor(),
+                  child: RichTextEditor(
+                    controller: FleatherController(),
+                  ),
                 ).addMarginTop(24),
                 PrimaryCheckbox(
                   controller: CheckboxController(false),

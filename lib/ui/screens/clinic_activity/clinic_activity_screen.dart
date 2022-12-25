@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -101,7 +103,9 @@ class _ClinicActivityScreenState extends State<ClinicActivityScreen>
                   right: 20.w,
                   bottom: 20.w,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      NavHelper.navigatePush(AddClinicActivityScreen());
+                    },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),
                 )

@@ -9,12 +9,15 @@ environment:
   sdk: ">=2.18.5 <3.0.0"
 
 dependencies:
+  another_dashed_container: ^1.0.0
   cached_network_image: ^3.2.3
   crop_your_image: ^0.7.3
   cupertino_icons: ^1.0.2
+  filesystem_picker: ^3.1.0
   fleather: ^1.3.1
   flutter:
     sdk: flutter
+  flutter_image_compress: ^1.1.3
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^1.1.6
   fluttertoast: ^8.1.2
@@ -25,6 +28,7 @@ dependencies:
   image_picker: ^0.8.6
   image_size_getter: ^2.1.2
   intl: ^0.17.0
+  mime: ^1.0.3
   multi_value_listenable_builder: ^0.0.2
   path_provider: ^2.0.11
   permission_handler: ^10.2.0
