@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/screens/standard_competency/standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -42,7 +43,9 @@ class MainMenuWidget extends StatelessWidget {
             ItemMenu(
               icon: AssetIcons.icStandartCompetence,
               title: 'Standar\nKompetensi',
-              onTap: () {},
+              onTap: () {
+                NavHelper.navigatePush(const StandardCompetencyScreen());
+              },
             ).addExpanded,
             Container(width: 20.w),
             ItemMenu(
