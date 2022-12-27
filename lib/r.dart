@@ -22,6 +22,7 @@ class AssetIcons {
 	static const String icLink = 'assets/icons/ic_link.svg';
 	static const String icLogBook = 'assets/icons/ic_log_book.svg';
 	static const String icNotification = 'assets/icons/ic_notification.svg';
+	static const String icOffice = 'assets/icons/ic_office.svg';
 	static const String icPlus = 'assets/icons/ic_plus.svg';
 	static const String icProfile = 'assets/icons/ic_profile.svg';
 	static const String icQr = 'assets/icons/ic_qr.svg';
