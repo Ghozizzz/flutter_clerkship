@@ -1,3 +1,4 @@
+import 'package:clerkship/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +6,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/network/services/auth_service.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
@@ -21,6 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    getIt.registerSingleton<AuthService>(AuthService());
+
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () {
         NavHelper.navigateReplace(LoginScreen());
