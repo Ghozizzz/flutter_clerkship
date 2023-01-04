@@ -1,6 +1,8 @@
+import 'package:clerkship/data/shared_providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -109,7 +111,17 @@ class LoginScreen extends StatelessWidget {
                 return PrimaryButton(
                   enable: isFormValid(),
                   onTap: () {
-                    NavHelper.navigateReplace(const StudentDashboardScreen());
+                    context.read<AuthProvider>().doLogin(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          onFinish: (success) {
+                            if (success) {
+                              NavHelper.navigateReplace(
+                                const StudentDashboardScreen(),
+                              );
+                            }
+                          },
+                        );
                   },
                   text: 'Sign In',
                 ).addAllMargin(20.w);
