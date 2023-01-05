@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/components/commons/animated_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -52,7 +53,9 @@ class FinalAssessmentScreen extends StatelessWidget {
               padding: EdgeInsets.all(20.w),
               itemCount: 24,
               itemBuilder: (context, index) {
-                return const ItemAssessment();
+                return const AnimatedItem(
+                  child: ItemAssessment(),
+                );
               },
             ).addExpanded
           ],
