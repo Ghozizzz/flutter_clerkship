@@ -2,14 +2,17 @@ import 'package:clerkship/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/network/services/auth_service.dart';
+import '../../../data/shared_providers/auth_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
+import '../dashboard/student_dashboard_screen.dart';
 import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,8 +29,13 @@ class _SplashScreenState extends State<SplashScreen> {
     getIt.registerSingleton<AuthService>(AuthService());
 
     Tools.onViewCreated(() {
-      Future.delayed(const Duration(seconds: 1), () {
-        NavHelper.navigateReplace(LoginScreen());
+      Future.delayed(const Duration(seconds: 1), () async {
+        final isLogged = await context.read<AuthProvider>().isLogged();
+        if (isLogged) {
+          NavHelper.navigateReplace(const StudentDashboardScreen());
+        } else {
+          NavHelper.navigateReplace(LoginScreen());
+        }
       });
     });
   }

@@ -29,7 +29,7 @@ class DefaultResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        'meta': meta == null ? null : meta?.toJson(),
+        'meta': meta?.toJson(),
         'data': data,
         'errors': errors,
       };
@@ -58,7 +58,7 @@ class Meta {
 
   Map<String, dynamic> toJson() => {
         'success': success,
-        'message': message == null ? null : message?.toJson(),
+        'message': message?.toJson(),
         'code': code,
         'status': status,
       };

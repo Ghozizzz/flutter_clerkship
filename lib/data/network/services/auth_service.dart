@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
-import 'package:clerkship/data/network/entity/default_response.dart';
+import 'package:clerkship/data/network/entity/login_response.dart';
 import 'package:flutter/foundation.dart';
 
 import '../api_config.dart';
@@ -11,7 +11,7 @@ class AuthService extends AuthApiInterface {
   final apiClient = ApiConfig.client;
 
   @override
-  Future<ResultData<DefaultResponse>> doLogin({
+  Future<ResultData<LoginResponse>> doLogin({
     required String email,
     required String password,
   }) async {
@@ -31,7 +31,7 @@ class AuthService extends AuthApiInterface {
       );
       debugPrint(response.body);
 
-      final loginResponse = defaultResponseFromJson(response.body);
+      final loginResponse = loginResponseFromJson(response.body);
       return ResultData(
         data: loginResponse,
         statusCode: response.statusCode,

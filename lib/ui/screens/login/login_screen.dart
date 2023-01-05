@@ -22,8 +22,8 @@ import '../forgot_password/forgot_password_screen.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final emailController = TextEditingController(text: 'dummmy@gmail.com');
-  final passwordController = TextEditingController(text: 'Password123');
+  final emailController = TextEditingController(text: 'testing@gmail.com');
+  final passwordController = TextEditingController(text: '12345678');
   final checkboxController = CheckboxController(false);
 
   @override
