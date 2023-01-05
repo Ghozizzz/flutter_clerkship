@@ -93,16 +93,13 @@ class MultiDropdownField extends StatefulWidget {
 
 class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
   @override
-  void initState() {
-    super.initState();
-    widget.items.add(DropDownItem(
-      title: 'Lainnya',
-      value: -1,
-    ));
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (widget.items.isNotEmpty && widget.items.last.value != -1) {
+      widget.items.add(DropDownItem(
+        title: 'Lainnya',
+        value: -1,
+      ));
+    }
     return IgnorePointer(
       ignoring: !widget.enable,
       child: ValueListenableBuilder(

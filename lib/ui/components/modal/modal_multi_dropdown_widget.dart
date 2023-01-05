@@ -45,7 +45,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
 
   Widget listView() => ListView.builder(
         controller: controller,
-        physics: result.length > 8 || focusNode.hasFocus
+        physics: result.length > 6 || focusNode.hasFocus
             ? null
             : const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -168,7 +168,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
               left: 20.w,
               right: 20.w,
             ),
-            result.length > 8 || focusNode.hasFocus
+            result.length > 6 || focusNode.hasFocus
                 ? listView().addExpanded
                 : listView(),
             PrimaryButton(
