@@ -1,5 +1,8 @@
+import 'package:clerkship/data/shared_providers/reference_provider.dart';
+import 'package:clerkship/data/shared_providers/user_provider.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -40,6 +43,14 @@ class AddClinicActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final departemen = context.watch<ReferenceProvider>().departemen;
+    final jeniskegiatan = context.watch<ReferenceProvider>().jenisKegiatan;
+    final penyakit = context.watch<ReferenceProvider>().penyakit;
+    final keterampilan = context.watch<ReferenceProvider>().keterampilan;
+    final prosedur = context.watch<ReferenceProvider>().prosedur;
+    final gejala = context.watch<ReferenceProvider>().gejala;
+    final preseptor = context.watch<UserProvider>().preseptor;
+
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -68,16 +79,64 @@ class AddClinicActivityScreen extends StatelessWidget {
                     ).addMarginBottom(20),
                     const LabelText(
                       mandatory: true,
+                      text: 'Departemen',
+                    ).addMarginBottom(8),
+                    DropdownField(
+                      hint: 'Pilih Departemen',
+                      controller: departmentController,
+                      items: List.generate(
+                        departemen.length,
+                        (index) => DropDownItem(
+                          title: departemen[index].name!,
+                          value: departemen[index].id!,
+                        ),
+                      ),
+                      onSelected: (item) {
+                        activityTypeController.setSelected([]);
+                        diseaseController.setSelected([]);
+                        skillController.setSelected([]);
+                        procedureController.setSelected([]);
+                        symptomsController.setSelected([]);
+                        doctorController.setSelected([]);
+
+                        context
+                            .read<ReferenceProvider>()
+                            .getJenisKegiatan(departemenId: item.value);
+
+                        context
+                            .read<ReferenceProvider>()
+                            .getPenyakit(departemenId: item.value);
+
+                        context
+                            .read<ReferenceProvider>()
+                            .getGejala(departemenId: item.value);
+
+                        context
+                            .read<ReferenceProvider>()
+                            .getKeterampilan(departemenId: item.value);
+
+                        context
+                            .read<ReferenceProvider>()
+                            .getProsedur(departemenId: item.value);
+
+                        context.read<UserProvider>().getPreseptor(
+                              departemenId: item.value,
+                            );
+                      },
+                    ).addMarginBottom(20),
+                    const LabelText(
+                      mandatory: true,
                       text: 'Jenis Kegiatan',
                     ).addMarginBottom(8),
                     MultiDropdownField(
                       hint: 'Pilih Jenis Kegiatan',
                       controller: activityTypeController,
+                      enable: jeniskegiatan.isNotEmpty,
                       items: List.generate(
-                        8,
+                        jeniskegiatan.length,
                         (index) => DropDownItem(
-                          title: 'Pembuatan status',
-                          value: index,
+                          title: jeniskegiatan[index].name!,
+                          value: jeniskegiatan[index].id!,
                         ),
                       ),
                     ).addMarginBottom(6),
@@ -94,26 +153,12 @@ class AddClinicActivityScreen extends StatelessWidget {
                     DoctorField(
                       hint: 'Pilih Dokter',
                       controller: doctorController,
+                      enable: preseptor.isNotEmpty,
                       items: List.generate(
-                        8,
+                        preseptor.length,
                         (index) => Doctor(
-                          title: 'dr. Budiman',
-                          value: index,
-                        ),
-                      ),
-                    ).addMarginBottom(20),
-                    const LabelText(
-                      mandatory: true,
-                      text: 'Departemen',
-                    ).addMarginBottom(8),
-                    DropdownField(
-                      hint: 'Pilih Departemen',
-                      controller: departmentController,
-                      items: List.generate(
-                        24,
-                        (index) => DropDownItem(
-                          title: 'Ilmu Penyakit Dalam',
-                          value: index,
+                          title: preseptor[index].name!,
+                          value: preseptor[index].id!,
                         ),
                       ),
                     ).addMarginBottom(20),
@@ -124,11 +169,12 @@ class AddClinicActivityScreen extends StatelessWidget {
                       hint: 'Pilih Jenis Penyakit',
                       otherHint: 'Tulis Penyakit',
                       controller: diseaseController,
+                      enable: penyakit.isNotEmpty,
                       items: List.generate(
-                        24,
+                        penyakit.length,
                         (index) => DropDownItem(
-                          title: 'Infeksi saluran kemih',
-                          value: index,
+                          title: penyakit[index].name!,
+                          value: penyakit[index].id!,
                         ),
                       ),
                     ).addMarginBottom(6),
@@ -145,11 +191,12 @@ class AddClinicActivityScreen extends StatelessWidget {
                       otherHint: 'Tulis Keterampilan',
                       hint: 'Pilih Jenis Keterampilan',
                       controller: skillController,
+                      enable: keterampilan.isNotEmpty,
                       items: List.generate(
-                        24,
+                        keterampilan.length,
                         (index) => DropDownItem(
-                          title: 'Makan Cepat',
-                          value: index,
+                          title: keterampilan[index].name!,
+                          value: keterampilan[index].id!,
                         ),
                       ),
                     ).addMarginBottom(6),
@@ -166,6 +213,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                       otherHint: 'Tulis Prosedur',
                       hint: 'Pilih Jenis Prosedur',
                       controller: procedureController,
+                      enable: prosedur.isNotEmpty,
                       customItem: (item, onRemoveItem) {
                         return ItemProcedure(
                           item: item,
@@ -174,10 +222,10 @@ class AddClinicActivityScreen extends StatelessWidget {
                         ).addMarginBottom(8);
                       },
                       items: List.generate(
-                        24,
+                        prosedur.length,
                         (index) => DropDownItem(
-                          title: 'Keamanan',
-                          value: index,
+                          title: prosedur[index].name!,
+                          value: prosedur[index].id!,
                         ),
                       ),
                     ).addMarginBottom(6),
@@ -194,11 +242,12 @@ class AddClinicActivityScreen extends StatelessWidget {
                       otherHint: 'Tulis Gejala',
                       hint: 'Pilih Jenis Gejala',
                       controller: symptomsController,
+                      enable: gejala.isNotEmpty,
                       items: List.generate(
-                        24,
+                        gejala.length,
                         (index) => DropDownItem(
-                          title: 'Gejala alam',
-                          value: index,
+                          title: gejala[index].name!,
+                          value: gejala[index].id!,
                         ),
                       ),
                     ).addMarginBottom(6),

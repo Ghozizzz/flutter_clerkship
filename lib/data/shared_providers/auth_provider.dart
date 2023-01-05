@@ -29,8 +29,8 @@ class AuthProvider extends ChangeNotifier {
       onFinish(true);
     } else {
       DialogHelper.showMessageDialog(
-        title: 'title',
-        body: '',
+        title: 'Error',
+        body: result.data?.message,
         alertType: AlertType.sucecss,
       );
     }

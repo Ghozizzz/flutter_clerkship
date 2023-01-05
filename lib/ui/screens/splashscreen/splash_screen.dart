@@ -1,3 +1,5 @@
+import 'package:clerkship/data/network/services/reference_service.dart';
+import 'package:clerkship/data/network/services/user_service.dart';
 import 'package:clerkship/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     getIt.registerSingleton<AuthService>(AuthService());
+    getIt.registerSingleton<ReferenceService>(ReferenceService());
+    getIt.registerSingleton<UserService>(UserService());
 
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () async {
