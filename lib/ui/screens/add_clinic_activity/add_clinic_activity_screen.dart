@@ -280,14 +280,15 @@ class AddClinicActivityScreen extends StatelessWidget {
                     SecondaryButton(
                       onTap: () {
                         if (dateController.selected == null ||
-                            timeController.selected == null) return;
+                            timeController.selected == null ||
+                            departmentController.selected == null) return;
 
                         context
                             .read<ClinicActivityProvider>()
                             .addClinicActivity(
                               tanggal: dateController.selected!,
                               jam: timeController.selected!,
-                              departemen: departmentController.selected,
+                              departemen: departmentController.selected!,
                               jenisKegiatan:
                                   activityTypeController.selected ?? [],
                               catatan: noteController.selection,

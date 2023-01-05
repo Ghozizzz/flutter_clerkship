@@ -11,7 +11,7 @@ class ClinicActivityProvider extends ChangeNotifier {
   void addClinicActivity({
     required DateTime tanggal,
     required TimeOfDay jam,
-    DropDownItem? departemen,
+    required DropDownItem departemen,
     required List<DropDownItem> jenisKegiatan,
     DropDownItem? preseptor,
     List<DropDownItem>? penyakit,
@@ -21,6 +21,6 @@ class ClinicActivityProvider extends ChangeNotifier {
     TextSelection? catatan,
     List<SelectedFile>? lampiran,
   }) async {
-    print(tanggal);
+    // var tanggal = tanggal.formatDate('yyyy-MM-dd');
   }
 }
