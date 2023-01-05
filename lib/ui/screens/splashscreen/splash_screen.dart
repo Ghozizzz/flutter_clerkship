@@ -1,3 +1,4 @@
+import 'package:clerkship/data/network/services/clinic_activity_service.dart';
 import 'package:clerkship/data/network/services/reference_service.dart';
 import 'package:clerkship/data/network/services/user_service.dart';
 import 'package:clerkship/main.dart';
@@ -31,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getIt.registerSingleton<AuthService>(AuthService());
     getIt.registerSingleton<ReferenceService>(ReferenceService());
     getIt.registerSingleton<UserService>(UserService());
+    getIt.registerSingleton<ClinicActivityService>(ClinicActivityService());
 
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () async {

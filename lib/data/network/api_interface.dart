@@ -26,3 +26,17 @@ abstract class ReferenceApiInterface {
     required int idJenis,
   });
 }
+
+abstract class ClinicActivityInterface {
+  Future<ResultData> addClinicActivity({
+    required int idBatch,
+    required int idFeature,
+    required int idPreseptor,
+    required String tanggal,
+    required String jam,
+    required String remarks,
+    required String status,
+    required String item,
+    required String lampiran,
+  });
+}

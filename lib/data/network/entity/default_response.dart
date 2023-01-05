@@ -12,74 +12,25 @@ String defaultResponseToJson(DefaultResponse data) =>
 
 class DefaultResponse {
   DefaultResponse({
-    this.meta,
-    this.data,
-    this.errors,
-  });
-
-  Meta? meta;
-  dynamic data;
-  dynamic errors;
-
-  factory DefaultResponse.fromJson(Map<String, dynamic> json) =>
-      DefaultResponse(
-        meta: json['meta'] == null ? null : Meta.fromJson(json['meta']),
-        data: json['data'],
-        errors: json['errors'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'meta': meta?.toJson(),
-        'data': data,
-        'errors': errors,
-      };
-}
-
-class Meta {
-  Meta({
     this.success,
     this.message,
-    this.code,
-    this.status,
+    this.data,
   });
 
   bool? success;
-  Message? message;
-  int? code;
-  String? status;
+  String? message;
+  dynamic data;
 
-  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+  factory DefaultResponse.fromJson(Map<String, dynamic> json) =>
+      DefaultResponse(
         success: json['success'],
-        message:
-            json['message'] == null ? null : Message.fromJson(json['message']),
-        code: json['code'],
-        status: json['status'],
+        message: json['message'],
+        data: json['data'],
       );
 
   Map<String, dynamic> toJson() => {
         'success': success,
-        'message': message?.toJson(),
-        'code': code,
-        'status': status,
-      };
-}
-
-class Message {
-  Message({
-    this.header,
-    this.body,
-  });
-
-  String? header;
-  String? body;
-
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        header: json['header'],
-        body: json['body'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'header': header,
-        'body': body,
+        'message': message,
+        'data': data,
       };
 }

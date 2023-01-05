@@ -9,6 +9,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../config/themes.dart';
 import '../../../data/models/doctor.dart';
 import '../../../data/models/dropdown_item.dart';
+import '../../../data/shared_providers/clinic_activity_provider.dart';
 import '../../../utils/dialog_helper.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/date_picker_button.dart';
@@ -277,7 +278,27 @@ class AddClinicActivityScreen extends StatelessWidget {
                       style: Themes().gray12,
                     ).addMarginBottom(24),
                     SecondaryButton(
-                      onTap: () {},
+                      onTap: () {
+                        if (dateController.selected == null ||
+                            timeController.selected == null) return;
+
+                        context
+                            .read<ClinicActivityProvider>()
+                            .addClinicActivity(
+                              tanggal: dateController.selected!,
+                              jam: timeController.selected!,
+                              departemen: departmentController.selected,
+                              jenisKegiatan:
+                                  activityTypeController.selected ?? [],
+                              catatan: noteController.selection,
+                              gejala: symptomsController.selected,
+                              keterampilan: skillController.selected,
+                              lampiran: filePickerController.selectedFiles,
+                              penyakit: diseaseController.selected,
+                              prosedur: procedureController.selected,
+                              preseptor: doctorController.selected,
+                            );
+                      },
                       text: 'Simpan Perubahan',
                     ).addMarginBottom(18),
                     PrimaryButton(
