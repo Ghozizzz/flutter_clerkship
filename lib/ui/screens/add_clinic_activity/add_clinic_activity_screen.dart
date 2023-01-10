@@ -44,7 +44,7 @@ class AddClinicActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final departemen = context.watch<ReferenceProvider>().departemen;
+    final batch = context.watch<ReferenceProvider>().batch;
     final jeniskegiatan = context.watch<ReferenceProvider>().jenisKegiatan;
     final penyakit = context.watch<ReferenceProvider>().penyakit;
     final keterampilan = context.watch<ReferenceProvider>().keterampilan;
@@ -86,10 +86,10 @@ class AddClinicActivityScreen extends StatelessWidget {
                       hint: 'Pilih Departemen',
                       controller: departmentController,
                       items: List.generate(
-                        departemen.length,
+                        batch.length,
                         (index) => DropDownItem(
-                          title: departemen[index].name!,
-                          value: departemen[index].id!,
+                          title: batch[index].feature!.name!,
+                          value: batch[index].id!,
                         ),
                       ),
                       onSelected: (item) {
@@ -100,28 +100,30 @@ class AddClinicActivityScreen extends StatelessWidget {
                         symptomsController.setSelected([]);
                         doctorController.setSelected([]);
 
-                        context
-                            .read<ReferenceProvider>()
-                            .getJenisKegiatan(departemenId: item.value);
+                        var idDepartemen =
+                            batch.where((element) => element.id == item.value);
 
-                        context
-                            .read<ReferenceProvider>()
-                            .getPenyakit(departemenId: item.value);
+                        if (idDepartemen.isEmpty) {
+                          return;
+                        }
 
-                        context
-                            .read<ReferenceProvider>()
-                            .getGejala(departemenId: item.value);
+                        context.read<ReferenceProvider>().getJenisKegiatan(
+                            departemenId: idDepartemen.first.feature!.id!);
 
-                        context
-                            .read<ReferenceProvider>()
-                            .getKeterampilan(departemenId: item.value);
+                        context.read<ReferenceProvider>().getPenyakit(
+                            departemenId: idDepartemen.first.feature!.id!);
 
-                        context
-                            .read<ReferenceProvider>()
-                            .getProsedur(departemenId: item.value);
+                        context.read<ReferenceProvider>().getGejala(
+                            departemenId: idDepartemen.first.feature!.id!);
+
+                        context.read<ReferenceProvider>().getKeterampilan(
+                            departemenId: idDepartemen.first.feature!.id!);
+
+                        context.read<ReferenceProvider>().getProsedur(
+                            departemenId: idDepartemen.first.feature!.id!);
 
                         context.read<UserProvider>().getPreseptor(
-                              departemenId: item.value,
+                              departemenId: idDepartemen.first.feature!.id!,
                             );
                       },
                     ).addMarginBottom(20),
@@ -171,6 +173,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                       otherHint: 'Tulis Penyakit',
                       controller: diseaseController,
                       enable: penyakit.isNotEmpty,
+                      isOtherItem: true,
                       items: List.generate(
                         penyakit.length,
                         (index) => DropDownItem(
@@ -289,9 +292,10 @@ class AddClinicActivityScreen extends StatelessWidget {
                               tanggal: dateController.selected!,
                               jam: timeController.selected!,
                               departemen: departmentController.selected!,
-                              jenisKegiatan:
-                                  activityTypeController.selected ?? [],
-                              catatan: noteController.selection,
+                              jenisKegiatan: activityTypeController.selected ??
+                                  <DropDownItem>[],
+                              catatan:
+                                  noteController.plainTextEditingValue.text,
                               gejala: symptomsController.selected,
                               keterampilan: skillController.selected,
                               lampiran: filePickerController.selectedFiles,

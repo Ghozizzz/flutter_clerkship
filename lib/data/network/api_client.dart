@@ -11,7 +11,7 @@ class ApiClient extends InterceptorContract {
   SharedPreferences? prefs;
 
   @override
-  Future<RequestData> interceptRequest({required RequestData data}) async {
+  Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
     prefs ??= await SharedPreferences.getInstance();
     final token = prefs?.getString(Constant.token);
 
@@ -22,16 +22,17 @@ class ApiClient extends InterceptorContract {
     }
     debugPrint('Headers: ${jsonEncode(headers)}');
 
-    data.headers.addAll(headers);
-    return data;
+    request.headers.addAll(headers);
+    return request;
   }
 
   @override
-  Future<ResponseData> interceptResponse({required ResponseData data}) async {
-    if (data.statusCode == 401) {
+  Future<BaseResponse> interceptResponse(
+      {required BaseResponse response}) async {
+    if (response.statusCode == 401) {
       Fluttertoast.showToast(msg: 'Unauthenticated');
     }
 
-    return data;
+    return response;
   }
 }

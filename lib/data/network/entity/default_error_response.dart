@@ -18,7 +18,7 @@ class DefaultResponse {
   });
 
   bool? success;
-  dynamic message;
+  String? message;
   dynamic data;
 
   factory DefaultResponse.fromJson(Map<String, dynamic> json) =>

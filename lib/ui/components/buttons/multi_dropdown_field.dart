@@ -62,6 +62,7 @@ class MultiDropdownField extends StatefulWidget {
   final BoxShadow? shadow;
   final Color? textColor;
   final String otherHint;
+  final bool isOtherItem;
   final Widget Function(
     DropDownItem item,
     Function(DropDownItem item) onRemoveItem,
@@ -85,6 +86,7 @@ class MultiDropdownField extends StatefulWidget {
     this.textColor,
     this.otherHint = 'Lainnya',
     this.customItem,
+    this.isOtherItem = false,
   });
 
   @override
@@ -94,7 +96,9 @@ class MultiDropdownField extends StatefulWidget {
 class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
   @override
   Widget build(BuildContext context) {
-    if (widget.items.isNotEmpty && widget.items.last.value != -1) {
+    if (widget.items.isNotEmpty &&
+        widget.items.last.value != -1 &&
+        widget.isOtherItem) {
       widget.items.add(DropDownItem(
         title: 'Lainnya',
         value: -1,

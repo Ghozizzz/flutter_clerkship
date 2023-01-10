@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:clerkship/data/models/result_data.dart';
+import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
 import 'package:clerkship/data/network/entity/user_response.dart';
 
+import 'entity/default_response.dart';
 import 'entity/departemen_response.dart';
 import 'entity/item_reference_response.dart';
 
@@ -21,6 +25,11 @@ abstract class UserInterface {
 
 abstract class ReferenceApiInterface {
   Future<ResultData<DepartemenResponse>> getDepartemen();
+  Future<ResultData<BatchResponse>> getBatch({
+    final int? idFlow,
+    final int? idFeature,
+    final int? status,
+  });
   Future<ResultData<ItemReferenceResponse>> getReferenceItem({
     required int idFeature,
     required int idJenis,
@@ -28,15 +37,14 @@ abstract class ReferenceApiInterface {
 }
 
 abstract class ClinicActivityInterface {
-  Future<ResultData> addClinicActivity({
+  Future<ResultData<DefaultResponse>> addClinicActivity({
     required int idBatch,
-    required int idFeature,
     required int idPreseptor,
     required String tanggal,
     required String jam,
     required String remarks,
     required String status,
     required String item,
-    required String lampiran,
+    required List<File> lampiran,
   });
 }

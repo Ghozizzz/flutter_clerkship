@@ -3,6 +3,7 @@ import 'package:clerkship/data/network/entity/item_reference_response.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../network/entity/batch_response.dart';
 import '../network/services/reference_service.dart';
 
 class ReferenceProvider extends ChangeNotifier {
@@ -13,9 +14,10 @@ class ReferenceProvider extends ChangeNotifier {
   final List<ItemReference> keterampilan = [];
   final List<ItemReference> prosedur = [];
   final List<ItemReference> gejala = [];
+  final List<Batch> batch = [];
 
   ReferenceProvider() {
-    getDepartemen();
+    getBatch();
   }
 
   void getDepartemen() async {
@@ -73,6 +75,23 @@ class ReferenceProvider extends ChangeNotifier {
     if (result.statusCode == 200) {
       gejala.clear();
       gejala.addAll(result.data!.data!);
+      notifyListeners();
+    }
+  }
+
+  void getBatch({
+    final int? idFlow,
+    final int? idFeature,
+    final int? status,
+  }) async {
+    final result = await referenceService.getBatch(
+      idFlow: idFlow,
+      idFeature: idFeature,
+      status: status,
+    );
+    if (result.statusCode == 200) {
+      batch.clear();
+      batch.addAll(result.data!.data!);
       notifyListeners();
     }
   }
