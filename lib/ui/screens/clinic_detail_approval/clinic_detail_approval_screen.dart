@@ -18,7 +18,8 @@ import 'components/bullet_list.dart';
 import 'components/item_file.dart';
 
 class ClinicDetailApprovalScreen extends StatelessWidget {
-  const ClinicDetailApprovalScreen({super.key});
+  final int id;
+  const ClinicDetailApprovalScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

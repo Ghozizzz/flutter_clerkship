@@ -9,14 +9,26 @@ import '../../../components/buttons/ripple_button.dart';
 import '../../../components/commons/flat_card.dart';
 
 class ItemActivity extends StatelessWidget {
-  const ItemActivity({
-    super.key,
-  });
+  final VoidCallback? onTap;
+  final String title;
+  final String date;
+  final String doctor;
+  final String status;
+  final Color colorStatus;
+
+  const ItemActivity(
+      {super.key,
+      this.onTap,
+      required this.title,
+      required this.date,
+      required this.doctor,
+      required this.status,
+      required this.colorStatus});
 
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {},
+      onTap: onTap,
       border: Border.all(color: Themes.stroke),
       child: SizedBox(
         width: double.infinity,
@@ -24,11 +36,11 @@ class ItemActivity extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ilmu Penyakit Dalam',
+              title,
               style: Themes().blackBold12?.withColor(Themes.black),
             ).addMarginBottom(8),
             Text(
-              '18 September 2022',
+              date,
               style: Themes().black12?.copyWith(
                     fontStyle: FontStyle.italic,
                     color: Themes.black,
@@ -43,7 +55,7 @@ class ItemActivity extends StatelessWidget {
                   height: 12,
                 ).addMarginRight(8),
                 Text(
-                  'dr. Budiman',
+                  doctor,
                   style: Themes().black10,
                 ).addExpanded,
                 FlatCard(
@@ -52,10 +64,10 @@ class ItemActivity extends StatelessWidget {
                     vertical: 6.w,
                     horizontal: 8.w,
                   ),
-                  color: Themes.blue.withOpacity(0.2),
+                  color: colorStatus.withOpacity(0.2),
                   child: Text(
-                    'Proses',
-                    style: Themes().blackBold10?.withColor(Themes.blue),
+                    status,
+                    style: Themes().blackBold10?.withColor(colorStatus),
                   ),
                 ),
               ],

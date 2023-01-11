@@ -305,6 +305,10 @@ class AddClinicActivityScreen extends StatelessWidget {
                             );
                       },
                       text: 'Simpan Perubahan',
+                      enable: (dateController.selected != null &&
+                          timeController.selected != null &&
+                          departmentController.selected != null &&
+                          activityTypeController.selected?.isNotEmpty == true),
                     ).addMarginBottom(18),
                     PrimaryButton(
                       onTap: () {
@@ -317,7 +321,7 @@ class AddClinicActivityScreen extends StatelessWidget {
                             onPositiveTap: () {
                               NavHelper.pop();
                               NavHelper.navigateReplace(
-                                const ClinicDetailApprovalScreen(),
+                                const ClinicDetailApprovalScreen(id: 1),
                               );
                             });
                       },

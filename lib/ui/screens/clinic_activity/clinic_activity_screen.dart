@@ -1,5 +1,5 @@
-import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/item_list_all.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/item_list_draft.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -7,11 +7,13 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
+import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
-import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_activity.dart';
+import '../add_clinic_activity/add_clinic_activity_screen.dart';
+import 'components/item_list_approve.dart';
+import 'components/item_list_reject.dart';
 
 class ClinicActivityScreen extends StatefulWidget {
   const ClinicActivityScreen({super.key});
@@ -83,22 +85,12 @@ class _ClinicActivityScreenState extends State<ClinicActivityScreen>
             ).addMarginTop(12),
             Stack(
               children: [
-                TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                    4,
-                    (index) => ListView.builder(
-                      itemCount: 12,
-                      padding: EdgeInsets.all(20.w),
-                      itemBuilder: (context, index) {
-                        return AnimatedItem(
-                          index: index,
-                          child: const ItemActivity().addMarginBottom(12),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                TabBarView(controller: tabController, children: const [
+                  ListItemAllClinic(),
+                  ListItemDraftClinic(),
+                  ListItemApproveClinic(),
+                  ListItemRejectClinic(),
+                ]),
                 Positioned(
                   right: 20.w,
                   bottom: 20.w,

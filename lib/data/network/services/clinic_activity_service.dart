@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
+import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
@@ -57,6 +58,33 @@ class ClinicActivityService extends ClinicActivityInterface {
       final defaultResponse = defaultResponseFromJson(responseString);
       return ResultData(
         data: defaultResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<ClinicResponse>> getListClinic({int? status}) async {
+    final endpoint = '${ApiConfig.baseUrl}/logbook/list';
+    debugPrint(endpoint);
+    final body = {};
+    if (status != null) {
+      body['status'] = status.toString();
+    }
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: body);
+      debugPrint(response.body);
+
+      final clinicResponse = clinicResponseFromJson(response.body);
+      return ResultData(
+        data: clinicResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {

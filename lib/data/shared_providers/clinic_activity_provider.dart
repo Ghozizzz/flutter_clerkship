@@ -18,6 +18,15 @@ import '../network/services/clinic_activity_service.dart';
 class ClinicActivityProvider extends ChangeNotifier {
   final clinicActivityService = getIt<ClinicActivityService>();
 
+  // void getListClinicByStatus() async {
+  //   final result = await clinicActivityService.getListClinic(status: status);
+  //   if (result.statusCode == 200) {
+  //     listAllClinic.clear();
+  //     listAllClinic[status!].addAll(result.data!.data!.list!);
+  //     notifyListeners();
+  //   }
+  // }
+
   void addClinicActivity({
     required DateTime tanggal,
     required TimeOfDay jam,
@@ -121,7 +130,9 @@ class ClinicActivityProvider extends ChangeNotifier {
 
     if (result.statusCode == 200) {
       Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
-      NavHelper.navigateReplace(const ClinicDetailApprovalScreen());
+      NavHelper.navigateReplace(const ClinicDetailApprovalScreen(
+        id: 1,
+      ));
     } else {
       DialogHelper.showMessageDialog(
         title: 'Error',
