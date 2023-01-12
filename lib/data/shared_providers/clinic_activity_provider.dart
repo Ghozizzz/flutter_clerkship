@@ -13,19 +13,81 @@ import '../../ui/screens/clinic_detail_approval/clinic_detail_approval_screen.da
 import '../../utils/dialog_helper.dart';
 import '../../utils/nav_helper.dart';
 import '../models/item_clinic.dart';
+import '../network/entity/clinic_detail_response.dart';
 import '../network/services/clinic_activity_service.dart';
 
 class ClinicActivityProvider extends ChangeNotifier {
   final clinicActivityService = getIt<ClinicActivityService>();
+  HeaderClinic headerClinic = HeaderClinic();
+  final List<ClinicDetailItem> penyakit = [];
+  final List<ClinicDetailItem> keterampilan = [];
+  final List<ClinicDetailItem> prosedur = [];
+  final List<ClinicDetailItem> gejala = [];
+  final List<ClinicDocument> listDocument = [];
+  ClinicDetailItem jenisKegiatan = ClinicDetailItem(
+    namaItem: '',
+  );
 
-  // void getListClinicByStatus() async {
-  //   final result = await clinicActivityService.getListClinic(status: status);
-  //   if (result.statusCode == 200) {
-  //     listAllClinic.clear();
-  //     listAllClinic[status!].addAll(result.data!.data!.list!);
-  //     notifyListeners();
-  //   }
-  // }
+  Future deleteClinic({
+    required int id,
+  }) async {
+    DialogHelper.showProgressDialog();
+
+    final result = await clinicActivityService.deleteClinic(id: id);
+    NavHelper.pop();
+    if (result.statusCode == 200) {
+      notifyListeners();
+      NavHelper.pop();
+      DialogHelper.showMessageDialog(
+        title: 'Dihapus',
+        body: result.data?.message.toString(),
+        alertType: AlertType.sucecss,
+      );
+    } else {
+      DialogHelper.showMessageDialog(
+        title: 'Error',
+        body: result.data?.message.toString(),
+        alertType: AlertType.error,
+      );
+    }
+  }
+
+  Future getDetailClinic({
+    required int id,
+  }) async {
+    final result = await clinicActivityService.getDetailClinic(id: id);
+    if (result.statusCode == 200) {
+      penyakit.clear();
+      keterampilan.clear();
+      prosedur.clear();
+      gejala.clear();
+      listDocument.clear();
+      headerClinic = result.data!.data!.header!;
+      for (ClinicDetailItem row in result.data!.data!.detail!) {
+        switch (row.idJenis) {
+          case 1:
+            jenisKegiatan = row;
+            break;
+          case 2:
+            penyakit.add(row);
+            break;
+          case 3:
+            keterampilan.add(row);
+            break;
+          case 4:
+            prosedur.add(row);
+            break;
+          case 5:
+            gejala.add(row);
+            break;
+        }
+      }
+
+      listDocument.addAll(result.data!.data!.document!);
+
+      notifyListeners();
+    }
+  }
 
   void addClinicActivity({
     required DateTime tanggal,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/entity/batch_response.dart';
+import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
 import 'package:clerkship/data/network/entity/user_response.dart';
@@ -48,5 +49,7 @@ abstract class ClinicActivityInterface {
     required String item,
     required List<File> lampiran,
   });
+  Future<ResultData<ClinicDetailResponse>> getDetailClinic({required int id});
   Future<ResultData<ClinicResponse>> getListClinic({final int? status});
+  Future<ResultData<DefaultResponse>> deleteClinic({required int id});
 }

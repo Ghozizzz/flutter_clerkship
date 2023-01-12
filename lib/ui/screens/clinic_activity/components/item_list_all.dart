@@ -1,3 +1,5 @@
+import 'package:clerkship/data/shared_providers/clinic_activity_provider.dart';
+import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -54,9 +56,19 @@ class ListItemAllClinic extends StatelessWidget {
             status: status,
             colorStatus: color,
             onTap: () async {
-              NavHelper.navigatePush(
-                const ClinicDetailApprovalScreen(id: 1),
-              );
+              await context
+                  .read<ClinicActivityProvider>()
+                  .getDetailClinic(id: listAllClinic[k].id!);
+
+              if (listAllClinic[k].status == 0) {
+                NavHelper.navigatePush(
+                  AddClinicActivityScreen(id: listAllClinic[k].id!),
+                );
+              } else {
+                NavHelper.navigatePush(
+                  ClinicDetailApprovalScreen(id: listAllClinic[k].id!),
+                );
+              }
             },
           ).addMarginBottom(12),
         );

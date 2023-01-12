@@ -135,7 +135,9 @@ class DetailApprovalScreen extends StatelessWidget {
                   Column(
                     children: List.generate(
                       2,
-                      (index) => const ItemFile().addMarginBottom(12),
+                      (index) => const ItemFile(
+                        title: 'File 1',
+                      ).addMarginBottom(12),
                     ),
                   ).addMarginBottom(8),
                   PrimaryButton(

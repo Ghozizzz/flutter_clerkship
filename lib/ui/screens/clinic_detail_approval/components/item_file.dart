@@ -9,8 +9,10 @@ import '../../../components/buttons/ripple_button.dart';
 import '../../../components/commons/flat_card.dart';
 
 class ItemFile extends StatelessWidget {
+  final String title;
   const ItemFile({
     super.key,
+    required this.title,
   });
 
   @override
@@ -21,7 +23,7 @@ class ItemFile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Document.docx',
+            title,
             style: Themes().black12?.withUnderline(offset: 2),
           ).addMarginLeft(12.w),
           RippleButton(

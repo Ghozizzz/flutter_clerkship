@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
+import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,8 +46,6 @@ class ClinicActivityService extends ClinicActivityInterface {
     };
 
     request.fields.addAll(body);
-    print(request.headers);
-
     debugPrint(jsonEncode(body));
 
     try {
@@ -85,6 +84,56 @@ class ClinicActivityService extends ClinicActivityInterface {
       final clinicResponse = clinicResponseFromJson(response.body);
       return ResultData(
         data: clinicResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<ClinicDetailResponse>> getDetailClinic(
+      {required int id}) async {
+    final endpoint = '${ApiConfig.baseUrl}/logbook/get/$id';
+    debugPrint(endpoint);
+
+    try {
+      final response = await apiClient.get(Uri.parse(endpoint));
+      debugPrint(response.body);
+
+      final clinicDetailResponse = clinicDetailResponseFromJson(response.body);
+      return ResultData(
+        data: clinicDetailResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<DefaultResponse>> deleteClinic({required int id}) async {
+    final endpoint = '${ApiConfig.baseUrl}/logbook/delete';
+    debugPrint(endpoint);
+    final body = {
+      'id': id.toString(),
+    };
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: body);
+      debugPrint(response.body);
+
+      final defaultResponse = defaultResponseFromJson(response.body);
+      return ResultData(
+        data: defaultResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {

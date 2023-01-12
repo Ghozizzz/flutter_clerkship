@@ -28,7 +28,8 @@ import 'components/item_procedure.dart';
 import 'components/label_text.dart';
 
 class AddClinicActivityScreen extends StatelessWidget {
-  AddClinicActivityScreen({super.key});
+  final int? id;
+  AddClinicActivityScreen({super.key, this.id});
 
   final dateController = DatePickerController();
   final timeController = TimePickerController();
