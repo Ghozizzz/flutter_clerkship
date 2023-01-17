@@ -8,6 +8,11 @@ class UserProvider extends ChangeNotifier {
   final userService = getIt<UserService>();
   final List<User> preseptor = [];
 
+  void resetPreseptor() {
+    preseptor.clear();
+    notifyListeners();
+  }
+
   void getPreseptor({
     required int departemenId,
   }) async {

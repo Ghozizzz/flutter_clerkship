@@ -30,10 +30,10 @@ class FilePickerController extends ValueNotifier<List<SelectedFile>> {
 
   FilePickerController() : super([]);
 
-  void addFile(File file) {
+  void addFile(File file, {dynamic id}) {
     selectedFiles.add(
       SelectedFile(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: id ?? DateTime.now().millisecondsSinceEpoch.toString(),
         file: file,
       ),
     );

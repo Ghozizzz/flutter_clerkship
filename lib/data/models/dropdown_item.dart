@@ -8,6 +8,7 @@ class DropDownItem {
   String other;
   int count;
   int flagDelete;
+  int? id;
 
   DropDownItem({
     required this.title,
@@ -17,5 +18,6 @@ class DropDownItem {
     this.other = '',
     this.count = 0,
     this.flagDelete = 0,
+    this.id,
   });
 }

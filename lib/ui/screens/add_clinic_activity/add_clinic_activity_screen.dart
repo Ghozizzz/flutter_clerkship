@@ -56,7 +56,13 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
   final filePickerController = FilePickerController();
   bool loadingPage = false;
   bool isEdit = false;
+  // exisiting data
   List<ExistingLampiran> listExistingLampiran = [];
+  List<DropDownItem> listPenyakitSelected = [];
+  List<DropDownItem> listProsedurSelected = [];
+  List<DropDownItem> listKeterampilanSelected = [];
+  List<DropDownItem> listGejalaSelected = [];
+  List<SelectedFile> listSelectedFile = [];
 
   @override
   void initState() {
@@ -67,11 +73,11 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     procedureController.setSelected([]);
     symptomsController.setSelected([]);
     doctorController.setSelected([]);
+    loadingPage = widget.id != null;
 
-    if (widget.id != null) {
-      loadingPage = true;
-      isEdit = true;
-      Tools.onViewCreated(() async {
+    Tools.onViewCreated(() async {
+      if (widget.id != null) {
+        isEdit = true;
         await context
             .read<ClinicActivityProvider>()
             .getDetailClinic(id: widget.id!);
@@ -79,10 +85,12 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
         loadingPage = false;
 
         getdataupdate();
-      });
-    } else {
-      noteController = FleatherController();
-    }
+      } else {
+        noteController = FleatherController();
+        context.read<ReferenceProvider>().resetData();
+        context.read<UserProvider>().resetPreseptor();
+      }
+    });
   }
 
   void getdataupdate() {
@@ -97,17 +105,11 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     noteController = FleatherController(
         ParchmentDocument.fromJson(jsonDecode(headerData.remarks!)));
 
-    List<DropDownItem> listPenyakitSelected = [];
-    List<DropDownItem> listProsedurSelected = [];
-    List<DropDownItem> listKeterampilanSelected = [];
-    List<DropDownItem> listGejalaSelected = [];
-    List<SelectedFile> listSelectedFile = [];
-
     showOtherRef(context, headerData.idFeature!);
 
     for (ClinicDetailItem element in listPenyakit) {
-      listPenyakitSelected
-          .add(DropDownItem(title: element.namaItem!, value: element.idItem));
+      listPenyakitSelected.add(DropDownItem(
+          title: element.namaItem!, value: element.idItem, id: element.id));
     }
 
     for (ClinicDetailItem element in listProsedur) {
@@ -115,17 +117,21 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
         title: element.namaItem!,
         value: element.idItem,
         count: element.counter!,
+        id: element.id,
       ));
     }
 
     for (ClinicDetailItem element in listKeterampilan) {
-      listKeterampilanSelected
-          .add(DropDownItem(title: element.namaItem!, value: element.idItem));
+      listKeterampilanSelected.add(DropDownItem(
+          title: element.namaItem!, value: element.idItem, id: element.id));
     }
 
     for (ClinicDetailItem element in listGejala) {
-      listGejalaSelected
-          .add(DropDownItem(title: element.namaItem!, value: element.idItem));
+      listGejalaSelected.add(DropDownItem(
+          title: element.namaItem!,
+          value: element.idItem,
+          flagDelete: 0,
+          id: element.id));
     }
 
     for (ClinicDocument element in listDocument) {
@@ -135,7 +141,8 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
       listExistingLampiran.add(ExistingLampiran(
           id: element.id, fileName: element.fileName!, flagDelete: 0));
 
-      filePickerController.addFile(File(element.fileName!));
+      filePickerController.addFile(File(element.fileName!),
+          id: element.id.toString());
     }
 
     dateController.setValue(headerData.tanggal!);
@@ -144,14 +151,17 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     departmentController.setSelected(DropDownItem(
         title: headerData.namaDepartment!, value: headerData.idBatch));
     activityTypeController.setSelected(DropDownItem(
-        title: jenisKegiatan.namaItem!, value: jenisKegiatan.idItem));
+      title: jenisKegiatan.namaItem!,
+      value: jenisKegiatan.idItem,
+      id: jenisKegiatan.id,
+    ));
 
     doctorController.setSelected(headerData.idPreseptor);
-    diseaseController.setSelected(listPenyakitSelected);
-    skillController.setSelected(listKeterampilanSelected);
-    procedureController.setSelected(listProsedurSelected);
+    diseaseController.setSelected(listPenyakitSelected.toList());
+    skillController.setSelected(listKeterampilanSelected.toList());
+    procedureController.setSelected(listProsedurSelected.toList());
 
-    symptomsController.setSelected(listGejalaSelected);
+    symptomsController.setSelected(listGejalaSelected.toList());
   }
 
   @override
@@ -210,6 +220,9 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                         hint: 'Pilih Jenis Kegiatan',
                         controller: activityTypeController,
                         enable: jeniskegiatan.isNotEmpty,
+                        onSelected: (item) {
+                          activityTypeController.selected!.flagDelete = 1;
+                        },
                         items: List.generate(
                           jeniskegiatan.length,
                           (index) => DropDownItem(
@@ -217,12 +230,6 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                             value: jeniskegiatan[index].id!,
                           ),
                         ),
-                      ).addMarginBottom(6),
-                      Text(
-                        '*dapat pilih lebih dari satu',
-                        style: Themes()
-                            .gray12
-                            ?.copyWith(fontStyle: FontStyle.italic),
                       ).addMarginBottom(20),
                       const LabelText(
                         mandatory: true,
@@ -248,6 +255,13 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                         otherHint: 'Tulis Penyakit',
                         controller: diseaseController,
                         enable: penyakit.isNotEmpty,
+                        onRemoveItem: (item) {
+                          diseaseController.selected!
+                              .firstWhere(
+                                (element) => element.value == item.value,
+                              )
+                              .flagDelete = 1;
+                        },
                         isOtherItem: true,
                         items: List.generate(
                           penyakit.length,
@@ -336,6 +350,15 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                         hint: 'Pilih Jenis Gejala',
                         controller: symptomsController,
                         enable: gejala.isNotEmpty,
+                        onRemoveItem: (item) {
+                          if (widget.id != null) {
+                            listGejalaSelected
+                                .firstWhere(
+                                  (element) => element.value == item.value,
+                                )
+                                .flagDelete = 1;
+                          }
+                        },
                         items: List.generate(
                           gejala.length,
                           (index) => DropDownItem(
@@ -391,33 +414,37 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                               negativeText: 'Batal',
                               onPositiveTap: () {
                                 NavHelper.pop();
+
                                 if (dateController.selected == null ||
                                     timeController.selected == null ||
                                     departmentController.selected == null) {
                                   return;
                                 }
-
-                                context
-                                    .read<ClinicActivityProvider>()
-                                    .addClinicActivity(
-                                      context: context,
-                                      status: '2',
-                                      tanggal: dateController.selected!,
-                                      jam: timeController.selected!,
-                                      departemen:
-                                          departmentController.selected!,
-                                      jenisKegiatan:
-                                          activityTypeController.selected!,
-                                      catatan: jsonEncode(
-                                          noteController?.document.toJson()),
-                                      gejala: symptomsController.selected,
-                                      keterampilan: skillController.selected,
-                                      lampiran:
-                                          filePickerController.selectedFiles,
-                                      penyakit: diseaseController.selected,
-                                      prosedur: procedureController.selected,
-                                      preseptor: doctorController.selected,
-                                    );
+                                if (widget.id != null) {
+                                  doUpdateClinic(context, '2');
+                                } else {
+                                  context
+                                      .read<ClinicActivityProvider>()
+                                      .addClinicActivity(
+                                        context: context,
+                                        status: '2',
+                                        tanggal: dateController.selected!,
+                                        jam: timeController.selected!,
+                                        departemen:
+                                            departmentController.selected!,
+                                        jenisKegiatan:
+                                            activityTypeController.selected!,
+                                        catatan: jsonEncode(
+                                            noteController?.document.toJson()),
+                                        gejala: symptomsController.selected,
+                                        keterampilan: skillController.selected,
+                                        lampiran:
+                                            filePickerController.selectedFiles,
+                                        penyakit: diseaseController.selected,
+                                        prosedur: procedureController.selected,
+                                        preseptor: doctorController.selected,
+                                      );
+                                }
                               });
                         },
                         text: 'Kirim untuk Disetujui',
@@ -456,22 +483,7 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                 preseptor: doctorController.selected,
               );
         } else {
-          context.read<ClinicActivityProvider>().updateClinicActivity(
-                id: widget.id!,
-                status: '0',
-                tanggal: dateController.selected!,
-                jam: timeController.selected!,
-                departemen: departmentController.selected!,
-                jenisKegiatan: activityTypeController.selected!,
-                catatan: jsonEncode(noteController?.document.toJson()),
-                gejala: symptomsController.selected,
-                keterampilan: skillController.selected,
-                lampiran: filePickerController.selectedFiles,
-                existingDocument: listExistingLampiran,
-                penyakit: diseaseController.selected,
-                prosedur: procedureController.selected,
-                preseptor: doctorController.selected,
-              );
+          doUpdateClinic(context, '0');
         }
       },
       text: 'Simpan Perubahan',
@@ -480,6 +492,48 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
           departmentController.selected != null &&
           activityTypeController.selected != null),
     );
+  }
+
+  void doUpdateClinic(BuildContext context, String status) {
+    listProsedurSelected.removeWhere((element) => element.flagDelete == 0);
+    listProsedurSelected.addAll(procedureController.selected ?? []);
+
+    listPenyakitSelected.removeWhere((element) => element.flagDelete == 0);
+    listPenyakitSelected.addAll(diseaseController.selected ?? []);
+
+    listKeterampilanSelected.removeWhere((element) => element.flagDelete == 0);
+    listKeterampilanSelected.addAll(skillController.selected ?? []);
+
+    listGejalaSelected.removeWhere((element) => element.flagDelete == 0);
+    listGejalaSelected.addAll(symptomsController.selected ?? []);
+
+    List<SelectedFile> newFile = [];
+    if (filePickerController.selectedFiles.isNotEmpty) {
+      filePickerController.selectedFiles.where((element) {
+        return listExistingLampiran
+            .where((e) => e.id.toString() != element.id)
+            .isNotEmpty;
+      }).forEach((element) {
+        newFile.add(element);
+      });
+    }
+    context.read<ClinicActivityProvider>().updateClinicActivity(
+          context: context,
+          id: widget.id!,
+          status: status,
+          tanggal: dateController.selected!,
+          jam: timeController.selected!,
+          departemen: departmentController.selected!,
+          jenisKegiatan: activityTypeController.selected!,
+          catatan: jsonEncode(noteController?.document.toJson()),
+          gejala: listGejalaSelected,
+          keterampilan: listKeterampilanSelected,
+          lampiran: newFile,
+          existingDocument: listExistingLampiran,
+          penyakit: listPenyakitSelected,
+          prosedur: listProsedurSelected,
+          preseptor: doctorController.selected,
+        );
   }
 
   void checkBtnEnable() {

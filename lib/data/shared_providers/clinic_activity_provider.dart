@@ -98,6 +98,7 @@ class ClinicActivityProvider extends ChangeNotifier {
   }
 
   void updateClinicActivity({
+    required BuildContext context,
     required int id,
     required DateTime tanggal,
     required TimeOfDay jam,
@@ -120,13 +121,13 @@ class ClinicActivityProvider extends ChangeNotifier {
     var bodyPreseptor = preseptor;
     var bodyRemarks = catatan;
     List<ItemClinic> bodyItem = [];
-    List<File> images = [];
+    List<File> fileLampiran = [];
 
     for (SelectedFile item in lampiran!) {
       if (existingDocument!
-          .where((element) => element.id.toString() == item.id)
+          .where((element) => element.id.toString() != item.id)
           .isEmpty) {
-        images.add(item.file);
+        fileLampiran.add(item.file);
       }
     }
 
@@ -136,6 +137,8 @@ class ClinicActivityProvider extends ChangeNotifier {
       type: 0,
       remarks: null,
       counter: 0,
+      flagDelete: jenisKegiatan.flagDelete,
+      id: jenisKegiatan.id,
     ));
 
     for (DropDownItem item in penyakit!) {
@@ -146,6 +149,8 @@ class ClinicActivityProvider extends ChangeNotifier {
           type: 1,
           remarks: item.title,
           counter: 0,
+          flagDelete: item.flagDelete,
+          id: item.id,
         ));
       } else {
         bodyItem.add(ItemClinic(
@@ -154,6 +159,8 @@ class ClinicActivityProvider extends ChangeNotifier {
           type: 0,
           remarks: null,
           counter: 0,
+          flagDelete: item.flagDelete,
+          id: item.id,
         ));
       }
     }
@@ -165,6 +172,8 @@ class ClinicActivityProvider extends ChangeNotifier {
         type: 0,
         remarks: null,
         counter: 0,
+        flagDelete: item.flagDelete,
+        id: item.id,
       ));
     }
 
@@ -175,6 +184,8 @@ class ClinicActivityProvider extends ChangeNotifier {
         type: 0,
         remarks: null,
         counter: item.count,
+        flagDelete: item.flagDelete,
+        id: item.id,
       ));
     }
 
@@ -185,45 +196,53 @@ class ClinicActivityProvider extends ChangeNotifier {
         type: 0,
         remarks: null,
         counter: 0,
+        flagDelete: item.flagDelete,
+        id: item.id,
       ));
     }
 
     var bodyItemJson =
         List.generate(bodyItem.length, (index) => bodyItem[index].toJson());
-
     var bodyExistingJson = List.generate(
         existingDocument!.length, (index) => existingDocument[index].toJson());
 
     DialogHelper.showProgressDialog();
-    final result = await clinicActivityService.updateClinicActivity(
-        id: id,
-        idPreseptor: bodyPreseptor,
-        tanggal: bodyTgl,
-        jam: bodyJam,
-        remarks: bodyRemarks ?? '',
-        status: status,
-        item: jsonEncode(bodyItemJson),
-        lampiran: images,
-        idBatch: bodyDepartemen,
-        existingLampiran: jsonEncode(bodyExistingJson));
-    DialogHelper.closeDialog();
+    await clinicActivityService
+        .updateClinicActivity(
+            id: id,
+            idPreseptor: bodyPreseptor,
+            tanggal: bodyTgl,
+            jam: bodyJam,
+            remarks: bodyRemarks ?? '',
+            status: status,
+            item: jsonEncode(bodyItemJson),
+            lampiran: fileLampiran,
+            idBatch: bodyDepartemen,
+            existingLampiran: jsonEncode(bodyExistingJson))
+        .then((result) {
+      context.read<ItemListAllClinicProvider>().getListClinic();
+      context.read<ItemListDraftClinicProvider>().getListClinic();
+      context.read<ItemListApproveClinicProvider>().getListClinic();
+      context.read<ItemListRejectClinicProvider>().getListClinic();
+      DialogHelper.closeDialog();
 
-    if (result.statusCode == 200) {
-      Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
-      if (status == '2') {
-        NavHelper.navigateReplace(ClinicDetailApprovalScreen(
-          id: result.data!.data,
-        ));
+      if (result.statusCode == 200) {
+        Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
+        if (status == '2') {
+          NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+            id: result.data!.data,
+          ));
+        } else {
+          NavHelper.pop();
+        }
       } else {
-        NavHelper.pop();
+        DialogHelper.showMessageDialog(
+          title: 'Error',
+          body: result.data?.message.toString(),
+          alertType: AlertType.error,
+        );
       }
-    } else {
-      DialogHelper.showMessageDialog(
-        title: 'Error',
-        body: result.data?.message.toString(),
-        alertType: AlertType.error,
-      );
-    }
+    });
   }
 
   Future addClinicActivity({

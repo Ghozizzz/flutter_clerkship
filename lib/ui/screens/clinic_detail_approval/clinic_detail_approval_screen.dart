@@ -191,14 +191,20 @@ class _ClinicDetailApprovalScreenState
                       title: 'Departemen',
                       value: headerData.namaDepartment!,
                     ),
-                    BulletList(
-                      title: 'Penyakit',
-                      listData: listPenyakit,
+                    Visibility(
+                      visible: listPenyakit.isNotEmpty,
+                      child: BulletList(
+                        title: 'Penyakit',
+                        listData: listPenyakit,
+                      ),
                     ),
-                    BulletList(
-                      title: 'Prosedur',
-                      listData: listProsedur,
-                      withCount: true,
+                    Visibility(
+                      visible: listProsedur.isNotEmpty,
+                      child: BulletList(
+                        title: 'Prosedur',
+                        listData: listProsedur,
+                        withCount: true,
+                      ),
                     ),
                     Visibility(
                       visible: headerData.remarks!.isNotEmpty,

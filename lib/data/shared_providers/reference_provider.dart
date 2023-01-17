@@ -20,6 +20,16 @@ class ReferenceProvider extends ChangeNotifier {
     getBatch();
   }
 
+  void resetData() {
+    departemen.clear();
+    jenisKegiatan.clear();
+    penyakit.clear();
+    keterampilan.clear();
+    prosedur.clear();
+    gejala.clear();
+    notifyListeners();
+  }
+
   void getDepartemen() async {
     final result = await referenceService.getDepartemen();
     if (result.statusCode == 200) {
