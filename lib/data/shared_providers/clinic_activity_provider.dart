@@ -2,13 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:clerkship/data/models/dropdown_item.dart';
+import 'package:clerkship/data/models/existing_lampiran.dart';
 import 'package:clerkship/ui/components/buttons/file_picker_button.dart';
 import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../ui/components/dialog/custom_alert_dialog.dart';
+import '../../ui/screens/clinic_activity/providers/item_list_all_provider.dart';
+import '../../ui/screens/clinic_activity/providers/item_list_approve_provider copy.dart';
+import '../../ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
+import '../../ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
 import '../../ui/screens/clinic_detail_approval/clinic_detail_approval_screen.dart';
 import '../../utils/dialog_helper.dart';
 import '../../utils/nav_helper.dart';
@@ -55,6 +61,8 @@ class ClinicActivityProvider extends ChangeNotifier {
   Future getDetailClinic({
     required int id,
   }) async {
+    // loading = true;
+    // notifyListeners();
     final result = await clinicActivityService.getDetailClinic(id: id);
     if (result.statusCode == 200) {
       penyakit.clear();
@@ -84,16 +92,147 @@ class ClinicActivityProvider extends ChangeNotifier {
       }
 
       listDocument.addAll(result.data!.data!.document!);
-
+      // loading = false;
       notifyListeners();
     }
   }
 
-  void addClinicActivity({
+  void updateClinicActivity({
+    required int id,
     required DateTime tanggal,
     required TimeOfDay jam,
+    required String status,
     required DropDownItem departemen,
-    List<DropDownItem>? jenisKegiatan,
+    required DropDownItem jenisKegiatan,
+    dynamic preseptor,
+    List<DropDownItem>? penyakit,
+    List<DropDownItem>? keterampilan,
+    List<DropDownItem>? prosedur,
+    List<DropDownItem>? gejala,
+    String? catatan,
+    List<ExistingLampiran>? existingDocument,
+    List<SelectedFile>? lampiran,
+  }) async {
+    var bodyTgl = tanggal.formatDate('yyyy-MM-dd');
+    var bodyJam =
+        '${jam.hour.toString().padLeft(2, '0')}:${jam.minute.toString().padLeft(2, '0')}';
+    var bodyDepartemen = departemen.value;
+    var bodyPreseptor = preseptor;
+    var bodyRemarks = catatan;
+    List<ItemClinic> bodyItem = [];
+    List<File> images = [];
+
+    for (SelectedFile item in lampiran!) {
+      if (existingDocument!
+          .where((element) => element.id.toString() == item.id)
+          .isEmpty) {
+        images.add(item.file);
+      }
+    }
+
+    bodyItem.add(ItemClinic(
+      idJenis: 1,
+      idItem: jenisKegiatan.value,
+      type: 0,
+      remarks: null,
+      counter: 0,
+    ));
+
+    for (DropDownItem item in penyakit!) {
+      if (item.value == -1) {
+        bodyItem.add(ItemClinic(
+          idJenis: 2,
+          idItem: item.value,
+          type: 1,
+          remarks: item.title,
+          counter: 0,
+        ));
+      } else {
+        bodyItem.add(ItemClinic(
+          idJenis: 2,
+          idItem: item.value,
+          type: 0,
+          remarks: null,
+          counter: 0,
+        ));
+      }
+    }
+
+    for (DropDownItem item in keterampilan!) {
+      bodyItem.add(ItemClinic(
+        idJenis: 3,
+        idItem: item.value,
+        type: 0,
+        remarks: null,
+        counter: 0,
+      ));
+    }
+
+    for (DropDownItem item in prosedur!) {
+      bodyItem.add(ItemClinic(
+        idJenis: 4,
+        idItem: item.value,
+        type: 0,
+        remarks: null,
+        counter: item.count,
+      ));
+    }
+
+    for (DropDownItem item in gejala!) {
+      bodyItem.add(ItemClinic(
+        idJenis: 5,
+        idItem: item.value,
+        type: 0,
+        remarks: null,
+        counter: 0,
+      ));
+    }
+
+    var bodyItemJson =
+        List.generate(bodyItem.length, (index) => bodyItem[index].toJson());
+
+    var bodyExistingJson = List.generate(
+        existingDocument!.length, (index) => existingDocument[index].toJson());
+
+    DialogHelper.showProgressDialog();
+    final result = await clinicActivityService.updateClinicActivity(
+        id: id,
+        idPreseptor: bodyPreseptor,
+        tanggal: bodyTgl,
+        jam: bodyJam,
+        remarks: bodyRemarks ?? '',
+        status: status,
+        item: jsonEncode(bodyItemJson),
+        lampiran: images,
+        idBatch: bodyDepartemen,
+        existingLampiran: jsonEncode(bodyExistingJson));
+    DialogHelper.closeDialog();
+
+    if (result.statusCode == 200) {
+      Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
+      if (status == '2') {
+        NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+          id: result.data!.data,
+        ));
+      } else {
+        NavHelper.pop();
+      }
+    } else {
+      DialogHelper.showMessageDialog(
+        title: 'Error',
+        body: result.data?.message.toString(),
+        alertType: AlertType.error,
+      );
+    }
+  }
+
+  Future addClinicActivity({
+    required BuildContext context,
+    required DateTime tanggal,
+    required TimeOfDay jam,
+    required String status,
+    required DropDownItem departemen,
+    required DropDownItem jenisKegiatan,
     dynamic preseptor,
     List<DropDownItem>? penyakit,
     List<DropDownItem>? keterampilan,
@@ -115,15 +254,13 @@ class ClinicActivityProvider extends ChangeNotifier {
       images.add(item.file);
     }
 
-    for (DropDownItem item in jenisKegiatan!) {
-      bodyItem.add(ItemClinic(
-        idJenis: 1,
-        idItem: item.value,
-        type: 0,
-        remarks: null,
-        counter: 0,
-      ));
-    }
+    bodyItem.add(ItemClinic(
+      idJenis: 1,
+      idItem: jenisKegiatan.value,
+      type: 0,
+      remarks: null,
+      counter: 0,
+    ));
 
     for (DropDownItem item in penyakit!) {
       if (item.value == -1) {
@@ -179,28 +316,41 @@ class ClinicActivityProvider extends ChangeNotifier {
         List.generate(bodyItem.length, (index) => bodyItem[index].toJson());
 
     DialogHelper.showProgressDialog();
-    final result = await clinicActivityService.addClinicActivity(
-        idPreseptor: bodyPreseptor,
-        tanggal: bodyTgl,
-        jam: bodyJam,
-        remarks: bodyRemarks ?? '',
-        status: '0',
-        item: jsonEncode(bodyItemJson),
-        lampiran: images,
-        idBatch: bodyDepartemen);
-    DialogHelper.closeDialog();
+    clinicActivityService
+        .addClinicActivity(
+            idPreseptor: bodyPreseptor,
+            tanggal: bodyTgl,
+            jam: bodyJam,
+            remarks: bodyRemarks ?? '',
+            status: status,
+            item: jsonEncode(bodyItemJson),
+            lampiran: images,
+            idBatch: bodyDepartemen)
+        .then(
+      (result) {
+        context.read<ItemListAllClinicProvider>().getListClinic();
+        context.read<ItemListDraftClinicProvider>().getListClinic();
+        context.read<ItemListApproveClinicProvider>().getListClinic();
+        context.read<ItemListRejectClinicProvider>().getListClinic();
+        DialogHelper.closeDialog();
 
-    if (result.statusCode == 200) {
-      Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
-      NavHelper.navigateReplace(const ClinicDetailApprovalScreen(
-        id: 1,
-      ));
-    } else {
-      DialogHelper.showMessageDialog(
-        title: 'Error',
-        body: result.data?.message.toString(),
-        alertType: AlertType.error,
-      );
-    }
+        if (result.statusCode == 200) {
+          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
+          if (status == '2') {
+            NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+              id: result.data!.data,
+            ));
+          } else {
+            NavHelper.pop();
+          }
+        } else {
+          DialogHelper.showMessageDialog(
+            title: 'Error',
+            body: result.data?.message.toString(),
+            alertType: AlertType.error,
+          );
+        }
+      },
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'package:clerkship/data/shared_providers/clinic_activity_provider.dart';
-import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +8,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
+import '../../add_clinic_activity/add_clinic_activity_screen.dart';
 import '../../clinic_detail_approval/clinic_detail_approval_screen.dart';
 import 'item_activity.dart';
 
@@ -56,10 +55,6 @@ class ListItemAllClinic extends StatelessWidget {
             status: status,
             colorStatus: color,
             onTap: () async {
-              await context
-                  .read<ClinicActivityProvider>()
-                  .getDetailClinic(id: listAllClinic[k].id!);
-
               if (listAllClinic[k].status == 0) {
                 NavHelper.navigatePush(
                   AddClinicActivityScreen(id: listAllClinic[k].id!),

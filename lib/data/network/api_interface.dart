@@ -49,6 +49,18 @@ abstract class ClinicActivityInterface {
     required String item,
     required List<File> lampiran,
   });
+  Future<ResultData<DefaultResponse>> updateClinicActivity({
+    required int id,
+    required int idBatch,
+    required int idPreseptor,
+    required String tanggal,
+    required String jam,
+    required String remarks,
+    required String status,
+    required String item,
+    required String existingLampiran,
+    required List<File> lampiran,
+  });
   Future<ResultData<ClinicDetailResponse>> getDetailClinic({required int id});
   Future<ResultData<ClinicResponse>> getListClinic({final int? status});
   Future<ResultData<DefaultResponse>> deleteClinic({required int id});

@@ -63,6 +63,7 @@ class MultiDropdownField extends StatefulWidget {
   final Color? textColor;
   final String otherHint;
   final bool isOtherItem;
+  final Function(DropDownItem item)? onRemoveItem;
   final Widget Function(
     DropDownItem item,
     Function(DropDownItem item) onRemoveItem,
@@ -87,6 +88,7 @@ class MultiDropdownField extends StatefulWidget {
     this.otherHint = 'Lainnya',
     this.customItem,
     this.isOtherItem = false,
+    this.onRemoveItem,
   });
 
   @override
@@ -177,6 +179,9 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
           ).addMarginLeft(12.w),
           RippleButton(
             onTap: () {
+              if (widget.onRemoveItem != null) {
+                widget.onRemoveItem!(item);
+              }
               removeItem(item);
             },
             child: SvgPicture.asset(AssetIcons.icClose),

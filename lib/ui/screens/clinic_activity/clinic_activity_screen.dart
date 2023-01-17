@@ -1,7 +1,9 @@
 import 'package:clerkship/ui/screens/clinic_activity/components/item_list_all.dart';
 import 'package:clerkship/ui/screens/clinic_activity/components/item_list_draft.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -37,6 +39,7 @@ class _ClinicActivityScreenState extends State<ClinicActivityScreen>
 
   @override
   Widget build(BuildContext context) {
+    final batch = context.watch<ItemListAllClinicProvider>().batch;
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -63,7 +66,7 @@ class _ClinicActivityScreenState extends State<ClinicActivityScreen>
               left: 20.w,
             ),
             Text(
-              'Batch I',
+              'Batch $batch',
               style: Themes().gray10?.boldText(),
             ).addMarginLeft(20.w),
             Container(
@@ -96,7 +99,7 @@ class _ClinicActivityScreenState extends State<ClinicActivityScreen>
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
-                      NavHelper.navigatePush(AddClinicActivityScreen());
+                      NavHelper.navigatePush(const AddClinicActivityScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),

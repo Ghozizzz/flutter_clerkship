@@ -7,6 +7,7 @@ class DropDownItem {
   bool selected;
   String other;
   int count;
+  int flagDelete;
 
   DropDownItem({
     required this.title,
@@ -15,5 +16,6 @@ class DropDownItem {
     this.selected = false,
     this.other = '',
     this.count = 0,
+    this.flagDelete = 0,
   });
 }

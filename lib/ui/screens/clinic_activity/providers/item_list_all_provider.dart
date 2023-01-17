@@ -7,6 +7,7 @@ import '../../../../main.dart';
 class ItemListAllClinicProvider extends ChangeNotifier {
   final clinicActivityService = getIt<ClinicActivityService>();
   final List<Clinic> listClinic = [];
+  String batch = '';
 
   ItemListAllClinicProvider() {
     getListClinic();
@@ -18,6 +19,7 @@ class ItemListAllClinicProvider extends ChangeNotifier {
     if (result.statusCode == 200) {
       listClinic.clear();
       listClinic.addAll(result.data!.data!.list!);
+      batch = result.data!.data!.nomor!;
       notifyListeners();
     }
   }
