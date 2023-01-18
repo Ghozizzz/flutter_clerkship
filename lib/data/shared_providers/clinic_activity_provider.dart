@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../main.dart';
 import '../../ui/components/dialog/custom_alert_dialog.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_all_provider.dart';
-import '../../ui/screens/clinic_activity/providers/item_list_approve_provider copy.dart';
+import '../../ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
 import '../../ui/screens/clinic_detail_approval/clinic_detail_approval_screen.dart';

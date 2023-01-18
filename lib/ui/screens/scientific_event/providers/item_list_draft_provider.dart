@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../../data/network/entity/clinic_response.dart';
-import '../../../../data/network/services/clinic_activity_service.dart';
+import '../../../../data/network/entity/scientific_response.dart';
+import '../../../../data/network/services/scientific_activity_service.dart';
 import '../../../../main.dart';
 
 class ItemListDraftScientificProvider extends ChangeNotifier {
-  final clinicActivityService = getIt<ClinicActivityService>();
-  final List<Clinic> listScientific = [];
+  final scientificActivityService = getIt<ScientificActivityService>();
+  final List<Scientific> listScientific = [];
   bool loading = false;
 
   ItemListDraftScientificProvider() {
@@ -18,7 +18,7 @@ class ItemListDraftScientificProvider extends ChangeNotifier {
     loading = true;
     notifyListeners();
     final result =
-        await clinicActivityService.getListClinic(status: 0, idFlow: 2);
+        await scientificActivityService.getListScientific(status: 0, idFlow: 2);
 
     if (result.statusCode == 200) {
       listScientific.clear();

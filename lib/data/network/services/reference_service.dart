@@ -69,15 +69,19 @@ class ReferenceService extends ReferenceApiInterface {
 
   @override
   Future<ResultData<ItemReferenceResponse>> getReferenceItem({
-    required int idFeature,
+    int? idFeature,
     required int idJenis,
   }) async {
     final endpoint = '${ApiConfig.baseUrl}/item/get';
     debugPrint(endpoint);
     final body = {
-      'id_feature': idFeature.toString(),
       'id_jenis': idJenis.toString(),
     };
+
+    if (idFeature != null) {
+      body['id_feature'] = idFeature.toString();
+    }
+
     debugPrint(jsonEncode(body));
     try {
       final response = await apiClient.post(Uri.parse(endpoint), body: body);

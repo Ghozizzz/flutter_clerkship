@@ -10,6 +10,7 @@ class ReferenceProvider extends ChangeNotifier {
   final referenceService = getIt<ReferenceService>();
   final List<Departemen> departemen = [];
   final List<ItemReference> jenisKegiatan = [];
+  final List<ItemReference> peran = [];
   final List<ItemReference> penyakit = [];
   final List<ItemReference> keterampilan = [];
   final List<ItemReference> prosedur = [];
@@ -27,6 +28,7 @@ class ReferenceProvider extends ChangeNotifier {
     keterampilan.clear();
     prosedur.clear();
     gejala.clear();
+    peran.clear();
     notifyListeners();
   }
 
@@ -85,6 +87,15 @@ class ReferenceProvider extends ChangeNotifier {
     if (result.statusCode == 200) {
       gejala.clear();
       gejala.addAll(result.data!.data!);
+      notifyListeners();
+    }
+  }
+
+  void getPeran() async {
+    final result = await referenceService.getReferenceItem(idJenis: 6);
+    if (result.statusCode == 200) {
+      peran.clear();
+      peran.addAll(result.data!.data!);
       notifyListeners();
     }
   }

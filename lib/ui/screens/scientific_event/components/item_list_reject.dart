@@ -7,8 +7,9 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
+import '../../add_scientific_event/add_scientific_event_screen.dart';
 import '../../clinic_activity/components/item_activity.dart';
-import '../../clinic_detail_approval/clinic_detail_approval_screen.dart';
+import '../../scientific_event_detail_approval/scientific_event_approval_screen.dart';
 import '../providers/item_list_reject_provider.dart';
 
 class ListItemRejectScientific extends StatelessWidget {
@@ -61,9 +62,16 @@ class ListItemRejectScientific extends StatelessWidget {
               status: status,
               colorStatus: color,
               onTap: () async {
-                NavHelper.navigatePush(
-                  const ClinicDetailApprovalScreen(id: 1),
-                );
+                if (listAllScientific[k].status == 0) {
+                  NavHelper.navigatePush(
+                    AddScientificEventScreen(id: listAllScientific[k].id!),
+                  );
+                } else {
+                  NavHelper.navigatePush(
+                    ScientificEventDetailApprovalScreen(
+                        id: listAllScientific[k].id!),
+                  );
+                }
               },
             ).addMarginBottom(12),
           );

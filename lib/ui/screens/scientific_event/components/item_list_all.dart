@@ -7,9 +7,9 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
-import '../../add_clinic_activity/add_clinic_activity_screen.dart';
+import '../../add_scientific_event/add_scientific_event_screen.dart';
 import '../../clinic_activity/components/item_activity.dart';
-import '../../clinic_detail_approval/clinic_detail_approval_screen.dart';
+import '../../scientific_event_detail_approval/scientific_event_approval_screen.dart';
 import '../providers/item_list_all_provider.dart';
 
 class ListItemAllScientific extends StatelessWidget {
@@ -64,11 +64,12 @@ class ListItemAllScientific extends StatelessWidget {
               onTap: () async {
                 if (listAllScientific[k].status == 0) {
                   NavHelper.navigatePush(
-                    AddClinicActivityScreen(id: listAllScientific[k].id!),
+                    AddScientificEventScreen(id: listAllScientific[k].id!),
                   );
                 } else {
                   NavHelper.navigatePush(
-                    ClinicDetailApprovalScreen(id: listAllScientific[k].id!),
+                    ScientificEventDetailApprovalScreen(
+                        id: listAllScientific[k].id!),
                   );
                 }
               },

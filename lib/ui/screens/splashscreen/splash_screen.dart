@@ -11,6 +11,7 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/network/services/auth_service.dart';
+import '../../../data/network/services/scientific_activity_service.dart';
 import '../../../data/shared_providers/auth_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
@@ -33,6 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
     getIt.registerSingleton<ReferenceService>(ReferenceService());
     getIt.registerSingleton<UserService>(UserService());
     getIt.registerSingleton<ClinicActivityService>(ClinicActivityService());
+    getIt.registerSingleton<ScientificActivityService>(
+        ScientificActivityService());
 
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () async {

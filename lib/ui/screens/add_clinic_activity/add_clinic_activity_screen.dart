@@ -62,7 +62,6 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
   List<DropDownItem> listProsedurSelected = [];
   List<DropDownItem> listKeterampilanSelected = [];
   List<DropDownItem> listGejalaSelected = [];
-  List<SelectedFile> listSelectedFile = [];
 
   @override
   void initState() {
@@ -135,9 +134,6 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     }
 
     for (ClinicDocument element in listDocument) {
-      listSelectedFile.add(SelectedFile(
-          id: element.id.toString(), file: File(element.fileName!)));
-
       listExistingLampiran.add(ExistingLampiran(
           id: element.id, fileName: element.fileName!, flagDelete: 0));
 

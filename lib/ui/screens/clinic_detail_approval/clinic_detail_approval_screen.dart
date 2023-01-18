@@ -11,8 +11,8 @@ import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:clerkship/ui/screens/clinic_detail_approval/components/item_info_segment.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +21,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../clinic_activity/providers/item_list_all_provider.dart';
-import '../clinic_activity/providers/item_list_approve_provider copy.dart';
+import '../clinic_activity/providers/item_list_approve_provider.dart';
 import '../clinic_activity/providers/item_list_draft_provider.dart';
 import '../clinic_activity/providers/item_list_reject_provider.dart';
 import 'components/bullet_list.dart';
@@ -50,7 +50,7 @@ class _ClinicDetailApprovalScreenState
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
+    Tools.onViewCreated(() async {
       loading = true;
       await context
           .read<ClinicActivityProvider>()

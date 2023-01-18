@@ -7,6 +7,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
+import '../../add_clinic_activity/add_clinic_activity_screen.dart';
 import '../../clinic_detail_approval/clinic_detail_approval_screen.dart';
 import '../providers/item_list_draft_provider.dart';
 import 'item_activity.dart';
@@ -61,9 +62,15 @@ class ListItemDraftClinic extends StatelessWidget {
               status: status,
               colorStatus: color,
               onTap: () async {
-                NavHelper.navigatePush(
-                  const ClinicDetailApprovalScreen(id: 1),
-                );
+                if (listAllClinic[k].status == 0) {
+                  NavHelper.navigatePush(
+                    AddClinicActivityScreen(id: listAllClinic[k].id!),
+                  );
+                } else {
+                  NavHelper.navigatePush(
+                    ClinicDetailApprovalScreen(id: listAllClinic[k].id!),
+                  );
+                }
               },
             ).addMarginBottom(12),
           );

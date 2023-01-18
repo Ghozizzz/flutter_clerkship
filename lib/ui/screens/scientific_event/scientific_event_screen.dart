@@ -100,7 +100,7 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
-                      NavHelper.navigatePush(AddScientificEventScreen());
+                      NavHelper.navigatePush(const AddScientificEventScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),

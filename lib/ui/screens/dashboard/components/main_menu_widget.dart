@@ -1,5 +1,5 @@
 import 'package:clerkship/data/shared_providers/reference_provider.dart';
-import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider%20copy.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
 import 'package:clerkship/ui/screens/final_assessment/final_assessment_screen.dart';
@@ -14,7 +14,7 @@ import '../../../../utils/nav_helper.dart';
 import '../../clinic_activity/clinic_activity_screen.dart';
 import '../../clinic_activity/providers/item_list_all_provider.dart';
 import '../../scientific_event/providers/item_list_all_provider.dart';
-import '../../scientific_event/providers/item_list_approve_provider copy.dart';
+import '../../scientific_event/providers/item_list_approve_provider.dart';
 import '../../scientific_event/providers/item_list_draft_provider.dart';
 import '../../scientific_event/providers/item_list_reject_provider.dart';
 import '../../scientific_event/scientific_event_screen.dart';
