@@ -5,6 +5,10 @@ import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_pro
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider%20copy.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
+import 'package:clerkship/ui/screens/scientific_event/providers/item_list_all_provider.dart';
+import 'package:clerkship/ui/screens/scientific_event/providers/item_list_approve_provider%20copy.dart';
+import 'package:clerkship/ui/screens/scientific_event/providers/item_list_draft_provider.dart';
+import 'package:clerkship/ui/screens/scientific_event/providers/item_list_reject_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
@@ -21,6 +25,11 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => ItemListDraftClinicProvider()),
       ChangeNotifierProvider(create: (_) => ItemListApproveClinicProvider()),
       ChangeNotifierProvider(create: (_) => ItemListRejectClinicProvider()),
+      ChangeNotifierProvider(create: (_) => ItemListAllScientificProvider()),
+      ChangeNotifierProvider(create: (_) => ItemListDraftScientificProvider()),
+      ChangeNotifierProvider(
+          create: (_) => ItemListApproveScientificProvider()),
+      ChangeNotifierProvider(create: (_) => ItemListRejectScientificProvider()),
     ],
     child: const MyApp(),
   );

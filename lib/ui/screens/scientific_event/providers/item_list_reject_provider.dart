@@ -5,24 +5,24 @@ import '../../../../data/network/entity/clinic_response.dart';
 import '../../../../data/network/services/clinic_activity_service.dart';
 import '../../../../main.dart';
 
-class ItemListApproveClinicProvider extends ChangeNotifier {
+class ItemListRejectScientificProvider extends ChangeNotifier {
   final clinicActivityService = getIt<ClinicActivityService>();
-  final List<Clinic> listClinic = [];
+  final List<Clinic> listScientific = [];
   bool loading = false;
 
-  ItemListApproveClinicProvider() {
-    getListClinic();
+  ItemListRejectScientificProvider() {
+    getListScientific();
   }
 
-  void getListClinic() async {
+  void getListScientific() async {
     loading = true;
     notifyListeners();
     final result =
-        await clinicActivityService.getListClinic(status: 1, idFlow: 1);
+        await clinicActivityService.getListClinic(status: 9, idFlow: 2);
 
     if (result.statusCode == 200) {
-      listClinic.clear();
-      listClinic.addAll(result.data!.data!.list!);
+      listScientific.clear();
+      listScientific.addAll(result.data!.data!.list!);
     } else {
       Fluttertoast.showToast(msg: result.data!.message!);
     }

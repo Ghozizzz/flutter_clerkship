@@ -17,7 +17,8 @@ class ItemListDraftClinicProvider extends ChangeNotifier {
   void getListClinic() async {
     loading = true;
     notifyListeners();
-    final result = await clinicActivityService.getListClinic(status: 0);
+    final result =
+        await clinicActivityService.getListClinic(status: 0, idFlow: 1);
 
     if (result.statusCode == 200) {
       listClinic.clear();

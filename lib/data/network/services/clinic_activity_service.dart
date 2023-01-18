@@ -69,13 +69,19 @@ class ClinicActivityService extends ClinicActivityInterface {
   }
 
   @override
-  Future<ResultData<ClinicResponse>> getListClinic({int? status}) async {
+  Future<ResultData<ClinicResponse>> getListClinic(
+      {int? status, int? idFlow}) async {
     final endpoint = '${ApiConfig.baseUrl}/logbook/list';
     debugPrint(endpoint);
     final body = {};
     if (status != null) {
       body['status'] = status.toString();
     }
+
+    if (idFlow != null) {
+      body['id_flow'] = idFlow.toString();
+    }
+
     debugPrint(jsonEncode(body));
     try {
       final response = await apiClient.post(Uri.parse(endpoint), body: body);

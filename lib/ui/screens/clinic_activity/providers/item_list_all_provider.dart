@@ -18,7 +18,7 @@ class ItemListAllClinicProvider extends ChangeNotifier {
   void getListClinic() async {
     loading = true;
     notifyListeners();
-    final result = await clinicActivityService.getListClinic();
+    final result = await clinicActivityService.getListClinic(idFlow: 1);
 
     if (result.statusCode == 200) {
       listClinic.clear();

@@ -13,6 +13,10 @@ import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../clinic_activity/clinic_activity_screen.dart';
 import '../../clinic_activity/providers/item_list_all_provider.dart';
+import '../../scientific_event/providers/item_list_all_provider.dart';
+import '../../scientific_event/providers/item_list_approve_provider copy.dart';
+import '../../scientific_event/providers/item_list_draft_provider.dart';
+import '../../scientific_event/providers/item_list_reject_provider.dart';
 import '../../scientific_event/scientific_event_screen.dart';
 import 'item_menu.dart';
 
@@ -47,6 +51,21 @@ class MainMenuWidget extends StatelessWidget {
               title: 'Acara\nIlmiah',
               onTap: () {
                 NavHelper.navigatePush(const ScientificEventScreen());
+                context
+                    .read<ItemListAllScientificProvider>()
+                    .getListScientific();
+                context
+                    .read<ItemListDraftScientificProvider>()
+                    .getListScientific();
+                context
+                    .read<ItemListApproveScientificProvider>()
+                    .getListScientific();
+                context
+                    .read<ItemListRejectScientificProvider>()
+                    .getListScientific();
+                context.read<ReferenceProvider>().getBatch(
+                      idFlow: 2,
+                    );
               },
             ).addExpanded,
           ],
