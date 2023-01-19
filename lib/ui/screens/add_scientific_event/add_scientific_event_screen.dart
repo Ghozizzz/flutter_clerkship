@@ -206,6 +206,13 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
                       ).addMarginBottom(8),
                       FilePickerButton(
                         controller: attachmentController,
+                        onDelete: (SelectedFile file) {
+                          listExistingLampiran
+                              .where(
+                                  (element) => element.id.toString() == file.id)
+                              .first
+                              .flagDelete = 1;
+                        },
                       ).addMarginBottom(8),
                       Text(
                         'pdf, jpg, png, xlsx, xls, jpeg, docx, doc, csv, txt, ppt, pptx with maximum size 10MB',
@@ -334,7 +341,8 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
 
   void doUpdateScientific(BuildContext context, String status) {
     List<SelectedFile> newFile = [];
-    if (attachmentController.selectedFiles.isNotEmpty) {
+    if (attachmentController.selectedFiles.isNotEmpty &&
+        listExistingLampiran.isNotEmpty) {
       attachmentController.selectedFiles.where((element) {
         return listExistingLampiran
             .where((e) => e.id.toString() != element.id)
@@ -342,6 +350,8 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
       }).forEach((element) {
         newFile.add(element);
       });
+    } else {
+      newFile.addAll(attachmentController.selectedFiles);
     }
 
     context.read<ScientificActivityProvider>().updateScientificActivity(

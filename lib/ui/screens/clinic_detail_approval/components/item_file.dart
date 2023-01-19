@@ -6,18 +6,21 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
-import '../../../components/commons/flat_card.dart';
 
 class ItemFile extends StatelessWidget {
   final String title;
+  final VoidCallback? onTap;
   const ItemFile({
     super.key,
     required this.title,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FlatCard(
+    return RippleButton(
+      onTap: onTap,
+      padding: EdgeInsets.zero,
       border: Border.all(color: Themes.stroke),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,9 +28,8 @@ class ItemFile extends StatelessWidget {
           Text(
             title,
             style: Themes().black12?.withUnderline(offset: 2),
-          ).addMarginLeft(12.w),
+          ).addMarginLeft(12.w).addFlexible,
           RippleButton(
-            onTap: () {},
             child: SvgPicture.asset(
               AssetIcons.icDownload,
               color: Themes.primary,

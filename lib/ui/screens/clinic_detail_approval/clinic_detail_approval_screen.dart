@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/shared_providers/clinic_activity_provider.dart';
@@ -12,10 +16,13 @@ import 'package:clerkship/ui/screens/clinic_detail_approval/components/item_info
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:clerkship/utils/tools.dart';
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -46,6 +53,7 @@ class _ClinicDetailApprovalScreenState
   List<ClinicDocument> listDocument = [];
   String status = 'Waiting';
   Color backgroundColor = Themes.yellow;
+  final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
@@ -87,6 +95,29 @@ class _ClinicDetailApprovalScreenState
         }
       });
     });
+
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String taskId = data[0];
+      DownloadTaskStatus status = data[1];
+      // int progress = data[2];
+      if (status == DownloadTaskStatus.complete) {
+        DialogHelper.closeDialog();
+        Fluttertoast.showToast(
+          msg: 'Download selesai',
+        );
+        FlutterDownloader.remove(taskId: taskId, shouldDeleteContent: false);
+      } else if (status == DownloadTaskStatus.failed) {
+        DialogHelper.closeDialog();
+        Fluttertoast.showToast(
+          msg: 'Download gagal',
+        );
+        FlutterDownloader.remove(taskId: taskId, shouldDeleteContent: false);
+      }
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @override
@@ -215,12 +246,16 @@ class _ClinicDetailApprovalScreenState
                             'Catatan',
                             style: Themes().blackBold12?.withColor(Themes.hint),
                           ).addMarginTop(20),
-                          Text(
-                            headerData.remarks!,
-                            style: Themes().black12,
-                          ).addMarginOnly(
-                            top: 8,
-                            bottom: 20,
+                          Opacity(
+                            opacity: 0.8,
+                            child: FleatherEditor(
+                              readOnly: true,
+                              controller: headerData.remarks != null
+                                  ? FleatherController(
+                                      ParchmentDocument.fromJson(
+                                          jsonDecode(headerData.remarks!)))
+                                  : FleatherController(),
+                            ),
                           ),
                         ],
                       ),
@@ -241,6 +276,21 @@ class _ClinicDetailApprovalScreenState
                       children: List.generate(
                         listDocument.length,
                         (index) => ItemFile(
+                          onTap: () async {
+                            if (await Permission.storage.request().isGranted) {
+                              DialogHelper.showProgressDialog();
+                              await FlutterDownloader.cancelAll();
+                              await FlutterDownloader.enqueue(
+                                url: listDocument[index].fileUrl!,
+                                headers: {}, // optional: header send with url (auth token etc)
+                                savedDir: '/storage/emulated/0/Download/',
+                                showNotification:
+                                    true, // show download progress in status bar (for Android)
+                                openFileFromNotification:
+                                    true, // click on notification to open downloaded file (for Android)
+                              );
+                            }
+                          },
                           title: listDocument[index].fileName!,
                         ).addMarginBottom(12),
                       ),
@@ -280,5 +330,19 @@ class _ClinicDetailApprovalScreenState
         });
       },
     );
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send?.send([id, status, progress]);
   }
 }

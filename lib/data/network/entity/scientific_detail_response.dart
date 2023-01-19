@@ -144,6 +144,7 @@ class ScientificDocument {
     this.id,
     this.idTrx,
     this.fileName,
+    this.fileUrl,
     this.createdBy,
     this.createdAt,
     this.updatedAt,
@@ -152,6 +153,7 @@ class ScientificDocument {
   int? id;
   int? idTrx;
   String? fileName;
+  String? fileUrl;
   int? createdBy;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -161,6 +163,7 @@ class ScientificDocument {
         id: json['id'],
         idTrx: json['id_trx'],
         fileName: json['file_name'],
+        fileUrl: json['file_url'],
         createdBy: json['created_by'],
         createdAt: json['created_at'] == null
             ? null
@@ -174,6 +177,7 @@ class ScientificDocument {
         'id': id,
         'id_trx': idTrx,
         'file_name': fileName,
+        'file_url': fileUrl,
         'created_by': createdBy,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),

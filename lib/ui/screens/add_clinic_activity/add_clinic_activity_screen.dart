@@ -504,7 +504,8 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     listGejalaSelected.addAll(symptomsController.selected ?? []);
 
     List<SelectedFile> newFile = [];
-    if (filePickerController.selectedFiles.isNotEmpty) {
+    if (filePickerController.selectedFiles.isNotEmpty &&
+        listExistingLampiran.isNotEmpty) {
       filePickerController.selectedFiles.where((element) {
         return listExistingLampiran
             .where((e) => e.id.toString() != element.id)
@@ -512,24 +513,26 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
       }).forEach((element) {
         newFile.add(element);
       });
+    } else {
+      newFile.addAll(filePickerController.selectedFiles);
     }
+
     context.read<ClinicActivityProvider>().updateClinicActivity(
-          context: context,
-          id: widget.id!,
-          status: status,
-          tanggal: dateController.selected!,
-          jam: timeController.selected!,
-          departemen: departmentController.selected!,
-          jenisKegiatan: activityTypeController.selected!,
-          catatan: jsonEncode(noteController?.document.toJson()),
-          gejala: listGejalaSelected,
-          keterampilan: listKeterampilanSelected,
-          lampiran: newFile,
-          existingDocument: listExistingLampiran,
-          penyakit: listPenyakitSelected,
-          prosedur: listProsedurSelected,
-          preseptor: doctorController.selected,
-        );
+        context: context,
+        id: widget.id!,
+        status: status,
+        tanggal: dateController.selected!,
+        jam: timeController.selected!,
+        departemen: departmentController.selected!,
+        jenisKegiatan: activityTypeController.selected!,
+        catatan: jsonEncode(noteController?.document.toJson()),
+        gejala: listGejalaSelected,
+        keterampilan: listKeterampilanSelected,
+        lampiran: newFile,
+        existingDocument: listExistingLampiran,
+        penyakit: listPenyakitSelected,
+        prosedur: listProsedurSelected,
+        preseptor: doctorController.selected);
   }
 
   void checkBtnEnable() {
