@@ -1,3 +1,4 @@
+import 'package:clerkship/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +19,8 @@ void main() async {
     ignoreSsl:
         true, // option: set to false to disable working with http links (default: false)
   );
+
+  FlutterDownloader.registerCallback(MyApp.downloadCallback);
 
   const String environment = String.fromEnvironment(
     'ENVIRONMENT',
