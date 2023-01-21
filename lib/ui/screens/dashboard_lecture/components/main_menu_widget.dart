@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/screens/clinic_activity_lecture/clinic_activity_lecture_screen.dart';
 import 'package:clerkship/ui/screens/final_assessment/final_assessment_screen.dart';
 import 'package:clerkship/ui/screens/standard_competency/standard_competency_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
-import '../../clinic_activity/clinic_activity_screen.dart';
 import '../../scientific_event/scientific_event_screen.dart';
 import 'item_menu.dart';
 
@@ -25,7 +25,7 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icClinicActivity,
               title: 'Kegiatan\nKlinik',
               onTap: () {
-                NavHelper.navigatePush(const ClinicActivityScreen());
+                NavHelper.navigatePush(const ClinicActivityLectureScreen());
               },
             ).addExpanded,
             Container(width: 20.w),
