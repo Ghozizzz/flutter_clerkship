@@ -18,6 +18,7 @@ import '../../../../config/themes.dart';
 import '../../../components/commons/primary_checkbox.dart';
 import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
+import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
@@ -84,14 +85,56 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             'Jaga Malam',
             style: Themes().blackBold14?.withColor(Themes.black),
           ),
-          const ItemKeyValue(
-            title: 'Mahasiswa',
-            value: 'Bhima Saputra',
-          ),
-          const ItemKeyValue(
-            title: 'Departemen',
-            value: 'Ilmu Penyakit Dalam',
-          ).addMarginBottom(12),
+          if (widget.rated)
+            Column(
+              children: [
+                const ItemInfoSegment(
+                  title: 'Tanggal',
+                  value: '10 August 2022',
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ),
+                ItemInfoSegment(
+                  title: 'Preseptor',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  valueWidget: Row(
+                    children: [
+                      ClipOval(
+                        child: Image.asset(
+                          AssetImages.avatar,
+                          width: 24.w,
+                          height: 24.w,
+                          fit: BoxFit.cover,
+                        ),
+                      ).addMarginRight(8.w),
+                      Text(
+                        'dr Budiman',
+                        style: Themes().blackBold12,
+                      ),
+                    ],
+                  ),
+                ),
+                const ItemInfoSegment(
+                  title: 'Departemen',
+                  value: 'Ilmu Penyakit Dalam',
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ).addMarginBottom(12),
+              ],
+            )
+          else
+            Column(
+              children: [
+                const ItemInfoSegment(
+                  title: 'Mahasiswa',
+                  value: 'Bhima Saputra',
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ),
+                const ItemInfoSegment(
+                  title: 'Departemen',
+                  value: 'Ilmu Penyakit Dalam',
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ).addMarginBottom(12),
+              ],
+            ),
           ValueListenableBuilder(
             valueListenable: expandableController,
             builder: (context, value, _) {
@@ -245,43 +288,6 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             )
         ],
       ),
-    );
-  }
-}
-
-class ItemKeyValue extends StatelessWidget {
-  final String title;
-  final String value;
-
-  const ItemKeyValue({
-    Key? key,
-    required this.title,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: Themes().gray12?.boldText(),
-            ),
-            Text(
-              value,
-              style: Themes().black12?.withColor(Themes.black),
-            ),
-          ],
-        ).addSymmetricMargin(vertical: 12),
-        Container(
-          width: double.infinity,
-          height: 1,
-          color: Themes.stroke,
-        ),
-      ],
     );
   }
 }
