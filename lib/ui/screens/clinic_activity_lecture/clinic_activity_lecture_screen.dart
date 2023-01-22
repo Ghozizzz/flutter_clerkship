@@ -59,13 +59,15 @@ class _ClinicActivityLectureScreenState
             controller: tabController,
             children: List.generate(
               2,
-              (index) => ListView.builder(
+              (pageIndex) => ListView.builder(
                 itemCount: 12,
                 padding: EdgeInsets.all(20.w),
                 itemBuilder: (context, index) {
                   return AnimatedItem(
                     index: index,
-                    child: const ItemGroupClinicActivity(),
+                    child: ItemGroupClinicActivity(
+                      rated: pageIndex == 1,
+                    ),
                   ).addMarginBottom(20);
                 },
               ),

@@ -5,7 +5,12 @@ import 'package:widget_helper/widget_helper.dart';
 import 'item_clinic_activity.dart';
 
 class ItemGroupClinicActivity extends StatelessWidget {
-  const ItemGroupClinicActivity({super.key});
+  final bool rated;
+
+  const ItemGroupClinicActivity({
+    super.key,
+    this.rated = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class ItemGroupClinicActivity extends StatelessWidget {
         Column(
           children: List.generate(
             2,
-            (index) => ItemClinicActivity().addMarginBottom(20),
+            (index) => ItemClinicActivity(rated: rated).addMarginBottom(20),
           ),
         ),
       ],
