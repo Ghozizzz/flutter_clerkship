@@ -177,6 +177,7 @@ class ClinicActivityReviewScreen extends StatelessWidget {
                     height: 300,
                     child: RichTextEditor(
                       controller: noteController,
+                      hint: 'Tulis catatan di sini',
                     ),
                   ).addMarginBottom(20),
                   PrimaryButton(

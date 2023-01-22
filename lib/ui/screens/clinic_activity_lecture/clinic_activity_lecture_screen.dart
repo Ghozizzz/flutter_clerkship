@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/screens/clinic_activity_lecture/components/footer_widget.dart';
 import 'package:clerkship/ui/screens/clinic_activity_lecture/components/item_group_clinic_activity.dart';
 import 'package:clerkship/ui/screens/clinic_activity_lecture/components/filter_header.dart';
 import 'package:flutter/material.dart';
@@ -59,17 +60,22 @@ class _ClinicActivityLectureScreenState
             controller: tabController,
             children: List.generate(
               2,
-              (pageIndex) => ListView.builder(
-                itemCount: 12,
-                padding: EdgeInsets.all(20.w),
-                itemBuilder: (context, index) {
-                  return AnimatedItem(
-                    index: index,
-                    child: ItemGroupClinicActivity(
-                      rated: pageIndex == 1,
-                    ),
-                  ).addMarginBottom(20);
-                },
+              (pageIndex) => Column(
+                children: [
+                  ListView.builder(
+                    itemCount: 12,
+                    padding: EdgeInsets.all(20.w),
+                    itemBuilder: (context, index) {
+                      return AnimatedItem(
+                        index: index,
+                        child: ItemGroupClinicActivity(
+                          rated: pageIndex == 1,
+                        ),
+                      ).addMarginBottom(20);
+                    },
+                  ).addExpanded,
+                  if (pageIndex == 0) const FooterWidget(),
+                ],
               ),
             ),
           ).addExpanded,

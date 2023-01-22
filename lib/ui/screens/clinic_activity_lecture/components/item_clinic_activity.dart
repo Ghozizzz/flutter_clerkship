@@ -228,7 +228,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                       },
                     );
                   },
-                  padding: EdgeInsets.all(14.w),
+                  padding: EdgeInsets.all(10.w),
                   color: Themes.red,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -267,7 +267,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                       },
                     );
                   },
-                  padding: EdgeInsets.all(14.w),
+                  padding: EdgeInsets.all(10.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
