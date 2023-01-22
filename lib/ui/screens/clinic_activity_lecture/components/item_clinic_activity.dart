@@ -4,6 +4,8 @@ import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
+import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -124,7 +126,19 @@ class ItemClinicActivity extends StatelessWidget {
           Row(
             children: [
               PrimaryButton(
-                onTap: () {},
+                onTap: () {
+                  DialogHelper.showModalConfirmation(
+                    title: 'Konfirmasi Penolakan',
+                    message: 'Silakan masukkan alasan penolakan di bawah ini.',
+                    type: ConfirmationType.withField,
+                    labelField: 'Alasan Penolakan',
+                    hintField: 'Masukkan Alasan Penolakan',
+                    onPositiveTapWithField: (fieldValue) {
+                      debugPrint(fieldValue);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
                 padding: EdgeInsets.all(14.w),
                 color: Themes.red,
                 child: Row(
@@ -147,7 +161,20 @@ class ItemClinicActivity extends StatelessWidget {
                 width: 8.w,
               ),
               PrimaryButton(
-                onTap: () {},
+                onTap: () {
+                  DialogHelper.showModalConfirmation(
+                    title: 'Konfirmasi Persetujuan',
+                    message: 'Apakah anda yakin ingin menyetujui catatan ini?',
+                    type: ConfirmationType.withField,
+                    labelField: 'Masukan',
+                    hintField: 'Masukkan Alasan Penolakan',
+                    optionalField: true,
+                    onPositiveTapWithField: (fieldValue) {
+                      debugPrint(fieldValue);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
                 padding: EdgeInsets.all(14.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
