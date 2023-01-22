@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:clerkship/ui/screens/dashboard_lecture/components/latest_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -14,8 +15,8 @@ import 'components/main_menu_widget.dart';
 import 'components/notification_bar.dart';
 import 'components/user_data_widget.dart';
 
-class StudentDashboardScreen extends StatelessWidget {
-  const StudentDashboardScreen({super.key});
+class DashboardLectureScreen extends StatelessWidget {
+  const DashboardLectureScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,7 @@ class StudentDashboardScreen extends StatelessWidget {
                   bottom: 40.h,
                 ),
                 const MainMenuWidget(),
+                const LatestNotification(),
                 Container().addExpanded,
                 SvgPicture.asset(
                   AssetImages.logoAlt,

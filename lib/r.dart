@@ -9,6 +9,7 @@ class AssetIcons {
 	static const String icBold = 'assets/icons/ic_bold.svg';
 	static const String icCalendar = 'assets/icons/ic_calendar.svg';
 	static const String icCheck = 'assets/icons/ic_check.svg';
+	static const String icChevronDown = 'assets/icons/ic_chevron_down.svg';
 	static const String icChevronLeft = 'assets/icons/ic_chevron_left.svg';
 	static const String icChevronRight = 'assets/icons/ic_chevron_right.svg';
 	static const String icClinicActivity = 'assets/icons/ic_clinic_activity.svg';

@@ -26,7 +26,7 @@ class FilterHeader extends StatelessWidget {
           hint: 'Tanggal',
           icon: SvgPicture.asset(
             AssetIcons.icChevronRight,
-          ).addMarginLeft(24.w),
+          ),
           textStyle: Themes().black12,
         ).addExpanded,
         Container(width: 10.w),
