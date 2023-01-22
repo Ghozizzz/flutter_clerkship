@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/screens/scientific_event_lecture/components/item_scientific_event.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -7,18 +8,17 @@ import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import 'components/filter_header.dart';
 import 'components/footer_widget.dart';
-import 'components/item_group_clinic_activity.dart';
 
-class ClinicActivityLectureScreen extends StatefulWidget {
-  const ClinicActivityLectureScreen({super.key});
+class ScientificEventLectureScreen extends StatefulWidget {
+  const ScientificEventLectureScreen({super.key});
 
   @override
-  State<ClinicActivityLectureScreen> createState() =>
-      _ClinicActivityLectureScreenState();
+  State<ScientificEventLectureScreen> createState() =>
+      _ScientificEventLectureScreenState();
 }
 
-class _ClinicActivityLectureScreenState
-    extends State<ClinicActivityLectureScreen>
+class _ScientificEventLectureScreenState
+    extends State<ScientificEventLectureScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -68,7 +68,7 @@ class _ClinicActivityLectureScreenState
                     itemBuilder: (context, index) {
                       return AnimatedItem(
                         index: index,
-                        child: ItemGroupClinicActivity(
+                        child: ItemScientificEvent(
                           rated: pageIndex == 1,
                         ),
                       ).addMarginBottom(20);

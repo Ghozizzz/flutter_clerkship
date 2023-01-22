@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/scientific_event_lecture/scientific_event_lecture_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -15,7 +17,9 @@ class ItemStudentActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {},
+      onTap: () {
+        NavHelper.navigatePush(const ScientificEventLectureScreen());
+      },
       border: Border.all(color: Themes.stroke),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
