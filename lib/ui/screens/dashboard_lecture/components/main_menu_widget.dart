@@ -1,5 +1,6 @@
 import 'package:clerkship/ui/screens/clinic_activity_lecture/clinic_activity_lecture_screen.dart';
 import 'package:clerkship/ui/screens/final_assessment/final_assessment_screen.dart';
+import 'package:clerkship/ui/screens/scientific_event_assessment/scientific_event_assessment_screen.dart';
 import 'package:clerkship/ui/screens/standard_competency/standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -7,7 +8,6 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
-import '../../scientific_event/scientific_event_screen.dart';
 import 'item_menu.dart';
 
 class MainMenuWidget extends StatelessWidget {
@@ -33,7 +33,7 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icScienceShow,
               title: 'Acara\nIlmiah',
               onTap: () {
-                NavHelper.navigatePush(const ScientificEventScreen());
+                NavHelper.navigatePush(const ScientificEventAssessmentScreen());
               },
             ).addExpanded,
           ],
