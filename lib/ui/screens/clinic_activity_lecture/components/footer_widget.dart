@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/reject_activity/reject_activity_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -19,7 +21,9 @@ class FooterWidget extends StatelessWidget {
       child: Row(
         children: [
           PrimaryButton(
-            onTap: () {},
+            onTap: () {
+              NavHelper.navigatePush(RejectActivityScreen());
+            },
             color: Themes.red,
             padding: EdgeInsets.all(14.w),
             child: Row(
