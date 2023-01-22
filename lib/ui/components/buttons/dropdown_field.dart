@@ -36,6 +36,7 @@ class DropdownField extends StatefulWidget {
   final bool? showSubtitle;
   final BoxShadow? shadow;
   final Color? textColor;
+  final bool withSearchField;
 
   const DropdownField({
     super.key,
@@ -54,6 +55,7 @@ class DropdownField extends StatefulWidget {
     this.showSubtitle = true,
     this.shadow,
     this.textColor,
+    this.withSearchField = true,
   });
 
   @override
@@ -117,6 +119,7 @@ class _DropdownFieldState<T> extends State<DropdownField> {
       context: context,
       isScrollControlled: true,
       builder: (context) => ModalDropDownWidget(
+        withSearchField: widget.withSearchField,
         onSelected: (item) {
           widget.controller.setSelected(item);
           if (widget.onSelected != null) widget.onSelected!(item);

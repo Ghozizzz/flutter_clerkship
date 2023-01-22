@@ -5,7 +5,9 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -170,8 +172,10 @@ class ItemClinicActivity extends StatelessWidget {
                     hintField: 'Masukkan Alasan Penolakan',
                     optionalField: true,
                     onPositiveTapWithField: (fieldValue) {
-                      debugPrint(fieldValue);
                       Navigator.pop(context);
+                      NavHelper.navigatePush(
+                        ClinicActivityReviewScreen(),
+                      );
                     },
                   );
                 },
