@@ -1,4 +1,4 @@
-import 'package:clerkship/data/shared_providers/reference_provider.dart';
+import 'package:clerkship/data/shared_providers/auth_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
@@ -40,9 +40,6 @@ class MainMenuWidget extends StatelessWidget {
                 context.read<ItemListDraftClinicProvider>().getListClinic();
                 context.read<ItemListApproveClinicProvider>().getListClinic();
                 context.read<ItemListRejectClinicProvider>().getListClinic();
-                context.read<ReferenceProvider>().getBatch(
-                      idFlow: 1,
-                    );
               },
             ).addExpanded,
             Container(width: 20.w),
@@ -63,9 +60,6 @@ class MainMenuWidget extends StatelessWidget {
                 context
                     .read<ItemListRejectScientificProvider>()
                     .getListScientific();
-                context.read<ReferenceProvider>().getBatch(
-                      idFlow: 2,
-                    );
               },
             ).addExpanded,
           ],
@@ -90,6 +84,17 @@ class MainMenuWidget extends StatelessWidget {
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
+        Row(
+          children: [
+            ItemMenu(
+              icon: AssetIcons.icStandartCompetence,
+              title: 'Logout',
+              onTap: () {
+                context.read<AuthProvider>().doLogout();
+              },
+            ).addExpanded,
+          ],
+        ).addSymmetricMargin(horizontal: 20.w).addMarginTop(20.h),
       ],
     );
   }

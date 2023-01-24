@@ -44,4 +44,25 @@ class AuthService extends AuthApiInterface {
       );
     }
   }
+
+  @override
+  Future<ResultData> doLogout() async {
+    final endpoint = '${ApiConfig.baseUrl}/logout';
+    debugPrint(endpoint);
+
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint));
+      debugPrint(response.body);
+
+      return ResultData(
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
 }

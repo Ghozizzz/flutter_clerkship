@@ -36,6 +36,24 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  void doLogout() async {
+    prefs ??= await SharedPreferences.getInstance();
+
+    DialogHelper.showProgressDialog();
+    final result = await authService.doLogout();
+    DialogHelper.closeDialog();
+
+    if (result.statusCode == 200) {
+      prefs?.remove(Constant.token);
+    } else {
+      DialogHelper.showMessageDialog(
+        title: 'Error',
+        body: result.data?.message,
+        alertType: AlertType.error,
+      );
+    }
+  }
+
   Future<bool> isLogged() async {
     prefs ??= await SharedPreferences.getInstance();
     final token = prefs?.getString(Constant.token);
