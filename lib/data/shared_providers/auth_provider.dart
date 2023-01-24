@@ -1,10 +1,12 @@
 import 'package:clerkship/ui/components/dialog/custom_alert_dialog.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/constant.dart';
 import '../../main.dart';
+import '../../ui/screens/login/login_screen.dart';
 import '../network/services/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -45,6 +47,7 @@ class AuthProvider extends ChangeNotifier {
 
     if (result.statusCode == 200) {
       prefs?.remove(Constant.token);
+      NavHelper.navigateReplace(LoginScreen());
     } else {
       DialogHelper.showMessageDialog(
         title: 'Error',
