@@ -40,16 +40,24 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
   void initState() {
     super.initState();
     result.addAll(widget.items);
-    final selectedValues = [
-      for (DropDownItem item in widget.selected) item.value
-    ];
-
-    for (DropDownItem item in result) {
-      item.selected = selectedValues.contains(item.value);
-      if (item.value == -1) item.other = widget.selected.last.other;
+    final selectedValues = {};
+    for (DropDownItem item in widget.selected) {
+      selectedValues[item.value] = item.id;
     }
 
-    otherController.text = widget.selected.last.other;
+    for (DropDownItem item in result) {
+      if (selectedValues.keys.contains(item.value)) {
+        item.selected = true;
+        item.id = selectedValues[item.value];
+      }
+      if (item.value == -1 && widget.selected.isNotEmpty) {
+        item.other = widget.selected.last.other;
+      }
+    }
+
+    if (widget.selected.isNotEmpty) {
+      otherController.text = widget.selected.last.other;
+    }
   }
 
   Widget listView() => ListView.builder(
