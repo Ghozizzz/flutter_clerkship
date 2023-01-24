@@ -1,4 +1,5 @@
 import 'package:clerkship/data/shared_providers/auth_provider.dart';
+import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -16,7 +17,6 @@ import '../../components/commons/primary_checkbox.dart';
 import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/password_textarea.dart';
 import '../../components/textareas/textarea.dart';
-import '../dashboard/student_dashboard_screen.dart';
 import '../forgot_password/forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                           onFinish: (success) {
                             if (success) {
                               NavHelper.navigateReplace(
-                                const StudentDashboardScreen(),
+                                const DashboardStudentScreen(),
                               );
                             }
                           },

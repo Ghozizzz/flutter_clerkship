@@ -13,12 +13,14 @@ class ModalDropDownWidget extends StatefulWidget {
   final Function(DropDownItem value) onSelected;
   final List<DropDownItem> items;
   final dynamic selected;
+  final bool withSearchField;
 
   const ModalDropDownWidget({
     super.key,
     required this.onSelected,
     required this.items,
     required this.selected,
+    this.withSearchField = true,
   });
 
   @override
@@ -121,31 +123,32 @@ class _ModalDropDownWidgetState extends State<ModalDropDownWidget> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TextArea(
-              focusNode: focusNode,
-              hint: 'Cari',
-              controller: searchController,
-              onChangedText: (text) {
-                result.clear();
-                for (DropDownItem item in widget.items) {
-                  if (item.title.toLowerCase().contains(text)) {
-                    result.add(item);
+            if (widget.withSearchField)
+              TextArea(
+                focusNode: focusNode,
+                hint: 'Cari',
+                controller: searchController,
+                onChangedText: (text) {
+                  result.clear();
+                  for (DropDownItem item in widget.items) {
+                    if (item.title.toLowerCase().contains(text)) {
+                      result.add(item);
+                    }
                   }
-                }
-                setState(() {});
-              },
-              endIcon: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  color: Themes.hint,
+                  setState(() {});
+                },
+                endIcon: Padding(
+                  padding: EdgeInsets.all(12.w),
+                  child: SvgPicture.asset(
+                    AssetIcons.icSearch,
+                    color: Themes.hint,
+                  ),
                 ),
+              ).addMarginOnly(
+                top: 20.w,
+                left: 20.w,
+                right: 20.w,
               ),
-            ).addMarginOnly(
-              top: 20.w,
-              left: 20.w,
-              right: 20.w,
-            ),
             result.length > 8 || focusNode.hasFocus
                 ? listView().addExpanded
                 : listView(),

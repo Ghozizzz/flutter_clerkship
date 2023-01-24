@@ -98,8 +98,8 @@ class _CalendarViewState extends State<CalendarView> {
                               1,
                             ));
                             setPageDate(DateTime(
-                              selectedDate.year,
-                              selectedDate.month - 1,
+                              pageDate.year,
+                              pageDate.month - 1,
                               1,
                             ));
                           },
@@ -122,8 +122,8 @@ class _CalendarViewState extends State<CalendarView> {
                               1,
                             ));
                             setPageDate(DateTime(
-                              selectedDate.year,
-                              selectedDate.month + 1,
+                              pageDate.year,
+                              pageDate.month + 1,
                               1,
                             ));
                           },

@@ -68,6 +68,8 @@ class MultiDropdownField extends StatefulWidget {
     DropDownItem item,
     Function(DropDownItem item) onRemoveItem,
   )? customItem;
+  final bool showSelected;
+  final TextStyle? textStyle;
 
   const MultiDropdownField({
     super.key,
@@ -89,6 +91,8 @@ class MultiDropdownField extends StatefulWidget {
     this.customItem,
     this.isOtherItem = false,
     this.onRemoveItem,
+    this.showSelected = true,
+    this.textStyle,
   });
 
   @override
@@ -113,15 +117,16 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
           builder: (context, value, _) {
             return Column(
               children: [
-                Column(
-                  children: (widget.controller.selected ?? [])
-                      .map(
-                        (e) =>
-                            widget.customItem?.call(e, removeItem) ??
-                            defaultItem(e),
-                      )
-                      .toList(),
-                ),
+                if (widget.showSelected)
+                  Column(
+                    children: (widget.controller.selected ?? [])
+                        .map(
+                          (e) =>
+                              widget.customItem?.call(e, removeItem) ??
+                              defaultItem(e),
+                        )
+                        .toList(),
+                  ),
                 FlatCard(
                   shadow: widget.shadow,
                   borderRadius: BorderRadius.circular(8),
@@ -140,12 +145,27 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            widget.hint ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Themes().black12?.withColor(Themes.hint),
-                          ).addExpanded,
+                          if (widget.showSelected ||
+                              (widget.controller.selected ?? []).isEmpty)
+                            Text(
+                              widget.hint ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: (widget.textStyle ?? Themes().black14)
+                                  ?.withColor(Themes.hint),
+                            ).addExpanded
+                          else if ((widget.controller.selected ?? [])
+                              .isNotEmpty)
+                            Text(
+                              [
+                                for (DropDownItem item
+                                    in (widget.controller.selected ?? []))
+                                  item.title
+                              ].join(','),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: widget.textStyle ?? Themes().black14,
+                            ).addExpanded,
                           widget.icon ??
                               SvgPicture.asset(
                                 AssetIcons.icChevronRight,
