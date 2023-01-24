@@ -5,6 +5,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/shared_providers/reference_provider.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
 import '../../add_clinic_activity/add_clinic_activity_screen.dart';
@@ -63,6 +64,9 @@ class ListItemRejectClinic extends StatelessWidget {
               colorStatus: color,
               onTap: () async {
                 if (listAllClinic[k].status == 0) {
+                  context.read<ReferenceProvider>().getBatch(
+                        idFlow: 1,
+                      );
                   NavHelper.navigatePush(
                     AddClinicActivityScreen(id: listAllClinic[k].id!),
                   );

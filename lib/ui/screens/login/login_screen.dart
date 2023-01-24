@@ -8,6 +8,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/user_provider.dart';
 import '../../../r.dart';
 import '../../../utils/dialog_helper.dart';
 import '../../../utils/nav_helper.dart';
@@ -116,6 +117,8 @@ class LoginScreen extends StatelessWidget {
                           password: passwordController.text,
                           onFinish: (success) {
                             if (success) {
+                              context.read<UserProvider>().getCurrentUser();
+
                               NavHelper.navigateReplace(
                                 const DashboardStudentScreen(),
                               );

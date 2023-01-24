@@ -5,6 +5,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/shared_providers/reference_provider.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/commons/animated_item.dart';
 import '../../add_scientific_event/add_scientific_event_screen.dart';
@@ -63,6 +64,9 @@ class ListItemApproveScientific extends StatelessWidget {
               colorStatus: color,
               onTap: () async {
                 if (listAllScientific[k].status == 0) {
+                  context.read<ReferenceProvider>().getBatch(
+                        idFlow: 2,
+                      );
                   NavHelper.navigatePush(
                     AddScientificEventScreen(id: listAllScientific[k].id!),
                   );

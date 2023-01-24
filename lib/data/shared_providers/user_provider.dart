@@ -7,6 +7,7 @@ import '../network/entity/user_response.dart';
 class UserProvider extends ChangeNotifier {
   final userService = getIt<UserService>();
   final List<User> preseptor = [];
+  User user = User();
 
   void resetPreseptor() {
     preseptor.clear();
@@ -26,5 +27,12 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void getCurrentUser() async {}
+  void getCurrentUser() async {
+    final result = await userService.getCurrentUser();
+
+    if (result.statusCode == 200) {
+      user = result.data!.data!;
+      notifyListeners();
+    }
+  }
 }

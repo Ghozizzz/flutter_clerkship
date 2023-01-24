@@ -1,6 +1,7 @@
 import 'package:clerkship/data/network/services/clinic_activity_service.dart';
 import 'package:clerkship/data/network/services/reference_service.dart';
 import 'package:clerkship/data/network/services/user_service.dart';
+import 'package:clerkship/data/shared_providers/user_provider.dart';
 import 'package:clerkship/main.dart';
 import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +42,17 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(const Duration(seconds: 1), () async {
         final isLogged = await context.read<AuthProvider>().isLogged();
         if (isLogged) {
+          getCurrentUser();
           NavHelper.navigateReplace(const DashboardStudentScreen());
         } else {
           NavHelper.navigateReplace(LoginScreen());
         }
       });
     });
+  }
+
+  void getCurrentUser() {
+    context.read<UserProvider>().getCurrentUser();
   }
 
   @override

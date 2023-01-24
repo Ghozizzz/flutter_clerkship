@@ -18,22 +18,18 @@ class UserResponse {
 
   bool? success;
   dynamic message;
-  List<User>? data;
+  User? data;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
         success: json['success'],
         message: json['message'],
-        data: json['data'] == null
-            ? null
-            : List<User>.from(json['data'].map((x) => User.fromJson(x))),
+        data: json['data'] == null ? null : User.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
         'success': success,
         'message': message,
-        'data': data == null
-            ? null
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        'data': data?.toJson(),
       };
 }
 

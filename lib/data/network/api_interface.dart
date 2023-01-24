@@ -5,7 +5,7 @@ import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
-import 'package:clerkship/data/network/entity/user_response.dart';
+import 'package:clerkship/data/network/entity/users_response.dart';
 
 import 'entity/default_response.dart';
 import 'entity/departemen_response.dart';
@@ -21,7 +21,7 @@ abstract class AuthApiInterface {
 }
 
 abstract class UserInterface {
-  Future<ResultData<UserResponse>> getAllUser({
+  Future<ResultData<UsersResponse>> getAllUser({
     required int role,
     required int idFeature,
   });
