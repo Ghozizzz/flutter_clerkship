@@ -13,7 +13,7 @@ import '../textareas/textarea.dart';
 class ModalMultiDropDownWidget extends StatefulWidget {
   final Function(List<DropDownItem> values) onSelected;
   final List<DropDownItem> items;
-  final List<dynamic> selected;
+  final List<DropDownItem> selected;
   final String otherHint;
 
   const ModalMultiDropDownWidget({
@@ -40,7 +40,16 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
   void initState() {
     super.initState();
     result.addAll(widget.items);
-    otherController.text = widget.items.last.other;
+    final selectedValues = [
+      for (DropDownItem item in widget.selected) item.value
+    ];
+
+    for (DropDownItem item in result) {
+      item.selected = selectedValues.contains(item.value);
+      if (item.value == -1) item.other = widget.selected.last.other;
+    }
+
+    otherController.text = widget.selected.last.other;
   }
 
   Widget listView() => ListView.builder(
