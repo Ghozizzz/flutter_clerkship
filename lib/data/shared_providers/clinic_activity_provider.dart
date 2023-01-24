@@ -287,7 +287,7 @@ class ClinicActivityProvider extends ChangeNotifier {
           idJenis: 2,
           idItem: item.value,
           type: 1,
-          remarks: item.title,
+          remarks: item.other,
           counter: 0,
         ));
       } else {
@@ -345,31 +345,29 @@ class ClinicActivityProvider extends ChangeNotifier {
             item: jsonEncode(bodyItemJson),
             lampiran: images,
             idBatch: bodyDepartemen)
-        .then(
-      (result) {
-        context.read<ItemListAllClinicProvider>().getListClinic();
-        context.read<ItemListDraftClinicProvider>().getListClinic();
-        context.read<ItemListApproveClinicProvider>().getListClinic();
-        context.read<ItemListRejectClinicProvider>().getListClinic();
-        DialogHelper.closeDialog();
+        .then((result) {
+      context.read<ItemListAllClinicProvider>().getListClinic();
+      context.read<ItemListDraftClinicProvider>().getListClinic();
+      context.read<ItemListApproveClinicProvider>().getListClinic();
+      context.read<ItemListRejectClinicProvider>().getListClinic();
+      DialogHelper.closeDialog();
 
-        if (result.statusCode == 200) {
-          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
-          if (status == '2') {
-            NavHelper.navigateReplace(ClinicDetailApprovalScreen(
-              id: result.data!.data,
-            ));
-          } else {
-            NavHelper.pop();
-          }
+      if (result.statusCode == 200) {
+        Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
+        if (status == '2') {
+          NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+            id: result.data!.data,
+          ));
         } else {
-          DialogHelper.showMessageDialog(
-            title: 'Error',
-            body: result.data?.message.toString(),
-            alertType: AlertType.error,
-          );
+          NavHelper.pop();
         }
-      },
-    );
+      } else {
+        DialogHelper.showMessageDialog(
+          title: 'Error',
+          body: result.data?.message.toString(),
+          alertType: AlertType.error,
+        );
+      }
+    });
   }
 }

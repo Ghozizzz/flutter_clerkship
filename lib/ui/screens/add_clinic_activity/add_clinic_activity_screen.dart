@@ -107,8 +107,20 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     showOtherRef(context, headerData.idFeature!);
 
     for (ClinicDetailItem element in listPenyakit) {
-      listPenyakitSelected.add(DropDownItem(
-          title: element.namaItem!, value: element.idItem, id: element.id));
+      if (element.idItem == -1) {
+        listPenyakitSelected.add(DropDownItem(
+            title: 'Lainnya',
+            selected: true,
+            other: element.remarks!,
+            value: element.idItem,
+            id: element.id));
+      } else {
+        listPenyakitSelected.add(DropDownItem(
+            title: element.namaItem!,
+            value: element.idItem,
+            id: element.id,
+            selected: true));
+      }
     }
 
     for (ClinicDetailItem element in listProsedur) {

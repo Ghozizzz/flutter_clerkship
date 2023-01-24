@@ -61,6 +61,11 @@ class ReferenceProvider extends ChangeNotifier {
     }
   }
 
+  void setPenyakit({required ItemReference data}) {
+    penyakit.add(data);
+    notifyListeners();
+  }
+
   void getKeterampilan({required int departemenId}) async {
     final result = await referenceService.getReferenceItem(
         idFeature: departemenId, idJenis: 3);

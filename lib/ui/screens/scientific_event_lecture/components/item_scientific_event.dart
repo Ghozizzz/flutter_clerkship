@@ -166,7 +166,7 @@ class ItemScientificEvent extends StatelessWidget {
               Column(
                 children: List.generate(
                   2,
-                  (index) => const ItemFile().addMarginBottom(12),
+                  (index) => const ItemFile(title: '').addMarginBottom(12),
                 ),
               ),
             ],

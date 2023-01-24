@@ -178,7 +178,9 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                     Column(
                       children: List.generate(
                         2,
-                        (index) => const ItemFile().addMarginBottom(12),
+                        (index) => const ItemFile(
+                          title: '',
+                        ).addMarginBottom(12),
                       ),
                     ),
                     if (!widget.rated)

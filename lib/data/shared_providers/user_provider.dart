@@ -25,4 +25,6 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void getCurrentUser() async {}
 }

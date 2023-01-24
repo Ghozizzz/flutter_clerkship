@@ -2,6 +2,7 @@ import 'package:clerkship/data/network/services/clinic_activity_service.dart';
 import 'package:clerkship/data/network/services/reference_service.dart';
 import 'package:clerkship/data/network/services/user_service.dart';
 import 'package:clerkship/main.dart';
+import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +17,6 @@ import '../../../data/shared_providers/auth_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
-import '../dashboard/student_dashboard_screen.dart';
 import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(const Duration(seconds: 1), () async {
         final isLogged = await context.read<AuthProvider>().isLogged();
         if (isLogged) {
-          NavHelper.navigateReplace(const StudentDashboardScreen());
+          NavHelper.navigateReplace(const DashboardStudentScreen());
         } else {
           NavHelper.navigateReplace(LoginScreen());
         }

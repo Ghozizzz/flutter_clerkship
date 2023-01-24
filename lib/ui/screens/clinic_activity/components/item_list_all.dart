@@ -56,7 +56,7 @@ class ListItemAllClinic extends StatelessWidget {
             child: ItemActivity(
               title: listAllClinic[k].namaDepartment!,
               date:
-                  DateFormat('DD MMMM yyyy').format(listAllClinic[k].tanggal!),
+                  DateFormat('dd MMMM yyyy').format(listAllClinic[k].tanggal!),
               doctor: listAllClinic[k].namaDokter!,
               status: status,
               colorStatus: color,
