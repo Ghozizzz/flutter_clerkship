@@ -5,13 +5,21 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/models/breadcrum_sk.dart';
 import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 
 class DetailStandardCompetencyScreen extends StatelessWidget {
-  const DetailStandardCompetencyScreen({super.key});
+  final BreadcrumSK breadcrumSK;
+  final BreadcrumSK breadcrumSKJenis;
+  final BreadcrumSK breadcrumSKGroup;
+  const DetailStandardCompetencyScreen(
+      {super.key,
+      required this.breadcrumSK,
+      required this.breadcrumSKJenis,
+      required this.breadcrumSKGroup});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +48,7 @@ class DetailStandardCompetencyScreen extends StatelessWidget {
               left: 20.w,
             ),
             Text(
-              'Ilmu Penyakit Dalam > Daftar Penyakit > Respirasi',
+              '${breadcrumSK.title} > ${breadcrumSKJenis.title} > ${breadcrumSKGroup.title}',
               style: Themes().blackBold10?.withColor(Themes.hint),
             ).addMarginOnly(
               top: 4,
@@ -51,7 +59,10 @@ class DetailStandardCompetencyScreen extends StatelessWidget {
               padding: EdgeInsets.all(20.w),
               itemCount: 24,
               itemBuilder: (context, index) {
-                return const ItemStandardTotal().addMarginBottom(12);
+                return ItemStandardTotal(
+                  title: 'Standar Kompetensi $index',
+                  total: 10,
+                ).addMarginBottom(12);
               },
             ).addExpanded
           ],

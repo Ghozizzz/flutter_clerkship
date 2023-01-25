@@ -23,7 +23,7 @@ import '../network/entity/scientific_detail_response.dart';
 import '../network/services/scientific_activity_service.dart';
 
 class ScientificActivityProvider extends ChangeNotifier {
-  final clinicActivityService = getIt<ScientificActivityService>();
+  final scientificActivityService = getIt<ScientificActivityService>();
   HeaderScientific headerScientific = HeaderScientific();
   final List<ScientificDocument> listDocument = [];
   ScientificDetailItem jenisKegiatan = ScientificDetailItem(
@@ -36,7 +36,7 @@ class ScientificActivityProvider extends ChangeNotifier {
   }) async {
     DialogHelper.showProgressDialog();
 
-    await clinicActivityService.deleteScientific(id: id).then((result) {
+    await scientificActivityService.deleteScientific(id: id).then((result) {
       context.read<ItemListAllScientificProvider>().getListScientific();
       context.read<ItemListDraftScientificProvider>().getListScientific();
       context.read<ItemListApproveScientificProvider>().getListScientific();
@@ -65,7 +65,7 @@ class ScientificActivityProvider extends ChangeNotifier {
   }) async {
     // loading = true;
     // notifyListeners();
-    final result = await clinicActivityService.getDetailScientific(id: id);
+    final result = await scientificActivityService.getDetailScientific(id: id);
     if (result.statusCode == 200) {
       listDocument.clear();
       headerScientific = result.data!.data!.header!;
@@ -131,7 +131,7 @@ class ScientificActivityProvider extends ChangeNotifier {
         existingDocument!.length, (index) => existingDocument[index].toJson());
 
     DialogHelper.showProgressDialog();
-    await clinicActivityService
+    await scientificActivityService
         .updateScientificActivity(
             id: id,
             idPreseptor: bodyPreseptor,
@@ -209,7 +209,7 @@ class ScientificActivityProvider extends ChangeNotifier {
         List.generate(bodyItem.length, (index) => bodyItem[index].toJson());
 
     DialogHelper.showProgressDialog();
-    clinicActivityService
+    scientificActivityService
         .addScientificActivity(
             idPreseptor: bodyPreseptor,
             tanggal: bodyTgl,

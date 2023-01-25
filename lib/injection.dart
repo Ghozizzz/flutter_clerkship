@@ -1,5 +1,6 @@
 import 'package:clerkship/data/shared_providers/clinic_activity_provider.dart';
 import 'package:clerkship/data/shared_providers/reference_provider.dart';
+import 'package:clerkship/data/shared_providers/standard_competency_provider.dart';
 import 'package:clerkship/data/shared_providers/user_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
@@ -32,6 +33,7 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(
           create: (_) => ItemListApproveScientificProvider()),
       ChangeNotifierProvider(create: (_) => ItemListRejectScientificProvider()),
+      ChangeNotifierProvider(create: (_) => StandardCompetencyProvider()),
     ],
     child: const MyApp(),
   );

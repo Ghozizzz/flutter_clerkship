@@ -1,4 +1,5 @@
 import 'package:clerkship/data/shared_providers/auth_provider.dart';
+import 'package:clerkship/data/shared_providers/standard_competency_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
@@ -71,6 +72,7 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icStandartCompetence,
               title: 'Standar\nKompetensi',
               onTap: () {
+                context.read<StandardCompetencyProvider>().getListSk();
                 NavHelper.navigatePush(const StandardCompetencyScreen());
               },
             ).addExpanded,

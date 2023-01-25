@@ -1,10 +1,13 @@
+import 'package:clerkship/data/models/breadcrum_sk.dart';
 import 'package:clerkship/ui/screens/standard_competency/detail_standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/standard_competency_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
@@ -13,10 +16,17 @@ import '../../components/commons/safe_statusbar.dart';
 import 'components/item_standard.dart';
 
 class SubStandardCompetencyScreen extends StatelessWidget {
-  const SubStandardCompetencyScreen({super.key});
+  final BreadcrumSK breadcrumSK;
+  final BreadcrumSK breadcrumSKJenis;
+  const SubStandardCompetencyScreen(
+      {super.key, required this.breadcrumSK, required this.breadcrumSKJenis});
 
   @override
   Widget build(BuildContext context) {
+    final skListGroup = context.watch<StandardCompetencyProvider>().skListGroup;
+    final isLoadingGroup =
+        context.watch<StandardCompetencyProvider>().isloadingListSKGroup;
+
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -42,7 +52,7 @@ class SubStandardCompetencyScreen extends StatelessWidget {
               left: 20.w,
             ),
             Text(
-              'Ilmu Penyakit Dalam > Daftar Penyakit',
+              '${breadcrumSK.title} > ${breadcrumSKJenis.title}',
               style: Themes().blackBold10?.withColor(Themes.hint),
             ).addMarginOnly(
               top: 4,
@@ -51,12 +61,20 @@ class SubStandardCompetencyScreen extends StatelessWidget {
             ),
             ListView.builder(
               padding: EdgeInsets.all(20.w),
-              itemCount: 24,
+              itemCount: skListGroup.length,
               itemBuilder: (context, index) {
                 return ItemStandard(
+                  title: skListGroup[index].namaGroup!,
                   onTap: () {
                     NavHelper.navigatePush(
-                      const DetailStandardCompetencyScreen(),
+                      DetailStandardCompetencyScreen(
+                        breadcrumSK: breadcrumSK,
+                        breadcrumSKJenis: breadcrumSKJenis,
+                        breadcrumSKGroup: BreadcrumSK(
+                          id: skListGroup[index].id!,
+                          title: skListGroup[index].namaGroup!,
+                        ),
+                      ),
                     );
                   },
                 ).addMarginBottom(12);

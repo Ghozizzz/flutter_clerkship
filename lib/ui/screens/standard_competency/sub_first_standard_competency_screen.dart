@@ -1,5 +1,4 @@
-import 'package:clerkship/data/models/breadcrum_sk.dart';
-import 'package:clerkship/ui/screens/standard_competency/sub_first_standard_competency_screen.dart';
+import 'package:clerkship/ui/screens/standard_competency/sub_standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/models/breadcrum_sk.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
@@ -15,15 +15,16 @@ import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 import 'components/item_standard.dart';
 
-class StandardCompetencyScreen extends StatelessWidget {
-  const StandardCompetencyScreen({super.key});
+class SubFirstStandardCompetencyScreen extends StatelessWidget {
+  final BreadcrumSK breadcrumSK;
+  const SubFirstStandardCompetencyScreen(
+      {super.key, required this.breadcrumSK});
 
   @override
   Widget build(BuildContext context) {
-    final skList = context.watch<StandardCompetencyProvider>().skList;
-    final isLoading =
-        context.watch<StandardCompetencyProvider>().isloadingListSK;
-
+    final skListJenis = context.watch<StandardCompetencyProvider>().skListJenis;
+    final isLoadingJenis =
+        context.watch<StandardCompetencyProvider>().isloadingListSKJenis;
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -41,7 +42,7 @@ class StandardCompetencyScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (isLoading)
+            if (isLoadingJenis)
               const Expanded(
                 child: Center(child: CircularProgressIndicator()),
               )
@@ -52,21 +53,32 @@ class StandardCompetencyScreen extends StatelessWidget {
               ).addMarginOnly(
                 right: 20.w,
                 left: 20.w,
-                bottom: 22,
               ),
+            Text(
+              breadcrumSK.title,
+              style: Themes().blackBold10?.withColor(Themes.hint),
+            ).addMarginOnly(
+              top: 4,
+              left: 20.w,
+              bottom: 16,
+            ),
             ListView.builder(
               padding: EdgeInsets.all(20.w),
-              itemCount: skList.length,
+              itemCount: skListJenis.length,
               itemBuilder: (context, index) {
                 return ItemStandard(
-                  title: skList[index].namaBatch!,
+                  title: skListJenis[index].namaJenis!,
                   onTap: () {
-                    context.read<StandardCompetencyProvider>().getListSKJenis();
+                    context
+                        .read<StandardCompetencyProvider>()
+                        .getListSKGroup(idJenisSK: skListJenis[index].id!);
+
                     NavHelper.navigatePush(
-                      SubFirstStandardCompetencyScreen(
-                        breadcrumSK: BreadcrumSK(
-                            id: skList[index].id!,
-                            title: skList[index].namaBatch!),
+                      SubStandardCompetencyScreen(
+                        breadcrumSK: breadcrumSK,
+                        breadcrumSKJenis: BreadcrumSK(
+                            id: skListJenis[index].id!,
+                            title: skListJenis[index].namaJenis!),
                       ),
                     );
                   },

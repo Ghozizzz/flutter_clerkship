@@ -1,5 +1,6 @@
 import 'package:clerkship/data/network/services/clinic_activity_service.dart';
 import 'package:clerkship/data/network/services/reference_service.dart';
+import 'package:clerkship/data/network/services/standard_competency_service.dart';
 import 'package:clerkship/data/network/services/user_service.dart';
 import 'package:clerkship/data/shared_providers/user_provider.dart';
 import 'package:clerkship/main.dart';
@@ -37,6 +38,8 @@ class _SplashScreenState extends State<SplashScreen> {
     getIt.registerSingleton<ClinicActivityService>(ClinicActivityService());
     getIt.registerSingleton<ScientificActivityService>(
         ScientificActivityService());
+    getIt.registerSingleton<StandardCompetencyService>(
+        StandardCompetencyService());
 
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () async {

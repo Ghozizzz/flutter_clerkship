@@ -7,9 +7,11 @@ import '../../../components/buttons/ripple_button.dart';
 
 class ItemStandard extends StatelessWidget {
   final VoidCallback onTap;
+  final String title;
 
   const ItemStandard({
     super.key,
+    required this.title,
     required this.onTap,
   });
 
@@ -22,7 +24,7 @@ class ItemStandard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Ilmu Penyakit Dalam',
+            title,
             style: Themes().blackBold12?.withColor(Themes.content),
           ),
           SvgPicture.asset(AssetIcons.icChevronRight),
