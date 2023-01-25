@@ -7,6 +7,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/reference_provider.dart';
 import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
@@ -100,6 +101,7 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
+                      context.read<ReferenceProvider>().getBatch(idFlow: 2);
                       NavHelper.navigatePush(const AddScientificEventScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
