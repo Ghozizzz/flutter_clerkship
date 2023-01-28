@@ -80,6 +80,8 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
+              unCheckColor: Themes.hint,
+              strokeWidth: 2,
             ).addMarginBottom(12),
           Text(
             'Jaga Malam',

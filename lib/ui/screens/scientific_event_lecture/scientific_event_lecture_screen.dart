@@ -74,7 +74,7 @@ class _ScientificEventLectureScreenState
                       ).addMarginBottom(20);
                     },
                   ).addExpanded,
-                  if (pageIndex == 0) const FooterWidget(),
+                  if (pageIndex == 0) FooterWidget(),
                 ],
               ),
             ),

@@ -1,4 +1,4 @@
-import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
+import 'package:clerkship/ui/screens/dashboard_lecture/dashboard_lecture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -109,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                 return PrimaryButton(
                   enable: isFormValid(),
                   onTap: () {
-                    NavHelper.navigateReplace(const DashboardStudentScreen());
+                    NavHelper.navigateReplace(const DashboardLectureScreen());
                   },
                   text: 'Sign In',
                 ).addAllMargin(20.w);

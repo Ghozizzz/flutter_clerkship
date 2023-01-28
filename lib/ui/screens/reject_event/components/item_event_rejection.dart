@@ -7,10 +7,10 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
-class ItemRejection extends StatelessWidget {
+class ItemEventRejection extends StatelessWidget {
   final TextEditingController reasonController;
 
-  const ItemRejection({
+  const ItemEventRejection({
     super.key,
     required this.reasonController,
   });
@@ -25,10 +25,20 @@ class ItemRejection extends StatelessWidget {
         children: [
           'Mini-CEX'.textBold14,
           const ItemInfoSegment(
-            title: 'Mahasiswa',
-            value: 'Bhima Saputra',
+            title: 'Tanggal',
+            value: '10 August 2022',
             padding: EdgeInsets.symmetric(vertical: 12),
           ),
+          const ItemInfoSegment(
+            title: 'Jam',
+            value: '9.00',
+            padding: EdgeInsets.symmetric(vertical: 12),
+          ).addMarginBottom(12),
+          const ItemInfoSegment(
+            title: 'Peran',
+            value: 'Hadirin Acara',
+            padding: EdgeInsets.symmetric(vertical: 12),
+          ).addMarginBottom(12),
           const ItemInfoSegment(
             title: 'Departemen',
             value: 'Ilmu Penyakit Dalam',
