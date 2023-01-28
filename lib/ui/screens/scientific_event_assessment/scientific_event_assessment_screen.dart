@@ -7,6 +7,7 @@ import 'package:widget_helper/widget_helper.dart';
 
 import 'components/item_student_activity.dart';
 
+//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=72%3A6271&t=RJsZz2AJHkpfpvsi-0
 class ScientificEventAssessmentScreen extends StatelessWidget {
   const ScientificEventAssessmentScreen({super.key});
 

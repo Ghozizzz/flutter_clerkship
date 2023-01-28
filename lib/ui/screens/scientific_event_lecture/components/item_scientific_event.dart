@@ -3,7 +3,7 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
-import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
+import 'package:clerkship/ui/screens/scientific_event_review/scientific_event_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
@@ -227,9 +227,7 @@ class ItemScientificEvent extends StatelessWidget {
                       optionalField: true,
                       onPositiveTapWithField: (fieldValue) {
                         Navigator.pop(context);
-                        NavHelper.navigatePush(
-                          ClinicActivityReviewScreen(),
-                        );
+                        NavHelper.navigatePush(ScientificEventReviewScreen());
                       },
                     );
                   },

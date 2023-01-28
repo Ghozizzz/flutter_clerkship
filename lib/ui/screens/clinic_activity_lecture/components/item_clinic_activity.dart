@@ -217,6 +217,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               children: [
                 PrimaryButton(
                   onTap: () {
+                    //https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=162%3A8708&t=RJsZz2AJHkpfpvsi-0
                     DialogHelper.showModalConfirmation(
                       title: 'Konfirmasi Penolakan',
                       message:
@@ -253,6 +254,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 ),
                 PrimaryButton(
                   onTap: () {
+                    //https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=162%3A8970&t=RJsZz2AJHkpfpvsi-0
                     DialogHelper.showModalConfirmation(
                       title: 'Konfirmasi Persetujuan',
                       message:
