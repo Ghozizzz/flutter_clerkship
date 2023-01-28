@@ -6,7 +6,9 @@ import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -26,6 +28,7 @@ class ItemScientificEvent extends StatelessWidget {
   });
 
   final checkboxController = CheckboxController(false);
+  final expandableController = ExpandableController();
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +251,92 @@ class ItemScientificEvent extends StatelessWidget {
                   ),
                 ).addExpanded,
               ],
-            )
+            ).addMarginBottom(12),
+          if (rated)
+            ValueListenableBuilder(
+              valueListenable: expandableController,
+              builder: (context, expanded, __) {
+                return FlatCard(
+                  color: Themes.greyBg,
+                  border: Border.all(color: Themes.stroke),
+                  child: ExpandablePanel(
+                    controller: expandableController,
+                    header: RippleButton(
+                      onTap: () {
+                        expandableController.toggle();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Lihat Tinjauan',
+                            style: Themes().black12,
+                          ),
+                          SvgPicture.asset(
+                            AssetIcons.icChevronDown,
+                          ).animate(target: expanded ? 0.5 : 0).rotate(),
+                        ],
+                      ),
+                    ),
+                    collapsed: Container(),
+                    expanded: Column(
+                      children: const [
+                        ItemInfoSegment(
+                          title:
+                              'Patient Demographic Information (age, gender, social information)',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking - Presenting complaints',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Past history',
+                          value: 'F',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Family history',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Family history',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Other',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'General physical examination',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title:
+                              'Investigations needed to support diagnosis and expected results',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'Summary',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                      ],
+                    ).addSymmetricMargin(horizontal: 12.w),
+                    theme: const ExpandableThemeData(
+                      hasIcon: false,
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 
@@ -28,7 +29,7 @@ class ItemInfoSegment extends StatelessWidget {
               Text(
                 title,
                 style: Themes().blackBold12?.withColor(Themes.hint),
-              ),
+              ).addFlexible,
               valueWidget ??
                   Text(
                     value!,
