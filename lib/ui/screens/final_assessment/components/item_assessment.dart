@@ -1,5 +1,5 @@
 import 'package:clerkship/ui/screens/final_score_recap/final_score_recap_screen.dart';
-import 'package:clerkship/ui/screens/global_rating/global_rating_screen.dart';
+import 'package:clerkship/ui/screens/global_rating/global_rating_detail_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class ItemAssessment extends StatelessWidget {
                     onTap: () {
                       if (index != 2) {
                         NavHelper.navigatePush(
-                          const GlobalRatingScreen(),
+                          const GlobalRatingDetailScreen(),
                         );
                       } else {
                         NavHelper.navigatePush(

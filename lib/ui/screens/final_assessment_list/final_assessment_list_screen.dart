@@ -1,6 +1,8 @@
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/screens/final_assessment_list/components/assessment_list_header.dart';
 import 'package:clerkship/ui/screens/final_assessment_list/components/item_rating_lecture.dart';
+import 'package:clerkship/ui/screens/global_rating/global_rating_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -23,6 +25,7 @@ class FinalAssessmentListScreen extends StatelessWidget {
                 isGlobalRating: index != 2,
                 onTap: () {
                   if (index != 2) {
+                    NavHelper.navigatePush(GlobalRatingScreen());
                   } else {}
                 },
               ).addMarginBottom(12),
