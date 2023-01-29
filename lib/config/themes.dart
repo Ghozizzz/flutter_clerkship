@@ -15,6 +15,9 @@ class Themes {
   static const hotpink = Color(0xffFC5A95);
   static const pink = Color(0xffEA9898);
   static const disable = Color(0xff777777);
+  static const success = Color(0xff52C41A);
+  static const waiting = Color(0xffFFC20E);
+  static const warning = Color(0xffE70000);
 
   static const blue = Color(0xff74BCFF);
   static const reddish = Color(0xffFF576B);

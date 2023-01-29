@@ -1,4 +1,4 @@
-import 'package:clerkship/ui/screens/add_scientific_event/add_scientific_event_screen.dart';
+import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,16 +11,18 @@ import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_event.dart';
+import 'components/item_activity.dart';
 
-class ScientificEventScreen extends StatefulWidget {
-  const ScientificEventScreen({super.key});
+class ClinicActivityStudentScreen extends StatefulWidget {
+  const ClinicActivityStudentScreen({super.key});
 
   @override
-  State<ScientificEventScreen> createState() => _ScientificEventScreenState();
+  State<ClinicActivityStudentScreen> createState() =>
+      _ClinicActivityStudentScreenState();
 }
 
-class _ScientificEventScreenState extends State<ScientificEventScreen>
+class _ClinicActivityStudentScreenState
+    extends State<ClinicActivityStudentScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -53,7 +55,7 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
               ),
             ),
             Text(
-              'Acara Ilmiah',
+              'Kegiatan Klinik',
               style: Themes().primaryBold20,
             ).addMarginOnly(
               bottom: 4.h,
@@ -93,7 +95,7 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                       itemBuilder: (context, index) {
                         return AnimatedItem(
                           index: index,
-                          child: const ItemEvent().addMarginBottom(12),
+                          child: const ItemActivity().addMarginBottom(12),
                         );
                       },
                     ),
@@ -104,7 +106,7 @@ class _ScientificEventScreenState extends State<ScientificEventScreen>
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
-                      NavHelper.navigatePush(AddScientificEventScreen());
+                      NavHelper.navigatePush(AddClinicActivityScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),

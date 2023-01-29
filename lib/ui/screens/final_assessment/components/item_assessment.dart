@@ -1,3 +1,6 @@
+import 'package:clerkship/ui/screens/final_score_recap/final_score_recap_screen.dart';
+import 'package:clerkship/ui/screens/global_rating/global_rating_detail_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,8 +14,8 @@ import 'item_rating.dart';
 
 class ItemAssessment extends StatelessWidget {
   const ItemAssessment({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,20 @@ class ItemAssessment extends StatelessWidget {
               Column(
                 children: List.generate(
                   3,
-                  (index) => ItemRating(onTap: () {}).addMarginBottom(12),
+                  (index) => ItemRating(
+                    isGlobalRating: index != 2,
+                    onTap: () {
+                      if (index != 2) {
+                        NavHelper.navigatePush(
+                          const GlobalRatingDetailScreen(),
+                        );
+                      } else {
+                        NavHelper.navigatePush(
+                          const FinalScoreRecapScreen(),
+                        );
+                      }
+                    },
+                  ).addMarginBottom(12),
                 ),
               ).addMarginOnly(
                 top: 16,

@@ -1,4 +1,4 @@
-import 'package:clerkship/ui/screens/standard_competency/detail_standard_competency_screen.dart';
+import 'package:clerkship/ui/components/commons/animated_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -6,14 +6,13 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
-import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_standard.dart';
+import 'components/item_assessment.dart';
 
-class SubStandardCompetencyScreen extends StatelessWidget {
-  const SubStandardCompetencyScreen({super.key});
+class FinalAssessmentStudentScreen extends StatelessWidget {
+  const FinalAssessmentStudentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +34,16 @@ class SubStandardCompetencyScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'Standar Kompetensi',
+              'Penilaian Akhir',
               style: Themes().primaryBold20,
             ).addMarginOnly(
+              top: 20.w,
               right: 20.w,
               left: 20.w,
             ),
             Text(
-              'Ilmu Penyakit Dalam > Daftar Penyakit',
-              style: Themes().blackBold10?.withColor(Themes.hint),
+              'Rangkuman Penilaian',
+              style: Themes().black10?.withColor(Themes.grey),
             ).addMarginOnly(
               top: 4,
               left: 20.w,
@@ -53,13 +53,9 @@ class SubStandardCompetencyScreen extends StatelessWidget {
               padding: EdgeInsets.all(20.w),
               itemCount: 24,
               itemBuilder: (context, index) {
-                return ItemStandard(
-                  onTap: () {
-                    NavHelper.navigatePush(
-                      const DetailStandardCompetencyScreen(),
-                    );
-                  },
-                ).addMarginBottom(12);
+                return const AnimatedItem(
+                  child: ItemAssessment(),
+                );
               },
             ).addExpanded
           ],

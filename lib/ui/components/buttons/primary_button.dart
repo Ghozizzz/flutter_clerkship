@@ -14,13 +14,13 @@ class PrimaryButton extends StatefulWidget {
   final bool enable;
   final TextStyle? buttonTextStyle;
   final bool loading;
-  final LinearGradient? gradientColor;
+  final Color? color;
 
   const PrimaryButton({
     Key? key,
     this.text,
     this.onTap,
-    this.gradientColor,
+    this.color,
     this.textColor,
     this.child,
     this.padding,
@@ -46,7 +46,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
     return Stack(
       children: [
         RippleButton(
-          color: Themes.primary,
+          color: widget.color ?? Themes.primary,
           shadow: Themes.dropShadow,
           disableColor: Themes.disable,
           radius: widget.radius,

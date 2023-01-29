@@ -20,7 +20,7 @@ class ItemNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return RippleButton(
       border: Border.all(color: Themes.stroke),
-      color: isRead ? Themes.primary.withOpacity(0.05) : Themes.white,
+      color: !isRead ? Themes.primary.withOpacity(0.05) : Themes.white,
       onTap: () {},
       child: Column(
         children: [

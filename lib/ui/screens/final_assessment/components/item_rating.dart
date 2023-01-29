@@ -6,10 +6,12 @@ import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
 
 class ItemRating extends StatelessWidget {
+  final bool isGlobalRating;
   final VoidCallback onTap;
 
   const ItemRating({
     super.key,
+    required this.isGlobalRating,
     required this.onTap,
   });
 
@@ -22,7 +24,7 @@ class ItemRating extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'GRS - Tengah Rotasi',
+            isGlobalRating ? 'GRS - Tengah Rotasi' : 'Validasi Kelulusan',
             style: Themes().blackBold12?.withColor(Themes.content),
           ),
           SvgPicture.asset(AssetIcons.icChevronRight),
