@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
@@ -20,10 +21,18 @@ class DatePickerController extends ValueNotifier<DateTime?> {
 
 class DatePickerButton extends StatelessWidget {
   final DatePickerController controller;
+  final String? hint;
+  final String? dateFormat;
+  final Widget? icon;
+  final TextStyle? textStyle;
 
   const DatePickerButton({
     super.key,
     required this.controller,
+    this.dateFormat,
+    this.hint,
+    this.icon,
+    this.textStyle,
   });
 
   @override
@@ -46,17 +55,21 @@ class DatePickerButton extends StatelessWidget {
             builder: (context, _, __) {
               return Text(
                 controller.selected != null
-                    ? controller.selected!.formatDate('dd MMMM yyyy')
-                    : 'Pilih Tanggal',
-                style: Themes().black14?.withColor(
-                      controller.selected != null ? Themes.text : Themes.hint,
-                    ),
-              );
+                    ? controller.selected!
+                        .formatDate(dateFormat ?? 'dd MMMM yyyy')
+                    : (hint ?? 'Pilih Tanggal'),
+                style: (textStyle ?? Themes().black14)?.withColor(
+                  controller.selected != null ? Themes.text : Themes.hint,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ).addFlexible;
             },
           ),
-          SvgPicture.asset(
-            AssetIcons.icCalendar,
-          ),
+          icon ??
+              SvgPicture.asset(
+                AssetIcons.icCalendar,
+              ),
         ],
       ),
     );

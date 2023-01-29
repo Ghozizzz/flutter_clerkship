@@ -11,6 +11,7 @@ import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
 import 'package:clerkship/ui/screens/add_clinic_activity/components/label_text.dart';
+import 'package:clerkship/ui/screens/scientific_event_detail_approval/scientific_event_approval_screen.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -165,9 +166,9 @@ class AddScientificEventScreen extends StatelessWidget {
                           negativeText: 'Batal',
                           onPositiveTap: () {
                             NavHelper.pop();
-                            // NavHelper.navigateReplace(
-                            //   const DetailApprovalScreen(),
-                            // );
+                            NavHelper.navigateReplace(
+                              const ScientificEventDetailApprovalScreen(),
+                            );
                           },
                         );
                       },

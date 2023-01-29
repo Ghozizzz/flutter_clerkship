@@ -9,6 +9,7 @@ class AssetIcons {
 	static const String icBold = 'assets/icons/ic_bold.svg';
 	static const String icCalendar = 'assets/icons/ic_calendar.svg';
 	static const String icCheck = 'assets/icons/ic_check.svg';
+	static const String icChevronDown = 'assets/icons/ic_chevron_down.svg';
 	static const String icChevronLeft = 'assets/icons/ic_chevron_left.svg';
 	static const String icChevronRight = 'assets/icons/ic_chevron_right.svg';
 	static const String icClinicActivity = 'assets/icons/ic_clinic_activity.svg';
@@ -22,6 +23,7 @@ class AssetIcons {
 	static const String icLink = 'assets/icons/ic_link.svg';
 	static const String icLogBook = 'assets/icons/ic_log_book.svg';
 	static const String icNotification = 'assets/icons/ic_notification.svg';
+	static const String icOffice = 'assets/icons/ic_office.svg';
 	static const String icPlus = 'assets/icons/ic_plus.svg';
 	static const String icProfile = 'assets/icons/ic_profile.svg';
 	static const String icQr = 'assets/icons/ic_qr.svg';

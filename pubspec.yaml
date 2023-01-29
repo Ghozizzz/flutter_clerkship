@@ -13,16 +13,18 @@ dependencies:
   cached_network_image: ^3.2.3
   crop_your_image: ^0.7.3
   cupertino_icons: ^1.0.2
+  expandable: ^5.0.1
   filesystem_picker: ^3.1.0
   fleather: ^1.3.1
   flutter:
     sdk: flutter
+  flutter_animate: ^3.0.0
   flutter_image_compress: ^1.1.3
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^1.1.6
   fluttertoast: ^8.1.2
   get_it: ^7.2.0
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.1
   http: ^0.13.5
   http_interceptor: ^1.0.2
   image_picker: ^0.8.6
