@@ -1,13 +1,13 @@
-import 'package:clerkship/ui/screens/clinic_activity_lecture/clinic_activity_lecture_screen.dart';
-import 'package:clerkship/ui/screens/final_assessment/final_assessment_screen.dart';
-import 'package:clerkship/ui/screens/scientific_event_student/scientific_event_student_screen.dart';
+import 'package:clerkship/ui/screens/clinic_activity/clinic_activity_lecture_screen.dart';
+import 'package:clerkship/ui/screens/final_assessment/final_assessment_lecture_screen.dart';
+import 'package:clerkship/ui/screens/scientific_event_student_list/scientific_event_student_list_screen.dart';
+import 'package:clerkship/ui/screens/standart_competency_student_list/standart_competency_student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
-import '../../standart_competency_student/standart_competency_student_screen.dart';
 import 'item_menu.dart';
 
 class MainMenuWidget extends StatelessWidget {
@@ -33,7 +33,9 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icScienceShow,
               title: 'Acara\nIlmiah',
               onTap: () {
-                NavHelper.navigatePush(const ScientificEventStudentScreen());
+                NavHelper.navigatePush(
+                  const ScientificEventStudentListScreen(),
+                );
               },
             ).addExpanded,
           ],
@@ -45,7 +47,9 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icStandartCompetence,
               title: 'Standar\nKompetensi',
               onTap: () {
-                NavHelper.navigatePush(const StandartCompetencyStudentScreen());
+                NavHelper.navigatePush(
+                  const StandartCompetencyStudentListScreen(),
+                );
               },
             ).addExpanded,
             Container(width: 20.w),
@@ -53,7 +57,7 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icFinalAssesment,
               title: 'Penilaian\nAkhir',
               onTap: () {
-                NavHelper.navigatePush(const FinalAssessmentScreen());
+                NavHelper.navigatePush(const FinalAssessmentLectureScreen());
               },
             ).addExpanded,
           ],

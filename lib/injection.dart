@@ -1,4 +1,3 @@
-import 'package:clerkship/ui/screens/standard_competency_lecture/provider/standart_competency_lecture_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
@@ -10,8 +9,6 @@ MultiProvider provideInjection() {
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()),
       ChangeNotifierProvider(create: (_) => StandartCompetencyProvider()),
-      ChangeNotifierProvider(
-          create: (_) => StandartCompetencyLectureProvider()),
     ],
     child: const MyApp(),
   );

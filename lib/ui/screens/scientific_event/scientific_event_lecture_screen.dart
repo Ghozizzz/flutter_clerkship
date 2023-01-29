@@ -1,4 +1,4 @@
-import 'package:clerkship/ui/screens/scientific_event_lecture/components/item_scientific_event.dart';
+import 'package:clerkship/ui/screens/scientific_event/components/item_event_lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -68,7 +68,7 @@ class _ScientificEventLectureScreenState
                     itemBuilder: (context, index) {
                       return AnimatedItem(
                         index: index,
-                        child: ItemScientificEvent(
+                        child: ItemEventLecture(
                           rated: pageIndex == 1,
                         ),
                       ).addMarginBottom(20);

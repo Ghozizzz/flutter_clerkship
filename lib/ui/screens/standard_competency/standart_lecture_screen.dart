@@ -1,5 +1,5 @@
 import 'package:clerkship/ui/components/commons/animated_item.dart';
-import 'package:clerkship/utils/nav_helper.dart';
+import 'package:clerkship/ui/screens/standard_competency/provider/standart_competency_provider.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,22 +9,21 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
+import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import '../standard_competency/components/item_standard.dart';
-import '../standard_competency/components/item_standard_total.dart';
-import 'provider/standart_competency_provider.dart';
+import 'components/item_standard.dart';
+import 'components/item_standard_total.dart';
 
-class StandardCompetencyScreen extends StatefulWidget {
-  const StandardCompetencyScreen({super.key});
+class StandartLectureScreen extends StatefulWidget {
+  const StandartLectureScreen({super.key});
 
   @override
-  State<StandardCompetencyScreen> createState() =>
-      _StandardCompetencyScreenState();
+  State<StandartLectureScreen> createState() => _StandartLectureScreenState();
 }
 
-class _StandardCompetencyScreenState extends State<StandardCompetencyScreen> {
+class _StandartLectureScreenState extends State<StandartLectureScreen> {
   @override
   void initState() {
     super.initState();

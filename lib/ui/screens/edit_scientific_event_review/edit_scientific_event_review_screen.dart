@@ -1,6 +1,6 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
-import 'package:clerkship/ui/screens/scientific_event_lecture/components/item_scientific_event.dart';
+import 'package:clerkship/ui/screens/scientific_event/components/item_event_lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -26,7 +26,7 @@ class EditScientificEventReviewScreen extends StatelessWidget {
             padding: EdgeInsets.all(20.w),
             child: Column(
               children: [
-                ItemScientificEvent(showCheckbox: false),
+                ItemEventLecture(showCheckbox: false),
               ],
             ),
           ).addExpanded,

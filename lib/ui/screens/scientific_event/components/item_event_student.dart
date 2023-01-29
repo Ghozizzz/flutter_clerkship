@@ -8,8 +8,8 @@ import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
 import '../../../components/commons/flat_card.dart';
 
-class ItemEvent extends StatelessWidget {
-  const ItemEvent({
+class ItemEventStudent extends StatelessWidget {
+  const ItemEventStudent({
     super.key,
   });
 

@@ -11,8 +11,8 @@ import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 import 'components/item_assessment.dart';
 
-class FinalAssessmentScreen extends StatelessWidget {
-  const FinalAssessmentScreen({super.key});
+class FinalAssessmentStudentScreen extends StatelessWidget {
+  const FinalAssessmentStudentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

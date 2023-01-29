@@ -20,11 +20,11 @@ import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
-class ItemScientificEvent extends StatelessWidget {
+class ItemEventLecture extends StatelessWidget {
   final bool rated;
   final bool showCheckbox;
 
-  ItemScientificEvent({
+  ItemEventLecture({
     super.key,
     this.rated = false,
     this.showCheckbox = true,

@@ -1,4 +1,5 @@
 import 'package:clerkship/ui/components/commons/animated_item.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,39 +9,36 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
-import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import '../standard_competency/components/item_standard.dart';
-import '../standard_competency/components/item_standard_total.dart';
-import 'provider/standart_competency_lecture_provider.dart';
+import 'components/item_standard.dart';
+import 'components/item_standard_total.dart';
+import 'provider/standart_competency_provider.dart';
 
-class StandardCompetencyLectureScreen extends StatefulWidget {
-  const StandardCompetencyLectureScreen({super.key});
+class StandardStudentScreen extends StatefulWidget {
+  const StandardStudentScreen({super.key});
 
   @override
-  State<StandardCompetencyLectureScreen> createState() =>
-      _StandardCompetencyLectureScreenState();
+  State<StandardStudentScreen> createState() => _StandardStudentScreenState();
 }
 
-class _StandardCompetencyLectureScreenState
-    extends State<StandardCompetencyLectureScreen> {
+class _StandardStudentScreenState extends State<StandardStudentScreen> {
   @override
   void initState() {
     super.initState();
     Tools.onViewCreated(() {
-      context.read<StandartCompetencyLectureProvider>().clearPaths();
-      context.read<StandartCompetencyLectureProvider>().setIndex(0, '');
+      context.read<StandartCompetencyProvider>().clearPaths();
+      context.read<StandartCompetencyProvider>().setIndex(0, '');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<StandartCompetencyLectureProvider>();
-    final data = context.watch<StandartCompetencyLectureProvider>().data;
-    final paths = context.watch<StandartCompetencyLectureProvider>().paths;
-    final pageIndex = context.watch<StandartCompetencyLectureProvider>().index;
+    final provider = context.read<StandartCompetencyProvider>();
+    final data = context.watch<StandartCompetencyProvider>().data;
+    final paths = context.watch<StandartCompetencyProvider>().paths;
+    final pageIndex = context.watch<StandartCompetencyProvider>().index;
 
     return WillPopScope(
       onWillPop: () async {

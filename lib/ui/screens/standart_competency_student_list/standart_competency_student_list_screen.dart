@@ -1,13 +1,13 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/screens/scientific_event_student/components/header_widget.dart';
-import 'package:clerkship/ui/screens/scientific_event_student/components/item_student_event.dart';
+import 'package:clerkship/ui/screens/scientific_event_student_list/components/header_widget.dart';
+import 'package:clerkship/ui/screens/standart_competency_student_list/components/item_student_competency.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
-class ScientificEventStudentScreen extends StatelessWidget {
-  const ScientificEventStudentScreen({super.key});
+class StandartCompetencyStudentListScreen extends StatelessWidget {
+  const StandartCompetencyStudentListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ScientificEventStudentScreen extends StatelessWidget {
           children: [
             const HeaderWidget(),
             Text(
-              'Penilaian Kegiatan Klinik',
+              'Standar Kompetensi Mahasiswa',
               style: Themes().blackBold16?.withColor(Themes.black),
             ).addMarginOnly(
               top: 20.w,
@@ -28,7 +28,7 @@ class ScientificEventStudentScreen extends StatelessWidget {
               itemCount: 5,
               padding: EdgeInsets.all(20.w),
               itemBuilder: (context, index) {
-                return const ItemStudentEvent().addMarginBottom(10);
+                return const ItemStudentCompetency().addMarginBottom(10);
               },
             ).addExpanded
           ],

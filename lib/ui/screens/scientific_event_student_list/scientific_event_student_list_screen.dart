@@ -1,13 +1,13 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
-import 'package:clerkship/ui/screens/scientific_event_student/components/header_widget.dart';
-import 'package:clerkship/ui/screens/standart_competency_student/components/item_student_competency.dart';
+import 'package:clerkship/ui/screens/scientific_event_student_list/components/header_widget.dart';
+import 'package:clerkship/ui/screens/scientific_event_student_list/components/item_student_event.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
-class StandartCompetencyStudentScreen extends StatelessWidget {
-  const StandartCompetencyStudentScreen({super.key});
+class ScientificEventStudentListScreen extends StatelessWidget {
+  const ScientificEventStudentListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class StandartCompetencyStudentScreen extends StatelessWidget {
               itemCount: 5,
               padding: EdgeInsets.all(20.w),
               itemBuilder: (context, index) {
-                return const ItemStudentCompetency().addMarginBottom(10);
+                return const ItemStudentEvent().addMarginBottom(10);
               },
             ).addExpanded
           ],
