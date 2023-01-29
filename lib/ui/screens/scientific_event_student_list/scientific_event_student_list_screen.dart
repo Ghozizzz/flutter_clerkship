@@ -1,10 +1,13 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
+import 'package:clerkship/ui/components/items/item_student.dart';
 import 'package:clerkship/ui/screens/scientific_event_student_list/components/header_widget.dart';
-import 'package:clerkship/ui/screens/scientific_event_student_list/components/item_student_event.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+
+import '../../../utils/nav_helper.dart';
+import '../scientific_event/scientific_event_lecture_screen.dart';
 
 class ScientificEventStudentListScreen extends StatelessWidget {
   const ScientificEventStudentListScreen({super.key});
@@ -28,7 +31,13 @@ class ScientificEventStudentListScreen extends StatelessWidget {
               itemCount: 5,
               padding: EdgeInsets.all(20.w),
               itemBuilder: (context, index) {
-                return const ItemStudentEvent().addMarginBottom(10);
+                return ItemStudent(
+                  onTap: () {
+                    NavHelper.navigatePush(
+                      const ScientificEventLectureScreen(),
+                    );
+                  },
+                ).addMarginBottom(10);
               },
             ).addExpanded
           ],

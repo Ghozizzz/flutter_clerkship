@@ -1,5 +1,3 @@
-import 'package:clerkship/ui/screens/scientific_event/scientific_event_lecture_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -9,17 +7,18 @@ import '../../../../config/themes.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
 
-class ItemStudentEvent extends StatelessWidget {
-  const ItemStudentEvent({
-    Key? key,
-  }) : super(key: key);
+class ItemStudentAssessment extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const ItemStudentAssessment({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {
-        NavHelper.navigatePush(const ScientificEventLectureScreen());
-      },
+      onTap: onTap,
       border: Border.all(color: Themes.stroke),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,11 +34,26 @@ class ItemStudentEvent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SvgPicture.asset(
-                    AssetIcons.icCalendar,
+                    AssetIcons.icOffice,
                     width: 12.w,
+                    color: Themes.grey,
                   ).addMarginRight(8.w),
                   Text(
-                    '10 August 2022',
+                    'Rumah Sakit Siloam',
+                    style: Themes().black10,
+                  ),
+                ],
+              ).addMarginBottom(4),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SvgPicture.asset(
+                    AssetIcons.icCalendar,
+                    width: 12.w,
+                    color: Themes.grey,
+                  ).addMarginRight(8.w),
+                  Text(
+                    '5 May 2022 - 10 August 2022',
                     style: Themes().black10,
                   ),
                 ],

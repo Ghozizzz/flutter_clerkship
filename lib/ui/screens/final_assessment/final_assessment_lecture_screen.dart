@@ -1,3 +1,5 @@
+import 'package:clerkship/ui/screens/final_assessment_list/final_assessment_list_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -9,6 +11,7 @@ import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
+import 'components/item_student_assessment.dart';
 
 class FinalAssessmentLectureScreen extends StatefulWidget {
   const FinalAssessmentLectureScreen({super.key});
@@ -27,7 +30,7 @@ class _FinalAssessmentLectureScreenState
   void initState() {
     super.initState();
     tabController = TabController(
-      length: 4,
+      length: 2,
       vsync: this,
     );
   }
@@ -52,7 +55,7 @@ class _FinalAssessmentLectureScreenState
               ),
             ),
             Text(
-              'Kegiatan Klinik',
+              'Penilaian Akhir',
               style: Themes().primaryBold20,
             ).addMarginOnly(
               bottom: 4.h,
@@ -60,7 +63,7 @@ class _FinalAssessmentLectureScreenState
               left: 20.w,
             ),
             Text(
-              'Batch I',
+              'Rangkuman Penilaian',
               style: Themes().gray10?.boldText(),
             ).addMarginLeft(20.w),
             Container(
@@ -73,40 +76,32 @@ class _FinalAssessmentLectureScreenState
                 labelStyle: Themes().black12?.withFontWeight(FontWeight.w500),
                 isScrollable: true,
                 tabs: const [
-                  Tab(text: 'Semua'),
-                  Tab(text: 'Proses'),
-                  Tab(text: 'Diterima'),
-                  Tab(text: 'Ditolak'),
+                  Tab(text: 'Butuh Penilaian'),
+                  Tab(text: 'Sudah Dinilai'),
                 ],
               ),
             ).addMarginTop(12),
-            Stack(
-              children: [
-                TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                    4,
-                    (index) => ListView.builder(
-                      itemCount: 12,
-                      padding: EdgeInsets.all(20.w),
-                      itemBuilder: (context, index) {
-                        return AnimatedItem(
-                          index: index,
-                          child: Container().addMarginBottom(12),
-                        );
-                      },
-                    ),
-                  ),
+            TabBarView(
+              controller: tabController,
+              children: List.generate(
+                2,
+                (index) => ListView.builder(
+                  itemCount: 12,
+                  padding: EdgeInsets.all(20.w),
+                  itemBuilder: (context, index) {
+                    return AnimatedItem(
+                      index: index,
+                      child: ItemStudentAssessment(
+                        onTap: () {
+                          NavHelper.navigatePush(
+                            const FinalAssessmentListScreen(),
+                          );
+                        },
+                      ).addMarginBottom(12),
+                    );
+                  },
                 ),
-                Positioned(
-                  right: 20.w,
-                  bottom: 20.w,
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    child: SvgPicture.asset(AssetIcons.icPlus),
-                  ),
-                )
-              ],
+              ),
             ).addExpanded,
           ],
         ),
