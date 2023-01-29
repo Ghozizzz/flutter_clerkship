@@ -1,5 +1,3 @@
-import 'package:clerkship/ui/screens/scientific_event_lecture/scientific_event_lecture_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -9,17 +7,15 @@ import '../../../../config/themes.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
 
-class ItemStudentActivity extends StatelessWidget {
-  const ItemStudentActivity({
+class ItemStudentCompetency extends StatelessWidget {
+  const ItemStudentCompetency({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {
-        NavHelper.navigatePush(const ScientificEventLectureScreen());
-      },
+      onTap: () {},
       border: Border.all(color: Themes.stroke),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

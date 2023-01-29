@@ -9,7 +9,6 @@ import 'components/filter_header.dart';
 import 'components/footer_widget.dart';
 import 'components/item_group_clinic_activity.dart';
 
-//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=30%3A5069&t=RJsZz2AJHkpfpvsi-0
 class ClinicActivityLectureScreen extends StatefulWidget {
   const ClinicActivityLectureScreen({super.key});
 

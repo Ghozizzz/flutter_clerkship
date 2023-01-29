@@ -13,7 +13,6 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
 
-//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=38%3A8978&t=RJsZz2AJHkpfpvsi-0
 class ClinicActivityReviewScreen extends StatelessWidget {
   ClinicActivityReviewScreen({super.key});
 

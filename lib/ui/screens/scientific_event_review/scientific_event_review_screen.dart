@@ -9,7 +9,6 @@ import '../../components/buttons/score_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
 
-//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=38%3A10100&t=RJsZz2AJHkpfpvsi-0
 class ScientificEventReviewScreen extends StatelessWidget {
   ScientificEventReviewScreen({super.key});
 

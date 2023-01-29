@@ -15,7 +15,6 @@ import 'components/main_menu_widget.dart';
 import 'components/notification_bar.dart';
 import 'components/user_data_widget.dart';
 
-//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=30%3A4746&t=RJsZz2AJHkpfpvsi-0
 class DashboardLectureScreen extends StatelessWidget {
   const DashboardLectureScreen({super.key});
 

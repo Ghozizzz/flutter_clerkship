@@ -9,7 +9,6 @@ import '../../components/commons/primary_appbar.dart';
 import 'components/filter_header.dart';
 import 'components/footer_widget.dart';
 
-//https://www.figma.com/file/gpqTnuPavMZ5hUhQFjdBvW/UPH_Log_Book?node-id=38%3A9628&t=RJsZz2AJHkpfpvsi-0
 class ScientificEventLectureScreen extends StatefulWidget {
   const ScientificEventLectureScreen({super.key});
 
