@@ -85,7 +85,7 @@ class _FinalAssessmentLectureScreenState
               controller: tabController,
               children: List.generate(
                 2,
-                (index) => ListView.builder(
+                (pageIndex) => ListView.builder(
                   itemCount: 12,
                   padding: EdgeInsets.all(20.w),
                   itemBuilder: (context, index) {
@@ -94,7 +94,9 @@ class _FinalAssessmentLectureScreenState
                       child: ItemStudentAssessment(
                         onTap: () {
                           NavHelper.navigatePush(
-                            const FinalAssessmentListScreen(),
+                            FinalAssessmentListScreen(
+                              rated: pageIndex == 1,
+                            ),
                           );
                         },
                       ).addMarginBottom(12),

@@ -83,16 +83,18 @@ class GlobalRatingScreen extends StatelessWidget {
   }
 
   void generateData() {
+    final quiz = List.generate(
+      5,
+      (index) => Quiz(
+        title: 'Poor follow-up care; unreliable (late/absent)',
+        id: '$index',
+      ),
+    );
+    final controllers = List.generate(4, (index) => QuizController());
     for (int i = 0; i < 4; i++) {
       data.add({
-        'quiz': List.generate(
-          5,
-          (index) => Quiz(
-            title: 'Poor follow-up care; unreliable (late/absent)',
-            id: '$index',
-          ),
-        ),
-        'controller': List.generate(4, (index) => QuizController()),
+        'quiz': quiz,
+        'controller': controllers,
       });
     }
   }
