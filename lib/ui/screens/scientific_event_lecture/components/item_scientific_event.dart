@@ -3,6 +3,7 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/ui/screens/edit_scientific_event_review/edit_scientific_event_review_screen.dart';
 import 'package:clerkship/ui/screens/scientific_event_review/scientific_event_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
@@ -21,10 +22,12 @@ import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemScientificEvent extends StatelessWidget {
   final bool rated;
+  final bool showCheckbox;
 
   ItemScientificEvent({
     super.key,
     this.rated = false,
+    this.showCheckbox = true,
   });
 
   final checkboxController = CheckboxController(false);
@@ -54,7 +57,11 @@ class ItemScientificEvent extends StatelessWidget {
                   ),
                 ),
                 RippleButton(
-                  onTap: () {},
+                  onTap: () {
+                    NavHelper.navigatePush(
+                      const EditScientificEventReviewScreen(),
+                    );
+                  },
                   padding: EdgeInsets.all(4.w),
                   child: SvgPicture.asset(
                     AssetIcons.icEdit,
@@ -64,7 +71,7 @@ class ItemScientificEvent extends StatelessWidget {
                 ),
               ],
             ).addMarginBottom(12)
-          else
+          else if (showCheckbox)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
@@ -249,7 +256,7 @@ class ItemScientificEvent extends StatelessWidget {
                   ),
                 ).addExpanded,
               ],
-            ).addMarginBottom(12),
+            ),
           if (rated)
             ValueListenableBuilder(
               valueListenable: expandableController,

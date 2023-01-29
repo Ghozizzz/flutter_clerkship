@@ -1,3 +1,4 @@
+import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
@@ -100,6 +101,10 @@ class ScientificEventReviewScreen extends StatelessWidget {
                     controller: noteController,
                     hint: 'Tulis catatan di sini',
                   ),
+                ).addMarginBottom(20),
+                PrimaryButton(
+                  onTap: () {},
+                  text: 'Simpan Penilaian',
                 ).addMarginBottom(20),
               ],
             ),

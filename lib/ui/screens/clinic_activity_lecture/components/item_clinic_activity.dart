@@ -180,7 +180,9 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                     Column(
                       children: List.generate(
                         2,
-                        (index) => const ItemFile().addMarginBottom(12),
+                        (index) => const ItemFile().addMarginBottom(
+                          index < 1 ? 12 : 0,
+                        ),
                       ),
                     ),
                     if (!widget.rated)
@@ -209,7 +211,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 theme: const ExpandableThemeData(
                   hasIcon: false,
                 ),
-              ).addMarginBottom(12);
+              );
             },
           ),
           if (!widget.rated)
@@ -289,7 +291,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   ),
                 ).addExpanded,
               ],
-            )
+            ).addMarginTop(12)
         ],
       ),
     );
