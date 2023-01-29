@@ -1,3 +1,4 @@
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -6,6 +7,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/ripple_button.dart';
+import '../../standard_competency_lecture/standard_competency_lecture_screen.dart';
 
 class ItemStudentCompetency extends StatelessWidget {
   const ItemStudentCompetency({
@@ -15,7 +17,9 @@ class ItemStudentCompetency extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RippleButton(
-      onTap: () {},
+      onTap: () {
+        NavHelper.navigatePush(const StandardCompetencyLectureScreen());
+      },
       border: Border.all(color: Themes.stroke),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
