@@ -1,3 +1,4 @@
+import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_group_response.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
@@ -12,9 +13,11 @@ class StandardCompetencyProvider extends ChangeNotifier {
   final List<SKList> skList = [];
   final List<SKListJenis> skListJenis = [];
   final List<SKListGroup> skListGroup = [];
+  final List<SKListGroupDetail> skListGroupDetail = [];
   bool isloadingListSK = false;
   bool isloadingListSKJenis = false;
   bool isloadingListSKGroup = false;
+  bool isloadingListSKGroupDetail = false;
 
   void getListSk() async {
     isloadingListSK = true;
@@ -56,6 +59,28 @@ class StandardCompetencyProvider extends ChangeNotifier {
       skListGroup.clear();
       skListGroup.addAll(result.data!.data!);
       isloadingListSKGroup = false;
+      notifyListeners();
+    } else {
+      Fluttertoast.showToast(msg: result.data!.message!);
+    }
+  }
+
+  void getListSKGroupDetail({
+    required int idGroup,
+    required int idBatch,
+    required int idJenisSK,
+  }) async {
+    isloadingListSKGroupDetail = true;
+    notifyListeners();
+    final result = await standardCompetencyService.getListGroupDetail(
+      idGroup: idGroup,
+      idBatch: idBatch,
+      idJenisSK: idJenisSK,
+    );
+    if (result.statusCode == 200) {
+      skListGroupDetail.clear();
+      skListGroupDetail.addAll(result.data!.data!);
+      isloadingListSKGroupDetail = false;
       notifyListeners();
     } else {
       Fluttertoast.showToast(msg: result.data!.message!);

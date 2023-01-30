@@ -42,18 +42,13 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (isLoadingJenis)
-              const Expanded(
-                child: Center(child: CircularProgressIndicator()),
-              )
-            else
-              Text(
-                'Standar Kompetensi',
-                style: Themes().primaryBold20,
-              ).addMarginOnly(
-                right: 20.w,
-                left: 20.w,
-              ),
+            Text(
+              'Standar Kompetensi',
+              style: Themes().primaryBold20,
+            ).addMarginOnly(
+              right: 20.w,
+              left: 20.w,
+            ),
             Text(
               breadcrumSK.title,
               style: Themes().blackBold10?.withColor(Themes.hint),
@@ -62,29 +57,34 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
               left: 20.w,
               bottom: 16,
             ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: skListJenis.length,
-              itemBuilder: (context, index) {
-                return ItemStandard(
-                  title: skListJenis[index].namaJenis!,
-                  onTap: () {
-                    context
-                        .read<StandardCompetencyProvider>()
-                        .getListSKGroup(idJenisSK: skListJenis[index].id!);
+            if (isLoadingJenis)
+              const Expanded(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else
+              ListView.builder(
+                padding: EdgeInsets.all(20.w),
+                itemCount: skListJenis.length,
+                itemBuilder: (context, index) {
+                  return ItemStandard(
+                    title: skListJenis[index].namaJenis!,
+                    onTap: () {
+                      context
+                          .read<StandardCompetencyProvider>()
+                          .getListSKGroup(idJenisSK: skListJenis[index].id!);
 
-                    NavHelper.navigatePush(
-                      SubStandardCompetencyScreen(
-                        breadcrumSK: breadcrumSK,
-                        breadcrumSKJenis: BreadcrumSK(
-                            id: skListJenis[index].id!,
-                            title: skListJenis[index].namaJenis!),
-                      ),
-                    );
-                  },
-                ).addMarginBottom(12);
-              },
-            ).addExpanded
+                      NavHelper.navigatePush(
+                        SubStandardCompetencyScreen(
+                          breadcrumSK: breadcrumSK,
+                          breadcrumSKJenis: BreadcrumSK(
+                              id: skListJenis[index].id!,
+                              title: skListJenis[index].namaJenis!),
+                        ),
+                      );
+                    },
+                  ).addMarginBottom(12);
+                },
+              ).addExpanded
           ],
         ),
       ),

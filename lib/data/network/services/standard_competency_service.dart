@@ -1,5 +1,6 @@
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
+import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,6 +66,35 @@ class StandardCompetencyService extends StandardCompetencyInterface {
       final skListGroupResponse = skListGroupResponseFromJson(response.body);
       return ResultData(
         data: skListGroupResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return Future.error(e);
+    }
+  }
+
+  @override
+  Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail({
+    required int idGroup,
+    required int idJenisSK,
+    required int idBatch,
+  }) async {
+    final endpoint = '${ApiConfig.baseUrl}/sk/list_detailed';
+    debugPrint(endpoint);
+
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: {
+        'id_group': idGroup.toString(),
+        'id_jenis': idJenisSK.toString(),
+        'id_batch': idBatch.toString(),
+      });
+      debugPrint(response.body);
+
+      final skListGroupDetailResponse =
+          skListGroupDetailResponseFromJson(response.body);
+      return ResultData(
+        data: skListGroupDetailResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {

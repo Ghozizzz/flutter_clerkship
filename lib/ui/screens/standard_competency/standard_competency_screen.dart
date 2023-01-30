@@ -41,38 +41,40 @@ class StandardCompetencyScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Text(
+              'Standar Kompetensi',
+              style: Themes().primaryBold20,
+            ).addMarginOnly(
+              right: 20.w,
+              left: 20.w,
+              bottom: 22,
+            ),
             if (isLoading)
               const Expanded(
                 child: Center(child: CircularProgressIndicator()),
               )
             else
-              Text(
-                'Standar Kompetensi',
-                style: Themes().primaryBold20,
-              ).addMarginOnly(
-                right: 20.w,
-                left: 20.w,
-                bottom: 22,
-              ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: skList.length,
-              itemBuilder: (context, index) {
-                return ItemStandard(
-                  title: skList[index].namaBatch!,
-                  onTap: () {
-                    context.read<StandardCompetencyProvider>().getListSKJenis();
-                    NavHelper.navigatePush(
-                      SubFirstStandardCompetencyScreen(
-                        breadcrumSK: BreadcrumSK(
-                            id: skList[index].id!,
-                            title: skList[index].namaBatch!),
-                      ),
-                    );
-                  },
-                ).addMarginBottom(12);
-              },
-            ).addExpanded
+              ListView.builder(
+                padding: EdgeInsets.all(20.w),
+                itemCount: skList.length,
+                itemBuilder: (context, index) {
+                  return ItemStandard(
+                    title: skList[index].namaBatch!,
+                    onTap: () {
+                      context
+                          .read<StandardCompetencyProvider>()
+                          .getListSKJenis();
+                      NavHelper.navigatePush(
+                        SubFirstStandardCompetencyScreen(
+                          breadcrumSK: BreadcrumSK(
+                              id: skList[index].id!,
+                              title: skList[index].namaBatch!),
+                        ),
+                      );
+                    },
+                  ).addMarginBottom(12);
+                },
+              ).addExpanded
           ],
         ),
       ),

@@ -59,27 +59,40 @@ class SubStandardCompetencyScreen extends StatelessWidget {
               left: 20.w,
               bottom: 16,
             ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: skListGroup.length,
-              itemBuilder: (context, index) {
-                return ItemStandard(
-                  title: skListGroup[index].namaGroup!,
-                  onTap: () {
-                    NavHelper.navigatePush(
-                      DetailStandardCompetencyScreen(
-                        breadcrumSK: breadcrumSK,
-                        breadcrumSKJenis: breadcrumSKJenis,
-                        breadcrumSKGroup: BreadcrumSK(
-                          id: skListGroup[index].id!,
-                          title: skListGroup[index].namaGroup!,
+            if (isLoadingGroup)
+              const Expanded(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else
+              ListView.builder(
+                padding: EdgeInsets.all(20.w),
+                itemCount: skListGroup.length,
+                itemBuilder: (context, index) {
+                  return ItemStandard(
+                    title: skListGroup[index].namaGroup!,
+                    onTap: () {
+                      context
+                          .read<StandardCompetencyProvider>()
+                          .getListSKGroupDetail(
+                            idJenisSK: breadcrumSKJenis.id,
+                            idBatch: breadcrumSK.id,
+                            idGroup: skListGroup[index].id!,
+                          );
+
+                      NavHelper.navigatePush(
+                        DetailStandardCompetencyScreen(
+                          breadcrumSK: breadcrumSK,
+                          breadcrumSKJenis: breadcrumSKJenis,
+                          breadcrumSKGroup: BreadcrumSK(
+                            id: skListGroup[index].id!,
+                            title: skListGroup[index].namaGroup!,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ).addMarginBottom(12);
-              },
-            ).addExpanded
+                      );
+                    },
+                  ).addMarginBottom(12);
+                },
+              ).addExpanded
           ],
         ),
       ),

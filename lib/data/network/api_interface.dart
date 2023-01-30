@@ -5,6 +5,7 @@ import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
+import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
 import 'package:clerkship/data/network/entity/users_response.dart';
@@ -109,4 +110,6 @@ abstract class StandardCompetencyInterface {
   Future<ResultData<SkListJenisResponse>> getListSkJenis();
   Future<ResultData<SkListGroupResponse>> getListGroup(
       {required int idJenisSK});
+  Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail(
+      {required int idGroup, required int idJenisSK, required int idBatch});
 }
