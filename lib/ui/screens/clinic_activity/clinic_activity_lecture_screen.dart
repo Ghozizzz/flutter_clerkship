@@ -1,4 +1,6 @@
+import 'package:clerkship/data/shared_providers/reference_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -33,13 +35,17 @@ class _ClinicActivityLectureScreenState
 
   @override
   Widget build(BuildContext context) {
+    final filterKegiatan = context.watch<ReferenceProvider>().filterKegiatan;
+
     return Scaffold(
       body: Column(
         children: [
           const PrimaryAppBar(
             title: 'Kembali',
           ).addMarginBottom(12),
-          FilterHeader(),
+          FilterHeader(
+            filterKegiatan: filterKegiatan,
+          ),
           Container(
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.symmetric(horizontal: 20.w),

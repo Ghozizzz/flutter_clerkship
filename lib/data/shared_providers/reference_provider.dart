@@ -1,4 +1,5 @@
 import 'package:clerkship/data/network/entity/departemen_response.dart';
+import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
 import 'package:clerkship/data/network/entity/item_reference_response.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,7 @@ class ReferenceProvider extends ChangeNotifier {
   final List<ItemReference> prosedur = [];
   final List<ItemReference> gejala = [];
   final List<Batch> batch = [];
-
-  ReferenceProvider() {
-    getBatch();
-  }
+  final List<FilterKegiatan> filterKegiatan = [];
 
   void resetData() {
     departemen.clear();
@@ -129,6 +127,15 @@ class ReferenceProvider extends ChangeNotifier {
     if (result.statusCode == 200) {
       batch.clear();
       batch.addAll(result.data!.data!);
+      notifyListeners();
+    }
+  }
+
+  void getFilterKegiatan() async {
+    final result = await referenceService.getFilterKegiatan();
+    if (result.statusCode == 200) {
+      filterKegiatan.clear();
+      filterKegiatan.addAll(result.data!.data!);
       notifyListeners();
     }
   }

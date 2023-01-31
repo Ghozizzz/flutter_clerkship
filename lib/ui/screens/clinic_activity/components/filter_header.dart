@@ -1,3 +1,4 @@
+import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -11,7 +12,8 @@ import '../../../components/buttons/multi_dropdown_field.dart';
 import '../../../components/buttons/primary_button.dart';
 
 class FilterHeader extends StatelessWidget {
-  FilterHeader({super.key});
+  final List<FilterKegiatan> filterKegiatan;
+  FilterHeader({super.key, required this.filterKegiatan});
 
   final datePickerController = DatePickerController();
   final activityTypeController = MultiDropDownController();
@@ -34,10 +36,11 @@ class FilterHeader extends StatelessWidget {
           hint: 'Kegiatan',
           showSelected: false,
           controller: activityTypeController,
+          enable: filterKegiatan.isNotEmpty,
           items: List.generate(
-            8,
+            filterKegiatan.length,
             (index) => DropDownItem(
-              title: 'Pembuatan status',
+              title: filterKegiatan[index].name!,
               value: index,
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
+import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
 import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
@@ -42,6 +43,7 @@ abstract class ReferenceApiInterface {
     required int idFeature,
     required int idJenis,
   });
+  Future<ResultData<FilterKegiatanResponse>> getFilterKegiatan();
 }
 
 abstract class ClinicActivityInterface {
