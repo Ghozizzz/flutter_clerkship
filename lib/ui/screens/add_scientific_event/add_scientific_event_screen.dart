@@ -93,7 +93,8 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
   @override
   Widget build(BuildContext context) {
     final batch = context.watch<ReferenceProvider>().batch;
-    final jeniskegiatan = context.watch<ReferenceProvider>().jenisKegiatan;
+    final jeniskegiatan =
+        context.watch<ReferenceProvider>().jenisKegiatanScientific;
     final peran = context.watch<ReferenceProvider>().peran;
     final preseptor = context.watch<UserProvider>().preseptor;
 
@@ -332,7 +333,9 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
   }
 
   void showOtherRef(BuildContext context, int id) {
-    context.read<ReferenceProvider>().getJenisKegiatan(departemenId: id);
+    context
+        .read<ReferenceProvider>()
+        .getJenisKegiatanScientific(departemenId: id);
     context.read<ReferenceProvider>().getPeran();
     context.read<UserProvider>().getPreseptor(
           departemenId: id,
