@@ -27,7 +27,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void getCurrentUser() async {
+  Future getCurrentUser() async {
     final result = await userService.getCurrentUser();
 
     if (result.statusCode == 200) {

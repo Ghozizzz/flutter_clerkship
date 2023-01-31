@@ -3,7 +3,7 @@ import 'package:clerkship/data/shared_providers/standard_competency_provider.dar
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
-import 'package:clerkship/ui/screens/standard_competency/standard_student_screen.dart';
+import 'package:clerkship/ui/screens/standard_competency/standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -72,7 +72,7 @@ class MainMenuWidget extends StatelessWidget {
               title: 'Standar\nKompetensi',
               onTap: () {
                 context.read<StandardCompetencyProvider>().getListSk();
-                NavHelper.navigatePush(const StandardStudentScreen());
+                NavHelper.navigatePush(const StandardCompetencyScreen());
               },
             ).addExpanded,
             Container(width: 20.w),

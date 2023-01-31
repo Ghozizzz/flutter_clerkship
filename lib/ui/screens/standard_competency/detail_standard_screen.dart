@@ -1,5 +1,3 @@
-import 'package:clerkship/data/models/breadcrum_sk.dart';
-import 'package:clerkship/ui/screens/standard_competency/detail_standard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -7,25 +5,30 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/models/breadcrum_sk.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
 import '../../../r.dart';
-import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_standard.dart';
+import '../standard_competency/components/item_standard_total.dart';
 
-class SubStandardCompetencyScreen extends StatelessWidget {
+class DetailStandardCompetencyScreen extends StatelessWidget {
   final BreadcrumSK breadcrumSK;
   final BreadcrumSK breadcrumSKJenis;
-  const SubStandardCompetencyScreen(
-      {super.key, required this.breadcrumSK, required this.breadcrumSKJenis});
+  final BreadcrumSK breadcrumSKGroup;
+  const DetailStandardCompetencyScreen(
+      {super.key,
+      required this.breadcrumSK,
+      required this.breadcrumSKJenis,
+      required this.breadcrumSKGroup});
 
   @override
   Widget build(BuildContext context) {
-    final skListGroup = context.watch<StandardCompetencyProvider>().skListGroup;
-    final isLoadingGroup =
-        context.watch<StandardCompetencyProvider>().isloadingListSKGroup;
+    final skListGroupDetail =
+        context.watch<StandardCompetencyProvider>().skListGroupDetail;
+    final isLoadingGroupDetail =
+        context.watch<StandardCompetencyProvider>().isloadingListSKGroupDetail;
 
     return SafeStatusBar(
       child: Scaffold(
@@ -45,51 +48,33 @@ class SubStandardCompetencyScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'Standar Kompetensi',
+              'Penilaian Akhir',
               style: Themes().primaryBold20,
             ).addMarginOnly(
+              top: 20.w,
               right: 20.w,
               left: 20.w,
             ),
             Text(
-              '${breadcrumSK.title} > ${breadcrumSKJenis.title}',
+              '${breadcrumSK.title} > ${breadcrumSKJenis.title} > ${breadcrumSKGroup.title}',
               style: Themes().blackBold10?.withColor(Themes.hint),
             ).addMarginOnly(
               top: 4,
               left: 20.w,
               bottom: 16,
             ),
-            if (isLoadingGroup)
+            if (isLoadingGroupDetail)
               const Expanded(
                 child: Center(child: CircularProgressIndicator()),
               )
             else
               ListView.builder(
                 padding: EdgeInsets.all(20.w),
-                itemCount: skListGroup.length,
+                itemCount: skListGroupDetail.length,
                 itemBuilder: (context, index) {
-                  return ItemStandard(
-                    title: skListGroup[index].namaGroup!,
-                    onTap: () {
-                      context
-                          .read<StandardCompetencyProvider>()
-                          .getListSKGroupDetail(
-                            idJenisSK: breadcrumSKJenis.id,
-                            idBatch: breadcrumSK.id,
-                            idGroup: skListGroup[index].id!,
-                          );
-
-                      NavHelper.navigatePush(
-                        DetailStandardCompetencyScreen(
-                          breadcrumSK: breadcrumSK,
-                          breadcrumSKJenis: breadcrumSKJenis,
-                          breadcrumSKGroup: BreadcrumSK(
-                            id: skListGroup[index].id!,
-                            title: skListGroup[index].namaGroup!,
-                          ),
-                        ),
-                      );
-                    },
+                  return ItemStandardTotal(
+                    title: skListGroupDetail[index].name!,
+                    total: skListGroupDetail[index].jumlah!,
                   ).addMarginBottom(12);
                 },
               ).addExpanded

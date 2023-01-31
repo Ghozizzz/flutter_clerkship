@@ -110,6 +110,7 @@ class _StandardStudentScreenState extends State<StandardStudentScreen> {
                             );
                           }
                         },
+                        title: '',
                       ),
                     ).addMarginBottom(12);
                   },
@@ -121,7 +122,10 @@ class _StandardStudentScreenState extends State<StandardStudentScreen> {
                   itemBuilder: (context, index) {
                     return AnimatedItem(
                       index: index,
-                      child: const ItemStandardTotal(),
+                      child: const ItemStandardTotal(
+                        title: '',
+                        total: 0,
+                      ),
                     ).addMarginBottom(12);
                   },
                 ).addExpanded

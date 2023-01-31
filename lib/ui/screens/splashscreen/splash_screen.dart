@@ -19,6 +19,7 @@ import '../../../data/shared_providers/auth_provider.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
+import '../dashboard_lecture/dashboard_lecture_screen.dart';
 import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,7 +47,6 @@ class _SplashScreenState extends State<SplashScreen> {
         final isLogged = await context.read<AuthProvider>().isLogged();
         if (isLogged) {
           getCurrentUser();
-          NavHelper.navigateReplace(const DashboardStudentScreen());
         } else {
           NavHelper.navigateReplace(LoginScreen());
         }
@@ -55,7 +55,18 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void getCurrentUser() {
-    context.read<UserProvider>().getCurrentUser();
+    context.read<UserProvider>().getCurrentUser().then((value) {
+      var role = context.read<UserProvider>().user.roleId;
+      if (role == 1) {
+        NavHelper.navigateReplace(
+          const DashboardLectureScreen(),
+        );
+      } else {
+        NavHelper.navigateReplace(
+          const DashboardStudentScreen(),
+        );
+      }
+    });
   }
 
   @override

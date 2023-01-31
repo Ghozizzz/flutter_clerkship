@@ -1,5 +1,6 @@
 import 'package:clerkship/data/shared_providers/auth_provider.dart';
 import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
+import 'package:clerkship/ui/screens/dashboard_lecture/dashboard_lecture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -115,13 +116,25 @@ class LoginScreen extends StatelessWidget {
                     context.read<AuthProvider>().doLogin(
                           email: emailController.text,
                           password: passwordController.text,
-                          onFinish: (success) {
+                          onFinish: (success) async {
                             if (success) {
-                              context.read<UserProvider>().getCurrentUser();
+                              await context
+                                  .read<UserProvider>()
+                                  .getCurrentUser()
+                                  .then((value) {
+                                var role =
+                                    context.read<UserProvider>().user.roleId;
 
-                              NavHelper.navigateReplace(
-                                const DashboardStudentScreen(),
-                              );
+                                if (role == 1) {
+                                  NavHelper.navigateReplace(
+                                    const DashboardLectureScreen(),
+                                  );
+                                } else {
+                                  NavHelper.navigateReplace(
+                                    const DashboardStudentScreen(),
+                                  );
+                                }
+                              });
                             }
                           },
                         );
