@@ -51,7 +51,7 @@ class DialogHelper {
     );
   }
 
-  static void showProgressDialog({
+  static Future showProgressDialog({
     String? title,
     String? message,
   }) {
@@ -64,12 +64,12 @@ class DialogHelper {
     );
   }
 
-  static void showCustomDialog({
+  static Future showCustomDialog({
     Widget Function(BuildContext context)? builder,
     Widget? child,
     bool dismissable = true,
   }) {
-    showGeneralDialog(
+    return showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.5),
       transitionBuilder: (context, a1, a2, widget) {
         return Transform.translate(
@@ -100,12 +100,12 @@ class DialogHelper {
     );
   }
 
-  static void showMessageDialog({
+  static Future showMessageDialog({
     String? title,
     String? body,
     AlertType? alertType,
   }) {
-    showCustomDialog(
+    return showCustomDialog(
       child: CustomAlertDialog(
         title: title ?? '',
         message: body ?? '',

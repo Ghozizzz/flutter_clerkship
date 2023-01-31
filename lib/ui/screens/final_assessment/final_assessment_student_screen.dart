@@ -1,4 +1,3 @@
-import 'package:clerkship/ui/screens/standard_competency/components/item_standard_total.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +11,7 @@ import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
+import '../standard_competency/components/item_standard_total.dart';
 
 class DetailStandardCompetencyScreen extends StatelessWidget {
   final BreadcrumSK breadcrumSK;
@@ -48,9 +48,10 @@ class DetailStandardCompetencyScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'Standar Kompetensi',
+              'Penilaian Akhir',
               style: Themes().primaryBold20,
             ).addMarginOnly(
+              top: 20.w,
               right: 20.w,
               left: 20.w,
             ),

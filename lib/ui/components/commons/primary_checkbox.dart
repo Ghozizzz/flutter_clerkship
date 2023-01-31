@@ -16,6 +16,8 @@ class PrimaryCheckbox extends StatefulWidget {
   final String? title;
   final Size? checkBoxSize;
   final Color? color;
+  final Color? unCheckColor;
+  final double strokeWidth;
 
   const PrimaryCheckbox({
     super.key,
@@ -24,6 +26,8 @@ class PrimaryCheckbox extends StatefulWidget {
     this.title,
     this.checkBoxSize,
     this.color,
+    this.unCheckColor,
+    this.strokeWidth = 1,
   });
 
   @override
@@ -60,7 +64,8 @@ class PrimaryCheckboxState extends State<PrimaryCheckbox> {
                     border: Border.all(
                       color: value
                           ? (widget.color ?? Themes.checkbox)
-                          : Themes.stroke,
+                          : (widget.unCheckColor ?? Themes.stroke),
+                      width: widget.strokeWidth,
                     ),
                     color: value
                         ? (widget.color ?? Themes.checkbox)

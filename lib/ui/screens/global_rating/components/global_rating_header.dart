@@ -7,7 +7,12 @@ import '../../../../config/themes.dart';
 import '../../../../r.dart';
 
 class GlobalRatingHeader extends StatelessWidget {
-  const GlobalRatingHeader({super.key});
+  final bool isQuiz;
+
+  const GlobalRatingHeader({
+    super.key,
+    this.isQuiz = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,41 +41,46 @@ class GlobalRatingHeader extends StatelessWidget {
             height: 1,
             color: Themes.stroke,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                AssetIcons.icOffice,
-                width: 12.w,
-                height: 12.w,
-                color: Themes.grey,
-              ).addMarginRight(8.w),
-              Text(
-                'Ilmu Penyakit Dalam',
-                style: Themes().blackBold10,
-              ),
-            ],
-          ).addSymmetricMargin(vertical: 10),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                AssetIcons.icCalendar,
-                width: 12.w,
-                height: 12.w,
-                color: Themes.grey,
-              ).addMarginRight(8.w),
-              Text(
-                '5 Mei 2022 - 10 Agustus 2022',
-                style: Themes().blackBold10,
-              ),
-            ],
-          ).addMarginBottom(12),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Themes.stroke,
-          ),
+          if (!isQuiz)
+            Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      AssetIcons.icOffice,
+                      width: 12.w,
+                      height: 12.w,
+                      color: Themes.grey,
+                    ).addMarginRight(8.w),
+                    Text(
+                      'Ilmu Penyakit Dalam',
+                      style: Themes().blackBold10,
+                    ),
+                  ],
+                ).addSymmetricMargin(vertical: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      AssetIcons.icCalendar,
+                      width: 12.w,
+                      height: 12.w,
+                      color: Themes.grey,
+                    ).addMarginRight(8.w),
+                    Text(
+                      '5 Mei 2022 - 10 Agustus 2022',
+                      style: Themes().blackBold10,
+                    ),
+                  ],
+                ).addMarginBottom(12),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Themes.stroke,
+                ),
+              ],
+            ),
         ],
       ),
     );

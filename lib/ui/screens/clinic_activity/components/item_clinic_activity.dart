@@ -80,6 +80,8 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
+              unCheckColor: Themes.hint,
+              strokeWidth: 2,
             ).addMarginBottom(12),
           Text(
             'Jaga Malam',
@@ -180,7 +182,9 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                         2,
                         (index) => const ItemFile(
                           title: '',
-                        ).addMarginBottom(12),
+                        ).addMarginBottom(
+                          index < 1 ? 12 : 0,
+                        ),
                       ),
                     ),
                     if (!widget.rated)
@@ -209,7 +213,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 theme: const ExpandableThemeData(
                   hasIcon: false,
                 ),
-              ).addMarginBottom(12);
+              );
             },
           ),
           if (!widget.rated)
@@ -287,7 +291,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   ),
                 ).addExpanded,
               ],
-            )
+            ).addMarginTop(12)
         ],
       ),
     );

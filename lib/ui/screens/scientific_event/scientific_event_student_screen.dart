@@ -18,14 +18,16 @@ import 'components/item_list_approve.dart';
 import 'components/item_list_draft.dart';
 import 'components/item_list_reject.dart';
 
-class ScientificEventScreen extends StatefulWidget {
-  const ScientificEventScreen({super.key});
+class ScientificEventStudentScreen extends StatefulWidget {
+  const ScientificEventStudentScreen({super.key});
 
   @override
-  State<ScientificEventScreen> createState() => _ScientificEventScreenState();
+  State<ScientificEventStudentScreen> createState() =>
+      _ScientificEventStudentScreenState();
 }
 
-class _ScientificEventScreenState extends State<ScientificEventScreen>
+class _ScientificEventStudentScreenState
+    extends State<ScientificEventStudentScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 

@@ -18,14 +18,16 @@ import '../add_clinic_activity/add_clinic_activity_screen.dart';
 import 'components/item_list_approve.dart';
 import 'components/item_list_reject.dart';
 
-class ClinicActivityScreen extends StatefulWidget {
-  const ClinicActivityScreen({super.key});
+class ClinicActivityStudentScreen extends StatefulWidget {
+  const ClinicActivityStudentScreen({super.key});
 
   @override
-  State<ClinicActivityScreen> createState() => _ClinicActivityScreenState();
+  State<ClinicActivityStudentScreen> createState() =>
+      _ClinicActivityStudentScreenState();
 }
 
-class _ClinicActivityScreenState extends State<ClinicActivityScreen>
+class _ClinicActivityStudentScreenState
+    extends State<ClinicActivityStudentScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 

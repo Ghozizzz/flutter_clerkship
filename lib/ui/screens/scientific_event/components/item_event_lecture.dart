@@ -3,10 +3,13 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
-import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
+import 'package:clerkship/ui/screens/edit_scientific_event_review/edit_scientific_event_review_screen.dart';
+import 'package:clerkship/ui/screens/scientific_event_review/scientific_event_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -17,15 +20,18 @@ import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
-class ItemScientificEvent extends StatelessWidget {
+class ItemEventLecture extends StatelessWidget {
   final bool rated;
+  final bool showCheckbox;
 
-  ItemScientificEvent({
+  ItemEventLecture({
     super.key,
     this.rated = false,
+    this.showCheckbox = true,
   });
 
   final checkboxController = CheckboxController(false);
+  final expandableController = ExpandableController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,11 @@ class ItemScientificEvent extends StatelessWidget {
                   ),
                 ),
                 RippleButton(
-                  onTap: () {},
+                  onTap: () {
+                    NavHelper.navigatePush(
+                      const EditScientificEventReviewScreen(),
+                    );
+                  },
                   padding: EdgeInsets.all(4.w),
                   child: SvgPicture.asset(
                     AssetIcons.icEdit,
@@ -61,10 +71,12 @@ class ItemScientificEvent extends StatelessWidget {
                 ),
               ],
             ).addMarginBottom(12)
-          else
+          else if (showCheckbox)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
+              unCheckColor: Themes.hint,
+              strokeWidth: 2,
             ).addMarginBottom(12),
           Text(
             'Jaga Malam',
@@ -222,9 +234,7 @@ class ItemScientificEvent extends StatelessWidget {
                       optionalField: true,
                       onPositiveTapWithField: (fieldValue) {
                         Navigator.pop(context);
-                        NavHelper.navigatePush(
-                          ClinicActivityReviewScreen(),
-                        );
+                        NavHelper.navigatePush(ScientificEventReviewScreen());
                       },
                     );
                   },
@@ -246,7 +256,92 @@ class ItemScientificEvent extends StatelessWidget {
                   ),
                 ).addExpanded,
               ],
-            )
+            ),
+          if (rated)
+            ValueListenableBuilder(
+              valueListenable: expandableController,
+              builder: (context, expanded, __) {
+                return FlatCard(
+                  color: Themes.greyBg,
+                  border: Border.all(color: Themes.stroke),
+                  child: ExpandablePanel(
+                    controller: expandableController,
+                    header: RippleButton(
+                      onTap: () {
+                        expandableController.toggle();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Lihat Tinjauan',
+                            style: Themes().black12,
+                          ),
+                          SvgPicture.asset(
+                            AssetIcons.icChevronDown,
+                          ).animate(target: expanded ? 0.5 : 0).rotate(),
+                        ],
+                      ),
+                    ),
+                    collapsed: Container(),
+                    expanded: Column(
+                      children: const [
+                        ItemInfoSegment(
+                          title:
+                              'Patient Demographic Information (age, gender, social information)',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking - Presenting complaints',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Past history',
+                          value: 'F',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Family history',
+                          value: 'P',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Family history',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'History Taking -	Other',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'General physical examination',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title:
+                              'Investigations needed to support diagnosis and expected results',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        ItemInfoSegment(
+                          title: 'Summary',
+                          value: 'P-',
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                      ],
+                    ).addSymmetricMargin(horizontal: 12.w),
+                    theme: const ExpandableThemeData(
+                      hasIcon: false,
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

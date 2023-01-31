@@ -3,7 +3,7 @@ import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/tertiary_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
-import 'package:clerkship/ui/screens/reject_activity/components/item_activity_rejection.dart';
+import 'package:clerkship/ui/screens/reject_event/components/item_event_rejection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -57,7 +57,7 @@ class RejectActivityScreen extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   itemCount: reasonControllers.length,
                   itemBuilder: (context, index) {
-                    return ItemActivityRejection(
+                    return ItemEventRejection(
                       reasonController: reasonControllers[index],
                     ).addMarginBottom(12);
                   },
