@@ -5,26 +5,33 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
+import 'package:clerkship/utils/extensions.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/clinic_lecture_response.dart';
 import '../../../components/commons/primary_checkbox.dart';
-import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
+import 'bullet_list.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
+  final ClinicActivityData data;
 
   const ItemClinicActivity({
     super.key,
+    required this.data,
     this.rated = false,
   });
 
@@ -40,10 +47,28 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
   void initState() {
     super.initState();
     expandableController.expanded = widget.rated;
+    checkboxController.value = widget.data.checked;
   }
 
   @override
   Widget build(BuildContext context) {
+    final header = widget.data.data?.first.header;
+    final details = widget.data.data?.first.detail;
+    final documents = widget.data.data?.first.document;
+    final reviews = widget.data.data?.first.tinjauan;
+    final Map<String, List<String>> detail = {};
+    final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
+
+    for (Detail detalBody in details ?? []) {
+      if (detalBody.namaJenis != null && detalBody.namaItem != null) {
+        if (detail.containsKey(detalBody.namaJenis)) {
+          detail[detalBody.namaJenis!]!.add(detalBody.namaItem!);
+        } else {
+          detail[detalBody.namaJenis!] = [detalBody.namaItem!];
+        }
+      }
+    }
+
     return FlatCard(
       padding: EdgeInsets.all(12.w),
       border: Border.all(color: Themes.stroke),
@@ -76,24 +101,38 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 ),
               ],
             ).addMarginBottom(12)
-          else
+          else if (widget.data.data?.first.header?.isMinicex == 0)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
               unCheckColor: Themes.hint,
               strokeWidth: 2,
-            ).addMarginBottom(12),
+              onValueChange: (value) {
+                widget.data.checked = value;
+
+                if (header == null) return;
+                if (value) {
+                  context
+                      .read<ClinicActivityLectureProvider>()
+                      .addCheckId(header.id!);
+                } else {
+                  context
+                      .read<ClinicActivityLectureProvider>()
+                      .removeCheckId(header.id!);
+                }
+              },
+            ),
           Text(
-            'Jaga Malam',
+            header?.namaKegiatan ?? '',
             style: Themes().blackBold14?.withColor(Themes.black),
-          ),
+          ).addMarginTop(12),
           if (widget.rated)
             Column(
               children: [
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Tanggal',
-                  value: '10 August 2022',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.tanggal?.formatDate('dd MMMM yyyy') ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 ItemInfoSegment(
                   title: 'Preseptor',
@@ -125,15 +164,15 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
           else
             Column(
               children: [
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Mahasiswa',
-                  value: 'Bhima Saputra',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaStudent ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaDepartment ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             ),
@@ -163,30 +202,38 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 expanded: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const BulletList(
-                      title: 'Penyakit',
-                    ),
-                    const BulletList(
-                      title: 'Prosedur',
-                      withCount: true,
+                    Column(
+                      children: detail.entries.map((entry) {
+                        return BulletList(
+                          title: entry.key,
+                          listData: entry.value,
+                        );
+                      }).toList(),
                     ),
                     const BulletList(
                       title: 'Catatan',
                     ).addMarginBottom(20),
-                    Text(
-                      'Attachment',
-                      style: Themes().blackBold12?.withColor(Themes.hint),
-                    ).addMarginBottom(8),
-                    Column(
-                      children: List.generate(
-                        2,
-                        (index) => const ItemFile(
-                          title: '',
-                        ).addMarginBottom(
-                          index < 1 ? 12 : 0,
+                    if (documents?.isNotEmpty ?? false)
+                      Text(
+                        'Attachment',
+                        style: Themes().blackBold12?.withColor(Themes.hint),
+                      ).addMarginBottom(8),
+                    if (documents?.isNotEmpty ?? false)
+                      Column(
+                        children: List.generate(
+                          documents?.length ?? 0,
+                          (index) {
+                            final document = documents?[index];
+
+                            return ItemFile(
+                              title: document?.fileName ?? '',
+                              url: document?.fileUrl ?? '',
+                            ).addMarginBottom(
+                              index < 1 ? 12 : 0,
+                            );
+                          },
                         ),
                       ),
-                    ),
                     if (!widget.rated)
                       RippleButton(
                         onTap: () {
@@ -291,7 +338,23 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   ),
                 ).addExpanded,
               ],
-            ).addMarginTop(12)
+            )
+                .addMarginTop(12)
+                .animate(target: checkedId.isEmpty ? 0 : 1)
+                .slideY(
+                  begin: 0,
+                  end: -0.5,
+                  curve: Curves.elasticInOut,
+                  duration: const Duration(milliseconds: 400),
+                )
+                .fade(
+                  duration: const Duration(milliseconds: 400),
+                  begin: 1,
+                  end: 0,
+                )
+                .hide(
+                  maintain: false,
+                ),
         ],
       ),
     );

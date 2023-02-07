@@ -178,7 +178,10 @@ class ItemEventLecture extends StatelessWidget {
               Column(
                 children: List.generate(
                   2,
-                  (index) => const ItemFile(title: '').addMarginBottom(12),
+                  (index) => const ItemFile(
+                    title: '',
+                    url: '',
+                  ).addMarginBottom(12),
                 ),
               ),
             ],

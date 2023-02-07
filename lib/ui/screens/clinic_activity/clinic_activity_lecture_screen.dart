@@ -1,5 +1,7 @@
-import 'package:clerkship/data/shared_providers/reference_provider.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -31,11 +33,19 @@ class _ClinicActivityLectureScreenState
       length: 2,
       vsync: this,
     );
+    Tools.onViewCreated(() {
+      context.read<ClinicActivityLectureProvider>().getClinicActivities();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final filterKegiatan = context.watch<ReferenceProvider>().filterKegiatan;
+    final loading = context.watch<ClinicActivityLectureProvider>().loading;
+    final listData = [
+      context.watch<ClinicActivityLectureProvider>().clinicActivities,
+      context.watch<ClinicActivityLectureProvider>().ratedClinicActivities,
+    ];
+    final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
 
     return Scaffold(
       body: Column(
@@ -43,9 +53,7 @@ class _ClinicActivityLectureScreenState
           const PrimaryAppBar(
             title: 'Kembali',
           ).addMarginBottom(12),
-          FilterHeader(
-            filterKegiatan: filterKegiatan,
-          ),
+          const FilterHeader(),
           Container(
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -66,23 +74,51 @@ class _ClinicActivityLectureScreenState
             controller: tabController,
             children: List.generate(
               2,
-              (pageIndex) => Column(
-                children: [
-                  ListView.builder(
-                    itemCount: 12,
-                    padding: EdgeInsets.all(20.w),
-                    itemBuilder: (context, index) {
-                      return AnimatedItem(
-                        index: index,
-                        child: ItemGroupClinicActivity(
-                          rated: pageIndex == 1,
-                        ),
-                      ).addMarginBottom(20);
-                    },
-                  ).addExpanded,
-                  if (pageIndex == 0) const FooterWidget(),
-                ],
-              ),
+              (pageIndex) {
+                final currentLoading = pageIndex == 0 ? loading : loading;
+
+                return Column(
+                  children: [
+                    if (currentLoading)
+                      const Expanded(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    else
+                      ListView.builder(
+                        itemCount: listData[pageIndex].length,
+                        padding: EdgeInsets.all(20.w),
+                        itemBuilder: (context, index) {
+                          final clinicActivities =
+                              listData[pageIndex].entries.toList()[index];
+
+                          return AnimatedItem(
+                            index: index,
+                            child: ItemGroupClinicActivity(
+                              clinicActivities: clinicActivities,
+                              rated: pageIndex == 1,
+                            ),
+                          ).addMarginBottom(20);
+                        },
+                      ).addExpanded,
+                    if (pageIndex == 0)
+                      const FooterWidget()
+                          .animate(target: checkedId.isNotEmpty ? 0 : 1)
+                          .slideY(
+                            begin: 0,
+                            end: 1,
+                            duration: Duration(
+                              milliseconds: checkedId.isNotEmpty ? 800 : 200,
+                            ),
+                            curve: checkedId.isNotEmpty
+                                ? Curves.elasticIn
+                                : Curves.easeIn,
+                          )
+                          .hide(
+                            maintain: false,
+                          ),
+                  ],
+                );
+              },
             ),
           ).addExpanded,
         ],

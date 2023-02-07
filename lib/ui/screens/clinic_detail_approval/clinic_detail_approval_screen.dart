@@ -276,6 +276,7 @@ class _ClinicDetailApprovalScreenState
                       children: List.generate(
                         listDocument.length,
                         (index) => ItemFile(
+                          url: '',
                           onTap: () async {
                             if (await Permission.storage.request().isGranted) {
                               DialogHelper.showProgressDialog();

@@ -1,29 +1,33 @@
-import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
+import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../data/models/dropdown_item.dart';
+import '../../../../data/shared_providers/reference_provider.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/date_picker_button.dart';
-import '../../../components/buttons/multi_dropdown_field.dart';
 import '../../../components/buttons/primary_button.dart';
+import '../providers/clinic_activity_lecture_provider.dart';
 
 class FilterHeader extends StatelessWidget {
-  final List<FilterKegiatan> filterKegiatan;
-  FilterHeader({super.key, required this.filterKegiatan});
-
-  final datePickerController = DatePickerController();
-  final activityTypeController = MultiDropDownController();
+  const FilterHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final filterKegiatan = context.watch<ReferenceProvider>().filterKegiatan;
+    final dateController =
+        context.watch<ClinicActivityLectureProvider>().dateController;
+    final activityFilterController =
+        context.watch<ClinicActivityLectureProvider>().activityFilterController;
+
     return Row(
       children: [
         DatePickerButton(
-          controller: datePickerController,
+          controller: dateController,
           dateFormat: 'dd/MM/yyyy',
           hint: 'Tanggal',
           icon: SvgPicture.asset(
@@ -32,10 +36,9 @@ class FilterHeader extends StatelessWidget {
           textStyle: Themes().black12,
         ).addExpanded,
         Container(width: 10.w),
-        MultiDropdownField(
+        DropdownField(
           hint: 'Kegiatan',
-          showSelected: false,
-          controller: activityTypeController,
+          controller: activityFilterController,
           enable: filterKegiatan.isNotEmpty,
           items: List.generate(
             filterKegiatan.length,
@@ -44,7 +47,6 @@ class FilterHeader extends StatelessWidget {
               value: index,
             ),
           ),
-          textStyle: Themes().black12,
         ).addExpanded,
         Container(width: 10.w),
         PrimaryButton(

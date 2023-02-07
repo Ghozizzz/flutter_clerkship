@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/models/dropdown_item.dart';
@@ -101,7 +102,7 @@ class _DropdownFieldState<T> extends State<DropdownField> {
                       style: Themes().black12?.withColor(searchItem.isNotEmpty
                           ? widget.textColor
                           : Themes.hint),
-                    );
+                    ).addFlexible;
                   },
                 ),
                 widget.icon ?? SvgPicture.asset(AssetIcons.icChevronRight),

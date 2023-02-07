@@ -281,6 +281,7 @@ class _ScientificEventDetailApprovalScreenState
                               );
                             }
                           },
+                          url: '',
                           title: listDocument[index].fileName!,
                         ).addMarginBottom(12),
                       ),

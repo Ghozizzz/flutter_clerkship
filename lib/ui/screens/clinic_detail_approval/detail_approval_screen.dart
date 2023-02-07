@@ -137,6 +137,7 @@ class DetailApprovalScreen extends StatelessWidget {
                       2,
                       (index) => const ItemFile(
                         title: 'File 1',
+                        url: '',
                       ).addMarginBottom(12),
                     ),
                   ).addMarginBottom(8),
