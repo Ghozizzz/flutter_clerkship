@@ -5,11 +5,9 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
-import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import 'components/filter_header.dart';
-import 'components/footer_widget.dart';
-import 'components/item_group_clinic_activity.dart';
+import 'components/item_rate_clinic_lecture_activity.dart';
 
 class ClinicActivityLectureScreen extends StatefulWidget {
   const ClinicActivityLectureScreen({super.key});
@@ -62,29 +60,10 @@ class _ClinicActivityLectureScreenState
               ],
             ),
           ).addMarginTop(20),
-          TabBarView(
-            controller: tabController,
-            children: List.generate(
-              2,
-              (pageIndex) => Column(
-                children: [
-                  ListView.builder(
-                    itemCount: 12,
-                    padding: EdgeInsets.all(20.w),
-                    itemBuilder: (context, index) {
-                      return AnimatedItem(
-                        index: index,
-                        child: ItemGroupClinicActivity(
-                          rated: pageIndex == 1,
-                        ),
-                      ).addMarginBottom(20);
-                    },
-                  ).addExpanded,
-                  if (pageIndex == 0) const FooterWidget(),
-                ],
-              ),
-            ),
-          ).addExpanded,
+          TabBarView(controller: tabController, children: const [
+            ListItemRateClinicLecture(),
+            ListItemRateClinicLecture(),
+          ]).addExpanded,
         ],
       ),
     );

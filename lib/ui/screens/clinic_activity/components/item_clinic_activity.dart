@@ -15,6 +15,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/clinic_doctor_response.dart';
 import '../../../components/commons/primary_checkbox.dart';
 import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
@@ -22,10 +23,12 @@ import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
+  final List<ClinicData> data;
 
   const ItemClinicActivity({
     super.key,
     this.rated = false,
+    required this.data,
   });
 
   @override

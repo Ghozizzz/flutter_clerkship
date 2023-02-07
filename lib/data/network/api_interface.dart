@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
+import 'package:clerkship/data/network/entity/clinic_doctor_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
@@ -72,6 +73,14 @@ abstract class ClinicActivityInterface {
   Future<ResultData<ClinicDetailResponse>> getDetailClinic({required int id});
   Future<ResultData<ClinicResponse>> getListClinic({final int? status});
   Future<ResultData<DefaultResponse>> deleteClinic({required int id});
+}
+
+abstract class ClinicActivityLectureInterface {
+  Future<ResultData<ClinicDoctorResponse>> getListClinicLecture({
+    required int status,
+    final int? idFeature,
+    final DateTime? date,
+  });
 }
 
 abstract class ScientificActivityInterface {
