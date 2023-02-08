@@ -16,8 +16,14 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
 
   final dateController = DatePickerController();
   final activityFilterController = DropDownController();
+  int pageIndex = 0;
 
   bool loading = true;
+
+  void setPageIndex(int index) {
+    pageIndex = index;
+    notifyListeners();
+  }
 
   void addCheckId(int id) {
     checkedId.add(id);
@@ -31,11 +37,15 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
 
   void getClinicActivities() async {
     loading = true;
+    checkedId.clear();
     notifyListeners();
 
     final response = await clinicActivityService.getListLectureClinicActivities(
       status: 2,
+      date: dateController.selected,
+      idKegiatan: activityFilterController.selected?.value,
     );
+
     clinicActivities.clear();
     for (ClinicActivityData data in response.data?.data ?? []) {
       if (data.tanggal != null) {

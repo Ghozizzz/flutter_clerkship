@@ -10,19 +10,26 @@ import '../../../../data/models/dropdown_item.dart';
 import '../../../../data/shared_providers/reference_provider.dart';
 import '../../../../r.dart';
 import '../../../components/buttons/date_picker_button.dart';
-import '../../../components/buttons/primary_button.dart';
 import '../providers/clinic_activity_lecture_provider.dart';
 
-class FilterHeader extends StatelessWidget {
+class FilterHeader extends StatefulWidget {
   const FilterHeader({super.key});
 
   @override
+  State<FilterHeader> createState() => _FilterHeaderState();
+}
+
+class _FilterHeaderState extends State<FilterHeader> {
+  @override
   Widget build(BuildContext context) {
-    final filterKegiatan = context.watch<ReferenceProvider>().filterKegiatan;
-    final dateController =
-        context.watch<ClinicActivityLectureProvider>().dateController;
+    final clinicActivityLectureProvider =
+        context.watch<ClinicActivityLectureProvider>();
+    final refrenceProvider = context.watch<ReferenceProvider>();
+
+    final filterKegiatan = refrenceProvider.filterKegiatan;
+    final dateController = clinicActivityLectureProvider.dateController;
     final activityFilterController =
-        context.watch<ClinicActivityLectureProvider>().activityFilterController;
+        clinicActivityLectureProvider.activityFilterController;
 
     return Row(
       children: [
@@ -34,6 +41,13 @@ class FilterHeader extends StatelessWidget {
             AssetIcons.icChevronRight,
           ),
           textStyle: Themes().black12,
+          onDatePicked: (date) {
+            context.read<ClinicActivityLectureProvider>().getClinicActivities();
+          },
+          onRemoved: () {
+            context.read<ClinicActivityLectureProvider>().getClinicActivities();
+          },
+          withReset: true,
         ).addExpanded,
         Container(width: 10.w),
         DropdownField(
@@ -47,17 +61,24 @@ class FilterHeader extends StatelessWidget {
               value: index,
             ),
           ),
+          onSelected: (value) {
+            context.read<ClinicActivityLectureProvider>().getClinicActivities();
+          },
+          onRemoved: () {
+            context.read<ClinicActivityLectureProvider>().getClinicActivities();
+          },
+          withReset: true,
         ).addExpanded,
-        Container(width: 10.w),
-        PrimaryButton(
-          onTap: () {},
-          padding: EdgeInsets.all(10.w),
-          child: SvgPicture.asset(
-            AssetIcons.icSearch,
-            color: Themes.white,
-            width: 24.w,
-          ),
-        ),
+        // Container(width: 10.w),
+        // PrimaryButton(
+        //   onTap: () {},
+        //   padding: EdgeInsets.all(10.w),
+        //   child: SvgPicture.asset(
+        //     AssetIcons.icSearch,
+        //     color: Themes.white,
+        //     width: 24.w,
+        //   ),
+        // ),
       ],
     ).addSymmetricMargin(horizontal: 24.w);
   }

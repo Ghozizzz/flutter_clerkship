@@ -25,6 +25,7 @@ class _ClinicActivityLectureScreenState
     extends State<ClinicActivityLectureScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  final pageController = PageController();
 
   @override
   void initState() {
@@ -34,18 +35,28 @@ class _ClinicActivityLectureScreenState
       vsync: this,
     );
     Tools.onViewCreated(() {
+      context
+          .read<ClinicActivityLectureProvider>()
+          .activityFilterController
+          .resetValue();
+      context.read<ClinicActivityLectureProvider>().dateController.resetValue();
       context.read<ClinicActivityLectureProvider>().getClinicActivities();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final loading = context.watch<ClinicActivityLectureProvider>().loading;
+    final clinicActivityProvider =
+        context.watch<ClinicActivityLectureProvider>();
+
+    final loading = clinicActivityProvider.loading;
     final listData = [
-      context.watch<ClinicActivityLectureProvider>().clinicActivities,
-      context.watch<ClinicActivityLectureProvider>().ratedClinicActivities,
+      clinicActivityProvider.clinicActivities,
+      clinicActivityProvider.ratedClinicActivities,
     ];
-    final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
+    final checkedId = clinicActivityProvider.checkedId;
+    final pageIndex = clinicActivityProvider.pageIndex;
+    final showFooter = checkedId.isNotEmpty && pageIndex == 0;
 
     return Scaffold(
       body: Column(
@@ -68,10 +79,21 @@ class _ClinicActivityLectureScreenState
                 Tab(text: 'Butuh Penilaian'),
                 Tab(text: 'Sudah Dinilai'),
               ],
+              onTap: (index) {
+                pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
             ),
           ).addMarginTop(20),
-          TabBarView(
-            controller: tabController,
+          PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              tabController.animateTo(index);
+              context.read<ClinicActivityLectureProvider>().setPageIndex(index);
+            },
             children: List.generate(
               2,
               (pageIndex) {
@@ -100,27 +122,26 @@ class _ClinicActivityLectureScreenState
                           ).addMarginBottom(20);
                         },
                       ).addExpanded,
-                    if (pageIndex == 0)
-                      const FooterWidget()
-                          .animate(target: checkedId.isNotEmpty ? 0 : 1)
-                          .slideY(
-                            begin: 0,
-                            end: 1,
-                            duration: Duration(
-                              milliseconds: checkedId.isNotEmpty ? 800 : 200,
-                            ),
-                            curve: checkedId.isNotEmpty
-                                ? Curves.elasticIn
-                                : Curves.easeIn,
-                          )
-                          .hide(
-                            maintain: false,
-                          ),
                   ],
                 );
               },
             ),
           ).addExpanded,
+          const FooterWidget()
+              .animate(
+                target: showFooter ? 0 : 1,
+              )
+              .slideY(
+                begin: 0,
+                end: 1,
+                duration: Duration(
+                  milliseconds: showFooter ? 800 : 200,
+                ),
+                curve: showFooter ? Curves.elasticIn : Curves.easeIn,
+              )
+              .hide(
+                maintain: false,
+              ),
         ],
       ),
     );

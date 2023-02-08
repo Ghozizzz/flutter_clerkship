@@ -5,6 +5,7 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/notes_segment.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
@@ -12,7 +13,6 @@ import 'package:clerkship/utils/extensions.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -210,8 +210,9 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                         );
                       }).toList(),
                     ),
-                    const BulletList(
+                    NotesSegment(
                       title: 'Catatan',
+                      body: header?.remarks ?? '',
                     ).addMarginBottom(20),
                     if (documents?.isNotEmpty ?? false)
                       Text(
@@ -263,7 +264,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               );
             },
           ),
-          if (!widget.rated)
+          if (!widget.rated && checkedId.isEmpty)
             Row(
               children: [
                 PrimaryButton(
@@ -338,23 +339,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   ),
                 ).addExpanded,
               ],
-            )
-                .addMarginTop(12)
-                .animate(target: checkedId.isEmpty ? 0 : 1)
-                .slideY(
-                  begin: 0,
-                  end: -0.5,
-                  curve: Curves.elasticInOut,
-                  duration: const Duration(milliseconds: 400),
-                )
-                .fade(
-                  duration: const Duration(milliseconds: 400),
-                  begin: 1,
-                  end: 0,
-                )
-                .hide(
-                  maintain: false,
-                ),
+            ).addMarginTop(12),
         ],
       ),
     );

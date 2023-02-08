@@ -13,6 +13,11 @@ class DatePickerController extends ValueNotifier<DateTime?> {
   DateTime? selected;
   DatePickerController({DateTime? selected}) : super(selected);
 
+  void resetValue() {
+    selected = null;
+    notifyListeners();
+  }
+
   void setValue(DateTime value) {
     selected = value;
     notifyListeners();
@@ -25,6 +30,9 @@ class DatePickerButton extends StatelessWidget {
   final String? dateFormat;
   final Widget? icon;
   final TextStyle? textStyle;
+  final Function(DateTime date)? onDatePicked;
+  final VoidCallback? onRemoved;
+  final bool withReset;
 
   const DatePickerButton({
     super.key,
@@ -33,7 +41,32 @@ class DatePickerButton extends StatelessWidget {
     this.hint,
     this.icon,
     this.textStyle,
+    this.onDatePicked,
+    this.onRemoved,
+    this.withReset = false,
   });
+
+  Widget rightIcon(BuildContext context) {
+    if (!withReset || controller.selected == null) {
+      return icon ??
+          SvgPicture.asset(
+            AssetIcons.icCalendar,
+          );
+    } else if (withReset && controller.selected != null) {
+      return RippleButton(
+        onTap: () {
+          controller.resetValue();
+          onRemoved?.call();
+        },
+        padding: EdgeInsets.zero,
+        child: SvgPicture.asset(
+          AssetIcons.icClose,
+        ),
+      );
+    }
+
+    return Container();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +79,14 @@ class DatePickerButton extends StatelessWidget {
         vertical: 16,
       ),
       border: Border.all(color: Themes.stroke),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ValueListenableBuilder(
-            valueListenable: controller,
-            builder: (context, _, __) {
-              return Text(
+      child: ValueListenableBuilder(
+        valueListenable: controller,
+        builder: (context, _, __) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
                 controller.selected != null
                     ? controller.selected!
                         .formatDate(dateFormat ?? 'dd MMMM yyyy')
@@ -63,14 +96,11 @@ class DatePickerButton extends StatelessWidget {
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-              ).addFlexible;
-            },
-          ),
-          icon ??
-              SvgPicture.asset(
-                AssetIcons.icCalendar,
-              ),
-        ],
+              ).addFlexible,
+              rightIcon(context),
+            ],
+          );
+        },
       ),
     );
   }
@@ -86,6 +116,9 @@ class DatePickerButton extends StatelessWidget {
         );
       },
     );
-    if (date != null) controller.setValue(date);
+    if (date != null) {
+      controller.setValue(date);
+      onDatePicked?.call(date);
+    }
   }
 }
