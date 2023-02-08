@@ -14,6 +14,7 @@ class ApiClient extends InterceptorContract {
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
     prefs ??= await SharedPreferences.getInstance();
     final token = prefs?.getString(Constant.token);
+    debugPrint(token);
 
     final headers = <String, String>{};
 

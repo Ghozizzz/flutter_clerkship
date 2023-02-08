@@ -11,7 +11,6 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
   final clinicActivityService = getIt<ClinicActivityService>();
   final Map<String, List<ClinicActivityData>> clinicActivities = {};
   final Map<String, List<ClinicActivityData>> ratedClinicActivities = {};
-
   final List<int> checkedId = [];
 
   final dateController = DatePickerController();
@@ -19,6 +18,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
   int pageIndex = 0;
 
   bool loading = true;
+  bool loadingRated = true;
 
   void setPageIndex(int index) {
     pageIndex = index;
@@ -58,6 +58,31 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
       }
     }
     loading = false;
+    notifyListeners();
+  }
+
+  void getRatedClinicActivities() async {
+    loadingRated = true;
+    notifyListeners();
+
+    final response = await clinicActivityService.getListLectureClinicActivities(
+      status: 1,
+      date: dateController.selected,
+      idKegiatan: activityFilterController.selected?.value,
+    );
+
+    ratedClinicActivities.clear();
+    for (ClinicActivityData data in response.data?.data ?? []) {
+      if (data.tanggal != null) {
+        String date = data.tanggal!.formatDate('dd MMMM yyyy');
+        if (ratedClinicActivities.containsKey(date)) {
+          ratedClinicActivities[date]!.add(data);
+        } else {
+          ratedClinicActivities[date] = [data];
+        }
+      }
+    }
+    loadingRated = false;
     notifyListeners();
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:clerkship/r.dart';
@@ -13,7 +14,9 @@ import 'package:clerkship/utils/extensions.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -24,6 +27,7 @@ import '../../../components/commons/primary_checkbox.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 import 'bullet_list.dart';
+import 'item_review_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
@@ -90,15 +94,15 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                     style: Themes().primary14?.withColor(Themes.success),
                   ),
                 ),
-                RippleButton(
-                  onTap: () {},
-                  padding: EdgeInsets.all(4.w),
-                  child: SvgPicture.asset(
-                    AssetIcons.icEdit,
-                    color: Themes.primary,
-                    width: 20.w,
-                  ),
-                ),
+                // RippleButton(
+                //   onTap: () {},
+                //   padding: EdgeInsets.all(4.w),
+                //   child: SvgPicture.asset(
+                //     AssetIcons.icEdit,
+                //     color: Themes.primary,
+                //     width: 20.w,
+                //   ),
+                // ),
               ],
             ).addMarginBottom(12)
           else if (widget.data.data?.first.header?.isMinicex == 0)
@@ -134,30 +138,30 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   value: header?.tanggal?.formatDate('dd MMMM yyyy') ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
+                // ItemInfoSegment(
+                //   title: 'Preseptor',
+                //   padding: const EdgeInsets.symmetric(vertical: 12),
+                //   valueWidget: Row(
+                //     children: [
+                //       ClipOval(
+                //         child: Image.asset(
+                //           AssetImages.avatar,
+                //           width: 24.w,
+                //           height: 24.w,
+                //           fit: BoxFit.cover,
+                //         ),
+                //       ).addMarginRight(8.w),
+                //       Text(
+                //         'dr Budiman',
+                //         style: Themes().blackBold12,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 ItemInfoSegment(
-                  title: 'Preseptor',
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  valueWidget: Row(
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          AssetImages.avatar,
-                          width: 24.w,
-                          height: 24.w,
-                          fit: BoxFit.cover,
-                        ),
-                      ).addMarginRight(8.w),
-                      Text(
-                        'dr Budiman',
-                        style: Themes().blackBold12,
-                      ),
-                    ],
-                  ),
-                ),
-                const ItemInfoSegment(
                   title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaDepartment ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             )
@@ -229,11 +233,50 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                             return ItemFile(
                               title: document?.fileName ?? '',
                               url: document?.fileUrl ?? '',
+                              onTap: () => downloadFile(document),
                             ).addMarginBottom(
                               index < 1 ? 12 : 0,
                             );
                           },
                         ),
+                      ),
+                    if (widget.rated)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: Themes.stroke,
+                            margin: const EdgeInsets.only(
+                              top: 4,
+                              bottom: 12,
+                            ),
+                          ),
+                          Text(
+                            'Hasil Tinjauan',
+                            style:
+                                Themes().blackBold14?.withColor(Themes.black),
+                          ).addMarginBottom(12),
+                          Column(
+                            children: reviews?.map((review) {
+                                  final isNotes = review.keterangan
+                                          ?.toLowerCase()
+                                          .contains('catatan') ??
+                                      false;
+
+                                  return ItemReviewSegment(
+                                    title: review.keterangan ?? '',
+                                    value: review.nilai ?? '',
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                    isVerticalValue: isNotes,
+                                  );
+                                }).toList() ??
+                                [],
+                          )
+                        ],
                       ),
                     if (!widget.rated)
                       RippleButton(
@@ -343,5 +386,29 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
         ],
       ),
     );
+  }
+
+  void downloadFile(Document? document) async {
+    if (await Permission.storage.request().isGranted) {
+      if (document?.fileUrl == null) return;
+      String fileName = document?.fileName ?? '';
+      final currentFile =
+          File('/storage/emulated/0/Download/${document?.fileName}');
+
+      if ((await currentFile.exists())) {
+        await currentFile.delete();
+      }
+
+      DialogHelper.showProgressDialog();
+      await FlutterDownloader.cancelAll();
+      await FlutterDownloader.enqueue(
+        url: document?.fileUrl ?? '',
+        fileName: fileName,
+        headers: {},
+        savedDir: '/storage/emulated/0/Download/',
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+    }
   }
 }

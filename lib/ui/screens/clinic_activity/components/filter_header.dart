@@ -41,12 +41,8 @@ class _FilterHeaderState extends State<FilterHeader> {
             AssetIcons.icChevronRight,
           ),
           textStyle: Themes().black12,
-          onDatePicked: (date) {
-            context.read<ClinicActivityLectureProvider>().getClinicActivities();
-          },
-          onRemoved: () {
-            context.read<ClinicActivityLectureProvider>().getClinicActivities();
-          },
+          onDatePicked: (date) => refreshData(context),
+          onRemoved: () => refreshData(context),
           withReset: true,
         ).addExpanded,
         Container(width: 10.w),
@@ -61,14 +57,11 @@ class _FilterHeaderState extends State<FilterHeader> {
               value: index,
             ),
           ),
-          onSelected: (value) {
-            context.read<ClinicActivityLectureProvider>().getClinicActivities();
-          },
-          onRemoved: () {
-            context.read<ClinicActivityLectureProvider>().getClinicActivities();
-          },
+          onSelected: (value) => refreshData(context),
+          onRemoved: () => refreshData(context),
           withReset: true,
         ).addExpanded,
+        // Will use later
         // Container(width: 10.w),
         // PrimaryButton(
         //   onTap: () {},
@@ -81,5 +74,10 @@ class _FilterHeaderState extends State<FilterHeader> {
         // ),
       ],
     ).addSymmetricMargin(horizontal: 24.w);
+  }
+
+  void refreshData(BuildContext context) {
+    context.read<ClinicActivityLectureProvider>().getClinicActivities();
+    context.read<ClinicActivityLectureProvider>().getRatedClinicActivities();
   }
 }

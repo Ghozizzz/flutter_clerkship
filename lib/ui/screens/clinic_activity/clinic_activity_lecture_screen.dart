@@ -1,12 +1,18 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../utils/dialog_helper.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import 'components/filter_header.dart';
@@ -26,6 +32,7 @@ class _ClinicActivityLectureScreenState
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final pageController = PageController();
+  final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
@@ -35,12 +42,14 @@ class _ClinicActivityLectureScreenState
       vsync: this,
     );
     Tools.onViewCreated(() {
+      registerDownloadCallback();
       context
           .read<ClinicActivityLectureProvider>()
           .activityFilterController
           .resetValue();
       context.read<ClinicActivityLectureProvider>().dateController.resetValue();
       context.read<ClinicActivityLectureProvider>().getClinicActivities();
+      context.read<ClinicActivityLectureProvider>().getRatedClinicActivities();
     });
   }
 
@@ -145,5 +154,44 @@ class _ClinicActivityLectureScreenState
         ],
       ),
     );
+  }
+
+  void registerDownloadCallback() {
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String taskId = data[0];
+      DownloadTaskStatus status = data[1];
+      // int progress = data[2];
+      if (status == DownloadTaskStatus.complete) {
+        DialogHelper.closeDialog();
+        Fluttertoast.showToast(
+          msg: 'Download selesai',
+        );
+        FlutterDownloader.remove(taskId: taskId, shouldDeleteContent: false);
+      } else if (status == DownloadTaskStatus.failed) {
+        DialogHelper.closeDialog();
+        Fluttertoast.showToast(
+          msg: 'Download gagal',
+        );
+        FlutterDownloader.remove(taskId: taskId, shouldDeleteContent: false);
+      }
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send?.send([id, status, progress]);
   }
 }

@@ -10,8 +10,8 @@ import '../../../components/buttons/ripple_button.dart';
 class ItemFile extends StatelessWidget {
   final String title;
   final String url;
-
   final VoidCallback? onTap;
+
   const ItemFile({
     super.key,
     required this.title,
@@ -30,10 +30,11 @@ class ItemFile extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Themes().black12?.withUnderline(offset: 2),
+            style:
+                Themes(withLineHeight: true).black12?.withUnderline(offset: 2),
           ).addMarginLeft(12.w).addFlexible,
           RippleButton(
-            onTap: () {},
+            onTap: onTap,
             child: SvgPicture.asset(
               AssetIcons.icDownload,
               color: Themes.primary,
