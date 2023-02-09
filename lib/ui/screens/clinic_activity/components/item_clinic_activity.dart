@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:clerkship/r.dart';
@@ -5,30 +6,37 @@ import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/notes_segment.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
+import 'package:clerkship/utils/extensions.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
-import '../../../../data/network/entity/clinic_doctor_response.dart';
+import '../../../../data/network/entity/clinic_lecture_response.dart';
 import '../../../components/commons/primary_checkbox.dart';
-import '../../clinic_detail_approval/components/bullet_list.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
+import 'bullet_list.dart';
+import 'item_review_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
-  final List<ClinicData> data;
+  final ClinicActivityData data;
 
   const ItemClinicActivity({
     super.key,
-    this.rated = false,
     required this.data,
+    this.rated = false,
   });
 
   @override
@@ -43,10 +51,28 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
   void initState() {
     super.initState();
     expandableController.expanded = widget.rated;
+    checkboxController.value = widget.data.checked;
   }
 
   @override
   Widget build(BuildContext context) {
+    final header = widget.data.data?.first.header;
+    final details = widget.data.data?.first.detail;
+    final documents = widget.data.data?.first.document;
+    final reviews = widget.data.data?.first.tinjauan;
+    final Map<String, List<String>> detail = {};
+    final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
+
+    for (Detail detalBody in details ?? []) {
+      if (detalBody.namaJenis != null && detalBody.namaItem != null) {
+        if (detail.containsKey(detalBody.namaJenis)) {
+          detail[detalBody.namaJenis!]!.add(detalBody.namaItem!);
+        } else {
+          detail[detalBody.namaJenis!] = [detalBody.namaItem!];
+        }
+      }
+    }
+
     return FlatCard(
       padding: EdgeInsets.all(12.w),
       border: Border.all(color: Themes.stroke),
@@ -68,75 +94,89 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                     style: Themes().primary14?.withColor(Themes.success),
                   ),
                 ),
-                RippleButton(
-                  onTap: () {},
-                  padding: EdgeInsets.all(4.w),
-                  child: SvgPicture.asset(
-                    AssetIcons.icEdit,
-                    color: Themes.primary,
-                    width: 20.w,
-                  ),
-                ),
+                // RippleButton(
+                //   onTap: () {},
+                //   padding: EdgeInsets.all(4.w),
+                //   child: SvgPicture.asset(
+                //     AssetIcons.icEdit,
+                //     color: Themes.primary,
+                //     width: 20.w,
+                //   ),
+                // ),
               ],
             ).addMarginBottom(12)
-          else
+          else if (widget.data.data?.first.header?.isMinicex == 0)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
               unCheckColor: Themes.hint,
               strokeWidth: 2,
-            ).addMarginBottom(12),
+              onValueChange: (value) {
+                widget.data.checked = value;
+
+                if (header == null) return;
+                if (value) {
+                  context
+                      .read<ClinicActivityLectureProvider>()
+                      .addCheckId(header.id!);
+                } else {
+                  context
+                      .read<ClinicActivityLectureProvider>()
+                      .removeCheckId(header.id!);
+                }
+              },
+            ),
           Text(
-            'Jaga Malam',
+            header?.namaKegiatan ?? '',
             style: Themes().blackBold14?.withColor(Themes.black),
-          ),
+          ).addMarginTop(12),
           if (widget.rated)
             Column(
               children: [
-                const ItemInfoSegment(
-                  title: 'Tanggal',
-                  value: '10 August 2022',
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
                 ItemInfoSegment(
-                  title: 'Preseptor',
+                  title: 'Tanggal',
+                  value: header?.tanggal?.formatDate('dd MMMM yyyy') ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  valueWidget: Row(
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          AssetImages.avatar,
-                          width: 24.w,
-                          height: 24.w,
-                          fit: BoxFit.cover,
-                        ),
-                      ).addMarginRight(8.w),
-                      Text(
-                        'dr Budiman',
-                        style: Themes().blackBold12,
-                      ),
-                    ],
-                  ),
                 ),
-                const ItemInfoSegment(
+                // ItemInfoSegment(
+                //   title: 'Preseptor',
+                //   padding: const EdgeInsets.symmetric(vertical: 12),
+                //   valueWidget: Row(
+                //     children: [
+                //       ClipOval(
+                //         child: Image.asset(
+                //           AssetImages.avatar,
+                //           width: 24.w,
+                //           height: 24.w,
+                //           fit: BoxFit.cover,
+                //         ),
+                //       ).addMarginRight(8.w),
+                //       Text(
+                //         'dr Budiman',
+                //         style: Themes().blackBold12,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                ItemInfoSegment(
                   title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaDepartment ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             )
           else
             Column(
               children: [
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Mahasiswa',
-                  value: 'Bhima Saputra',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaStudent ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.namaDepartment ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             ),
@@ -166,30 +206,78 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 expanded: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const BulletList(
-                      title: 'Penyakit',
-                    ),
-                    const BulletList(
-                      title: 'Prosedur',
-                      withCount: true,
-                    ),
-                    const BulletList(
-                      title: 'Catatan',
-                    ).addMarginBottom(20),
-                    Text(
-                      'Attachment',
-                      style: Themes().blackBold12?.withColor(Themes.hint),
-                    ).addMarginBottom(8),
                     Column(
-                      children: List.generate(
-                        2,
-                        (index) => const ItemFile(
-                          title: '',
-                        ).addMarginBottom(
-                          index < 1 ? 12 : 0,
+                      children: detail.entries.map((entry) {
+                        return BulletList(
+                          title: entry.key,
+                          listData: entry.value,
+                        );
+                      }).toList(),
+                    ),
+                    NotesSegment(
+                      title: 'Catatan',
+                      body: header?.remarks ?? '',
+                    ).addMarginBottom(20),
+                    if (documents?.isNotEmpty ?? false)
+                      Text(
+                        'Attachment',
+                        style: Themes().blackBold12?.withColor(Themes.hint),
+                      ).addMarginBottom(8),
+                    if (documents?.isNotEmpty ?? false)
+                      Column(
+                        children: List.generate(
+                          documents?.length ?? 0,
+                          (index) {
+                            final document = documents?[index];
+
+                            return ItemFile(
+                              title: document?.fileName ?? '',
+                              url: document?.fileUrl ?? '',
+                              onTap: () => downloadFile(document),
+                            ).addMarginBottom(
+                              index < 1 ? 12 : 0,
+                            );
+                          },
                         ),
                       ),
-                    ),
+                    if (widget.rated)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: Themes.stroke,
+                            margin: const EdgeInsets.only(
+                              top: 4,
+                              bottom: 12,
+                            ),
+                          ),
+                          Text(
+                            'Hasil Tinjauan',
+                            style:
+                                Themes().blackBold14?.withColor(Themes.black),
+                          ).addMarginBottom(12),
+                          Column(
+                            children: reviews?.map((review) {
+                                  final isNotes = review.keterangan
+                                          ?.toLowerCase()
+                                          .contains('catatan') ??
+                                      false;
+
+                                  return ItemReviewSegment(
+                                    title: review.keterangan ?? '',
+                                    value: review.nilai ?? '',
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                    isVerticalValue: isNotes,
+                                  );
+                                }).toList() ??
+                                [],
+                          )
+                        ],
+                      ),
                     if (!widget.rated)
                       RippleButton(
                         onTap: () {
@@ -219,7 +307,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               );
             },
           ),
-          if (!widget.rated)
+          if (!widget.rated && checkedId.isEmpty)
             Row(
               children: [
                 PrimaryButton(
@@ -294,9 +382,33 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   ),
                 ).addExpanded,
               ],
-            ).addMarginTop(12)
+            ).addMarginTop(12),
         ],
       ),
     );
+  }
+
+  void downloadFile(Document? document) async {
+    if (await Permission.storage.request().isGranted) {
+      if (document?.fileUrl == null) return;
+      String fileName = document?.fileName ?? '';
+      final currentFile =
+          File('/storage/emulated/0/Download/${document?.fileName}');
+
+      if ((await currentFile.exists())) {
+        await currentFile.delete();
+      }
+
+      DialogHelper.showProgressDialog();
+      await FlutterDownloader.cancelAll();
+      await FlutterDownloader.enqueue(
+        url: document?.fileUrl ?? '',
+        fileName: fileName,
+        headers: {},
+        savedDir: '/storage/emulated/0/Download/',
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+    }
   }
 }

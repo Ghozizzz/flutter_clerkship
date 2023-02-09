@@ -6,7 +6,6 @@ import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_pro
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
-import 'package:clerkship/ui/screens/clinic_activity/providers/item_rate_clinic_lecuture_provider.dart';
 import 'package:clerkship/ui/screens/scientific_event/providers/item_list_all_provider.dart';
 import 'package:clerkship/ui/screens/scientific_event/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/scientific_event/providers/item_list_draft_provider.dart';
@@ -15,8 +14,8 @@ import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'data/shared_providers/auth_provider.dart';
-import 'data/shared_providers/clinic_activity_lecture_provider.dart';
 import 'data/shared_providers/scientific_provider.dart';
+import 'ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'ui/screens/standard_competency/provider/standart_competency_provider.dart';
 
 MultiProvider provideInjection() {
@@ -38,8 +37,6 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => ItemListRejectScientificProvider()),
       ChangeNotifierProvider(create: (_) => StandardCompetencyProvider()),
       ChangeNotifierProvider(create: (_) => StandartCompetencyProvider()),
-      ChangeNotifierProvider(
-          create: (_) => ItemListRateClinicLectureProvider()),
       ChangeNotifierProvider(create: (_) => ClinicActivityLectureProvider()),
     ],
     child: const MyApp(),

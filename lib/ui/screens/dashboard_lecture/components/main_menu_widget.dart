@@ -8,10 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
-import '../../../../data/shared_providers/auth_provider.dart';
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
-import '../../clinic_activity/providers/item_rate_clinic_lecuture_provider.dart';
 import 'item_menu.dart';
 
 class MainMenuWidget extends StatelessWidget {
@@ -30,9 +28,6 @@ class MainMenuWidget extends StatelessWidget {
               title: 'Kegiatan\nKlinik',
               onTap: () {
                 context.read<ReferenceProvider>().getFilterKegiatan();
-                context
-                    .read<ItemListRateClinicLectureProvider>()
-                    .getClinicActivityLecture();
                 NavHelper.navigatePush(const ClinicActivityLectureScreen());
               },
             ).addExpanded,
@@ -70,17 +65,17 @@ class MainMenuWidget extends StatelessWidget {
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
-        Row(
-          children: [
-            ItemMenu(
-              icon: AssetIcons.icStandartCompetence,
-              title: 'Logout',
-              onTap: () {
-                context.read<AuthProvider>().doLogout();
-              },
-            ).addExpanded,
-          ],
-        ).addSymmetricMargin(horizontal: 20.w).addMarginTop(20.h),
+        // Row(
+        //   children: [
+        //     ItemMenu(
+        //       icon: AssetIcons.icStandartCompetence,
+        //       title: 'Logout',
+        //       onTap: () {
+        //         context.read<AuthProvider>().doLogout();
+        //       },
+        //     ).addExpanded,
+        //   ],
+        // ).addSymmetricMargin(horizontal: 20.w).addMarginTop(20.h),
       ],
     );
   }

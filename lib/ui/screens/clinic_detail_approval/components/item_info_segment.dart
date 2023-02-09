@@ -25,6 +25,7 @@ class ItemInfoSegment extends StatelessWidget {
           padding: padding ?? const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
@@ -35,7 +36,8 @@ class ItemInfoSegment extends StatelessWidget {
                     value!,
                     style:
                         Themes().blackBold12?.withFontWeight(FontWeight.w500),
-                  ),
+                    textAlign: TextAlign.end,
+                  ).addFlexible,
             ],
           ),
         ),

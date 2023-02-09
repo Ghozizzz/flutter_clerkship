@@ -1,6 +1,3 @@
-import 'package:clerkship/data/shared_providers/auth_provider.dart';
-import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
-import 'package:clerkship/ui/screens/dashboard_lecture/dashboard_lecture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -9,6 +6,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/auth_provider.dart';
 import '../../../data/shared_providers/user_provider.dart';
 import '../../../r.dart';
 import '../../../utils/dialog_helper.dart';
@@ -19,12 +17,14 @@ import '../../components/commons/primary_checkbox.dart';
 import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/password_textarea.dart';
 import '../../components/textareas/textarea.dart';
+import '../dashboard/dashboard_student_screen.dart';
+import '../dashboard_lecture/dashboard_lecture_screen.dart';
 import '../forgot_password/forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final emailController = TextEditingController(text: 'testing@gmail.com');
+  final emailController = TextEditingController(text: 'd1@gmail.com');
   final passwordController = TextEditingController(text: '12345678');
   final checkboxController = CheckboxController(false);
 
@@ -113,31 +113,7 @@ class LoginScreen extends StatelessWidget {
                 return PrimaryButton(
                   enable: isFormValid(),
                   onTap: () {
-                    context.read<AuthProvider>().doLogin(
-                          email: emailController.text,
-                          password: passwordController.text,
-                          onFinish: (success) async {
-                            if (success) {
-                              await context
-                                  .read<UserProvider>()
-                                  .getCurrentUser()
-                                  .then((value) {
-                                var role =
-                                    context.read<UserProvider>().user.roleId;
-
-                                if (role == 1) {
-                                  NavHelper.navigateReplace(
-                                    const DashboardLectureScreen(),
-                                  );
-                                } else {
-                                  NavHelper.navigateReplace(
-                                    const DashboardStudentScreen(),
-                                  );
-                                }
-                              });
-                            }
-                          },
-                        );
+                    doLogin(context);
                   },
                   text: 'Sign In',
                 ).addAllMargin(20.w);
@@ -147,6 +123,36 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void doLogin(
+    BuildContext context,
+  ) async {
+    context.read<AuthProvider>().doLogin(
+          email: emailController.text,
+          password: passwordController.text,
+          onFinish: (success) async {
+            if (success) {
+              getCurrentUser(context);
+            }
+          },
+        );
+  }
+
+  void getCurrentUser(BuildContext context) async {
+    await context.read<UserProvider>().getCurrentUser().then((value) {
+      var role = context.read<UserProvider>().user.roleId;
+
+      if (role == 1) {
+        NavHelper.navigateReplace(
+          const DashboardLectureScreen(),
+        );
+      } else {
+        NavHelper.navigateReplace(
+          const DashboardStudentScreen(),
+        );
+      }
+    });
   }
 
   bool isFormValid() {

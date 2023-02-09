@@ -12,18 +12,22 @@ import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
 import 'package:clerkship/data/network/entity/users_response.dart';
 
+import 'entity/clinic_lecture_response.dart';
 import 'entity/default_response.dart';
 import 'entity/departemen_response.dart';
 import 'entity/item_reference_response.dart';
 import 'entity/scientific_detail_response.dart';
 import 'entity/scientific_response.dart';
 import 'entity/sklist_group_response.dart';
+import 'entity/user_response.dart';
 
 abstract class AuthApiInterface {
   Future<ResultData<LoginResponse>> doLogin({
     required String email,
     required String password,
   });
+
+  Future<ResultData> doLogout();
 }
 
 abstract class UserInterface {
@@ -31,6 +35,8 @@ abstract class UserInterface {
     required int role,
     required int idFeature,
   });
+
+  Future<ResultData<UserResponse>> getCurrentUser();
 }
 
 abstract class ReferenceApiInterface {
@@ -73,6 +79,12 @@ abstract class ClinicActivityInterface {
   Future<ResultData<ClinicDetailResponse>> getDetailClinic({required int id});
   Future<ResultData<ClinicResponse>> getListClinic({final int? status});
   Future<ResultData<DefaultResponse>> deleteClinic({required int id});
+
+  Future<ResultData<ClinicLectureResponse>> getListLectureClinicActivities({
+    required int status,
+    int? idKegiatan,
+    DateTime? date,
+  });
 }
 
 abstract class ClinicActivityLectureInterface {
