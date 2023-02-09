@@ -315,20 +315,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             Row(
               children: [
                 PrimaryButton(
-                  onTap: () {
-                    DialogHelper.showModalConfirmation(
-                      title: 'Konfirmasi Penolakan',
-                      message:
-                          'Silakan masukkan alasan penolakan di bawah ini.',
-                      type: ConfirmationType.withField,
-                      labelField: 'Alasan Penolakan',
-                      hintField: 'Masukkan Alasan Penolakan',
-                      onPositiveTapWithField: (fieldValue) {
-                        debugPrint(fieldValue);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
+                  onTap: () => rejectActivity(context),
                   padding: EdgeInsets.all(10.w),
                   color: Themes.red,
                   child: Row(
@@ -351,37 +338,11 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   width: 8.w,
                 ),
                 PrimaryButton(
-                  onTap: () {
-                    if (isMiniCex && header?.id != null) {
-                      NavHelper.navigatePush(MiniCexApprovalScreen(
-                        id: '${header?.id}',
-                      ));
-                    } else {
-                      DialogHelper.showModalConfirmation(
-                        title: 'Konfirmasi Persetujuan',
-                        message:
-                            'Apakah anda yakin ingin menyetujui catatan ini?',
-                        type: ConfirmationType.withField,
-                        labelField: 'Masukan',
-                        hintField: 'Masukkan Alasan Penolakan',
-                        optionalField: true,
-                        onPositiveTapWithField: (fieldValue) {
-                          Navigator.pop(context);
-
-                          if (widget.data.data?[0].header?.id != null) {
-                            context
-                                .read<ClinicActivityLectureProvider>()
-                                .approveActivity([
-                              KeyValueData(
-                                id: '${widget.data.data?[0].header?.id}',
-                                reason: fieldValue,
-                              ),
-                            ]);
-                          }
-                        },
-                      );
-                    }
-                  },
+                  onTap: () => approveActivity(
+                    context: context,
+                    isMiniCex: isMiniCex,
+                    id: header?.id,
+                  ),
                   padding: EdgeInsets.all(10.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -426,6 +387,61 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
         savedDir: '/storage/emulated/0/Download/',
         showNotification: true,
         openFileFromNotification: true,
+      );
+    }
+  }
+
+  rejectActivity(BuildContext context) {
+    DialogHelper.showModalConfirmation(
+      title: 'Konfirmasi Penolakan',
+      message: 'Silakan masukkan alasan penolakan di bawah ini.',
+      type: ConfirmationType.withField,
+      labelField: 'Alasan Penolakan',
+      hintField: 'Masukkan Alasan Penolakan',
+      onPositiveTapWithField: (fieldValue) {
+        Navigator.pop(context);
+
+        if (widget.data.data?[0].header?.id != null) {
+          context.read<ClinicActivityLectureProvider>().rejectActivity([
+            KeyValueData(
+              id: '${widget.data.data?[0].header?.id}',
+              reason: fieldValue,
+            ),
+          ]);
+        }
+      },
+    );
+  }
+
+  approveActivity({
+    required BuildContext context,
+    required bool isMiniCex,
+    int? id,
+  }) {
+    if (isMiniCex && id != null) {
+      NavHelper.navigatePush(MiniCexApprovalScreen(
+        id: '$id',
+      ));
+    } else {
+      DialogHelper.showModalConfirmation(
+        title: 'Konfirmasi Persetujuan',
+        message: 'Apakah anda yakin ingin menyetujui catatan ini?',
+        type: ConfirmationType.withField,
+        labelField: 'Masukan',
+        hintField: 'Masukkan Alasan Penolakan',
+        optionalField: true,
+        onPositiveTapWithField: (fieldValue) {
+          Navigator.pop(context);
+
+          if (widget.data.data?[0].header?.id != null) {
+            context.read<ClinicActivityLectureProvider>().approveActivity([
+              KeyValueData(
+                id: '${widget.data.data?[0].header?.id}',
+                reason: fieldValue,
+              ),
+            ]);
+          }
+        },
       );
     }
   }

@@ -36,9 +36,7 @@ class ItemProcedure extends StatelessWidget {
               Text(
                 item.title,
                 style: Themes().black12,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ).addMarginLeft(14.w),
+              ).addSymmetricMargin(horizontal: 14.w).addFlexible,
               RippleButton(
                 onTap: () {
                   onRemoveItem(item);

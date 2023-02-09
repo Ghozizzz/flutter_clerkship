@@ -91,6 +91,10 @@ abstract class ClinicActivityLectureInterface {
     required List<Map<String, String>> data,
   });
 
+  Future<ResultData<DefaultResponse>> rejectActivity({
+    required List<Map<String, String>> data,
+  });
+
   Future<ResultData<MiniCexFormResponse>> getMiniCexForm(String id);
 
   Future<ResultData<DefaultResponse>> approveMiniCexForm({
