@@ -1,14 +1,17 @@
 import 'package:clerkship/data/network/entity/clinic_lecture_response.dart';
 import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
 import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
+import 'package:clerkship/ui/components/dialog/custom_alert_dialog.dart';
+import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../data/network/services/clinic_activity_service.dart';
+import '../../../../data/models/key_value_data.dart';
+import '../../../../data/network/services/clinic_activity_lecture_service.dart';
 import '../../../../main.dart';
 
 class ClinicActivityLectureProvider extends ChangeNotifier {
-  final clinicActivityService = getIt<ClinicActivityService>();
+  final service = getIt<ClinicActivityLectureService>();
   final Map<String, List<ClinicActivityData>> clinicActivities = {};
   final Map<String, List<ClinicActivityData>> ratedClinicActivities = {};
   final List<int> checkedId = [];
@@ -40,7 +43,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     checkedId.clear();
     notifyListeners();
 
-    final response = await clinicActivityService.getListLectureClinicActivities(
+    final response = await service.getListActivities(
       status: 2,
       date: dateController.selected,
       idKegiatan: activityFilterController.selected?.value,
@@ -65,7 +68,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     loadingRated = true;
     notifyListeners();
 
-    final response = await clinicActivityService.getListLectureClinicActivities(
+    final response = await service.getListActivities(
       status: 1,
       date: dateController.selected,
       idKegiatan: activityFilterController.selected?.value,
@@ -84,5 +87,28 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     }
     loadingRated = false;
     notifyListeners();
+  }
+
+  void reloadActivities() {
+    getClinicActivities();
+    getRatedClinicActivities();
+  }
+
+  void approveActivity(List<KeyValueData> activityData) async {
+    DialogHelper.showProgressDialog();
+
+    final response = await service.approveActivity(
+      data: activityData.map((e) => e.toJson()).toList(),
+    );
+    DialogHelper.closeDialog();
+    reloadActivities();
+
+    if (response.statusCode != 200) {
+      DialogHelper.showMessageDialog(
+        title: 'Terjadi Kesalahan',
+        body: response.data?.message ?? response.unexpectedErrorMessage,
+        alertType: AlertType.error,
+      );
+    }
   }
 }

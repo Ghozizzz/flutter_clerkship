@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:clerkship/data/models/key_value_data.dart';
 import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/buttons/primary_button.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
@@ -8,10 +9,8 @@ import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:clerkship/ui/screens/clinic_activity/components/notes_segment.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
-import 'package:clerkship/ui/screens/clinic_activity_review/clinic_activity_review_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/extensions.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -62,6 +61,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
     final reviews = widget.data.data?.first.tinjauan;
     final Map<String, List<String>> detail = {};
     final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
+    final isMiniCex = widget.data.data?[0].header?.isMinicex == 1;
 
     for (Detail detalBody in details ?? []) {
       if (detalBody.namaJenis != null && detalBody.namaItem != null) {
@@ -105,7 +105,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 // ),
               ],
             ).addMarginBottom(12)
-          else if (widget.data.data?.first.header?.isMinicex == 0)
+          else if (!isMiniCex)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
@@ -240,7 +240,9 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                           },
                         ),
                       ),
-                    if (widget.rated)
+                    if (widget.rated &&
+                        isMiniCex &&
+                        (reviews?.isNotEmpty ?? false))
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -259,22 +261,21 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                                 Themes().blackBold14?.withColor(Themes.black),
                           ).addMarginBottom(12),
                           Column(
-                            children: reviews?.map((review) {
-                                  final isNotes = review.keterangan
-                                          ?.toLowerCase()
-                                          .contains('catatan') ??
-                                      false;
+                            children: (reviews ?? []).map((review) {
+                              final isNotes = review.keterangan
+                                      ?.toLowerCase()
+                                      .contains('catatan') ??
+                                  false;
 
-                                  return ItemReviewSegment(
-                                    title: review.keterangan ?? '',
-                                    value: review.nilai ?? '',
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    isVerticalValue: isNotes,
-                                  );
-                                }).toList() ??
-                                [],
+                              return ItemReviewSegment(
+                                title: review.keterangan ?? '',
+                                value: review.nilai ?? '',
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                isVerticalValue: isNotes,
+                              );
+                            }).toList(),
                           )
                         ],
                       ),
@@ -358,9 +359,17 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                       optionalField: true,
                       onPositiveTapWithField: (fieldValue) {
                         Navigator.pop(context);
-                        NavHelper.navigatePush(
-                          ClinicActivityReviewScreen(),
-                        );
+
+                        if (widget.data.data?[0].header?.id != null) {
+                          context
+                              .read<ClinicActivityLectureProvider>()
+                              .approveActivity([
+                            KeyValueData(
+                              id: '${widget.data.data?[0].header?.id}',
+                              reason: fieldValue,
+                            ),
+                          ]);
+                        }
                       },
                     );
                   },

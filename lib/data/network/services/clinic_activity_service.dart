@@ -6,12 +6,10 @@ import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
-import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 
 import '../api_config.dart';
-import '../entity/clinic_lecture_response.dart';
 
 class ClinicActivityService extends ClinicActivityInterface {
   final apiClient = ApiConfig.client;
@@ -200,41 +198,6 @@ class ClinicActivityService extends ClinicActivityInterface {
       final defaultResponse = defaultResponseFromJson(responseString);
       return ResultData(
         data: defaultResponse,
-        statusCode: response.statusCode,
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-      return ResultData(
-        statusCode: 500,
-        unexpectedErrorMessage: e.toString(),
-      );
-    }
-  }
-
-  @override
-  Future<ResultData<ClinicLectureResponse>> getListLectureClinicActivities({
-    required int status,
-    int? idKegiatan,
-    DateTime? date,
-  }) async {
-    final endpoint = '${ApiConfig.baseUrl}/dokter/list';
-    debugPrint(endpoint);
-
-    final body = {
-      'status': '$status',
-      if (idKegiatan != null) 'id_kegiatan': '$idKegiatan',
-      if (date != null) 'tanggal': date.formatDate('yyyy-MM-dd'),
-    };
-
-    debugPrint(jsonEncode(body));
-    try {
-      final response = await apiClient.post(Uri.parse(endpoint), body: body);
-      debugPrint(response.body);
-
-      final clinicLectureResponse =
-          clinicLectureResponseFromJson(response.body);
-      return ResultData(
-        data: clinicLectureResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {
