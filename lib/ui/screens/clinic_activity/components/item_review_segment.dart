@@ -1,14 +1,18 @@
+import 'dart:convert';
+
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 
-class ItemReviewSegment extends StatelessWidget {
+class ItemReviewSegment extends StatefulWidget {
   final String title;
   final String? value;
   final Widget? valueWidget;
   final EdgeInsets? padding;
   final bool isVerticalValue;
+  final bool isRichTextValue;
 
   const ItemReviewSegment({
     super.key,
@@ -17,7 +21,17 @@ class ItemReviewSegment extends StatelessWidget {
     this.valueWidget,
     this.padding,
     this.isVerticalValue = false,
+    this.isRichTextValue = false,
   });
+
+  @override
+  State<ItemReviewSegment> createState() => _ItemReviewSegmentState();
+}
+
+class _ItemReviewSegmentState extends State<ItemReviewSegment> {
+  late final richTextController = FleatherController(
+    ParchmentDocument.fromJson(jsonDecode(widget.value ?? '')),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -25,38 +39,45 @@ class ItemReviewSegment extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: isVerticalValue
+          padding: widget.isVerticalValue
               ? const EdgeInsets.only(
                   top: 12,
                 )
-              : padding ?? const EdgeInsets.symmetric(vertical: 20),
+              : widget.padding ?? const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                widget.title,
                 style: Themes().black12,
               ).addFlexible,
-              if (!isVerticalValue)
-                valueWidget ??
+              if (!widget.isVerticalValue)
+                widget.valueWidget ??
                     Text(
-                      value!,
+                      widget.value!,
                       style: Themes().black12?.withColor(Themes.black),
                       textAlign: TextAlign.end,
                     ).addFlexible,
             ],
           ),
         ),
-        if (isVerticalValue)
+        if (widget.isVerticalValue && !widget.isRichTextValue)
           Padding(
-            padding: padding ?? const EdgeInsets.symmetric(vertical: 20),
-            child: valueWidget ??
+            padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 20),
+            child: widget.valueWidget ??
                 Text(
-                  value!,
+                  widget.value!,
                   style: Themes().black12?.withColor(Themes.black),
                   textAlign: TextAlign.end,
                 ),
+          )
+        else if (widget.isVerticalValue && widget.isRichTextValue)
+          FleatherEditor(
+            controller: richTextController,
+            readOnly: true,
+            padding: EdgeInsets.zero,
+            showCursor: false,
           ),
         Container(
           width: double.infinity,

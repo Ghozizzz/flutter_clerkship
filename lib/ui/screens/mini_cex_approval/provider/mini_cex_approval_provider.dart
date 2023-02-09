@@ -1,11 +1,14 @@
-import 'package:clerkship/data/network/entity/mini_cex_form_response.dart';
-import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data/models/key_value_data.dart';
+import '../../../../data/network/entity/mini_cex_form_response.dart';
 import '../../../../data/network/services/clinic_activity_lecture_service.dart';
 import '../../../../main.dart';
+import '../../../../utils/dialog_helper.dart';
+import '../../../components/buttons/dropdown_field.dart';
 import '../../../components/buttons/rating_button.dart';
+import '../../../components/dialog/custom_alert_dialog.dart';
 
 class MiniCexApprovalProvider extends ChangeNotifier {
   final service = getIt<ClinicActivityLectureService>();
@@ -43,5 +46,30 @@ class MiniCexApprovalProvider extends ChangeNotifier {
     }
     loading = false;
     notifyListeners();
+  }
+
+  void approveMiniCexForm({
+    required String id,
+    required List<KeyValueData> formData,
+    VoidCallback? onFinish,
+  }) async {
+    DialogHelper.showProgressDialog();
+
+    final response = await service.approveMiniCexForm(
+      id: id,
+      data: formData.map((e) => e.toJson(valueTitle: 'nilai')).toList(),
+    );
+    DialogHelper.closeDialog();
+    onFinish?.call();
+
+    await DialogHelper.showMessageDialog(
+      title: response.statusCode == 200
+          ? 'Berhasil Disetujui'
+          : 'Terjadi Kesalahan',
+      body: response.data?.message ?? response.unexpectedErrorMessage,
+      alertType:
+          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+    );
+    DialogHelper.closeDialog();
   }
 }

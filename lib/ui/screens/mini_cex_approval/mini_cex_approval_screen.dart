@@ -1,10 +1,5 @@
-import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/data/network/entity/mini_cex_form_response.dart';
-import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
-import 'package:clerkship/ui/components/buttons/multi_dropdown_field.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/screens/mini_cex_approval/provider/mini_cex_approval_provider.dart';
-import 'package:clerkship/utils/tools.dart';
+import 'dart:convert';
+
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -12,11 +7,20 @@ import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/themes.dart';
 import '../../../data/models/dropdown_item.dart';
+import '../../../data/models/key_value_data.dart';
+import '../../../data/network/entity/mini_cex_form_response.dart';
+import '../../../utils/tools.dart';
+import '../../components/buttons/dropdown_field.dart';
+import '../../components/buttons/multi_dropdown_field.dart';
+import '../../components/buttons/primary_button.dart';
 import '../../components/buttons/rating_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
 import '../../components/textareas/textarea.dart';
+import '../clinic_activity/providers/clinic_activity_lecture_provider.dart';
+import 'provider/mini_cex_approval_provider.dart';
 
 class MiniCexApprovalScreen extends StatefulWidget {
   final String id;
@@ -101,7 +105,40 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
                           builder: (context, _, __) {
                             return PrimaryButton(
                               enable: isValidForm(),
-                              onTap: () {},
+                              onTap: () async {
+                                final formData = <KeyValueData>[];
+                                for (int i = 0; i < approvalForm.length; i++) {
+                                  String value = '';
+                                  final controller = controllers[i];
+
+                                  if (controller is TextEditingController) {
+                                    value = controller.text;
+                                  } else if (controller is DropDownController) {
+                                    value = controller.selected?.value;
+                                  } else if (controller is RatingController) {
+                                    value = controller.rating.toString();
+                                  } else if (controller is FleatherController) {
+                                    value = jsonEncode(
+                                        controller.document.toJson());
+                                  }
+
+                                  final keyValueData = KeyValueData(
+                                    id: '${approvalForm[i].id}',
+                                    reason: value,
+                                  );
+                                  formData.add(keyValueData);
+                                }
+
+                                context
+                                    .read<MiniCexApprovalProvider>()
+                                    .approveMiniCexForm(
+                                      id: widget.id,
+                                      formData: formData,
+                                      onFinish: () => context
+                                          .read<ClinicActivityLectureProvider>()
+                                          .reloadActivities(),
+                                    );
+                              },
                               text: 'Simpan Penilaian',
                             ).addMarginBottom(26);
                           },

@@ -7,10 +7,13 @@ class KeyValueData {
     required this.reason,
   });
 
-  Map<String, String> toJson() {
+  Map<String, String> toJson({
+    String? keyTitle,
+    String? valueTitle,
+  }) {
     return {
-      'id': id,
-      'alasan': reason,
+      keyTitle ?? 'id': id,
+      valueTitle ?? 'alasan': reason,
     };
   }
 }

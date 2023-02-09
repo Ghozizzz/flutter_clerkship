@@ -1,18 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:clerkship/data/models/key_value_data.dart';
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/ui/components/commons/flat_card.dart';
-import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
-import 'package:clerkship/ui/screens/clinic_activity/components/notes_segment.dart';
-import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
-import 'package:clerkship/ui/screens/mini_cex_approval/mini_cex_approval_screen.dart';
-import 'package:clerkship/utils/dialog_helper.dart';
-import 'package:clerkship/utils/extensions.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -23,12 +11,24 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/models/key_value_data.dart';
 import '../../../../data/network/entity/clinic_lecture_response.dart';
+import '../../../../r.dart';
+import '../../../../utils/dialog_helper.dart';
+import '../../../../utils/extensions.dart';
+import '../../../../utils/nav_helper.dart';
+import '../../../components/buttons/primary_button.dart';
+import '../../../components/buttons/ripple_button.dart';
+import '../../../components/commons/flat_card.dart';
 import '../../../components/commons/primary_checkbox.dart';
+import '../../../components/modal/modal_confirmation.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
+import '../../mini_cex_approval/mini_cex_approval_screen.dart';
+import '../providers/clinic_activity_lecture_provider.dart';
 import 'bullet_list.dart';
 import 'item_review_segment.dart';
+import 'notes_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
@@ -276,6 +276,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                                   vertical: 12,
                                 ),
                                 isVerticalValue: isNotes,
+                                isRichTextValue: isNotes,
                               );
                             }).toList(),
                           )

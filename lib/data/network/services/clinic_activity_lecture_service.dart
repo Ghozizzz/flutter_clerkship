@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:clerkship/data/models/result_data.dart';
-import 'package:clerkship/data/network/api_interface.dart';
-import 'package:clerkship/data/network/entity/clinic_lecture_response.dart';
-import 'package:clerkship/data/network/entity/default_response.dart';
-import 'package:clerkship/data/network/entity/mini_cex_form_response.dart';
-import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../utils/extensions.dart';
+import '../../models/result_data.dart';
 import '../api_config.dart';
+import '../api_interface.dart';
+import '../entity/clinic_lecture_response.dart';
+import '../entity/default_response.dart';
+import '../entity/mini_cex_form_response.dart';
 
 class ClinicActivityLectureService extends ClinicActivityLectureInterface {
   final apiClient = ApiConfig.client;
@@ -99,6 +99,45 @@ class ClinicActivityLectureService extends ClinicActivityLectureInterface {
       final miniCexFormResponse = miniCexFormResponseFromJson(response.body);
       return ResultData(
         data: miniCexFormResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<DefaultResponse>> approveMiniCexForm({
+    required String id,
+    required List<Map<String, String>> data,
+  }) async {
+    final endpoint = '${ApiConfig.baseUrl}/dokter/approve_form';
+    debugPrint(endpoint);
+
+    final body = {
+      'id': id,
+      'detail': data,
+    };
+
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(
+        Uri.parse(endpoint),
+        body: jsonEncode(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      );
+      debugPrint(response.body);
+
+      final defaultResponse = defaultResponseFromJson(response.body);
+      return ResultData(
+        data: defaultResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {
