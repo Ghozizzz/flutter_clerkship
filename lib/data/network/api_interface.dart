@@ -1,24 +1,24 @@
 import 'dart:io';
 
-import 'package:clerkship/data/models/result_data.dart';
-import 'package:clerkship/data/network/entity/batch_response.dart';
-import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
-import 'package:clerkship/data/network/entity/clinic_response.dart';
-import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
-import 'package:clerkship/data/network/entity/login_response.dart';
-import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
-import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
-import 'package:clerkship/data/network/entity/sklist_response.dart';
-import 'package:clerkship/data/network/entity/users_response.dart';
-
+import '../models/result_data.dart';
+import 'entity/batch_response.dart';
+import 'entity/clinic_detail_response.dart';
 import 'entity/clinic_lecture_response.dart';
+import 'entity/clinic_response.dart';
 import 'entity/default_response.dart';
 import 'entity/departemen_response.dart';
+import 'entity/filter_kegiatan_response.dart';
 import 'entity/item_reference_response.dart';
+import 'entity/login_response.dart';
+import 'entity/mini_cex_form_response.dart';
 import 'entity/scientific_detail_response.dart';
 import 'entity/scientific_response.dart';
+import 'entity/sklist_group_detail.dart';
 import 'entity/sklist_group_response.dart';
+import 'entity/sklist_jenis_response.dart';
+import 'entity/sklist_response.dart';
 import 'entity/user_response.dart';
+import 'entity/users_response.dart';
 
 abstract class AuthApiInterface {
   Future<ResultData<LoginResponse>> doLogin({
@@ -88,6 +88,13 @@ abstract class ClinicActivityLectureInterface {
   });
 
   Future<ResultData<DefaultResponse>> approveActivity({
+    required List<Map<String, String>> data,
+  });
+
+  Future<ResultData<MiniCexFormResponse>> getMiniCexForm(String id);
+
+  Future<ResultData<DefaultResponse>> approveMiniCexForm({
+    required String id,
     required List<Map<String, String>> data,
   });
 }

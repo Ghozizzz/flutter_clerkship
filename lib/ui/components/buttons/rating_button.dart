@@ -39,13 +39,13 @@ class RatingButton extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
-                9,
+                10,
                 (index) {
                   final selected = (index + 1) == controller.rating;
 
                   return SizedBox(
-                    width: 30.w,
-                    height: 30.w,
+                    width: 28.w,
+                    height: 28.w,
                     child: RippleButton(
                       onTap: () {
                         controller.setRating(index + 1);
