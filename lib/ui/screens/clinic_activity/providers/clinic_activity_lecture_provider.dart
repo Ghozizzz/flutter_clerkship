@@ -103,12 +103,13 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     DialogHelper.closeDialog();
     reloadActivities();
 
-    if (response.statusCode != 200) {
-      DialogHelper.showMessageDialog(
-        title: 'Terjadi Kesalahan',
-        body: response.data?.message ?? response.unexpectedErrorMessage,
-        alertType: AlertType.error,
-      );
-    }
+    DialogHelper.showMessageDialog(
+      title: response.statusCode == 200
+          ? 'Berhasil Disetujui'
+          : 'Terjadi Kesalahan',
+      body: response.data?.message ?? response.unexpectedErrorMessage,
+      alertType:
+          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+    );
   }
 }
