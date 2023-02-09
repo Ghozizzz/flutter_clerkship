@@ -6,6 +6,7 @@ import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/network/entity/clinic_response.dart';
 import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
 import 'package:clerkship/data/network/entity/login_response.dart';
+import 'package:clerkship/data/network/entity/mini_cex_form_response.dart';
 import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
@@ -90,6 +91,8 @@ abstract class ClinicActivityLectureInterface {
   Future<ResultData<DefaultResponse>> approveActivity({
     required List<Map<String, String>> data,
   });
+
+  Future<ResultData<MiniCexFormResponse>> getMiniCexForm(String id);
 }
 
 abstract class ScientificActivityInterface {

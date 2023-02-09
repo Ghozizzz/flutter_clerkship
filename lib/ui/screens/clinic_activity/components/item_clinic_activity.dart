@@ -9,8 +9,10 @@ import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
 import 'package:clerkship/ui/screens/clinic_activity/components/notes_segment.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
+import 'package:clerkship/ui/screens/mini_cex_approval/mini_cex_approval_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/extensions.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -349,29 +351,35 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 ),
                 PrimaryButton(
                   onTap: () {
-                    DialogHelper.showModalConfirmation(
-                      title: 'Konfirmasi Persetujuan',
-                      message:
-                          'Apakah anda yakin ingin menyetujui catatan ini?',
-                      type: ConfirmationType.withField,
-                      labelField: 'Masukan',
-                      hintField: 'Masukkan Alasan Penolakan',
-                      optionalField: true,
-                      onPositiveTapWithField: (fieldValue) {
-                        Navigator.pop(context);
+                    if (isMiniCex && header?.id != null) {
+                      NavHelper.navigatePush(MiniCexApprovalScreen(
+                        id: '${header?.id}',
+                      ));
+                    } else {
+                      DialogHelper.showModalConfirmation(
+                        title: 'Konfirmasi Persetujuan',
+                        message:
+                            'Apakah anda yakin ingin menyetujui catatan ini?',
+                        type: ConfirmationType.withField,
+                        labelField: 'Masukan',
+                        hintField: 'Masukkan Alasan Penolakan',
+                        optionalField: true,
+                        onPositiveTapWithField: (fieldValue) {
+                          Navigator.pop(context);
 
-                        if (widget.data.data?[0].header?.id != null) {
-                          context
-                              .read<ClinicActivityLectureProvider>()
-                              .approveActivity([
-                            KeyValueData(
-                              id: '${widget.data.data?[0].header?.id}',
-                              reason: fieldValue,
-                            ),
-                          ]);
-                        }
-                      },
-                    );
+                          if (widget.data.data?[0].header?.id != null) {
+                            context
+                                .read<ClinicActivityLectureProvider>()
+                                .approveActivity([
+                              KeyValueData(
+                                id: '${widget.data.data?[0].header?.id}',
+                                reason: fieldValue,
+                              ),
+                            ]);
+                          }
+                        },
+                      );
+                    }
                   },
                   padding: EdgeInsets.all(10.w),
                   child: Row(

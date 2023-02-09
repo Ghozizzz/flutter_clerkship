@@ -4,6 +4,7 @@ import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/clinic_lecture_response.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
+import 'package:clerkship/data/network/entity/mini_cex_form_response.dart';
 import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -73,6 +74,31 @@ class ClinicActivityLectureService extends ClinicActivityLectureInterface {
       final defaultResponse = defaultResponseFromJson(response.body);
       return ResultData(
         data: defaultResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<MiniCexFormResponse>> getMiniCexForm(String id) async {
+    final endpoint = '${ApiConfig.baseUrl}/dokter/form/$id';
+    debugPrint(endpoint);
+
+    try {
+      final response = await apiClient.get(
+        Uri.parse(endpoint),
+      );
+      debugPrint(response.body);
+
+      final miniCexFormResponse = miniCexFormResponseFromJson(response.body);
+      return ResultData(
+        data: miniCexFormResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {
