@@ -42,7 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
         ScientificActivityService());
     getIt.registerSingleton<StandardCompetencyService>(
         StandardCompetencyService());
-    getIt.registerSingleton<ClinicLectureService>(ClinicLectureService());
+    getIt.registerSingleton<ClinicActivityLectureService>(
+        ClinicActivityLectureService());
 
     Tools.onViewCreated(() {
       Future.delayed(const Duration(seconds: 1), () async {

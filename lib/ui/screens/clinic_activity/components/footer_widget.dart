@@ -1,7 +1,11 @@
+import 'package:clerkship/data/models/key_value_data.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/ui/screens/reject_activity/reject_activity_screen.dart';
+import 'package:clerkship/utils/dialog_helper.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -44,7 +48,14 @@ class FooterWidget extends StatelessWidget {
           ).addExpanded,
           Container(width: 8.w),
           PrimaryButton(
-            onTap: () {},
+            onTap: () {
+              DialogHelper.showModalConfirmation(
+                title: 'Konfirmasi Persetujuan',
+                message: 'Yakin ingin menyetujui semua kegiatan klinik?',
+                positiveText: 'Setujui Semua',
+                onPositiveTap: () => approveActivities(context),
+              );
+            },
             padding: EdgeInsets.all(14.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,5 +76,18 @@ class FooterWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void approveActivities(BuildContext context) {
+    DialogHelper.closeDialog();
+    final checkedId = context.read<ClinicActivityLectureProvider>().checkedId;
+    final data = List<KeyValueData>.generate(
+      checkedId.length,
+      (index) => KeyValueData(id: '${checkedId[index]}', reason: ''),
+    );
+
+    if (data.isNotEmpty) {
+      context.read<ClinicActivityLectureProvider>().approveActivity(data);
+    }
   }
 }
