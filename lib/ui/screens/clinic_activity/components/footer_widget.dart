@@ -1,4 +1,5 @@
 import 'package:clerkship/data/models/key_value_data.dart';
+import 'package:clerkship/data/network/entity/clinic_lecture_response.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'package:clerkship/ui/screens/reject_activity/reject_activity_screen.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
@@ -19,6 +20,10 @@ class FooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final clinicActivityProvider =
+        context.watch<ClinicActivityLectureProvider>();
+    final activities = clinicActivityProvider.clinicActivities;
+
     return FlatCard(
       shadow: Themes.softShadow,
       padding: EdgeInsets.all(20.w),
@@ -26,7 +31,16 @@ class FooterWidget extends StatelessWidget {
         children: [
           PrimaryButton(
             onTap: () {
-              NavHelper.navigatePush(RejectActivityScreen());
+              final allActivities = <ClinicActivityData>[];
+              for (MapEntry entry in activities.entries) {
+                allActivities.addAll(entry.value);
+              }
+              final checkedActivities =
+                  allActivities.where((element) => element.checked).toList();
+
+              NavHelper.navigatePush(RejectActivityScreen(
+                data: checkedActivities,
+              ));
             },
             color: Themes.red,
             padding: EdgeInsets.all(14.w),

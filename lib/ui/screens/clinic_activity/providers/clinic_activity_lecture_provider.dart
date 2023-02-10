@@ -111,7 +111,10 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     );
   }
 
-  void rejectActivity(List<KeyValueData> activityData) async {
+  void rejectActivity(
+    List<KeyValueData> activityData, {
+    Function(bool success)? onFinish,
+  }) async {
     DialogHelper.showProgressDialog();
 
     final response = await service.rejectActivity(
@@ -120,11 +123,12 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     DialogHelper.closeDialog();
     reloadActivities();
 
-    DialogHelper.showMessageDialog(
+    await DialogHelper.showMessageDialog(
       title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
       body: response.data?.message ?? response.unexpectedErrorMessage,
       alertType:
           response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
     );
+    onFinish?.call(response.statusCode == 200);
   }
 }
