@@ -148,4 +148,41 @@ class ClinicActivityLectureService extends ClinicActivityLectureInterface {
       );
     }
   }
+
+  @override
+  Future<ResultData<DefaultResponse>> rejectActivity({
+    required List<Map<String, String>> data,
+  }) async {
+    final endpoint = '${ApiConfig.baseUrl}/dokter/reject';
+    debugPrint(endpoint);
+
+    final body = {
+      'data': data,
+    };
+
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(
+        Uri.parse(endpoint),
+        body: jsonEncode(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      );
+      debugPrint(response.body);
+
+      final defaultResponse = defaultResponseFromJson(response.body);
+      return ResultData(
+        data: defaultResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
 }

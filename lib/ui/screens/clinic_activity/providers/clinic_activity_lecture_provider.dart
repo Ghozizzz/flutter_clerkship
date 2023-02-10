@@ -104,12 +104,31 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     reloadActivities();
 
     DialogHelper.showMessageDialog(
-      title: response.statusCode == 200
-          ? 'Berhasil Disetujui'
-          : 'Terjadi Kesalahan',
+      title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
       body: response.data?.message ?? response.unexpectedErrorMessage,
       alertType:
           response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
     );
+  }
+
+  void rejectActivity(
+    List<KeyValueData> activityData, {
+    Function(bool success)? onFinish,
+  }) async {
+    DialogHelper.showProgressDialog();
+
+    final response = await service.rejectActivity(
+      data: activityData.map((e) => e.toJson()).toList(),
+    );
+    DialogHelper.closeDialog();
+    reloadActivities();
+
+    await DialogHelper.showMessageDialog(
+      title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
+      body: response.data?.message ?? response.unexpectedErrorMessage,
+      alertType:
+          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+    );
+    onFinish?.call(response.statusCode == 200);
   }
 }

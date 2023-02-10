@@ -1,4 +1,5 @@
 import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/data/network/entity/clinic_lecture_response.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
 import 'package:flutter/material.dart';
@@ -8,31 +9,35 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemActivityRejection extends StatelessWidget {
+  final ClinicActivityData data;
   final TextEditingController reasonController;
 
   const ItemActivityRejection({
     super.key,
+    required this.data,
     required this.reasonController,
   });
 
   @override
   Widget build(BuildContext context) {
+    final header = data.data?[0].header;
+
     return FlatCard(
       border: Border.all(color: Themes.stroke),
       padding: EdgeInsets.all(12.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          'Mini-CEX'.textBold14,
-          const ItemInfoSegment(
+          (header?.namaKegiatan ?? '').textBold14,
+          ItemInfoSegment(
             title: 'Mahasiswa',
-            value: 'Bhima Saputra',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: header?.namaStudent ?? '',
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ),
-          const ItemInfoSegment(
+          ItemInfoSegment(
             title: 'Departemen',
-            value: 'Ilmu Penyakit Dalam',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: header?.namaDepartment ?? '',
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ).addMarginBottom(12),
           'Alasan Penolakan'.textBold12.addMarginBottom(8),
           TextArea(
