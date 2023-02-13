@@ -11,6 +11,7 @@ import 'entity/filter_kegiatan_response.dart';
 import 'entity/item_reference_response.dart';
 import 'entity/login_response.dart';
 import 'entity/mini_cex_form_response.dart';
+import 'entity/scientifc_event_participant_response.dart';
 import 'entity/scientific_detail_response.dart';
 import 'entity/scientific_response.dart';
 import 'entity/sklist_group_detail.dart';
@@ -134,6 +135,10 @@ abstract class ScientificActivityInterface {
       {required int id});
   Future<ResultData<ScientificResponse>> getListScientific({final int? status});
   Future<ResultData<DefaultResponse>> deleteScientific({required int id});
+}
+
+abstract class ScientificEventLectureInterface {
+  Future<ResultData<ScientificEventParticipantResponse>> getParticipant();
 }
 
 abstract class StandardCompetencyInterface {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/shared_providers/user_provider.dart';
 import '../../../../r.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -11,6 +13,8 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+
     return Container(
       color: Themes.primary,
       width: double.infinity,
@@ -25,11 +29,11 @@ class HeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'dr Budiman',
+                '${user.name}',
                 style: Themes().whiteBold24,
               ).addMarginBottom(8),
               Text(
-                'ID. 1123532345',
+                'ID. ${user.nim}',
                 style: Themes().white14,
               ),
             ],
