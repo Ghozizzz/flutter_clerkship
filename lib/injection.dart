@@ -8,6 +8,7 @@ import 'data/network/services/reference_service.dart';
 import 'data/network/services/scientific_activity_service.dart';
 import 'data/network/services/scientific_event_lecture_service.dart';
 import 'data/network/services/standard_competency_service.dart';
+import 'data/network/services/standart_competency_lecture_service.dart';
 import 'data/network/services/user_service.dart';
 import 'data/shared_providers/auth_provider.dart';
 import 'data/shared_providers/clinic_activity_provider.dart';
@@ -28,6 +29,7 @@ import 'ui/screens/scientific_event/providers/item_list_draft_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_reject_provider.dart';
 import 'ui/screens/scientific_event_student_list/provider/scientific_event_student_provider.dart';
 import 'ui/screens/standard_competency/provider/standart_competency_provider.dart';
+import 'ui/screens/standart_competency_student_list/provider/standart_competency_lecture_provider.dart';
 
 MultiProvider provideInjection() {
   return MultiProvider(
@@ -51,6 +53,8 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => ClinicActivityLectureProvider()),
       ChangeNotifierProvider(create: (_) => MiniCexApprovalProvider()),
       ChangeNotifierProvider(create: (_) => ScientificEventStudentProvider()),
+      ChangeNotifierProvider(
+          create: (_) => StandartCompetencyLectureProvider()),
     ],
     child: const MyApp(),
   );
@@ -69,4 +73,6 @@ void injectService() {
       ClinicActivityLectureService());
   getIt.registerSingleton<ScientificEventLectureService>(
       ScientificEventLectureService());
+  getIt.registerSingleton<StandartCompetencyLectureService>(
+      StandartCompetencyLectureService());
 }

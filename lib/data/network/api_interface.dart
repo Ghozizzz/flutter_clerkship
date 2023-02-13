@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:clerkship/data/network/entity/standart_competency_lecture_response.dart';
+
 import '../models/result_data.dart';
 import 'entity/batch_response.dart';
 import 'entity/clinic_detail_response.dart';
@@ -148,4 +150,10 @@ abstract class StandardCompetencyInterface {
       {required int idJenisSK});
   Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail(
       {required int idGroup, required int idJenisSK, required int idBatch});
+}
+
+abstract class StandartCompetencyLectureInterface {
+  Future<ResultData<StandartCompetencyLectureResponse>> getStandartCompetency(
+    String userId,
+  );
 }
