@@ -4,13 +4,19 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/network/entity/scientifc_event_participant_response.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import 'components/filter_header.dart';
 import 'components/footer_widget.dart';
 
 class ScientificEventLectureScreen extends StatefulWidget {
-  const ScientificEventLectureScreen({super.key});
+  final ScientificEventParticipant participant;
+
+  const ScientificEventLectureScreen({
+    super.key,
+    required this.participant,
+  });
 
   @override
   State<ScientificEventLectureScreen> createState() =>
