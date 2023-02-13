@@ -8,6 +8,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/network/entity/scientifc_event_participant_response.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
@@ -17,7 +18,12 @@ import 'components/item_standard.dart';
 import 'components/item_standard_total.dart';
 
 class StandartLectureScreen extends StatefulWidget {
-  const StandartLectureScreen({super.key});
+  final ScientificEventParticipant participant;
+
+  const StandartLectureScreen({
+    super.key,
+    required this.participant,
+  });
 
   @override
   State<StandartLectureScreen> createState() => _StandartLectureScreenState();
