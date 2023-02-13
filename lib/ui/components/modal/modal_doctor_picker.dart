@@ -1,7 +1,6 @@
 import 'package:clerkship/data/models/doctor.dart';
 import 'package:clerkship/r.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -76,7 +75,7 @@ class _ModalDoctorPickerState extends State<ModalDoctorPicker> {
                   onTap: () {
                     widget.onSelected(item);
                   },
-                  leading: SvgPicture.asset(
+                  leading: Image.asset(
                     AssetImages.avatarPlaceholder,
                     width: 24.w,
                     height: 24.w,

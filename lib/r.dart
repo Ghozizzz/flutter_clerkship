@@ -40,7 +40,7 @@ class AssetIcons {
 
 class AssetImages {
 	static const String avatar = 'assets/images/avatar.jpg';
-	static const String avatarPlaceholder = 'assets/images/avatar_placeholder.svg';
+	static const String avatarPlaceholder = 'assets/images/avatar_placeholder.png';
 	static const String logo = 'assets/images/logo.svg';
 	static const String logoAlt = 'assets/images/logo_alt.svg';
 	static const String stetoscop = 'assets/images/stetoscop.svg';

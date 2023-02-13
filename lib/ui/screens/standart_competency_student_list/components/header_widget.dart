@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -35,7 +34,7 @@ class HeaderWidget extends StatelessWidget {
             ],
           ),
           ClipOval(
-            child: SvgPicture.asset(
+            child: Image.asset(
               AssetImages.avatarPlaceholder,
               width: 56.w,
             ),

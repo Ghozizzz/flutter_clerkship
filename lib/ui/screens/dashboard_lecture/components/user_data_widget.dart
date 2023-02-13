@@ -51,7 +51,7 @@ class UserDataWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(56.w),
             child: Image.asset(
-              AssetImages.avatar,
+              AssetImages.avatarPlaceholder,
               width: 56.w,
               height: 56.w,
               fit: BoxFit.cover,
