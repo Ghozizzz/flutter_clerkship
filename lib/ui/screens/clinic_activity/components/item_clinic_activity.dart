@@ -75,6 +75,28 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
       }
     }
 
+    String status = '';
+    Color statusColor = Themes.transparent;
+
+    switch (header?.status) {
+      case 0:
+        status = 'Proses';
+        statusColor = Themes.grey;
+        break;
+      case 1:
+        status = 'Disetujui';
+        statusColor = Themes.green;
+        break;
+      case 2:
+        status = 'Menunggu';
+        statusColor = Themes.orange;
+        break;
+      case 9:
+        status = 'Ditolak';
+        statusColor = Themes.red;
+        break;
+    }
+
     return FlatCard(
       padding: EdgeInsets.all(12.w),
       border: Border.all(color: Themes.stroke),
@@ -86,14 +108,14 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlatCard(
-                  color: Themes.success.withOpacity(0.1),
+                  color: statusColor.withOpacity(0.1),
                   padding: EdgeInsets.symmetric(
                     horizontal: 6.w,
                     vertical: 4,
                   ),
                   child: Text(
-                    'Disetujui',
-                    style: Themes().primary14?.withColor(Themes.success),
+                    status,
+                    style: Themes().primary14?.withColor(statusColor),
                   ),
                 ),
                 // RippleButton(
