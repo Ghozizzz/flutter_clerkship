@@ -23,6 +23,13 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
   bool loading = true;
   bool loadingRated = true;
 
+  void reset() {
+    pageIndex = 0;
+    dateController.resetValue();
+    activityFilterController.resetValue();
+    notifyListeners();
+  }
+
   void setPageIndex(int index) {
     pageIndex = index;
     notifyListeners();

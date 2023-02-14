@@ -183,15 +183,23 @@ class Header {
 class Tinjauan {
   Tinjauan({
     this.keterangan,
+    this.tipeScoring,
+    this.nilai,
   });
 
   String? keterangan;
+  int? tipeScoring;
+  String? nilai;
 
   factory Tinjauan.fromJson(Map<String, dynamic> json) => Tinjauan(
         keterangan: json['keterangan'],
+        tipeScoring: json['tipe_scoring'],
+        nilai: json['nilai'],
       );
 
   Map<String, dynamic> toJson() => {
         'keterangan': keterangan,
+        'tipe_scoring': tipeScoring,
+        'nilai': nilai,
       };
 }
