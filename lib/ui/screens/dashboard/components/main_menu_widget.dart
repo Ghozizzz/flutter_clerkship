@@ -1,4 +1,3 @@
-import 'package:clerkship/data/shared_providers/auth_provider.dart';
 import 'package:clerkship/data/shared_providers/standard_competency_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
@@ -85,17 +84,6 @@ class MainMenuWidget extends StatelessWidget {
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
-        Row(
-          children: [
-            ItemMenu(
-              icon: AssetIcons.icStandartCompetence,
-              title: 'Logout',
-              onTap: () {
-                context.read<AuthProvider>().doLogout();
-              },
-            ).addExpanded,
-          ],
-        ).addSymmetricMargin(horizontal: 20.w).addMarginTop(20.h),
       ],
     );
   }
