@@ -12,6 +12,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/reference_provider.dart';
 import '../../../utils/dialog_helper.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
@@ -35,6 +36,12 @@ class _ClinicActivityLectureScreenState
   final ReceivePort _port = ReceivePort();
 
   @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     tabController = TabController(
@@ -43,6 +50,7 @@ class _ClinicActivityLectureScreenState
     );
     Tools.onViewCreated(() {
       registerDownloadCallback();
+      context.read<ReferenceProvider>().getFilterKegiatan();
       context
           .read<ClinicActivityLectureProvider>()
           .activityFilterController
@@ -58,11 +66,6 @@ class _ClinicActivityLectureScreenState
     final clinicActivityProvider =
         context.watch<ClinicActivityLectureProvider>();
 
-    final loading = clinicActivityProvider.loading;
-    final listData = [
-      clinicActivityProvider.clinicActivities,
-      clinicActivityProvider.ratedClinicActivities,
-    ];
     final checkedId = clinicActivityProvider.checkedId;
     final pageIndex = clinicActivityProvider.pageIndex;
     final showFooter = checkedId.isNotEmpty && pageIndex == 0;
@@ -105,35 +108,7 @@ class _ClinicActivityLectureScreenState
             },
             children: List.generate(
               2,
-              (pageIndex) {
-                final currentLoading = pageIndex == 0 ? loading : loading;
-
-                return Column(
-                  children: [
-                    if (currentLoading)
-                      const Expanded(
-                        child: Center(child: CircularProgressIndicator()),
-                      )
-                    else
-                      ListView.builder(
-                        itemCount: listData[pageIndex].length,
-                        padding: EdgeInsets.all(20.w),
-                        itemBuilder: (context, index) {
-                          final clinicActivities =
-                              listData[pageIndex].entries.toList()[index];
-
-                          return AnimatedItem(
-                            index: index,
-                            child: ItemGroupClinicActivity(
-                              clinicActivities: clinicActivities,
-                              rated: pageIndex == 1,
-                            ),
-                          ).addMarginBottom(20);
-                        },
-                      ).addExpanded,
-                  ],
-                );
-              },
+              (pageIndex) => const ListWidget(),
             ),
           ).addExpanded,
           const FooterWidget()
@@ -181,17 +156,58 @@ class _ClinicActivityLectureScreenState
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
   @pragma('vm:entry-point')
   static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
+    String id,
+    DownloadTaskStatus status,
+    int progress,
+  ) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
     send?.send([id, status, progress]);
+  }
+}
+
+class ListWidget extends StatelessWidget {
+  const ListWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final clinicActivityProvider =
+        context.watch<ClinicActivityLectureProvider>();
+    final pageIndex = context.watch<ClinicActivityLectureProvider>().pageIndex;
+    final loading = clinicActivityProvider.loading;
+    final loadingRated = clinicActivityProvider.loadingRated;
+    final currentLoading = pageIndex == 0 ? loading : loadingRated;
+    final listData = [
+      clinicActivityProvider.clinicActivities,
+      clinicActivityProvider.ratedClinicActivities,
+    ];
+
+    return Column(
+      children: [
+        if (currentLoading)
+          const Expanded(
+            child: Center(child: CircularProgressIndicator()),
+          )
+        else
+          ListView.builder(
+            itemCount: listData[pageIndex].length,
+            padding: EdgeInsets.all(20.w),
+            itemBuilder: (context, index) {
+              final clinicActivities =
+                  listData[pageIndex].entries.toList()[index];
+
+              return AnimatedItem(
+                index: index,
+                child: ItemGroupClinicActivity(
+                  clinicActivities: clinicActivities,
+                  rated: pageIndex == 1,
+                ),
+              ).addMarginBottom(20);
+            },
+          ).addExpanded,
+      ],
+    );
   }
 }

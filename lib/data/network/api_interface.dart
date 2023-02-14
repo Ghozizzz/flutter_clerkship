@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clerkship/data/network/entity/scientific_event_lecture_response.dart';
 import 'package:clerkship/data/network/entity/standart_competency_lecture_response.dart';
 
 import '../models/result_data.dart';
@@ -141,6 +142,13 @@ abstract class ScientificActivityInterface {
 
 abstract class ScientificEventLectureInterface {
   Future<ResultData<ScientificEventParticipantResponse>> getParticipant();
+
+  Future<ResultData<ScientificEventLectureResponse>> getEvent({
+    required int status,
+    required int idUser,
+    required int idKegiatan,
+    DateTime? date,
+  });
 }
 
 abstract class StandardCompetencyInterface {
