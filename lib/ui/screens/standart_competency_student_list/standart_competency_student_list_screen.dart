@@ -65,6 +65,7 @@ class _StandartCompetencyStudentListScreenState
 
                       return AnimatedItem(
                         child: ItemStudent(
+                          participant: participant,
                           onTap: () => onTapItemStudent(participant),
                         ),
                       ).addMarginBottom(10);

@@ -71,7 +71,7 @@ class ScientificActivityProvider extends ChangeNotifier {
       headerScientific = result.data!.data!.header!;
       for (ScientificDetailItem row in result.data!.data!.detail!) {
         switch (row.idJenis) {
-          case 1:
+          case 7:
             jenisKegiatan = row;
             break;
         }
@@ -116,7 +116,7 @@ class ScientificActivityProvider extends ChangeNotifier {
     }
 
     bodyItem.add(ItemScientific(
-      idJenis: 1,
+      idJenis: 7,
       idItem: jenisKegiatan.value,
       type: 0,
       remarks: null,
@@ -198,7 +198,7 @@ class ScientificActivityProvider extends ChangeNotifier {
     }
 
     bodyItem.add(ItemScientific(
-      idJenis: 1,
+      idJenis: 7,
       idItem: jenisKegiatan.value,
       type: 0,
       remarks: null,

@@ -56,21 +56,15 @@ class _ScientificEventLectureScreenState
     );
     Tools.onViewCreated(() {
       registerDownloadCallback();
+      context.read<ScientificEventLectureProvider>().reset();
       context.read<ReferenceProvider>().getFilterKegiatan();
-      context
-          .read<ScientificEventLectureProvider>()
-          .activityFilterController
-          .resetValue();
-      context
-          .read<ScientificEventLectureProvider>()
-          .dateController
-          .resetValue();
-
       if (widget.participant.idUser != null) {
         context
             .read<ScientificEventLectureProvider>()
             .getScientificEvent(idUser: widget.participant.idUser!);
-        // context.read<ScientificEventLectureProvider>().getRatedClinicActivities();
+        context
+            .read<ScientificEventLectureProvider>()
+            .getRatedScientificEvent(idUser: widget.participant.idUser!);
       }
     });
   }

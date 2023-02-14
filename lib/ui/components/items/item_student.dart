@@ -5,13 +5,17 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
+import '../../../data/network/entity/scientifc_event_participant_response.dart';
 import '../buttons/ripple_button.dart';
+import '../../../utils/extensions.dart';
 
 class ItemStudent extends StatelessWidget {
   final VoidCallback onTap;
+  final ScientificEventParticipant participant;
 
   const ItemStudent({
     super.key,
+    required this.participant,
     required this.onTap,
   });
 
@@ -27,7 +31,7 @@ class ItemStudent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bhima Saputra',
+                '${participant.namaStudent}',
                 style: Themes().blackBold12?.withColor(Themes.black),
               ).addMarginBottom(8),
               Row(
@@ -38,7 +42,7 @@ class ItemStudent extends StatelessWidget {
                     width: 12.w,
                   ).addMarginRight(8.w),
                   Text(
-                    '10 August 2022',
+                    participant.tanggal?.formatDate('dd MMMM yyyy') ?? '',
                     style: Themes().black10,
                   ),
                 ],
