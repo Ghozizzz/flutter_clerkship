@@ -1,40 +1,79 @@
-import 'package:clerkship/r.dart';
-import 'package:clerkship/ui/components/buttons/primary_button.dart';
-import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/ui/components/commons/flat_card.dart';
-import 'package:clerkship/ui/components/modal/modal_confirmation.dart';
-import 'package:clerkship/ui/screens/edit_scientific_event_review/edit_scientific_event_review_screen.dart';
-import 'package:clerkship/ui/screens/scientific_event_review/scientific_event_review_screen.dart';
-import 'package:clerkship/utils/dialog_helper.dart';
-import 'package:clerkship/utils/nav_helper.dart';
+import 'dart:io';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/scientific_event_lecture_response.dart';
+import '../../../../r.dart';
+import '../../../../utils/dialog_helper.dart';
+import '../../../../utils/extensions.dart';
+import '../../../../utils/nav_helper.dart';
+import '../../../components/buttons/primary_button.dart';
+import '../../../components/buttons/ripple_button.dart';
+import '../../../components/commons/flat_card.dart';
 import '../../../components/commons/primary_checkbox.dart';
-import '../../clinic_detail_approval/components/bullet_list.dart';
+import '../../../components/modal/modal_confirmation.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
+import '../../scientific_event_review/scientific_event_review_screen.dart';
+import '../providers/scientific_event_lecture_provider.dart';
+import 'bullet_list.dart';
+import 'notes_segment.dart';
 
 class ItemEventLecture extends StatelessWidget {
   final bool rated;
   final bool showCheckbox;
+  final ScientificEventData data;
 
   ItemEventLecture({
     super.key,
+    required this.data,
     this.rated = false,
     this.showCheckbox = true,
-  });
+  }) {
+    checkboxController.value = data.checked;
+  }
 
   final checkboxController = CheckboxController(false);
   final expandableController = ExpandableController();
 
   @override
   Widget build(BuildContext context) {
+    final header = data.header;
+    final documents = data.document;
+    final reviews = data.tinjauan;
+    final checkedId = context.watch<ScientificEventLectureProvider>().checkedId;
+
+    String status = '';
+    Color statusColor = Themes.transparent;
+
+    switch (header?.status) {
+      case 0:
+        status = 'Proses';
+        statusColor = Themes.grey;
+        break;
+      case 1:
+        status = 'Disetujui';
+        statusColor = Themes.green;
+        break;
+      case 2:
+        status = 'Menunggu';
+        statusColor = Themes.orange;
+        break;
+      case 9:
+        status = 'Ditolak';
+        statusColor = Themes.red;
+        break;
+    }
+
     return FlatCard(
       padding: EdgeInsets.all(12.w),
       border: Border.all(color: Themes.stroke),
@@ -46,29 +85,29 @@ class ItemEventLecture extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlatCard(
-                  color: Themes.success.withOpacity(0.1),
+                  color: statusColor.withOpacity(0.1),
                   padding: EdgeInsets.symmetric(
                     horizontal: 6.w,
                     vertical: 4,
                   ),
                   child: Text(
-                    'Disetujui',
-                    style: Themes().primary14?.withColor(Themes.success),
+                    status,
+                    style: Themes().primary14?.withColor(statusColor),
                   ),
                 ),
-                RippleButton(
-                  onTap: () {
-                    NavHelper.navigatePush(
-                      const EditScientificEventReviewScreen(),
-                    );
-                  },
-                  padding: EdgeInsets.all(4.w),
-                  child: SvgPicture.asset(
-                    AssetIcons.icEdit,
-                    color: Themes.primary,
-                    width: 20.w,
-                  ),
-                ),
+                // RippleButton(
+                //   onTap: () {
+                //     NavHelper.navigatePush(
+                //       const EditScientificEventReviewScreen(),
+                //     );
+                //   },
+                //   padding: EdgeInsets.all(4.w),
+                //   child: SvgPicture.asset(
+                //     AssetIcons.icEdit,
+                //     color: Themes.primary,
+                //     width: 20.w,
+                //   ),
+                // ),
               ],
             ).addMarginBottom(12)
           else if (showCheckbox)
@@ -77,116 +116,132 @@ class ItemEventLecture extends StatelessWidget {
               checkBoxSize: Size(20.w, 20.w),
               unCheckColor: Themes.hint,
               strokeWidth: 2,
+              onValueChange: (value) {
+                data.checked = value;
+                if (header == null) return;
+                if (value) {
+                  context
+                      .read<ScientificEventLectureProvider>()
+                      .addCheckId(header.id!);
+                } else {
+                  context
+                      .read<ScientificEventLectureProvider>()
+                      .removeCheckId(header.id!);
+                }
+              },
             ).addMarginBottom(12),
           Text(
-            'Jaga Malam',
+            '${header?.namaKegiatan}',
             style: Themes().blackBold14?.withColor(Themes.black),
           ),
           if (rated)
             Column(
               children: [
-                const ItemInfoSegment(
-                  title: 'Tanggal',
-                  value: '10 August 2022',
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
                 ItemInfoSegment(
-                  title: 'Preseptor',
+                  title: 'Tanggal',
+                  value: header?.tanggal?.formatDate('DD MMMM yyyy'),
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  valueWidget: Row(
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          AssetImages.avatar,
-                          width: 24.w,
-                          height: 24.w,
-                          fit: BoxFit.cover,
-                        ),
-                      ).addMarginRight(8.w),
-                      Text(
-                        'dr Budiman',
-                        style: Themes().blackBold12,
-                      ),
-                    ],
-                  ),
                 ),
-                const ItemInfoSegment(
+                // ItemInfoSegment(
+                //   title: 'Preseptor',
+                //   padding: const EdgeInsets.symmetric(vertical: 12),
+                //   valueWidget: Row(
+                //     children: [
+                //       ClipOval(
+                //         child: Image.asset(
+                //           AssetImages.avatar,
+                //           width: 24.w,
+                //           height: 24.w,
+                //           fit: BoxFit.cover,
+                //         ),
+                //       ).addMarginRight(8.w),
+                //       Text(
+                //         'dr Budiman',
+                //         style: Themes().blackBold12,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                ItemInfoSegment(
                   title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: '${header?.namaDepartment}',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             )
           else
             Column(
               children: [
-                const ItemInfoSegment(
+                ItemInfoSegment(
                   title: 'Tanggal',
-                  value: '10 Agustus 2022',
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
-                const ItemInfoSegment(
-                  title: 'Jam',
-                  value: '9.00',
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
-                const ItemInfoSegment(
-                  title: 'Peran',
-                  value: 'Hadirin Acara',
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
-                const ItemInfoSegment(
-                  title: 'Departemen',
-                  value: 'Ilmu Penyakit Dalam',
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  value: header?.tanggal?.formatDate('DD MMMM yyyy'),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 ItemInfoSegment(
-                  title: 'Preseptor',
+                  title: 'Jam',
+                  value: header?.tanggal?.formatDate('HH:mm'),
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  valueWidget: Row(
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          AssetImages.avatar,
-                          width: 24.w,
-                          height: 24.w,
-                          fit: BoxFit.cover,
-                        ),
-                      ).addMarginRight(8.w),
-                      Text(
-                        'dr Budiman',
-                        style: Themes().blackBold12,
-                      ),
-                    ],
-                  ),
                 ),
+                ItemInfoSegment(
+                  title: 'Peran',
+                  value: '${header?.namaPeran}',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                ItemInfoSegment(
+                  title: 'Departemen',
+                  value: '${header?.namaDepartment}',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                // ItemInfoSegment(
+                //   title: 'Preseptor',
+                //   padding: const EdgeInsets.symmetric(vertical: 12),
+                //   valueWidget: Row(
+                //     children: [
+                //       ClipOval(
+                //         child: Image.asset(
+                //           AssetImages.avatar,
+                //           width: 24.w,
+                //           height: 24.w,
+                //           fit: BoxFit.cover,
+                //         ),
+                //       ).addMarginRight(8.w),
+                //       Text(
+                //         'dr Budiman',
+                //         style: Themes().blackBold12,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const BulletList(
+              BulletList(
                 title: 'Topik',
+                listData: ['${header?.topik}'],
               ),
-              const BulletList(
+              NotesSegment(
                 title: 'Catatan',
+                body: '${header?.remarks}',
               ).addMarginBottom(20),
-              Text(
-                'Lampiran',
-                style: Themes().blackBold12?.withColor(Themes.hint),
-              ).addMarginBottom(8),
+              if (data.document?.isNotEmpty ?? false)
+                Text(
+                  'Lampiran',
+                  style: Themes().blackBold12?.withColor(Themes.hint),
+                ).addMarginBottom(8),
               Column(
-                children: List.generate(
-                  2,
-                  (index) => const ItemFile(
-                    title: '',
-                    url: '',
-                  ).addMarginBottom(12),
-                ),
+                children: (data.document ?? [])
+                    .map((document) => ItemFile(
+                          title: '${document.fileName}',
+                          url: '${document.fileUrl}',
+                          onTap: () => downloadFile(document),
+                        ).addMarginBottom(12))
+                    .toList(),
               ),
             ],
           ),
-          if (!rated)
+          if (!rated && checkedId.isEmpty)
             Row(
               children: [
                 PrimaryButton(
@@ -348,5 +403,29 @@ class ItemEventLecture extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void downloadFile(Document? document) async {
+    if (await Permission.storage.request().isGranted) {
+      if (document?.fileUrl == null) return;
+      String fileName = document?.fileName ?? '';
+      final currentFile =
+          File('/storage/emulated/0/Download/${document?.fileName}');
+
+      if ((await currentFile.exists())) {
+        await currentFile.delete();
+      }
+
+      DialogHelper.showProgressDialog();
+      await FlutterDownloader.cancelAll();
+      await FlutterDownloader.enqueue(
+        url: document?.fileUrl ?? '',
+        fileName: fileName,
+        headers: {},
+        savedDir: '/storage/emulated/0/Download/',
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+    }
   }
 }

@@ -11,9 +11,19 @@ import '../../../components/buttons/primary_button.dart';
 import '../../../components/commons/flat_card.dart';
 import '../../reject_event/reject_event_screen.dart';
 
-class FooterWidget extends StatelessWidget {
-  FooterWidget({super.key});
+class FooterWidget extends StatefulWidget {
+  final Function(bool checkAll)? onTap;
 
+  const FooterWidget({
+    super.key,
+    this.onTap,
+  });
+
+  @override
+  State<FooterWidget> createState() => _FooterWidgetState();
+}
+
+class _FooterWidgetState extends State<FooterWidget> {
   final checkAllController = CheckboxController(false);
 
   @override
@@ -34,6 +44,7 @@ class FooterWidget extends StatelessWidget {
             checkBoxSize: Size(20.w, 20.w),
             unCheckColor: Themes.hint,
             strokeWidth: 2,
+            onValueChange: (value) => widget.onTap?.call(value),
           ).addMarginBottom(12),
           Row(
             children: [
