@@ -50,12 +50,8 @@ class _ClinicActivityLectureScreenState
     );
     Tools.onViewCreated(() {
       registerDownloadCallback();
+      context.read<ClinicActivityLectureProvider>().reset();
       context.read<ReferenceProvider>().getFilterKegiatan();
-      context
-          .read<ClinicActivityLectureProvider>()
-          .activityFilterController
-          .resetValue();
-      context.read<ClinicActivityLectureProvider>().dateController.resetValue();
       context.read<ClinicActivityLectureProvider>().getClinicActivities();
       context.read<ClinicActivityLectureProvider>().getRatedClinicActivities();
     });

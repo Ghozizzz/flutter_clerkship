@@ -139,7 +139,7 @@ class ItemEventLecture extends StatelessWidget {
               children: [
                 ItemInfoSegment(
                   title: 'Tanggal',
-                  value: header?.tanggal?.formatDate('DD MMMM yyyy'),
+                  value: header?.tanggal?.formatDate('dd MMMM yyyy'),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 // ItemInfoSegment(
@@ -174,7 +174,7 @@ class ItemEventLecture extends StatelessWidget {
               children: [
                 ItemInfoSegment(
                   title: 'Tanggal',
-                  value: header?.tanggal?.formatDate('DD MMMM yyyy'),
+                  value: header?.tanggal?.formatDate('dd MMMM yyyy'),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 ItemInfoSegment(
@@ -231,7 +231,7 @@ class ItemEventLecture extends StatelessWidget {
                   style: Themes().blackBold12?.withColor(Themes.hint),
                 ).addMarginBottom(8),
               Column(
-                children: (data.document ?? [])
+                children: (documents ?? [])
                     .map((document) => ItemFile(
                           title: '${document.fileName}',
                           url: '${document.fileUrl}',
@@ -343,55 +343,13 @@ class ItemEventLecture extends StatelessWidget {
                     ),
                     collapsed: Container(),
                     expanded: Column(
-                      children: const [
-                        ItemInfoSegment(
-                          title:
-                              'Patient Demographic Information (age, gender, social information)',
-                          value: 'P',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'History Taking - Presenting complaints',
-                          value: 'P',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'History Taking -	Past history',
-                          value: 'F',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'History Taking -	Family history',
-                          value: 'P',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'History Taking -	Family history',
-                          value: 'P-',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'History Taking -	Other',
-                          value: 'P-',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'General physical examination',
-                          value: 'P-',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title:
-                              'Investigations needed to support diagnosis and expected results',
-                          value: 'P-',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        ItemInfoSegment(
-                          title: 'Summary',
-                          value: 'P-',
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                      ],
+                      children: (reviews ?? []).map((review) {
+                        return ItemInfoSegment(
+                          title: '${review.keterangan}',
+                          value: '${review.nilai}',
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        );
+                      }).toList(),
                     ).addSymmetricMargin(horizontal: 12.w),
                     theme: const ExpandableThemeData(
                       hasIcon: false,
