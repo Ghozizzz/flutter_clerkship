@@ -23,7 +23,7 @@ class DialogHelper {
     String negativeText = 'Batal',
     final String? labelField,
     final String? hintField,
-    final bool optionalField = false,
+    final bool optionalField = true,
     final Function(String fieldValue)? onPositiveTapWithField,
     VoidCallback? onPositiveTap,
     VoidCallback? onNegativeTap,
