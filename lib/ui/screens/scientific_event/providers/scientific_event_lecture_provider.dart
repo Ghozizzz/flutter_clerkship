@@ -20,6 +20,13 @@ class ScientificEventLectureProvider extends ChangeNotifier {
   bool loading = true;
   bool loadingRated = true;
 
+  void reset() {
+    pageIndex = 0;
+    dateController.resetValue();
+    activityFilterController.resetValue();
+    notifyListeners();
+  }
+
   void setPageIndex(int index) {
     pageIndex = index;
     notifyListeners();
@@ -54,6 +61,27 @@ class ScientificEventLectureProvider extends ChangeNotifier {
       scientificEvents.addAll(data.data ?? []);
     }
     loading = false;
+    notifyListeners();
+  }
+
+  void getRatedScientificEvent({
+    required int idUser,
+  }) async {
+    loadingRated = true;
+    notifyListeners();
+
+    final response = await service.getEvent(
+      status: 1,
+      idUser: idUser,
+      date: dateController.selected,
+      idKegiatan: activityFilterController.selected?.value,
+    );
+
+    ratedScientificEvents.clear();
+    for (ScientificEventLectureData data in response.data?.data ?? []) {
+      ratedScientificEvents.addAll(data.data ?? []);
+    }
+    loadingRated = false;
     notifyListeners();
   }
 

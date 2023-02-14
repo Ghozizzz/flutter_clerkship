@@ -99,6 +99,8 @@ class FilterHeader extends StatelessWidget {
     context
         .read<ScientificEventLectureProvider>()
         .getScientificEvent(idUser: participant.idUser!);
-    // context.read<ScientificEventLectureProvider>().getRatedClinicActivities();
+    context
+        .read<ScientificEventLectureProvider>()
+        .getRatedScientificEvent(idUser: participant.idUser!);
   }
 }
