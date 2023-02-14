@@ -57,7 +57,7 @@ class ListItemDraftScientific extends StatelessWidget {
             index: k,
             child: ItemActivity(
               title: listAllScientific[k].namaDepartment!,
-              date: DateFormat('DD MMMM yyyy')
+              date: DateFormat('dd MMMM yyyy')
                   .format(listAllScientific[k].tanggal!),
               doctor: listAllScientific[k].namaDokter!,
               status: status,

@@ -23,6 +23,7 @@ class ReferenceProvider extends ChangeNotifier {
   void resetData() {
     departemen.clear();
     jenisKegiatan.clear();
+    jenisKegiatanScientific.clear();
     penyakit.clear();
     keterampilan.clear();
     prosedur.clear();
