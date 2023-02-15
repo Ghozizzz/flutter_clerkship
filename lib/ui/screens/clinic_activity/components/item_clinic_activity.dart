@@ -420,6 +420,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
       type: ConfirmationType.withField,
       labelField: 'Alasan Penolakan',
       hintField: 'Masukkan Alasan Penolakan',
+      optionalField: false,
       onPositiveTapWithField: (fieldValue) {
         Navigator.pop(context);
 

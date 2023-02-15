@@ -52,14 +52,15 @@ class StandardCompetencyService extends StandardCompetencyInterface {
   }
 
   @override
-  Future<ResultData<SkListGroupResponse>> getListGroup(
-      {required int idJenisSK}) async {
+  Future<ResultData<SkListGroupResponse>> getListGroup({
+    required String idJenisSK,
+  }) async {
     final endpoint = '${ApiConfig.baseUrl}/sk/list_detail_group';
     debugPrint(endpoint);
 
     try {
       final response = await apiClient.post(Uri.parse(endpoint), body: {
-        'id': idJenisSK.toString(),
+        'id': idJenisSK,
       });
       debugPrint(response.body);
 

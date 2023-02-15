@@ -9,8 +9,11 @@ import 'package:widget_helper/widget_helper.dart';
 class ItemStandardTotal extends StatelessWidget {
   final String title;
   final int total;
-  const ItemStandardTotal(
-      {super.key, required this.title, required this.total});
+  const ItemStandardTotal({
+    super.key,
+    required this.title,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {

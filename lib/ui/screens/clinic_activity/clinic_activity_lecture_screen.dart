@@ -102,10 +102,10 @@ class _ClinicActivityLectureScreenState
               tabController.animateTo(index);
               context.read<ClinicActivityLectureProvider>().setPageIndex(index);
             },
-            children: List.generate(
-              2,
-              (pageIndex) => const ListWidget(),
-            ),
+            children: const [
+              ListWidget(pageIndex: 0),
+              ListWidget(pageIndex: 1),
+            ],
           ).addExpanded,
           const FooterWidget()
               .animate(
@@ -165,13 +165,17 @@ class _ClinicActivityLectureScreenState
 }
 
 class ListWidget extends StatelessWidget {
-  const ListWidget({super.key});
+  final int pageIndex;
+
+  const ListWidget({
+    super.key,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     final clinicActivityProvider =
         context.watch<ClinicActivityLectureProvider>();
-    final pageIndex = context.watch<ClinicActivityLectureProvider>().pageIndex;
     final loading = clinicActivityProvider.loading;
     final loadingRated = clinicActivityProvider.loadingRated;
     final currentLoading = pageIndex == 0 ? loading : loadingRated;

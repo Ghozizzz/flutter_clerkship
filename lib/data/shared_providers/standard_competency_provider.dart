@@ -48,7 +48,7 @@ class StandardCompetencyProvider extends ChangeNotifier {
   }
 
   void getListSKGroup({
-    required int idJenisSK,
+    required String idJenisSK,
   }) async {
     isloadingListSKGroup = true;
     notifyListeners();

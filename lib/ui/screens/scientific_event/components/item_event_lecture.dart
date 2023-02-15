@@ -253,6 +253,7 @@ class ItemEventLecture extends StatelessWidget {
                       type: ConfirmationType.withField,
                       labelField: 'Alasan Penolakan',
                       hintField: 'Masukkan Alasan Penolakan',
+                      optionalField: false,
                       onPositiveTapWithField: (fieldValue) {
                         debugPrint(fieldValue);
                         Navigator.pop(context);

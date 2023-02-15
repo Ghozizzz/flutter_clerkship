@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:clerkship/data/network/entity/department_lecture_response.dart';
 import 'package:clerkship/data/network/entity/scientific_event_lecture_response.dart';
-import 'package:clerkship/data/network/entity/standart_competency_lecture_response.dart';
 
 import '../models/result_data.dart';
 import 'entity/batch_response.dart';
@@ -154,14 +154,18 @@ abstract class ScientificEventLectureInterface {
 abstract class StandardCompetencyInterface {
   Future<ResultData<SkListResponse>> getListSk();
   Future<ResultData<SkListJenisResponse>> getListSkJenis();
-  Future<ResultData<SkListGroupResponse>> getListGroup(
-      {required int idJenisSK});
+  Future<ResultData<SkListGroupResponse>> getListGroup({
+    required String idJenisSK,
+  });
   Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail(
       {required int idGroup, required int idJenisSK, required int idBatch});
 }
 
 abstract class StandartCompetencyLectureInterface {
-  Future<ResultData<StandartCompetencyLectureResponse>> getStandartCompetency(
-    String userId,
+  Future<ResultData<DepartmentLectureResponse>> getDepartement(
+    int userId,
+  );
+  Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail(
+    Map<String, String> dataIds,
   );
 }
