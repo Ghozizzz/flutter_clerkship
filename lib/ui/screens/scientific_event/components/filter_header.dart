@@ -96,11 +96,7 @@ class FilterHeader extends StatelessWidget {
 
   void refreshData(BuildContext context) {
     if (participant.idUser == null) return;
-    context
-        .read<ScientificEventLectureProvider>()
-        .getScientificEvent(idUser: participant.idUser!);
-    context
-        .read<ScientificEventLectureProvider>()
-        .getRatedScientificEvent(idUser: participant.idUser!);
+    context.read<ScientificEventLectureProvider>().getScientificEvent();
+    context.read<ScientificEventLectureProvider>().getRatedScientificEvent();
   }
 }

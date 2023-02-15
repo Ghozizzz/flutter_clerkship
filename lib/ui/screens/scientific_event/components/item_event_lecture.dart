@@ -11,11 +11,11 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/models/key_value_data.dart';
 import '../../../../data/network/entity/scientific_event_lecture_response.dart';
 import '../../../../r.dart';
 import '../../../../utils/dialog_helper.dart';
 import '../../../../utils/extensions.dart';
-import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/primary_button.dart';
 import '../../../components/buttons/ripple_button.dart';
 import '../../../components/commons/flat_card.dart';
@@ -23,7 +23,6 @@ import '../../../components/commons/primary_checkbox.dart';
 import '../../../components/modal/modal_confirmation.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
-import '../../scientific_event_review/scientific_event_review_screen.dart';
 import '../providers/scientific_event_lecture_provider.dart';
 import 'bullet_list.dart';
 import 'notes_segment.dart';
@@ -245,21 +244,7 @@ class ItemEventLecture extends StatelessWidget {
             Row(
               children: [
                 PrimaryButton(
-                  onTap: () {
-                    DialogHelper.showModalConfirmation(
-                      title: 'Konfirmasi Penolakan',
-                      message:
-                          'Silakan masukkan alasan penolakan di bawah ini.',
-                      type: ConfirmationType.withField,
-                      labelField: 'Alasan Penolakan',
-                      hintField: 'Masukkan Alasan Penolakan',
-                      optionalField: false,
-                      onPositiveTapWithField: (fieldValue) {
-                        debugPrint(fieldValue);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
+                  onTap: () => rejectActivity(context),
                   padding: EdgeInsets.all(10.w),
                   color: Themes.red,
                   child: Row(
@@ -282,21 +267,7 @@ class ItemEventLecture extends StatelessWidget {
                   width: 8.w,
                 ),
                 PrimaryButton(
-                  onTap: () {
-                    DialogHelper.showModalConfirmation(
-                      title: 'Konfirmasi Persetujuan',
-                      message:
-                          'Apakah anda yakin ingin menyetujui catatan ini?',
-                      type: ConfirmationType.withField,
-                      labelField: 'Masukan',
-                      hintField: 'Masukkan Alasan Penolakan',
-                      optionalField: true,
-                      onPositiveTapWithField: (fieldValue) {
-                        Navigator.pop(context);
-                        NavHelper.navigatePush(ScientificEventReviewScreen());
-                      },
-                    );
-                  },
+                  onTap: () {},
                   padding: EdgeInsets.all(10.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -316,7 +287,7 @@ class ItemEventLecture extends StatelessWidget {
                 ).addExpanded,
               ],
             ),
-          if (rated)
+          if (rated && (reviews?.length ?? 0) > 1)
             ValueListenableBuilder(
               valueListenable: expandableController,
               builder: (context, expanded, __) {
@@ -386,5 +357,28 @@ class ItemEventLecture extends StatelessWidget {
         openFileFromNotification: true,
       );
     }
+  }
+
+  rejectActivity(BuildContext context) {
+    DialogHelper.showModalConfirmation(
+      title: 'Konfirmasi Penolakan',
+      message: 'Silakan masukkan alasan penolakan di bawah ini.',
+      type: ConfirmationType.withField,
+      labelField: 'Alasan Penolakan',
+      hintField: 'Masukkan Alasan Penolakan',
+      optionalField: false,
+      onPositiveTapWithField: (fieldValue) {
+        Navigator.pop(context);
+
+        if (data.header?.id != null) {
+          context.read<ScientificEventLectureProvider>().rejectEvent([
+            KeyValueData(
+              id: '${data.header?.id}',
+              reason: fieldValue,
+            ),
+          ]);
+        }
+      },
+    );
   }
 }

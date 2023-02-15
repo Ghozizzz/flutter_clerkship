@@ -1,13 +1,19 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../data/models/key_value_data.dart';
 import '../../../../data/network/entity/scientific_event_lecture_response.dart';
+import '../../../../data/network/services/clinic_activity_lecture_service.dart';
 import '../../../../data/network/services/scientific_event_lecture_service.dart';
 import '../../../../main.dart';
+import '../../../../utils/dialog_helper.dart';
 import '../../../components/buttons/date_picker_button.dart';
 import '../../../components/buttons/dropdown_field.dart';
+import '../../../components/dialog/custom_alert_dialog.dart';
 
 class ScientificEventLectureProvider extends ChangeNotifier {
   final service = getIt<ScientificEventLectureService>();
+  final clinicActivityLectureService = getIt<ClinicActivityLectureService>();
+
   final scientificEvents = <ScientificEventData>[];
   final ratedScientificEvents = <ScientificEventData>[];
 
@@ -19,6 +25,12 @@ class ScientificEventLectureProvider extends ChangeNotifier {
 
   bool loading = true;
   bool loadingRated = true;
+  int? idUser;
+
+  void setUserId(int idUser) {
+    this.idUser = idUser;
+    notifyListeners();
+  }
 
   void reset() {
     pageIndex = 0;
@@ -42,16 +54,16 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getScientificEvent({
-    required int idUser,
-  }) async {
+  void getScientificEvent() async {
+    if (idUser == null) return;
+
     loading = true;
     checkedId.clear();
     notifyListeners();
 
     final response = await service.getEvent(
       status: 2,
-      idUser: idUser,
+      idUser: idUser!,
       date: dateController.selected,
       idKegiatan: activityFilterController.selected?.value,
     );
@@ -64,15 +76,15 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getRatedScientificEvent({
-    required int idUser,
-  }) async {
+  void getRatedScientificEvent() async {
+    if (idUser == null) return;
+
     loadingRated = true;
     notifyListeners();
 
     final response = await service.getEvent(
       status: 1,
-      idUser: idUser,
+      idUser: idUser!,
       date: dateController.selected,
       idKegiatan: activityFilterController.selected?.value,
     );
@@ -95,5 +107,48 @@ class ScientificEventLectureProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void approveEvent(List<KeyValueData> activityData) async {
+    DialogHelper.showProgressDialog();
+
+    final response = await clinicActivityLectureService.approveActivity(
+      data: activityData.map((e) => e.toJson()).toList(),
+    );
+    DialogHelper.closeDialog();
+    reloadActivities();
+
+    DialogHelper.showMessageDialog(
+      title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
+      body: response.data?.message ?? response.unexpectedErrorMessage,
+      alertType:
+          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+    );
+  }
+
+  void rejectEvent(
+    List<KeyValueData> activityData, {
+    Function(bool success)? onFinish,
+  }) async {
+    DialogHelper.showProgressDialog();
+
+    final response = await clinicActivityLectureService.rejectActivity(
+      data: activityData.map((e) => e.toJson()).toList(),
+    );
+    DialogHelper.closeDialog();
+    reloadActivities();
+
+    await DialogHelper.showMessageDialog(
+      title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
+      body: response.data?.message ?? response.unexpectedErrorMessage,
+      alertType:
+          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+    );
+    onFinish?.call(response.statusCode == 200);
+  }
+
+  void reloadActivities() {
+    getScientificEvent();
+    getRatedScientificEvent();
   }
 }
