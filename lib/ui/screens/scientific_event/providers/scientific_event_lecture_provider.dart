@@ -116,7 +116,7 @@ class ScientificEventLectureProvider extends ChangeNotifier {
       data: activityData.map((e) => e.toJson()).toList(),
     );
     DialogHelper.closeDialog();
-    reloadActivities();
+    reloadEvents();
 
     DialogHelper.showMessageDialog(
       title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
@@ -136,7 +136,7 @@ class ScientificEventLectureProvider extends ChangeNotifier {
       data: activityData.map((e) => e.toJson()).toList(),
     );
     DialogHelper.closeDialog();
-    reloadActivities();
+    reloadEvents();
 
     await DialogHelper.showMessageDialog(
       title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
@@ -147,7 +147,7 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     onFinish?.call(response.statusCode == 200);
   }
 
-  void reloadActivities() {
+  void reloadEvents() {
     getScientificEvent();
     getRatedScientificEvent();
   }

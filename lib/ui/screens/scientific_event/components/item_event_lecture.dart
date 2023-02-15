@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:clerkship/ui/screens/scientific_event_approval/scientific_event_approval_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -267,7 +269,9 @@ class ItemEventLecture extends StatelessWidget {
                   width: 8.w,
                 ),
                 PrimaryButton(
-                  onTap: () {},
+                  onTap: () => NavHelper.navigatePush(
+                    ScientificEventApprovalScreen(id: '${header?.id}'),
+                  ),
                   padding: EdgeInsets.all(10.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -316,10 +320,17 @@ class ItemEventLecture extends StatelessWidget {
                     collapsed: Container(),
                     expanded: Column(
                       children: (reviews ?? []).map((review) {
+                        final isNotes = review.keterangan
+                                ?.toLowerCase()
+                                .contains('catatan') ??
+                            false;
+
                         return ItemInfoSegment(
                           title: '${review.keterangan}',
                           value: '${review.nilai}',
                           padding: const EdgeInsets.symmetric(vertical: 12),
+                          isVerticalValue: isNotes,
+                          isRichTextValue: isNotes,
                         );
                       }).toList(),
                     ).addSymmetricMargin(horizontal: 12.w),
