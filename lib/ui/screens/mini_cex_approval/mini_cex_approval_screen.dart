@@ -199,7 +199,7 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
         );
       case 2:
         return RatingButton(
-          title: 'Medical Interviewing Skills',
+          title: '${form.keterangan}',
           controller: controller,
         ).addMarginBottom(20);
       case 3:

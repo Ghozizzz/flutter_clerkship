@@ -28,6 +28,7 @@ import 'ui/screens/scientific_event/providers/item_list_approve_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_draft_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_reject_provider.dart';
 import 'ui/screens/scientific_event/providers/scientific_event_lecture_provider.dart';
+import 'ui/screens/scientific_event_approval/provider/scientific_event_approval_provider.dart';
 import 'ui/screens/scientific_event_student_list/provider/scientific_event_student_provider.dart';
 import 'ui/screens/standard_competency/provider/standart_competency_provider.dart';
 import 'ui/screens/standart_competency_student_list/provider/standart_competency_lecture_provider.dart';
@@ -57,6 +58,7 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(
           create: (_) => StandartCompetencyLectureProvider()),
       ChangeNotifierProvider(create: (_) => ScientificEventLectureProvider()),
+      ChangeNotifierProvider(create: (_) => ScientificEventApprovalProvider()),
     ],
     child: const MyApp(),
   );
