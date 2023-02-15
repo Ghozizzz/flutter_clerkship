@@ -61,10 +61,11 @@ class _ScientificEventLectureScreenState
       if (widget.participant.idUser != null) {
         context
             .read<ScientificEventLectureProvider>()
-            .getScientificEvent(idUser: widget.participant.idUser!);
+            .setUserId(widget.participant.idUser!);
+        context.read<ScientificEventLectureProvider>().getScientificEvent();
         context
             .read<ScientificEventLectureProvider>()
-            .getRatedScientificEvent(idUser: widget.participant.idUser!);
+            .getRatedScientificEvent();
       }
     });
   }
@@ -110,38 +111,44 @@ class _ScientificEventLectureScreenState
               },
             ),
           ).addMarginTop(20),
-          PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              tabController.animateTo(index);
-              context
-                  .read<ScientificEventLectureProvider>()
-                  .setPageIndex(index);
-            },
-            children: const [
-              ListWIdget(pageIndex: 0),
-              ListWIdget(pageIndex: 1),
+          Stack(
+            children: [
+              PageView(
+                controller: pageController,
+                onPageChanged: (index) {
+                  tabController.animateTo(index);
+                  context
+                      .read<ScientificEventLectureProvider>()
+                      .setPageIndex(index);
+                },
+                children: const [
+                  ListWIdget(pageIndex: 0),
+                  ListWIdget(pageIndex: 1),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FooterWidget(
+                    onTap: (checkAll) => context
+                        .read<ScientificEventLectureProvider>()
+                        .toggleCheckAll(checkAll),
+                  )
+                      .animate(
+                        target: showFooter ? 0 : 1,
+                      )
+                      .slideY(
+                        begin: 0,
+                        end: 1,
+                        duration: Duration(
+                          milliseconds: showFooter ? 800 : 200,
+                        ),
+                        curve: showFooter ? Curves.elasticIn : Curves.easeIn,
+                      ),
+                ],
+              ),
             ],
           ).addExpanded,
-          FooterWidget(
-            onTap: (checkAll) => context
-                .read<ScientificEventLectureProvider>()
-                .toggleCheckAll(checkAll),
-          )
-              .animate(
-                target: showFooter ? 0 : 1,
-              )
-              .slideY(
-                begin: 0,
-                end: 1,
-                duration: Duration(
-                  milliseconds: showFooter ? 800 : 200,
-                ),
-                curve: showFooter ? Curves.elasticIn : Curves.easeIn,
-              )
-              .hide(
-                maintain: false,
-              ),
         ],
       ),
     );
@@ -215,7 +222,12 @@ class ListWIdget extends StatelessWidget {
         else
           ListView.builder(
             itemCount: listData[pageIndex].length,
-            padding: EdgeInsets.all(20.w),
+            padding: EdgeInsets.only(
+              top: 20.w,
+              left: 20.w,
+              right: 20.w,
+              bottom: 16.hp,
+            ),
             itemBuilder: (context, index) {
               final scientificEvent = listData[pageIndex][index];
 

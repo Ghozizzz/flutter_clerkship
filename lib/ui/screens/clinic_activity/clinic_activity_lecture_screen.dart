@@ -96,32 +96,43 @@ class _ClinicActivityLectureScreenState
               },
             ),
           ).addMarginTop(20),
-          PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              tabController.animateTo(index);
-              context.read<ClinicActivityLectureProvider>().setPageIndex(index);
-            },
-            children: const [
-              ListWidget(pageIndex: 0),
-              ListWidget(pageIndex: 1),
+          Stack(
+            children: [
+              PageView(
+                controller: pageController,
+                onPageChanged: (index) {
+                  tabController.animateTo(index);
+                  context
+                      .read<ClinicActivityLectureProvider>()
+                      .setPageIndex(index);
+                },
+                children: const [
+                  ListWidget(pageIndex: 0),
+                  ListWidget(pageIndex: 1),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const FooterWidget()
+                      .animate(
+                        target: showFooter ? 0 : 1,
+                      )
+                      .slideY(
+                        begin: 0,
+                        end: 1,
+                        duration: Duration(
+                          milliseconds: showFooter ? 800 : 200,
+                        ),
+                        curve: showFooter ? Curves.elasticIn : Curves.easeIn,
+                      )
+                      .hide(
+                        maintain: false,
+                      ),
+                ],
+              ),
             ],
           ).addExpanded,
-          const FooterWidget()
-              .animate(
-                target: showFooter ? 0 : 1,
-              )
-              .slideY(
-                begin: 0,
-                end: 1,
-                duration: Duration(
-                  milliseconds: showFooter ? 800 : 200,
-                ),
-                curve: showFooter ? Curves.elasticIn : Curves.easeIn,
-              )
-              .hide(
-                maintain: false,
-              ),
         ],
       ),
     );
@@ -193,7 +204,12 @@ class ListWidget extends StatelessWidget {
         else
           ListView.builder(
             itemCount: listData[pageIndex].length,
-            padding: EdgeInsets.all(20.w),
+            padding: EdgeInsets.only(
+              top: 20.w,
+              left: 20.w,
+              right: 20.w,
+              bottom: 16.hp,
+            ),
             itemBuilder: (context, index) {
               final clinicActivities =
                   listData[pageIndex].entries.toList()[index];
