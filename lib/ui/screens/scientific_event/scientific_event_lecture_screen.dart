@@ -118,10 +118,10 @@ class _ScientificEventLectureScreenState
                   .read<ScientificEventLectureProvider>()
                   .setPageIndex(index);
             },
-            children: List.generate(
-              2,
-              (pageIndex) => const ListWIdget(),
-            ),
+            children: const [
+              ListWIdget(pageIndex: 0),
+              ListWIdget(pageIndex: 1),
+            ],
           ).addExpanded,
           FooterWidget(
             onTap: (checkAll) => context
@@ -187,15 +187,17 @@ class _ScientificEventLectureScreenState
 }
 
 class ListWIdget extends StatelessWidget {
+  final int pageIndex;
+
   const ListWIdget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     final scientificEventProvider =
         context.watch<ScientificEventLectureProvider>();
-    final pageIndex = context.watch<ScientificEventLectureProvider>().pageIndex;
     final loading = scientificEventProvider.loading;
     final loadingRated = scientificEventProvider.loadingRated;
     final currentLoading = pageIndex == 0 ? loading : loadingRated;

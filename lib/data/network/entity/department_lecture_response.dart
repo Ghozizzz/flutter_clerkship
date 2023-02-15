@@ -1,19 +1,17 @@
 // To parse this JSON data, do
 //
-//     final standartCompetencyLectureResponse = standartCompetencyLectureResponseFromJson(jsonString);
+//     final departmentLectureResponse = departmentLectureResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-StandartCompetencyLectureResponse standartCompetencyLectureResponseFromJson(
-        String str) =>
-    StandartCompetencyLectureResponse.fromJson(json.decode(str));
+DepartmentLectureResponse departmentLectureResponseFromJson(String str) =>
+    DepartmentLectureResponse.fromJson(json.decode(str));
 
-String standartCompetencyLectureResponseToJson(
-        StandartCompetencyLectureResponse data) =>
+String departmentLectureResponseToJson(DepartmentLectureResponse data) =>
     json.encode(data.toJson());
 
-class StandartCompetencyLectureResponse {
-  StandartCompetencyLectureResponse({
+class DepartmentLectureResponse {
+  DepartmentLectureResponse({
     this.success,
     this.message,
     this.data,
@@ -23,9 +21,8 @@ class StandartCompetencyLectureResponse {
   String? message;
   Data? data;
 
-  factory StandartCompetencyLectureResponse.fromJson(
-          Map<String, dynamic> json) =>
-      StandartCompetencyLectureResponse(
+  factory DepartmentLectureResponse.fromJson(Map<String, dynamic> json) =>
+      DepartmentLectureResponse(
         success: json['success'],
         message: json['message'],
         data: json['data'] == null ? null : Data.fromJson(json['data']),
@@ -43,13 +40,13 @@ class Data {
     this.list,
   });
 
-  List<StandartCompetencyLecture>? list;
+  List<DepartmentLecture>? list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: json['list'] == null
             ? []
-            : List<StandartCompetencyLecture>.from(json['list']!
-                .map((x) => StandartCompetencyLecture.fromJson(x))),
+            : List<DepartmentLecture>.from(
+                json['list']!.map((x) => DepartmentLecture.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,8 +56,8 @@ class Data {
       };
 }
 
-class StandartCompetencyLecture {
-  StandartCompetencyLecture({
+class DepartmentLecture {
+  DepartmentLecture({
     this.id,
     this.namaBatch,
     this.nomorBatch,
@@ -74,8 +71,8 @@ class StandartCompetencyLecture {
   String? namaDepartment;
   int? status;
 
-  factory StandartCompetencyLecture.fromJson(Map<String, dynamic> json) =>
-      StandartCompetencyLecture(
+  factory DepartmentLecture.fromJson(Map<String, dynamic> json) =>
+      DepartmentLecture(
         id: json['id'],
         namaBatch: json['nama_batch'],
         nomorBatch: json['nomor_batch'],
