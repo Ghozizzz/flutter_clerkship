@@ -13,7 +13,6 @@ import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/components/commons/safe_statusbar.dart';
 import 'package:clerkship/ui/components/textareas/rich_text_editor.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
-import 'package:clerkship/ui/screens/scientific_event_detail_approval/scientific_event_approval_screen.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -286,10 +285,25 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
                               if (widget.id != null) {
                                 doUpdateScientific(context, '2');
                               } else {
-                                NavHelper.navigateReplace(
-                                  const ScientificEventDetailApprovalScreen(
-                                      id: 1),
-                                );
+                                context
+                                    .read<ScientificActivityProvider>()
+                                    .addScientificActivity(
+                                      context: context,
+                                      status: '2',
+                                      tanggal: dateController.selected!,
+                                      jam: timeController.selected!,
+                                      departemen:
+                                          departementController.selected!,
+                                      jenisKegiatan:
+                                          activityController.selected!,
+                                      catatan: jsonEncode(
+                                          noteController?.document.toJson()),
+                                      preseptor: mentorController.selected,
+                                      peran: roleController.selected!,
+                                      topik: topicController.text,
+                                      lampiran:
+                                          attachmentController.selectedFiles,
+                                    );
                               }
                             },
                           );

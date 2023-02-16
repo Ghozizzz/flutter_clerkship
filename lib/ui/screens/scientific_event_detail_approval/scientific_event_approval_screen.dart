@@ -185,11 +185,12 @@ class _ScientificEventDetailApprovalScreenState
                               vertical: 6.w,
                               horizontal: 8.w,
                             ),
-                            color: Themes.blue.withOpacity(0.2),
+                            color: backgroundColor.withOpacity(0.2),
                             child: Text(
-                              'Proses',
-                              style:
-                                  Themes().blackBold10?.withColor(Themes.blue),
+                              status,
+                              style: Themes()
+                                  .blackBold10
+                                  ?.withColor(backgroundColor),
                             ),
                           )
                         ],
