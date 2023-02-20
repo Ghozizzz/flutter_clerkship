@@ -122,8 +122,8 @@ class _ScientificEventLectureScreenState
                       .setPageIndex(index);
                 },
                 children: const [
-                  ListWIdget(pageIndex: 0),
-                  ListWIdget(pageIndex: 1),
+                  ListWidget(pageIndex: 0),
+                  ListWidget(pageIndex: 1),
                 ],
               ),
               Column(
@@ -193,10 +193,10 @@ class _ScientificEventLectureScreenState
   }
 }
 
-class ListWIdget extends StatelessWidget {
+class ListWidget extends StatelessWidget {
   final int pageIndex;
 
-  const ListWIdget({
+  const ListWidget({
     super.key,
     required this.pageIndex,
   });
