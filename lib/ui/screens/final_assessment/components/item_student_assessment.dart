@@ -1,3 +1,5 @@
+import 'package:clerkship/data/network/entity/scoring_response.dart';
+import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -9,10 +11,12 @@ import '../../../components/buttons/ripple_button.dart';
 
 class ItemStudentAssessment extends StatelessWidget {
   final VoidCallback onTap;
+  final ScoringData data;
 
   const ItemStudentAssessment({
     super.key,
     required this.onTap,
+    required this.data,
   });
 
   @override
@@ -27,7 +31,7 @@ class ItemStudentAssessment extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bhima Saputra',
+                '${data.name}',
                 style: Themes().blackBold12?.withColor(Themes.black),
               ).addMarginBottom(8),
               Row(
@@ -39,7 +43,7 @@ class ItemStudentAssessment extends StatelessWidget {
                     color: Themes.grey,
                   ).addMarginRight(8.w),
                   Text(
-                    'Rumah Sakit Siloam',
+                    '${data.namaRs}',
                     style: Themes().black10,
                   ),
                 ],
@@ -53,7 +57,7 @@ class ItemStudentAssessment extends StatelessWidget {
                     color: Themes.grey,
                   ).addMarginRight(8.w),
                   Text(
-                    '5 May 2022 - 10 August 2022',
+                    '${data.startDate?.formatDate('d MMMM yyyy')} - ${data.endDate?.formatDate('d MMMM yyyy')}',
                     style: Themes().black10,
                   ),
                 ],
