@@ -1,16 +1,21 @@
+import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
+import '../provider/final_assessment_detail_provider.dart';
 
-class AssessmentListHeader extends StatelessWidget {
-  const AssessmentListHeader({super.key});
+class AssessmentDetailHeader extends StatelessWidget {
+  const AssessmentDetailHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final headerData = context.watch<FinalAssessmentDetailProvder>().headerData;
+
     return Container(
       padding: EdgeInsets.only(
         top: 20.w,
@@ -21,11 +26,11 @@ class AssessmentListHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Bhima Saputra',
+            '${headerData?.name}',
             style: Themes().primaryBold20,
           ),
           Text(
-            '2345 2342341',
+            '${headerData?.idHeader}',
             style: Themes().black10?.withColor(Themes.grey),
           ).addMarginOnly(
             top: 4,
@@ -56,7 +61,7 @@ class AssessmentListHeader extends StatelessWidget {
                 color: Themes.grey,
               ).addMarginRight(8.w),
               Text(
-                '5 May 2022 - 10 August 2022',
+                '${headerData?.startDate?.formatDate('d MMMM yyyy')} - ${headerData?.endDate?.formatDate('d MMMM yyyy')}',
                 style: Themes().blackBold10,
               ),
             ],
