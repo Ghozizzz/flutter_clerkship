@@ -1,5 +1,5 @@
 import 'package:clerkship/ui/screens/final_assessment/providers/final_assessment_lecture_provider.dart';
-import 'package:clerkship/ui/screens/final_assessment_list/final_assessment_list_screen.dart';
+import 'package:clerkship/ui/screens/final_assessment_detail/final_assessment_detail_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
@@ -153,8 +153,9 @@ class ListWidget extends StatelessWidget {
                   data: itemData,
                   onTap: () {
                     NavHelper.navigatePush(
-                      FinalAssessmentListScreen(
+                      FinalAssessmentDetailScreen(
                         rated: pageIndex == 1,
+                        data: itemData,
                       ),
                     );
                   },

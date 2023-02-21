@@ -18,6 +18,7 @@ import 'entity/mini_cex_form_response.dart';
 import 'entity/scientifc_event_participant_response.dart';
 import 'entity/scientific_detail_response.dart';
 import 'entity/scientific_response.dart';
+import 'entity/scoring_detail_response.dart';
 import 'entity/sklist_group_detail.dart';
 import 'entity/sklist_group_response.dart';
 import 'entity/sklist_jenis_response.dart';
@@ -173,4 +174,9 @@ abstract class StandartCompetencyLectureInterface {
 
 abstract class ScoringLectureInterface {
   Future<ResultData<ScoringResponse>> getScoring(int status);
+
+  Future<ResultData<ScoringDetailResponse>> getDetailScoring({
+    required String idBatch,
+    required String idUser,
+  });
 }
