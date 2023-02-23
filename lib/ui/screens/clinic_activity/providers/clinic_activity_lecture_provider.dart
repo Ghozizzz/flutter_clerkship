@@ -114,7 +114,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
       title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
       body: response.data?.message ?? response.unexpectedErrorMessage,
       alertType:
-          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+          response.statusCode == 200 ? AlertType.success : AlertType.error,
     );
   }
 
@@ -134,7 +134,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
       title: response.statusCode == 200 ? 'Berhasil' : 'Terjadi Kesalahan',
       body: response.data?.message ?? response.unexpectedErrorMessage,
       alertType:
-          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+          response.statusCode == 200 ? AlertType.success : AlertType.error,
     );
     onFinish?.call(response.statusCode == 200);
   }

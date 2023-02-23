@@ -4,6 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:clerkship/ui/components/buttons/quiz_button.dart';
+import 'package:fleather/fleather.dart';
+
 ScoringDetailResponse scoringDetailResponseFromJson(String str) =>
     ScoringDetailResponse.fromJson(json.decode(str));
 
@@ -71,7 +74,7 @@ class ScoringDetail {
   int? idSection;
   int? idTipe;
   String? namaSection;
-  List<Quiz>? dataDetail;
+  List<Assessment>? dataDetail;
 
   factory ScoringDetail.fromJson(Map<String, dynamic> json) => ScoringDetail(
         idSection: json['id_section'],
@@ -79,8 +82,8 @@ class ScoringDetail {
         namaSection: json['nama_section'],
         dataDetail: json['data_detail'] == null
             ? []
-            : List<Quiz>.from(
-                json['data_detail']!.map((x) => Quiz.fromJson(x))),
+            : List<Assessment>.from(
+                json['data_detail']!.map((x) => Assessment.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,24 +96,28 @@ class ScoringDetail {
       };
 }
 
-class Quiz {
-  Quiz({
+class Assessment {
+  Assessment({
     this.idPertanyaan,
     this.pertanyaan,
     this.jawaban,
+    this.selected = false,
   });
 
   int? idPertanyaan;
   String? pertanyaan;
-  List<Jawaban>? jawaban;
+  List<Answer>? jawaban;
+  QuizController quizController = QuizController();
+  FleatherController notesController = FleatherController();
+  bool selected;
 
-  factory Quiz.fromJson(Map<String, dynamic> json) => Quiz(
+  factory Assessment.fromJson(Map<String, dynamic> json) => Assessment(
         idPertanyaan: json['id_pertanyaan'],
         pertanyaan: json['pertanyaan'],
         jawaban: json['jawaban'] == null
             ? []
-            : List<Jawaban>.from(
-                json['jawaban']!.map((x) => Jawaban.fromJson(x))),
+            : List<Answer>.from(
+                json['jawaban']!.map((x) => Answer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -122,8 +129,8 @@ class Quiz {
       };
 }
 
-class Jawaban {
-  Jawaban({
+class Answer {
+  Answer({
     this.idJawaban,
     this.jawaban,
   });
@@ -131,7 +138,7 @@ class Jawaban {
   int? idJawaban;
   String? jawaban;
 
-  factory Jawaban.fromJson(Map<String, dynamic> json) => Jawaban(
+  factory Answer.fromJson(Map<String, dynamic> json) => Answer(
         idJawaban: json['id_jawaban'],
         jawaban: json['jawaban'],
       );
@@ -144,73 +151,53 @@ class Jawaban {
 
 class Header {
   Header({
-    this.id,
-    this.idHeader,
-    this.idFlow,
-    this.idFeature,
-    this.idRs,
-    this.name,
-    this.status,
     this.startDate,
     this.endDate,
-    this.description,
-    this.createdBy,
-    this.createdAt,
-    this.updatedAt,
+    this.id,
+    this.idBatch,
+    this.idFeature,
+    this.idUser,
+    this.namaRs,
+    this.name,
+    this.nim,
   });
 
-  int? id;
-  int? idHeader;
-  int? idFlow;
-  int? idFeature;
-  int? idRs;
-  String? name;
-  int? status;
   DateTime? startDate;
   DateTime? endDate;
-  dynamic description;
-  int? createdBy;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  int? id;
+  int? idBatch;
+  int? idFeature;
+  int? idUser;
+  String? namaRs;
+  String? name;
+  String? nim;
 
   factory Header.fromJson(Map<String, dynamic> json) => Header(
-        id: json['id'],
-        idHeader: json['id_header'],
-        idFlow: json['id_flow'],
-        idFeature: json['id_feature'],
-        idRs: json['id_rs'],
-        name: json['name'],
-        status: json['status'],
         startDate: json['start_date'] == null
             ? null
             : DateTime.parse(json['start_date']),
         endDate:
             json['end_date'] == null ? null : DateTime.parse(json['end_date']),
-        description: json['description'],
-        createdBy: json['created_by'],
-        createdAt: json['created_at'] == null
-            ? null
-            : DateTime.parse(json['created_at']),
-        updatedAt: json['updated_at'] == null
-            ? null
-            : DateTime.parse(json['updated_at']),
+        id: json['id'],
+        idBatch: json['id_batch'],
+        idFeature: json['id_feature'],
+        idUser: json['id_user'],
+        namaRs: json['nama_rs'],
+        name: json['name'],
+        nim: json['nim'],
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'id_header': idHeader,
-        'id_flow': idFlow,
-        'id_feature': idFeature,
-        'id_rs': idRs,
-        'name': name,
-        'status': status,
         'start_date':
             "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
         'end_date':
             "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
-        'description': description,
-        'created_by': createdBy,
-        'created_at': createdAt?.toIso8601String(),
-        'updated_at': updatedAt?.toIso8601String(),
+        'id': id,
+        'id_batch': idBatch,
+        'id_feature': idFeature,
+        'id_user': idUser,
+        'nama_rs': namaRs,
+        'name': name,
+        'nim': nim,
       };
 }

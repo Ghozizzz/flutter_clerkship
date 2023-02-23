@@ -13,11 +13,13 @@ import 'package:widget_helper/widget_helper.dart';
 class FinalAssessmentDetailScreen extends StatefulWidget {
   final bool rated;
   final ScoringData data;
+  final int status;
 
   const FinalAssessmentDetailScreen({
     super.key,
     this.rated = false,
     required this.data,
+    required this.status,
   });
 
   @override
@@ -40,7 +42,6 @@ class _FinalAssessmentDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final detailData = context.watch<FinalAssessmentDetailProvder>().detailData;
     final loading = context.watch<FinalAssessmentDetailProvder>().loading;
 
     return Scaffold(
@@ -56,16 +57,15 @@ class _FinalAssessmentDetailScreenState
                   ),
                 )
               : ListView.builder(
-                  itemCount: detailData.length,
+                  itemCount: 3,
                   padding: EdgeInsets.all(20.w),
                   itemBuilder: (context, index) {
-                    final data = detailData[index];
-
                     return AnimatedItem(
                       index: index,
                       child: ItemRatingLecture(
-                        data: data,
+                        index: index,
                         rated: widget.rated,
+                        status: widget.status,
                       ).addMarginBottom(12),
                     );
                   },

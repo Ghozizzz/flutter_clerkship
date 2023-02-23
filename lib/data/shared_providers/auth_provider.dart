@@ -33,7 +33,7 @@ class AuthProvider extends ChangeNotifier {
       DialogHelper.showMessageDialog(
         title: 'Error',
         body: result.data?.message,
-        alertType: AlertType.sucecss,
+        alertType: AlertType.success,
       );
     }
   }

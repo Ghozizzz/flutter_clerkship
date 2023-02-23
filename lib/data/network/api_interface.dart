@@ -179,4 +179,13 @@ abstract class ScoringLectureInterface {
     required String idBatch,
     required String idUser,
   });
+
+  Future<ResultData<DefaultResponse>> insertDetailScoring({
+    required int idRatingType,
+    required int id,
+    required int idBatch,
+    required int idUser,
+    required int status,
+    required List<ScoringDetail> data,
+  });
 }

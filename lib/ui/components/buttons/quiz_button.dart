@@ -1,4 +1,4 @@
-import 'package:clerkship/data/models/quiz.dart';
+import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:flutter/material.dart';
@@ -9,52 +9,50 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../config/themes.dart';
 
 class QuizController extends ValueNotifier {
-  Quiz? selected;
+  Answer? selected;
 
   QuizController({this.selected}) : super(selected);
 
-  void setSelected(Quiz value) {
+  void setSelected(Answer value) {
     selected = value;
     notifyListeners();
   }
 }
 
 class QuizButton extends StatelessWidget {
-  final QuizController controller;
-  final String? title;
-  final List<Quiz> data;
+  final Assessment data;
 
   const QuizButton({
     super.key,
-    required this.title,
-    required this.controller,
     required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
-          Text(
-            title!,
-            style: Themes().blackBold12?.withColor(Themes.black),
-          ).addMarginBottom(12),
+        Text(
+          '${data.pertanyaan}',
+          style: Themes().blackBold12?.withColor(Themes.black),
+        ).addMarginBottom(12),
         ValueListenableBuilder(
-          valueListenable: controller,
+          valueListenable: data.quizController,
           builder: (context, _, __) {
             return ListView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: data.length,
+              itemCount: data.jawaban?.length,
               itemBuilder: (context, index) {
-                final quiz = data[index];
-                final selected = controller.selected?.id == quiz.id;
+                final quiz = data.jawaban?[index];
+                final selected =
+                    data.quizController.selected?.idJawaban == quiz?.idJawaban;
 
                 return RippleButton(
                   onTap: () {
-                    controller.setSelected(quiz);
+                    if (quiz == null) return;
+                    data.quizController.setSelected(quiz);
                   },
                   border: Border.all(
                     color: selected ? Themes.primary : Themes.stroke,
@@ -78,7 +76,7 @@ class QuizButton extends StatelessWidget {
                             ),
                       ).addMarginRight(12.w),
                       Text(
-                        quiz.title,
+                        '${quiz?.jawaban}',
                         style: Themes(withLineHeight: true)
                             .black12
                             ?.withColor(selected ? Themes.primary : null),

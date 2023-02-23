@@ -26,11 +26,11 @@ class AssessmentDetailHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${headerData?.name}',
+            headerData?.name ?? '',
             style: Themes().primaryBold20,
           ),
           Text(
-            '${headerData?.idHeader}',
+            headerData?.nim ?? '',
             style: Themes().black10?.withColor(Themes.grey),
           ).addMarginOnly(
             top: 4,
@@ -46,7 +46,7 @@ class AssessmentDetailHeader extends StatelessWidget {
                 color: Themes.grey,
               ).addMarginRight(8.w),
               Text(
-                'Rumah Sakit Siloam',
+                headerData?.namaRs ?? '',
                 style: Themes().blackBold10,
               ),
             ],
