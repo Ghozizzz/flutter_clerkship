@@ -40,6 +40,7 @@ class ScientificActivityService extends ScientificActivityInterface {
     final body = {
       'id_batch': idBatch.toString(),
       'id_preseptor': idPreseptor.toString(),
+      'id_flow': '2', //ID Flow 2 =  Acara Ilmiah
       'tanggal': tanggal,
       'jam': jam,
       'remarks': remarks,
