@@ -8,9 +8,13 @@ import '../entity/scoring_detail_response.dart';
 class ScoringLectureService extends ScoringLectureInterface {
   @override
   Future<ResultData<ScoringResponse>> getScoring(int status) {
+    final body = {
+      'status': '$status'
+    };
     return ApiHelper.post(
       route: 'dokter/scoring',
       parseJson: scoringResponseFromJson,
+      body: body
     );
   }
 
