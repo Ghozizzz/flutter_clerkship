@@ -18,6 +18,7 @@ class FinalAssessmentDetailProvder extends ChangeNotifier {
   void getDetail({
     required String idBatch,
     required String idUser,
+    required String idRatingType,
   }) async {
     _loading = true;
     _detailData.clear();
@@ -26,6 +27,7 @@ class FinalAssessmentDetailProvder extends ChangeNotifier {
     final result = await _service.getDetailScoring(
       idBatch: idBatch,
       idUser: idUser,
+      idRatingType: idRatingType,
     );
     _loading = false;
     _detailData.addAll(result.data?.data?.detail ?? []);

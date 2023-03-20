@@ -211,8 +211,7 @@ class ListWidget extends StatelessWidget {
               bottom: 16.hp,
             ),
             itemBuilder: (context, index) {
-              final clinicActivities =
-                  listData[pageIndex].entries.toList()[index];
+              final clinicActivities = listData[pageIndex][index];
 
               return AnimatedItem(
                 index: index,

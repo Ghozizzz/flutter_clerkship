@@ -1,6 +1,7 @@
 import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:responsive/responsive.dart';
@@ -46,6 +47,11 @@ class QuizButton extends StatelessWidget {
               itemCount: data.jawaban?.length,
               itemBuilder: (context, index) {
                 final quiz = data.jawaban?[index];
+                if (quiz?.isTrue ?? false) {
+                  Tools.onViewCreated(() {
+                    data.quizController.setSelected(quiz!);
+                  });
+                }
                 final selected =
                     data.quizController.selected?.idJawaban == quiz?.idJawaban;
 

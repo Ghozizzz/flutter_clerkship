@@ -3,7 +3,6 @@ import 'package:clerkship/ui/components/buttons/date_picker_button.dart';
 import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
 import 'package:clerkship/ui/components/dialog/custom_alert_dialog.dart';
 import 'package:clerkship/utils/dialog_helper.dart';
-import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../data/models/key_value_data.dart';
@@ -12,8 +11,8 @@ import '../../../../main.dart';
 
 class ClinicActivityLectureProvider extends ChangeNotifier {
   final service = getIt<ClinicActivityLectureService>();
-  final Map<String, List<ClinicActivityData>> clinicActivities = {};
-  final Map<String, List<ClinicActivityData>> ratedClinicActivities = {};
+  final List<ClinicActivityData> clinicActivities = [];
+  final List<ClinicActivityData> ratedClinicActivities = [];
   final List<int> checkedId = [];
 
   final dateController = DatePickerController();
@@ -57,16 +56,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     );
 
     clinicActivities.clear();
-    for (ClinicActivityData data in response.data?.data ?? []) {
-      if (data.tanggal != null) {
-        String date = data.tanggal!.formatDate('dd MMMM yyyy');
-        if (clinicActivities.containsKey(date)) {
-          clinicActivities[date]!.add(data);
-        } else {
-          clinicActivities[date] = [data];
-        }
-      }
-    }
+    clinicActivities.addAll(response.data?.data ?? []);
     loading = false;
     notifyListeners();
   }
@@ -82,16 +72,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     );
 
     ratedClinicActivities.clear();
-    for (ClinicActivityData data in response.data?.data ?? []) {
-      if (data.tanggal != null) {
-        String date = data.tanggal!.formatDate('dd MMMM yyyy');
-        if (ratedClinicActivities.containsKey(date)) {
-          ratedClinicActivities[date]!.add(data);
-        } else {
-          ratedClinicActivities[date] = [data];
-        }
-      }
-    }
+    ratedClinicActivities.addAll(response.data?.data ?? []);
     loadingRated = false;
     notifyListeners();
   }

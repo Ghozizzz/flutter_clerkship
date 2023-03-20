@@ -13,13 +13,11 @@ import '../provider/final_assessment_detail_provider.dart';
 
 class ItemRatingLecture extends StatelessWidget {
   final bool rated;
-  final int status;
   final int index;
 
   ItemRatingLecture({
     super.key,
     required this.rated,
-    required this.status,
     required this.index,
   });
 
@@ -44,7 +42,6 @@ class ItemRatingLecture extends StatelessWidget {
               id: headerData.id!,
               idBatch: headerData.idBatch!,
               idRatingType: index,
-              status: status,
             ));
           } else {
             NavHelper.navigatePush(const FinalScoreRecapScreen());

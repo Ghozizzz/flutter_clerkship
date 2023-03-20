@@ -18,7 +18,7 @@ import '../../components/commons/primary_appbar.dart';
 import '../clinic_activity/providers/clinic_activity_lecture_provider.dart';
 
 class RejectActivityScreen extends StatefulWidget {
-  final List<ClinicActivityData> data;
+  final List<ActivityData> data;
 
   const RejectActivityScreen({
     super.key,
@@ -112,7 +112,7 @@ class _RejectActivityScreenState extends State<RejectActivityScreen> {
     final keyValues = <KeyValueData>[];
 
     for (int i = 0; i < widget.data.length; i++) {
-      final headerId = widget.data[i].data?[0].header?.id;
+      final headerId = widget.data[i].header?.id;
 
       if (headerId != null) {
         keyValues.add(KeyValueData(

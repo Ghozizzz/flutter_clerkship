@@ -29,6 +29,8 @@ class HeaderWidget extends StatelessWidget {
             children: [
               Text(
                 '${user.name}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: Themes().whiteBold24,
               ).addMarginBottom(8),
               Text(
@@ -36,7 +38,7 @@ class HeaderWidget extends StatelessWidget {
                 style: Themes().white14,
               ),
             ],
-          ),
+          ).addFlexible,
           ClipOval(
             child: Image.asset(
               AssetImages.avatarPlaceholder,

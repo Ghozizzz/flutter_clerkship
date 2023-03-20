@@ -44,12 +44,10 @@ class ClinicActivityData {
   ClinicActivityData({
     this.tanggal,
     this.data,
-    this.checked = false,
   });
 
   DateTime? tanggal;
-  List<DatumDatum>? data;
-  bool checked;
+  List<ActivityData>? data;
 
   factory ClinicActivityData.fromJson(Map<String, dynamic> json) =>
       ClinicActivityData(
@@ -57,8 +55,8 @@ class ClinicActivityData {
             json['tanggal'] == null ? null : DateTime.parse(json['tanggal']),
         data: json['data'] == null
             ? []
-            : List<DatumDatum>.from(
-                json['data']!.map((x) => DatumDatum.fromJson(x))),
+            : List<ActivityData>.from(
+                json['data']!.map((x) => ActivityData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,20 +68,22 @@ class ClinicActivityData {
       };
 }
 
-class DatumDatum {
-  DatumDatum({
+class ActivityData {
+  ActivityData({
     this.header,
     this.detail,
     this.document,
     this.tinjauan,
+    this.checked = false,
   });
 
   Header? header;
   List<Detail>? detail;
   List<Document>? document;
   List<Tinjauan>? tinjauan;
+  bool checked;
 
-  factory DatumDatum.fromJson(Map<String, dynamic> json) => DatumDatum(
+  factory ActivityData.fromJson(Map<String, dynamic> json) => ActivityData(
         header: json['header'] == null ? null : Header.fromJson(json['header']),
         detail: json['detail'] == null
             ? []

@@ -13,13 +13,11 @@ import 'package:widget_helper/widget_helper.dart';
 class FinalAssessmentDetailScreen extends StatefulWidget {
   final bool rated;
   final ScoringData data;
-  final int status;
 
   const FinalAssessmentDetailScreen({
     super.key,
     this.rated = false,
     required this.data,
-    required this.status,
   });
 
   @override
@@ -36,6 +34,7 @@ class _FinalAssessmentDetailScreenState
       context.read<FinalAssessmentDetailProvder>().getDetail(
             idBatch: '${widget.data.id}',
             idUser: '${widget.data.idUser}',
+            idRatingType: '0',
           );
     });
   }
@@ -65,7 +64,6 @@ class _FinalAssessmentDetailScreenState
                       child: ItemRatingLecture(
                         index: index,
                         rated: widget.rated,
-                        status: widget.status,
                       ).addMarginBottom(12),
                     );
                   },

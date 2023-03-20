@@ -101,12 +101,14 @@ class Assessment {
     this.idPertanyaan,
     this.pertanyaan,
     this.jawaban,
+    this.jawabanString,
     this.selected = false,
   });
 
   int? idPertanyaan;
   String? pertanyaan;
   List<Answer>? jawaban;
+  String? jawabanString;
   QuizController quizController = QuizController();
   FleatherController notesController = FleatherController();
   bool selected;
@@ -114,10 +116,13 @@ class Assessment {
   factory Assessment.fromJson(Map<String, dynamic> json) => Assessment(
         idPertanyaan: json['id_pertanyaan'],
         pertanyaan: json['pertanyaan'],
-        jawaban: json['jawaban'] == null
-            ? []
-            : List<Answer>.from(
-                json['jawaban']!.map((x) => Answer.fromJson(x))),
+        jawaban: json['jawaban'] is List
+            ? json['jawaban'] == null
+                ? []
+                : List<Answer>.from(
+                    json['jawaban']!.map((x) => Answer.fromJson(x)))
+            : [],
+        jawabanString: json['jawaban'] is String ? json['jawaban'] : '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -133,19 +138,23 @@ class Answer {
   Answer({
     this.idJawaban,
     this.jawaban,
+    this.isTrue,
   });
 
   int? idJawaban;
   String? jawaban;
+  bool? isTrue;
 
   factory Answer.fromJson(Map<String, dynamic> json) => Answer(
         idJawaban: json['id_jawaban'],
         jawaban: json['jawaban'],
+        isTrue: json['is_true'],
       );
 
   Map<String, dynamic> toJson() => {
         'id_jawaban': idJawaban,
         'jawaban': jawaban,
+        'is_true': isTrue,
       };
 }
 
