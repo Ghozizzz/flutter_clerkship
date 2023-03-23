@@ -28,7 +28,7 @@ class FinalAssessmentDetailProvder extends ChangeNotifier {
       idUser: idUser,
     );
     _loading = false;
-    _detailData.addAll(result.data?.data?.detail ?? []);
+    _detailData.addAll(result.data?.data?.detail ?? []);  
     _headerData = result.data?.data?.header;
     notifyListeners();
   }

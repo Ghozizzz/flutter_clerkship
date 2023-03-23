@@ -24,8 +24,8 @@ class ScoringLectureService extends ScoringLectureInterface {
     required String idUser,
   }) {
     final body = {
-      'id_batch': idBatch,
-      'id_user': idUser,
+      'id': idBatch,
+      'id_jenis_rating': '0',
     };
     return ApiHelper.post(
       route: 'dokter/scoring_rotasi',

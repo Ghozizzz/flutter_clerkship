@@ -175,6 +175,7 @@ class Header {
     this.namaDepartment,
     this.namaPeran,
     this.namaKegiatan,
+    this.namaBatch,
     this.isMinicex,
   });
 
@@ -187,6 +188,7 @@ class Header {
   String? namaDepartment;
   dynamic namaPeran;
   String? namaKegiatan;
+  String? namaBatch;
   int? isMinicex;
 
   factory Header.fromJson(Map<String, dynamic> json) => Header(
@@ -200,6 +202,7 @@ class Header {
         namaDepartment: json['nama_department'],
         namaPeran: json['nama_peran'],
         namaKegiatan: json['nama_kegiatan'],
+        namaBatch: json['name'],
         isMinicex: json['is_minicex'],
       );
 
@@ -213,6 +216,7 @@ class Header {
         'nama_department': namaDepartment,
         'nama_peran': namaPeran,
         'nama_kegiatan': namaKegiatan,
+        'name': namaBatch,
         'is_minicex': isMinicex,
       };
 }

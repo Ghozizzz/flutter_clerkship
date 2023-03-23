@@ -186,6 +186,11 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   title: 'Departemen',
                   value: header?.namaDepartment ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                ItemInfoSegment(
+                  title: 'Batch',
+                  value: header?.namaBatch ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
             )
@@ -200,6 +205,11 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 ItemInfoSegment(
                   title: 'Departemen',
                   value: header?.namaDepartment ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                ItemInfoSegment(
+                  title: 'Batch',
+                  value: header?.namaBatch ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
