@@ -29,7 +29,7 @@ class FinalAssessmentLectureProvider extends ChangeNotifier {
     _loading = true;
     notifyListeners();
 
-    final response = await _service.getScoring(2);
+    final response = await _service.getScoring(0);
     _finalAssessments.clear();
     _finalAssessments.addAll(response.data?.data ?? []);
     _loading = false;

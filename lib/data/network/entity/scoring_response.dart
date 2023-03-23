@@ -45,6 +45,7 @@ class ScoringData {
     this.id,
     this.idFeature,
     this.idUser,
+    this.status,
     this.startDate,
     this.endDate,
     this.name,
@@ -54,6 +55,7 @@ class ScoringData {
   int? id;
   int? idFeature;
   int? idUser;
+  int? status;
   DateTime? startDate;
   DateTime? endDate;
   String? name;
@@ -63,6 +65,7 @@ class ScoringData {
         id: json['id'],
         idFeature: json['id_feature'],
         idUser: json['id_user'],
+        status: json['status'],
         startDate: json['start_date'] == null
             ? null
             : DateTime.parse(json['start_date']),
@@ -76,6 +79,7 @@ class ScoringData {
         'id': id,
         'id_feature': idFeature,
         'id_user': idUser,
+        'status': status,
         'start_date':
             "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
         'end_date':

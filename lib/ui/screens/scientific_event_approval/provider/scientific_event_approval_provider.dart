@@ -68,7 +68,7 @@ class ScientificEventApprovalProvider extends ChangeNotifier {
           : 'Terjadi Kesalahan',
       body: response.data?.message ?? response.unexpectedErrorMessage,
       alertType:
-          response.statusCode == 200 ? AlertType.sucecss : AlertType.error,
+          response.statusCode == 200 ? AlertType.success : AlertType.error,
     );
     DialogHelper.closeDialog();
   }

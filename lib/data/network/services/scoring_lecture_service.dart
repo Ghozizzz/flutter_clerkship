@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
+import 'package:clerkship/data/network/entity/default_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
+import 'package:flutter/material.dart';
 
 import '../api_helper.dart';
 import '../entity/scoring_detail_response.dart';
@@ -22,15 +26,72 @@ class ScoringLectureService extends ScoringLectureInterface {
   Future<ResultData<ScoringDetailResponse>> getDetailScoring({
     required String idBatch,
     required String idUser,
+    required String idRatingType,
   }) {
     final body = {
       'id': idBatch,
-      'id_jenis_rating': '0',
+      'id_user': idUser,
+      'id_jenis_rating': idRatingType,
     };
+    debugPrint(jsonEncode(body));
     return ApiHelper.post(
       route: 'dokter/scoring_rotasi',
       parseJson: scoringDetailResponseFromJson,
       body: body,
+    );
+  }
+
+  @override
+  Future<ResultData<DefaultResponse>> insertDetailScoring({
+    required int idRatingType,
+    required int id,
+    required int idBatch,
+    required int idUser,
+    required int status,
+    required List<ScoringDetail> data,
+  }) {
+    final answer = [];
+
+    for (ScoringDetail itemData in data) {
+      if (itemData.idTipe == 0) {
+        for (Assessment assessment in itemData.dataDetail ?? []) {
+          answer.add({
+            'id_section': itemData.idSection,
+            'id_tipe': itemData.idTipe,
+            'pertanyaan': assessment.idPertanyaan,
+            'jawaban': assessment.quizController.selected?.idJawaban,
+          });
+        }
+      } else {
+        answer.add({
+          'id_section': itemData.idSection,
+          'id_tipe': itemData.idTipe,
+          'pertanyaan': itemData.dataDetail?.first.idPertanyaan,
+          'jawaban': jsonEncode(
+              itemData.dataDetail?.first.notesController.document.toJson()),
+        });
+      }
+    }
+
+    final body = {
+      'id_jenis_rating': idRatingType,
+      'id': id,
+      'id_batch': idBatch,
+      'id_user': idUser,
+      'status': status,
+      'detail': answer,
+    };
+
+    debugPrint(jsonEncode(body));
+
+    return ApiHelper.post(
+      route: 'dokter/scoring_insert',
+      parseJson: defaultResponseFromJson,
+      body: jsonEncode(body),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
     );
   }
 }

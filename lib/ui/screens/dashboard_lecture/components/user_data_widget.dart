@@ -26,6 +26,8 @@ class UserDataWidget extends StatelessWidget {
           children: [
             Text(
               '${user.name}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Themes().whiteBold24,
             ),
             Text(
@@ -41,7 +43,7 @@ class UserDataWidget extends StatelessWidget {
               style: Themes().whiteBold12,
             ).addMarginTop(2),
           ],
-        ),
+        ).addFlexible,
         FlatCard(
           borderRadius: BorderRadius.circular(56.w),
           border: Border.all(

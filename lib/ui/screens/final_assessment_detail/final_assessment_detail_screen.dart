@@ -34,13 +34,13 @@ class _FinalAssessmentDetailScreenState
       context.read<FinalAssessmentDetailProvder>().getDetail(
             idBatch: '${widget.data.id}',
             idUser: '${widget.data.idUser}',
+            idRatingType: '0',
           );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final detailData = context.watch<FinalAssessmentDetailProvder>().detailData;
     final loading = context.watch<FinalAssessmentDetailProvder>().loading;
 
     return Scaffold(
@@ -56,15 +56,13 @@ class _FinalAssessmentDetailScreenState
                   ),
                 )
               : ListView.builder(
-                  itemCount: detailData.length,
+                  itemCount: 3,
                   padding: EdgeInsets.all(20.w),
                   itemBuilder: (context, index) {
-                    final data = detailData[index];
-
                     return AnimatedItem(
                       index: index,
                       child: ItemRatingLecture(
-                        data: data,
+                        index: index,
                         rated: widget.rated,
                       ).addMarginBottom(12),
                     );
