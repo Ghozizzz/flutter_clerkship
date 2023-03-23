@@ -1,4 +1,5 @@
 import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
+import 'package:clerkship/data/network/entity/scoring_response.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/screens/global_rating/components/global_rating_header.dart';
 import 'package:clerkship/ui/screens/global_rating/components/item_quiz_group.dart';
@@ -16,14 +17,12 @@ import '../../components/buttons/secondary_button.dart';
 import '../final_assessment_detail/provider/final_assessment_detail_provider.dart';
 
 class GlobalRatingScreen extends StatefulWidget {
-  final int id;
-  final int idBatch;
-  final int idRatingType;
+  final ScoringData data;
+  final String idRatingType;
 
   const GlobalRatingScreen({
     super.key,
-    required this.id,
-    required this.idBatch,
+    required this.data,
     required this.idRatingType,
   });
 
@@ -42,8 +41,12 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final detailData = context.watch<FinalAssessmentDetailProvder>().detailData;
-    final headerData = context.watch<FinalAssessmentDetailProvder>().headerData;
+    final detailData = widget.idRatingType == '0'
+        ? context.watch<FinalAssessmentDetailProvder>().detailDataMiddle
+        : context.watch<FinalAssessmentDetailProvder>().detailDataFinal;
+    final headerData = widget.idRatingType == '0'
+        ? context.watch<FinalAssessmentDetailProvder>().headerDataMiddle
+        : context.watch<FinalAssessmentDetailProvder>().headerDataFinal;
 
     return Scaffold(
       body: Column(
@@ -84,8 +87,8 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
                               .read<RatingAssessmentProvider>()
                               .insertDetailScoring(
                                 idRatingType: widget.idRatingType,
-                                id: widget.id,
-                                idBatch: widget.idBatch,
+                                id: headerData?.id ?? 0,
+                                idBatch: headerData?.idBatch ?? 0,
                                 idUser: headerData?.idUser ?? 0,
                                 status: 2,
                                 data: detailData,
@@ -93,9 +96,8 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
                                   context
                                       .read<FinalAssessmentDetailProvder>()
                                       .getDetail(
-                                        idBatch: '$headerData.id',
-                                        idUser: '$headerData.idUser',
-                                        idRatingType: '${widget.idRatingType}',
+                                        id: '${widget.data.id}',
+                                        idUser: '${widget.data.idUser}',
                                       );
                                 },
                               ),
@@ -107,8 +109,8 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
                               .read<RatingAssessmentProvider>()
                               .insertDetailScoring(
                                   idRatingType: widget.idRatingType,
-                                  id: widget.id,
-                                  idBatch: widget.idBatch,
+                                  id: headerData?.id ?? 0,
+                                  idBatch: headerData?.idBatch ?? 0,
                                   idUser: headerData?.idUser ?? 0,
                                   status: 1,
                                   data: detailData,
@@ -116,10 +118,8 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
                                     context
                                         .read<FinalAssessmentDetailProvder>()
                                         .getDetail(
-                                          idBatch: '$headerData.id',
-                                          idUser: '$headerData.idUser',
-                                          idRatingType:
-                                              '${widget.idRatingType}',
+                                          id: '${widget.data.id}',
+                                          idUser: '${widget.data.idUser}',
                                         );
                                   }),
                           text: 'Simpan Penilaian',

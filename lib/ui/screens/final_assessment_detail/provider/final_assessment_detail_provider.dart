@@ -9,29 +9,61 @@ class FinalAssessmentDetailProvder extends ChangeNotifier {
   bool _loading = true;
   bool get loading => _loading;
 
-  Header? _headerData;
-  Header? get headerData => _headerData;
+  Header? _headerDataMiddle;
+  Header? _headerDataFinal;
 
-  final List<ScoringDetail> _detailData = [];
-  List<ScoringDetail> get detailData => _detailData;
+  Header? get headerDataMiddle => _headerDataMiddle;
+  Header? get headerDataFinal => _headerDataFinal;
+
+  final List<ScoringDetail> _detailDataMiddle = [];
+  final List<ScoringDetail> _detailDataFinal = [];
+
+  List<ScoringDetail> get detailDataMiddle => _detailDataMiddle;
+  List<ScoringDetail> get detailDataFinal => _detailDataFinal;
 
   void getDetail({
-    required String idBatch,
+    required String id,
     required String idUser,
-    required String idRatingType,
+  }) {
+    getDetailMiddle(id: id, idUser: idUser);
+    getDetailFinal(id: id, idUser: idUser);
+  }
+
+  void getDetailMiddle({
+    required String id,
+    required String idUser,
   }) async {
     _loading = true;
-    _detailData.clear();
+    _detailDataMiddle.clear();
     notifyListeners();
 
     final result = await _service.getDetailScoring(
-      idBatch: idBatch,
+      id: id,
       idUser: idUser,
-      idRatingType: idRatingType,
+      idRatingType: '0',
     );
     _loading = false;
-    _detailData.addAll(result.data?.data?.detail ?? []);
-    _headerData = result.data?.data?.header;
+    _detailDataMiddle.addAll(result.data?.data?.detail ?? []);
+    _headerDataMiddle = result.data?.data?.header;
+    notifyListeners();
+  }
+
+  void getDetailFinal({
+    required String id,
+    required String idUser,
+  }) async {
+    _loading = true;
+    _detailDataFinal.clear();
+    notifyListeners();
+
+    final result = await _service.getDetailScoring(
+      id: id,
+      idUser: idUser,
+      idRatingType: '1',
+    );
+    _loading = false;
+    _detailDataFinal.addAll(result.data?.data?.detail ?? []);
+    _headerDataFinal = result.data?.data?.header;
     notifyListeners();
   }
 }

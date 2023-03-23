@@ -176,13 +176,13 @@ abstract class ScoringLectureInterface {
   Future<ResultData<ScoringResponse>> getScoring(int status);
 
   Future<ResultData<ScoringDetailResponse>> getDetailScoring({
-    required String idBatch,
+    required String id,
     required String idUser,
     required String idRatingType,
   });
 
   Future<ResultData<DefaultResponse>> insertDetailScoring({
-    required int idRatingType,
+    required String idRatingType,
     required int id,
     required int idBatch,
     required int idUser,

@@ -21,12 +21,12 @@ class ScoringLectureService extends ScoringLectureInterface {
 
   @override
   Future<ResultData<ScoringDetailResponse>> getDetailScoring({
-    required String idBatch,
+    required String id,
     required String idUser,
     required String idRatingType,
   }) {
     final body = {
-      'id': idBatch,
+      'id': id,
       'id_user': idUser,
       'id_jenis_rating': idRatingType,
     };
@@ -40,7 +40,7 @@ class ScoringLectureService extends ScoringLectureInterface {
 
   @override
   Future<ResultData<DefaultResponse>> insertDetailScoring({
-    required int idRatingType,
+    required String idRatingType,
     required int id,
     required int idBatch,
     required int idUser,

@@ -14,7 +14,8 @@ class AssessmentDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerData = context.watch<FinalAssessmentDetailProvder>().headerData;
+    final headerData =
+        context.watch<FinalAssessmentDetailProvder>().headerDataMiddle;
 
     return Container(
       padding: EdgeInsets.only(
@@ -61,7 +62,9 @@ class AssessmentDetailHeader extends StatelessWidget {
                 color: Themes.grey,
               ).addMarginRight(8.w),
               Text(
-                '${headerData?.startDate?.formatDate('d MMMM yyyy')} - ${headerData?.endDate?.formatDate('d MMMM yyyy')}',
+                headerData?.startDate != null && headerData?.endDate != null
+                    ? '${headerData?.startDate?.formatDate('d MMMM yyyy')} - ${headerData?.endDate?.formatDate('d MMMM yyyy')}'
+                    : '',
                 style: Themes().blackBold10,
               ),
             ],
