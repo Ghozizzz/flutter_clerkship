@@ -38,6 +38,7 @@ class ClinicActivityService extends ClinicActivityInterface {
     final body = {
       'id_batch': idBatch.toString(),
       'id_preseptor': idPreseptor.toString(),
+      'id_flow': '1',//ID Flow 1 =  Kegiatan Klinik
       'tanggal': tanggal,
       'jam': jam,
       'remarks': remarks,
