@@ -37,7 +37,7 @@ class ItemRatingLecture extends StatelessWidget {
             idRatingType: '$index',
           ));
         } else {
-          NavHelper.navigatePush(const FinalScoreRecapScreen());
+          NavHelper.navigatePush(FinalScoreRecapScreen(data: data));
         }
       },
       border: Border.all(color: Themes.stroke),

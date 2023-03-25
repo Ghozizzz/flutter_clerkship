@@ -25,6 +25,7 @@ import 'ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
 import 'ui/screens/final_assessment/providers/final_assessment_lecture_provider.dart';
 import 'ui/screens/final_assessment_detail/provider/final_assessment_detail_provider.dart';
+import 'ui/screens/final_score_recap/provider/final_score_recap_provider.dart';
 import 'ui/screens/global_rating/provider/rating_assessment_provider.dart';
 import 'ui/screens/mini_cex_approval/provider/mini_cex_approval_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_all_provider.dart';
@@ -66,6 +67,7 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => FinalAssessmentLectureProvider()),
       ChangeNotifierProvider(create: (_) => FinalAssessmentDetailProvder()),
       ChangeNotifierProvider(create: (_) => RatingAssessmentProvider()),
+      ChangeNotifierProvider(create: (_) => FinalScoreRecapProvider()),
     ],
     child: const MyApp(),
   );
