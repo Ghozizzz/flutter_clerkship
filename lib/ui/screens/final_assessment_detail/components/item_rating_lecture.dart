@@ -7,7 +7,6 @@ import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/ripple_button.dart';
 import '../../final_score_recap/final_score_recap_screen.dart';
-import '../../global_rating/global_rating_detail_screen.dart';
 import '../../global_rating/global_rating_screen.dart';
 
 class ItemRatingLecture extends StatelessWidget {
@@ -32,17 +31,13 @@ class ItemRatingLecture extends StatelessWidget {
   Widget build(BuildContext context) {
     return RippleButton(
       onTap: () {
-        if (rated) {
-          NavHelper.navigatePush(const GlobalRatingDetailScreen());
+        if (index < 2) {
+          NavHelper.navigatePush(GlobalRatingScreen(
+            data: data,
+            idRatingType: '$index',
+          ));
         } else {
-          if (index < 2) {
-            NavHelper.navigatePush(GlobalRatingScreen(
-              data: data,
-              idRatingType: '$index',
-            ));
-          } else {
-            NavHelper.navigatePush(const FinalScoreRecapScreen());
-          }
+          NavHelper.navigatePush(const FinalScoreRecapScreen());
         }
       },
       border: Border.all(color: Themes.stroke),

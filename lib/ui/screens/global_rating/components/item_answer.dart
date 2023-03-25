@@ -1,11 +1,13 @@
 import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 class ItemAnswer extends StatelessWidget {
-  const ItemAnswer({super.key});
+  final Answer answer;
+  const ItemAnswer({super.key, required this.answer});
 
   @override
   Widget build(BuildContext context) {

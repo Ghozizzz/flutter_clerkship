@@ -166,6 +166,7 @@ class Header {
     this.idBatch,
     this.idFeature,
     this.idUser,
+    this.status,
     this.namaRs,
     this.name,
     this.nim,
@@ -177,6 +178,7 @@ class Header {
   int? idBatch;
   int? idFeature;
   int? idUser;
+  int? status;
   String? namaRs;
   String? name;
   String? nim;
@@ -194,6 +196,7 @@ class Header {
         namaRs: json['nama_rs'],
         name: json['name'],
         nim: json['nim'],
+        status: json['status'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -208,5 +211,6 @@ class Header {
         'nama_rs': namaRs,
         'name': name,
         'nim': nim,
+        'status': status,
       };
 }
