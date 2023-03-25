@@ -4,6 +4,7 @@ import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
+import 'package:clerkship/data/network/services/scoring_recap_response.dart';
 import 'package:flutter/material.dart';
 
 import '../api_helper.dart';
@@ -89,6 +90,19 @@ class ScoringLectureService extends ScoringLectureInterface {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+    );
+  }
+
+  @override
+  Future<ResultData<ScoringRecapResponse>> getScoringRecap(int id) {
+    final body = {
+      'id': '$id',
+    };
+    debugPrint(jsonEncode(body));
+    return ApiHelper.post(
+      route: 'dokter/scoring_rekapitulasi',
+      parseJson: scoringRecapResponseFromJson,
+      body: body,
     );
   }
 }

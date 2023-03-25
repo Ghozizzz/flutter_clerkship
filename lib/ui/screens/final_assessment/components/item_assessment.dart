@@ -1,5 +1,3 @@
-import 'package:clerkship/ui/screens/final_score_recap/final_score_recap_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,9 +27,9 @@ class ItemAssessment extends StatelessWidget {
                   (index) => ItemRating(
                     isGlobalRating: index != 2,
                     onTap: () {
-                      NavHelper.navigatePush(
-                        const FinalScoreRecapScreen(),
-                      );
+                      // NavHelper.navigatePush(
+                      //   const FinalScoreRecapScreen(),
+                      // );
                     },
                   ).addMarginBottom(12),
                 ),

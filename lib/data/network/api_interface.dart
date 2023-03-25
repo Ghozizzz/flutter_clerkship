@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clerkship/data/network/entity/department_lecture_response.dart';
 import 'package:clerkship/data/network/entity/scientific_event_lecture_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
+import 'package:clerkship/data/network/services/scoring_recap_response.dart';
 
 import '../models/result_data.dart';
 import 'entity/batch_response.dart';
@@ -174,6 +175,8 @@ abstract class StandartCompetencyLectureInterface {
 
 abstract class ScoringLectureInterface {
   Future<ResultData<ScoringResponse>> getScoring(int status);
+
+  Future<ResultData<ScoringRecapResponse>> getScoringRecap(int id);
 
   Future<ResultData<ScoringDetailResponse>> getDetailScoring({
     required String id,
