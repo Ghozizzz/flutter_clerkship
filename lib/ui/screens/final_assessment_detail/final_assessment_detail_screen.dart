@@ -31,16 +31,14 @@ class _FinalAssessmentDetailScreenState
   void initState() {
     super.initState();
     Tools.onViewCreated(() {
-      context.read<FinalAssessmentDetailProvder>().getDetail(
-            idBatch: '${widget.data.id}',
-            idUser: '${widget.data.idUser}',
-          );
+      context
+          .read<FinalAssessmentDetailProvder>()
+          .getDetail(id: '${widget.data.id}', idUser: '${widget.data.idUser}');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final detailData = context.watch<FinalAssessmentDetailProvder>().detailData;
     final loading = context.watch<FinalAssessmentDetailProvder>().loading;
 
     return Scaffold(
@@ -56,15 +54,14 @@ class _FinalAssessmentDetailScreenState
                   ),
                 )
               : ListView.builder(
-                  itemCount: detailData.length,
+                  itemCount: 3,
                   padding: EdgeInsets.all(20.w),
                   itemBuilder: (context, index) {
-                    final data = detailData[index];
-
                     return AnimatedItem(
                       index: index,
                       child: ItemRatingLecture(
-                        data: data,
+                        index: index,
+                        data: widget.data,
                         rated: widget.rated,
                       ).addMarginBottom(12),
                     );

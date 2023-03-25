@@ -47,7 +47,7 @@ class ClinicActivityProvider extends ChangeNotifier {
       DialogHelper.showMessageDialog(
         title: 'Dihapus',
         body: result.data?.message.toString(),
-        alertType: AlertType.sucecss,
+        alertType: AlertType.success,
       );
     } else {
       DialogHelper.showMessageDialog(

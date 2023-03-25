@@ -152,6 +152,7 @@ class ListWidget extends StatelessWidget {
                 child: ItemStudentAssessment(
                   data: itemData,
                   onTap: () {
+                    if (itemData.status == null) return;
                     NavHelper.navigatePush(
                       FinalAssessmentDetailScreen(
                         rated: pageIndex == 1,

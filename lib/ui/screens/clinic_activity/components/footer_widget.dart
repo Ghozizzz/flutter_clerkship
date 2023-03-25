@@ -31,9 +31,9 @@ class FooterWidget extends StatelessWidget {
         children: [
           PrimaryButton(
             onTap: () {
-              final allActivities = <ClinicActivityData>[];
-              for (MapEntry entry in activities.entries) {
-                allActivities.addAll(entry.value);
+              final allActivities = <ActivityData>[];
+              for (ClinicActivityData data in activities) {
+                allActivities.addAll(data.data ?? []);
               }
               final checkedActivities =
                   allActivities.where((element) => element.checked).toList();

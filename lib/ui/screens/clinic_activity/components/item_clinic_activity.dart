@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:clerkship/utils/extensions.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -15,7 +16,6 @@ import '../../../../data/models/key_value_data.dart';
 import '../../../../data/network/entity/clinic_lecture_response.dart';
 import '../../../../r.dart';
 import '../../../../utils/dialog_helper.dart';
-import '../../../../utils/extensions.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/primary_button.dart';
 import '../../../components/buttons/ripple_button.dart';
@@ -32,7 +32,7 @@ import 'notes_segment.dart';
 
 class ItemClinicActivity extends StatefulWidget {
   final bool rated;
-  final ClinicActivityData data;
+  final ActivityData data;
 
   const ItemClinicActivity({
     super.key,
@@ -57,13 +57,13 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
 
   @override
   Widget build(BuildContext context) {
-    final header = widget.data.data?.first.header;
-    final details = widget.data.data?.first.detail;
-    final documents = widget.data.data?.first.document;
-    final reviews = widget.data.data?.first.tinjauan;
+    final header = widget.data.header;
+    final details = widget.data.detail;
+    final documents = widget.data.document;
+    final reviews = widget.data.tinjauan;
     final Map<String, List<String>> detail = {};
     final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
-    final isMiniCex = widget.data.data?[0].header?.isMinicex == 1;
+    final isMiniCex = widget.data.header?.isMinicex == 1;
 
     for (Detail detalBody in details ?? []) {
       if (detalBody.namaJenis != null && detalBody.namaItem != null) {
@@ -424,10 +424,10 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
       onPositiveTapWithField: (fieldValue) {
         Navigator.pop(context);
 
-        if (widget.data.data?[0].header?.id != null) {
+        if (widget.data.header?.id != null) {
           context.read<ClinicActivityLectureProvider>().rejectActivity([
             KeyValueData(
-              id: '${widget.data.data?[0].header?.id}',
+              id: '${widget.data.header?.id}',
               reason: fieldValue,
             ),
           ]);
@@ -456,10 +456,10 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
         onPositiveTapWithField: (fieldValue) {
           Navigator.pop(context);
 
-          if (widget.data.data?[0].header?.id != null) {
+          if (widget.data.header?.id != null) {
             context.read<ClinicActivityLectureProvider>().approveActivity([
               KeyValueData(
-                id: '${widget.data.data?[0].header?.id}',
+                id: '${widget.data.header?.id}',
                 reason: fieldValue,
               ),
             ]);

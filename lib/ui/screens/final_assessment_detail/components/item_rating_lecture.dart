@@ -1,37 +1,43 @@
-import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/scoring_response.dart';
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/ripple_button.dart';
 import '../../final_score_recap/final_score_recap_screen.dart';
-import '../../global_rating/global_rating_detail_screen.dart';
 import '../../global_rating/global_rating_screen.dart';
 
 class ItemRatingLecture extends StatelessWidget {
-  final ScoringDetail data;
   final bool rated;
+  final int index;
+  final ScoringData data;
 
-  const ItemRatingLecture({
+  ItemRatingLecture({
     super.key,
-    required this.data,
     required this.rated,
+    required this.index,
+    required this.data,
   });
+
+  final titles = [
+    'GRS - Tengah Rotasi',
+    'GRS - Akhir Rotasi',
+    'Rekapitulasi Nilai Akhir',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return RippleButton(
       onTap: () {
-        if (rated) {
-          NavHelper.navigatePush(const GlobalRatingDetailScreen());
+        if (index < 2) {
+          NavHelper.navigatePush(GlobalRatingScreen(
+            data: data,
+            idRatingType: '$index',
+          ));
         } else {
-          if (data.idTipe == 0) {
-            NavHelper.navigatePush(GlobalRatingScreen());
-          } else {
-            NavHelper.navigatePush(const FinalScoreRecapScreen());
-          }
+          NavHelper.navigatePush(const FinalScoreRecapScreen());
         }
       },
       border: Border.all(color: Themes.stroke),
@@ -39,7 +45,7 @@ class ItemRatingLecture extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${data.namaSection}',
+            titles[index],
             style: Themes().blackBold12?.withColor(Themes.content),
           ),
           SvgPicture.asset(AssetIcons.icChevronRight),

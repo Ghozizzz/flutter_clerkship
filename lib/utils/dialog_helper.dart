@@ -109,7 +109,7 @@ class DialogHelper {
       child: CustomAlertDialog(
         title: title ?? '',
         message: body ?? '',
-        alertType: alertType ?? AlertType.sucecss,
+        alertType: alertType ?? AlertType.success,
       ),
     );
   }

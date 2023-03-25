@@ -1,18 +1,22 @@
-import 'package:clerkship/data/models/quiz.dart';
-import 'package:clerkship/ui/components/buttons/quiz_button.dart';
+import 'dart:convert';
+
+import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../components/buttons/quiz_button.dart';
+import '../../../components/textareas/rich_text_editor.dart';
 
 class ItemQuizGroup extends StatelessWidget {
-  final List<Quiz> quizes;
-  final List<QuizController> controllers;
+  final ScoringDetail data;
+  final bool isReadOnly;
 
   const ItemQuizGroup({
     super.key,
-    required this.quizes,
-    required this.controllers,
+    required this.data,
+    this.isReadOnly = false,
   });
 
   @override
@@ -21,19 +25,45 @@ class ItemQuizGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'A. Professional Behaviours',
+          '${data.namaSection}',
           style: Themes().blackBold14?.withColor(Themes.black),
         ).addMarginBottom(12),
-        Column(
-          children: controllers.map((controller) {
-            return QuizButton(
-              controller: controller,
-              title:
-                  'Reliable work habits with responsibility toward pts & staff, punctuality & attendance',
-              data: quizes,
-            ).addMarginBottom(12);
-          }).toList(),
-        )
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: data.dataDetail?.length,
+          itemBuilder: (context, index) {
+            final itemData = data.dataDetail?[index];
+
+            if (data.idTipe == 0) {
+              return itemData != null
+                  ? QuizButton(
+                      isReadOnly: isReadOnly,
+                      data: itemData,
+                    ).addMarginTop(20)
+                  : Container();
+            } else {
+              if ((itemData?.jawabanString ?? '').isNotEmpty) {
+                itemData?.notesController = FleatherController(
+                  ParchmentDocument.fromJson(
+                      jsonDecode(itemData.jawabanString ?? '')),
+                );
+              }
+
+              return itemData != null
+                  ? SizedBox(
+                      height: 300,
+                      child: RichTextEditor(
+                        controller: itemData.notesController,
+                        hint: '${data.namaSection}',
+                        readOnly: isReadOnly,
+                      ),
+                    )
+                  : Container();
+            }
+          },
+        ).addMarginBottom(20)
       ],
     );
   }

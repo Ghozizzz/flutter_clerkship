@@ -9,7 +9,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemActivityRejection extends StatelessWidget {
-  final ClinicActivityData data;
+  final ActivityData data;
   final TextEditingController reasonController;
 
   const ItemActivityRejection({
@@ -20,7 +20,7 @@ class ItemActivityRejection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final header = data.data?[0].header;
+    final header = data.header;
 
     return FlatCard(
       border: Border.all(color: Themes.stroke),
