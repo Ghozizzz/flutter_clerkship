@@ -11,7 +11,7 @@ class RatingAssessmentProvider extends ChangeNotifier {
 
   void insertDetailScoring({
     required VoidCallback onFinish,
-    required int idRatingType,
+    required String idRatingType,
     required int id,
     required int idBatch,
     required int idUser,

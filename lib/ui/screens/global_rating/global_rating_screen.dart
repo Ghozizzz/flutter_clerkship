@@ -1,4 +1,5 @@
 import 'package:clerkship/data/network/entity/scoring_detail_response.dart';
+import 'package:clerkship/data/network/entity/scoring_response.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/screens/global_rating/components/global_rating_header.dart';
 import 'package:clerkship/ui/screens/global_rating/components/item_quiz_group.dart';
@@ -16,14 +17,12 @@ import '../../components/buttons/secondary_button.dart';
 import '../final_assessment_detail/provider/final_assessment_detail_provider.dart';
 
 class GlobalRatingScreen extends StatefulWidget {
-  final int id;
-  final int idBatch;
-  final int idRatingType;
+  final ScoringData data;
+  final String idRatingType;
 
   const GlobalRatingScreen({
     super.key,
-    required this.id,
-    required this.idBatch,
+    required this.data,
     required this.idRatingType,
   });
 
@@ -42,8 +41,12 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final detailData = context.watch<FinalAssessmentDetailProvder>().detailData;
-    final headerData = context.watch<FinalAssessmentDetailProvder>().headerData;
+    final detailData = widget.idRatingType == '0'
+        ? context.watch<FinalAssessmentDetailProvder>().detailDataMiddle
+        : context.watch<FinalAssessmentDetailProvder>().detailDataFinal;
+    final headerData = widget.idRatingType == '0'
+        ? context.watch<FinalAssessmentDetailProvder>().headerDataMiddle
+        : context.watch<FinalAssessmentDetailProvder>().headerDataFinal;
 
     return Scaffold(
       body: Column(
@@ -66,68 +69,71 @@ class _GlobalRatingScreenState extends State<GlobalRatingScreen> {
 
                     return ItemQuizGroup(
                       data: itemData,
+                      isReadOnly: headerData?.status == 1,
                     ).addMarginTop(20);
                   },
                 ).addMarginBottom(20),
-                MultiValueListenableBuilder(
-                  valueListenables: [
-                    for (ScoringDetail data in detailData)
-                      for (Assessment assessment in data.dataDetail ?? [])
-                        assessment.quizController,
-                  ],
-                  builder: (context, _, __) {
-                    return Column(
-                      children: [
-                        SecondaryButton(
-                          enable: isValidForm(detailData),
-                          onTap: () => context
-                              .read<RatingAssessmentProvider>()
-                              .insertDetailScoring(
-                                idRatingType: widget.idRatingType,
-                                id: widget.id,
-                                idBatch: widget.idBatch,
-                                idUser: headerData?.idUser ?? 0,
-                                status: 2,
-                                data: detailData,
-                                onFinish: () {
-                                  context
-                                      .read<FinalAssessmentDetailProvder>()
-                                      .getDetail(
-                                        idBatch: '$headerData.id',
-                                        idUser: '$headerData.idUser',
-                                        idRatingType: '${widget.idRatingType}',
-                                      );
-                                },
-                              ),
-                          text: 'Simpan Perubahan',
-                        ).addMarginBottom(18),
-                        PrimaryButton(
-                          enable: isValidForm(detailData),
-                          onTap: () => context
-                              .read<RatingAssessmentProvider>()
-                              .insertDetailScoring(
-                                  idRatingType: widget.idRatingType,
-                                  id: widget.id,
-                                  idBatch: widget.idBatch,
-                                  idUser: headerData?.idUser ?? 0,
-                                  status: 1,
-                                  data: detailData,
-                                  onFinish: () {
-                                    context
-                                        .read<FinalAssessmentDetailProvder>()
-                                        .getDetail(
-                                          idBatch: '$headerData.id',
-                                          idUser: '$headerData.idUser',
-                                          idRatingType:
-                                              '${widget.idRatingType}',
-                                        );
-                                  }),
-                          text: 'Simpan Penilaian',
-                        ).addMarginBottom(20),
+                if (headerData?.status == 0 ||
+                    headerData?.status == 2 ||
+                    headerData?.status == null)
+                  if (detailData.isNotEmpty)
+                    MultiValueListenableBuilder(
+                      valueListenables: [
+                        for (ScoringDetail data in detailData)
+                          for (Assessment assessment in data.dataDetail ?? [])
+                            assessment.quizController,
                       ],
-                    );
-                  },
-                ),
+                      builder: (context, _, __) {
+                        return Column(
+                          children: [
+                            SecondaryButton(
+                              enable: isValidForm(detailData),
+                              onTap: () => context
+                                  .read<RatingAssessmentProvider>()
+                                  .insertDetailScoring(
+                                    idRatingType: widget.idRatingType,
+                                    id: headerData?.id ?? 0,
+                                    idBatch: headerData?.idBatch ?? 0,
+                                    idUser: headerData?.idUser ?? 0,
+                                    status: 2,
+                                    data: detailData,
+                                    onFinish: () {
+                                      context
+                                          .read<FinalAssessmentDetailProvder>()
+                                          .getDetail(
+                                            id: '${widget.data.id}',
+                                            idUser: '${widget.data.idUser}',
+                                          );
+                                    },
+                                  ),
+                              text: 'Simpan Perubahan',
+                            ).addMarginBottom(18),
+                            PrimaryButton(
+                              enable: isValidForm(detailData),
+                              onTap: () => context
+                                  .read<RatingAssessmentProvider>()
+                                  .insertDetailScoring(
+                                      idRatingType: widget.idRatingType,
+                                      id: headerData?.id ?? 0,
+                                      idBatch: headerData?.idBatch ?? 0,
+                                      idUser: headerData?.idUser ?? 0,
+                                      status: 1,
+                                      data: detailData,
+                                      onFinish: () {
+                                        context
+                                            .read<
+                                                FinalAssessmentDetailProvder>()
+                                            .getDetail(
+                                              id: '${widget.data.id}',
+                                              idUser: '${widget.data.idUser}',
+                                            );
+                                      }),
+                              text: 'Simpan Penilaian',
+                            ).addMarginBottom(20),
+                          ],
+                        );
+                      },
+                    ),
               ],
             ),
           ).addExpanded,

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/scoring_response.dart';
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/ripple_button.dart';
 import '../../final_score_recap/final_score_recap_screen.dart';
-import '../../global_rating/global_rating_detail_screen.dart';
 import '../../global_rating/global_rating_screen.dart';
-import '../provider/final_assessment_detail_provider.dart';
 
 class ItemRatingLecture extends StatelessWidget {
   final bool rated;
   final int index;
+  final ScoringData data;
 
   ItemRatingLecture({
     super.key,
     required this.rated,
     required this.index,
+    required this.data,
   });
 
   final titles = [
@@ -29,23 +29,15 @@ class ItemRatingLecture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerData = context.watch<FinalAssessmentDetailProvder>().headerData;
-
     return RippleButton(
       onTap: () {
-        if (rated) {
-          NavHelper.navigatePush(const GlobalRatingDetailScreen());
+        if (index < 2) {
+          NavHelper.navigatePush(GlobalRatingScreen(
+            data: data,
+            idRatingType: '$index',
+          ));
         } else {
-          if (index < 2) {
-            if (headerData == null) return;
-            NavHelper.navigatePush(GlobalRatingScreen(
-              id: headerData.id!,
-              idBatch: headerData.idBatch!,
-              idRatingType: index,
-            ));
-          } else {
-            NavHelper.navigatePush(const FinalScoreRecapScreen());
-          }
+          NavHelper.navigatePush(FinalScoreRecapScreen(data: data));
         }
       },
       border: Border.all(color: Themes.stroke),

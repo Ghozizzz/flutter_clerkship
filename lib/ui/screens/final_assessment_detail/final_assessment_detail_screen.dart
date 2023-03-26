@@ -31,11 +31,9 @@ class _FinalAssessmentDetailScreenState
   void initState() {
     super.initState();
     Tools.onViewCreated(() {
-      context.read<FinalAssessmentDetailProvder>().getDetail(
-            idBatch: '${widget.data.id}',
-            idUser: '${widget.data.idUser}',
-            idRatingType: '0',
-          );
+      context
+          .read<FinalAssessmentDetailProvder>()
+          .getDetail(id: '${widget.data.id}', idUser: '${widget.data.idUser}');
     });
   }
 
@@ -63,6 +61,7 @@ class _FinalAssessmentDetailScreenState
                       index: index,
                       child: ItemRatingLecture(
                         index: index,
+                        data: widget.data,
                         rated: widget.rated,
                       ).addMarginBottom(12),
                     );

@@ -97,18 +97,19 @@ class _ClinicDetailApprovalScreenState
     });
 
     IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
+      _port.sendPort,
+      'downloader_send_port',
+    );
     _port.listen((dynamic data) {
       String taskId = data[0];
-      DownloadTaskStatus status = data[1];
-      // int progress = data[2];
-      if (status == DownloadTaskStatus.complete) {
+      int status = data[1];
+      if (status == 3) {
         DialogHelper.closeDialog();
         Fluttertoast.showToast(
           msg: 'Download selesai',
         );
         FlutterDownloader.remove(taskId: taskId, shouldDeleteContent: false);
-      } else if (status == DownloadTaskStatus.failed) {
+      } else if (status == 4) {
         DialogHelper.closeDialog();
         Fluttertoast.showToast(
           msg: 'Download gagal',
@@ -344,6 +345,6 @@ class _ClinicDetailApprovalScreenState
       String id, DownloadTaskStatus status, int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send?.send([id, status, progress]);
+    send?.send([id, status.value, progress]);
   }
 }

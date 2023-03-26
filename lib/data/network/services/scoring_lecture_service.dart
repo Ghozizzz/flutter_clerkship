@@ -4,6 +4,7 @@ import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/default_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
+import 'package:clerkship/data/network/services/scoring_recap_response.dart';
 import 'package:flutter/material.dart';
 
 import '../api_helper.dart';
@@ -12,24 +13,21 @@ import '../entity/scoring_detail_response.dart';
 class ScoringLectureService extends ScoringLectureInterface {
   @override
   Future<ResultData<ScoringResponse>> getScoring(int status) {
-    final body = {
-      'status': '$status'
-    };
     return ApiHelper.post(
       route: 'dokter/scoring',
       parseJson: scoringResponseFromJson,
-      body: body
+      body: {'status': '$status'},
     );
   }
 
   @override
   Future<ResultData<ScoringDetailResponse>> getDetailScoring({
-    required String idBatch,
+    required String id,
     required String idUser,
     required String idRatingType,
   }) {
     final body = {
-      'id': idBatch,
+      'id': id,
       'id_user': idUser,
       'id_jenis_rating': idRatingType,
     };
@@ -43,7 +41,7 @@ class ScoringLectureService extends ScoringLectureInterface {
 
   @override
   Future<ResultData<DefaultResponse>> insertDetailScoring({
-    required int idRatingType,
+    required String idRatingType,
     required int id,
     required int idBatch,
     required int idUser,
@@ -92,6 +90,19 @@ class ScoringLectureService extends ScoringLectureInterface {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+    );
+  }
+
+  @override
+  Future<ResultData<ScoringRecapResponse>> getScoringRecap(int id) {
+    final body = {
+      'id': '$id',
+    };
+    debugPrint(jsonEncode(body));
+    return ApiHelper.post(
+      route: 'dokter/scoring_rekapitulasi',
+      parseJson: scoringRecapResponseFromJson,
+      body: body,
     );
   }
 }
