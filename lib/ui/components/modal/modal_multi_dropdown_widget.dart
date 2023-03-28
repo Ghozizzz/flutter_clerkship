@@ -119,6 +119,18 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                                 color: Themes.primary,
                               ),
                             )
+                          else
+                          Positioned(
+                              right: 0,
+                              child:  Container(
+                                height: 15,
+                                width: 15,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(color:  Themes.primary)
+                                )
+                              )
+                            )
                         ],
                       ),
                     ),
