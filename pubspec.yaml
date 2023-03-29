@@ -46,6 +46,7 @@ dependencies:
   timezone: ^0.9.0
   widget_helper:
     path: ./packages/widget_helper/
+  flutter_html: ^3.0.0-alpha.6
 
 dev_dependencies:
   flutter_lints: ^2.0.0

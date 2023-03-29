@@ -2,6 +2,7 @@ import 'package:clerkship/data/shared_providers/standard_competency_provider.dar
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
+import 'package:clerkship/ui/screens/pengumuman/pengumuman_main_screen.dart';
 import 'package:clerkship/ui/screens/standard_competency/standard_competency_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,9 +78,11 @@ class MainMenuWidget extends StatelessWidget {
             Container(width: 20.w),
             ItemMenu(
               icon: AssetIcons.icFinalAssesment,
-              title: 'Penilaian\nAkhir',
+              title: 'Pengumuman',
               onTap: () {
+                context.read<StandardCompetencyProvider>().getListSk();
                 // NavHelper.navigatePush(const FinalAssessmentStudentScreen());
+                NavHelper.navigatePush(const PengumumanMainScreen());
               },
             ).addExpanded,
           ],

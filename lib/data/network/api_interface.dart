@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clerkship/data/network/entity/department_lecture_response.dart';
+import 'package:clerkship/data/network/entity/get_feature_response.dart';
 import 'package:clerkship/data/network/entity/scientific_event_lecture_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
 import 'package:clerkship/data/network/services/scoring_recap_response.dart';
@@ -191,5 +192,11 @@ abstract class ScoringLectureInterface {
     required int idUser,
     required int status,
     required List<ScoringDetail> data,
+  });
+}
+
+abstract class GetFeatureInterface {
+  Future<ResultData<GetFeatureResponse>> getFeature({
+    required int idBatch
   });
 }
