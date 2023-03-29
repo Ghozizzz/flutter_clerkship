@@ -124,9 +124,10 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
                               context
                                   .read<StandartCompetencyProvider>()
                                   .addSelectedId('id_jenis', itemData.id);
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .getListSKGroup(idJenisSK: itemData.id);
+                              // iki parameter tambahono id_batch
+                              // context
+                              //     .read<StandartCompetencyProvider>()
+                              //     .getListSKGroup(idJenisSK: itemData.id);
                               break;
                             case 2:
                               context

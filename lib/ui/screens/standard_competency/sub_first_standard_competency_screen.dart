@@ -71,6 +71,7 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
                     onTap: () {
                       context.read<StandardCompetencyProvider>().getListSKGroup(
                             idJenisSK: '${skListJenis[index].id}',
+                            idbatch: '${breadcrumSK.id}',
                           );
 
                       NavHelper.navigatePush(
