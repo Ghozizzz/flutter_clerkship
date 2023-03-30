@@ -86,7 +86,7 @@ class _PengumumanScreenState extends State<PengumumanScreen> {
                   bottom: 20.w
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

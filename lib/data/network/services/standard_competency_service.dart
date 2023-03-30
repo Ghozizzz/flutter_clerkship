@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
@@ -58,12 +60,13 @@ class StandardCompetencyService extends StandardCompetencyInterface {
   }) async {
     final endpoint = '${ApiConfig.baseUrl}/sk/list_detail_group';
     debugPrint(endpoint);
-
-    try {
-      final response = await apiClient.post(Uri.parse(endpoint), body: {
+    final body = {
         'id': idJenisSK,
         'id_batch': idBatch,
-      });
+    };
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: body);
       debugPrint(response.body);
 
       final skListGroupResponse = skListGroupResponseFromJson(response.body);
