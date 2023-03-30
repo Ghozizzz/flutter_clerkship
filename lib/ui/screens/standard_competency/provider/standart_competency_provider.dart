@@ -88,6 +88,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
 
   void getListSKGroup({
     required String idJenisSK,
+    required String idBatch,
   }) async {
     loading = true;
     data[2].data.clear();
@@ -95,6 +96,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
 
     final result = await standardCompetencyService.getListGroup(
       idJenisSK: idJenisSK,
+      idBatch: idBatch,
     );
     for (SKListGroup sklistGroup in result.data?.data ?? []) {
       data[2].data.add(StandartCompetencyData(

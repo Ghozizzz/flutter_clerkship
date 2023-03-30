@@ -160,6 +160,7 @@ abstract class StandardCompetencyInterface {
   Future<ResultData<SkListJenisResponse>> getListSkJenis();
   Future<ResultData<SkListGroupResponse>> getListGroup({
     required String idJenisSK,
+    required String idBatch,
   });
   Future<ResultData<SkListGroupDetailResponse>> getListGroupDetail(
       {required int idGroup, required int idJenisSK, required int idBatch});

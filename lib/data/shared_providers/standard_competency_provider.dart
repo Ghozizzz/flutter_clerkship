@@ -49,11 +49,13 @@ class StandardCompetencyProvider extends ChangeNotifier {
 
   void getListSKGroup({
     required String idJenisSK,
+    required String idbatch,
   }) async {
     isloadingListSKGroup = true;
     notifyListeners();
     final result = await standardCompetencyService.getListGroup(
       idJenisSK: idJenisSK,
+      idBatch: idbatch,
     );
     if (result.statusCode == 200) {
       skListGroup.clear();
