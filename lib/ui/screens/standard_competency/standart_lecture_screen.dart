@@ -50,6 +50,7 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
     final data = context.watch<StandartCompetencyProvider>().data;
     final paths = context.watch<StandartCompetencyProvider>().paths;
     final pageIndex = context.watch<StandartCompetencyProvider>().index;
+    final selectedId = context.watch<StandartCompetencyProvider>().selectedId;
 
     return WillPopScope(
       onWillPop: () async {
@@ -124,10 +125,12 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
                               context
                                   .read<StandartCompetencyProvider>()
                                   .addSelectedId('id_jenis', itemData.id);
-                              // iki parameter tambahono id_batch
-                              // context
-                              //     .read<StandartCompetencyProvider>()
-                              //     .getListSKGroup(idJenisSK: itemData.id);
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .getListSKGroup(
+                                    idJenisSK: itemData.id,
+                                    idBatch: selectedId['id_batch'] ?? '',
+                                  );
                               break;
                             case 2:
                               context
