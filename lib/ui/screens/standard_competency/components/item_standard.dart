@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
@@ -25,8 +26,10 @@ class ItemStandard extends StatelessWidget {
         children: [
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Themes().blackBold12?.withColor(Themes.content),
-          ),
+          ).addFlexible,
           SvgPicture.asset(AssetIcons.icChevronRight),
         ],
       ),
