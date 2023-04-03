@@ -24,12 +24,14 @@ class ItemStandard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Themes().blackBold12?.withColor(Themes.content),
-          ).addFlexible,
+          Expanded(
+            child: Text(
+                title,
+                style: Themes().blackBold12?.withColor(Themes.content),
+                softWrap: true,
+                maxLines: 2,
+              ),
+          ),
           SvgPicture.asset(AssetIcons.icChevronRight),
         ],
       ),

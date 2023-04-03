@@ -22,7 +22,9 @@ class ItemListAllScientificProvider extends ChangeNotifier {
 
     if (result.statusCode == 200) {
       listScientific.clear();
-      listScientific.addAll(result.data!.data!.list!);
+      if(result.data!.data!.list!.isNotEmpty){
+        listScientific.addAll(result.data!.data!.list!);
+      }
       batch = result.data!.data!.nomor!;
     } else {
       Fluttertoast.showToast(msg: result.data!.message!);
