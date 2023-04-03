@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/shared_providers/user_provider.dart';
 import '../../../../r.dart';
 import '../../../components/commons/flat_card.dart';
 
@@ -13,6 +15,8 @@ class UserDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,11 +25,13 @@ class UserDataWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dr. Budiman',
+              '${user.name}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Themes().whiteBold24,
             ),
             Text(
-              '02320223695',
+              '${user.nim}',
               style: Themes().white14?.withFontWeight(FontWeight.w500),
             ),
             Text(
@@ -37,7 +43,7 @@ class UserDataWidget extends StatelessWidget {
               style: Themes().whiteBold12,
             ).addMarginTop(2),
           ],
-        ),
+        ).addFlexible,
         FlatCard(
           borderRadius: BorderRadius.circular(56.w),
           border: Border.all(
@@ -47,7 +53,7 @@ class UserDataWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(56.w),
             child: Image.asset(
-              AssetImages.avatar,
+              AssetImages.avatarPlaceholder,
               width: 56.w,
               height: 56.w,
               fit: BoxFit.cover,

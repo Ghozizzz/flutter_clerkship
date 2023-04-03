@@ -36,7 +36,7 @@ class ModalConfirmation extends StatelessWidget {
     required this.type,
     this.labelField,
     this.hintField,
-    this.optionalField = false,
+    this.optionalField = true,
     this.positiveText = 'Ok',
     this.negativeText = 'Batal',
     this.onPositiveTap,

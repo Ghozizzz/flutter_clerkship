@@ -1,10 +1,14 @@
+import 'package:clerkship/data/network/services/scoring_recap_response.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../config/themes.dart';
 
 class ItemScore extends StatelessWidget {
+  final Detail data;
+
   const ItemScore({
     super.key,
+    required this.data,
   });
 
   @override
@@ -17,17 +21,17 @@ class ItemScore extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Presentasi Kasus I',
+              data.namaKeterangan ?? '',
               style: Themes().blackBold14?.withColor(Themes.black),
             ),
             Text(
-              '5%',
+              '${data.percentage}%',
               style: Themes().black12,
             )
           ],
         ),
         Text(
-          'A',
+          data.nilai ?? '',
           style: Themes().blackBold14?.withColor(Themes.black),
         ),
       ],

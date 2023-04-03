@@ -23,7 +23,7 @@ class DialogHelper {
     String negativeText = 'Batal',
     final String? labelField,
     final String? hintField,
-    final bool optionalField = false,
+    final bool optionalField = true,
     final Function(String fieldValue)? onPositiveTapWithField,
     VoidCallback? onPositiveTap,
     VoidCallback? onNegativeTap,
@@ -109,7 +109,7 @@ class DialogHelper {
       child: CustomAlertDialog(
         title: title ?? '',
         message: body ?? '',
-        alertType: alertType ?? AlertType.sucecss,
+        alertType: alertType ?? AlertType.success,
       ),
     );
   }

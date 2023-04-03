@@ -3,14 +3,16 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/network/entity/clinic_detail_response.dart';
 
 class BulletList extends StatelessWidget {
   final String title;
   final bool withCount;
-
+  final List<ClinicDetailItem> listData;
   const BulletList({
     super.key,
     required this.title,
+    this.listData = const [],
     this.withCount = false,
   });
 
@@ -37,7 +39,7 @@ class BulletList extends StatelessWidget {
           ).addMarginTop(20),
           Column(
             children: List.generate(
-              3,
+              listData.length,
               (index) => Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,13 +47,13 @@ class BulletList extends StatelessWidget {
                   SizedBox(
                     width: 68.wp,
                     child: Text(
-                      '• Glomerulonefritis akut',
+                      '• ${listData[index].namaItem}',
                       style: Themes().black12,
                     ),
                   ),
                   if (withCount)
                     Text(
-                      '$index',
+                      '${listData[index].counter}',
                       style: Themes().black12,
                     ),
                 ],

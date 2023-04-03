@@ -8,6 +8,7 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/network/entity/scientifc_event_participant_response.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
@@ -17,7 +18,12 @@ import 'components/item_standard.dart';
 import 'components/item_standard_total.dart';
 
 class StandartLectureScreen extends StatefulWidget {
-  const StandartLectureScreen({super.key});
+  final ScientificEventParticipant participant;
+
+  const StandartLectureScreen({
+    super.key,
+    required this.participant,
+  });
 
   @override
   State<StandartLectureScreen> createState() => _StandartLectureScreenState();
@@ -30,6 +36,11 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
     Tools.onViewCreated(() {
       context.read<StandartCompetencyProvider>().clearPaths();
       context.read<StandartCompetencyProvider>().setIndex(0, '');
+
+      if (widget.participant.idUser == null) return;
+      context
+          .read<StandartCompetencyProvider>()
+          .getDepartmentLecture(idUser: widget.participant.idUser!);
     });
   }
 
@@ -39,15 +50,12 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
     final data = context.watch<StandartCompetencyProvider>().data;
     final paths = context.watch<StandartCompetencyProvider>().paths;
     final pageIndex = context.watch<StandartCompetencyProvider>().index;
+    final selectedId = context.watch<StandartCompetencyProvider>().selectedId;
 
     return WillPopScope(
       onWillPop: () async {
         if (pageIndex > 0) {
-          provider.setIndex(
-            pageIndex - 1,
-            data.entries.toList()[pageIndex - 1].key,
-          );
-          provider.removeLastPath();
+          provider.goBack();
         } else {
           NavHelper.pop();
         }
@@ -78,11 +86,11 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
                 left: 20.w,
               ),
               Text(
-                'Bhima Saputra',
+                '${widget.participant.namaStudent}',
                 style: Themes().black16,
               ).addMarginLeft(20.w),
               Text(
-                '2345 2342341',
+                '${widget.participant.idUser}',
                 style: Themes().black10?.withFontWeight(FontWeight.w500),
               ).addMarginLeft(20.w),
               if (pageIndex > 0)
@@ -96,20 +104,49 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
               if (pageIndex < data.length - 1)
                 ListView.builder(
                   padding: EdgeInsets.all(20.w),
-                  itemCount:
-                      paths.isNotEmpty ? data[paths[pageIndex]]?.length : 0,
+                  itemCount: paths.isNotEmpty ? data[pageIndex].data.length : 0,
                   itemBuilder: (context, index) {
+                    final itemData = data[pageIndex].data[index];
+
                     return AnimatedItem(
                       index: index,
                       child: ItemStandard(
                         onTap: () {
-                          if (pageIndex < data.length) {
-                            provider.setIndex(
-                              pageIndex + 1,
-                              data.entries.toList()[pageIndex + 1].key,
-                            );
+                          switch (pageIndex) {
+                            case 0:
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .addSelectedId('id_batch', itemData.id);
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .getListSKJenis();
+                              break;
+                            case 1:
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .addSelectedId('id_jenis', itemData.id);
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .getListSKGroup(
+                                    idJenisSK: itemData.id,
+                                    idBatch: selectedId['id_batch'] ?? '',
+                                  );
+                              break;
+                            case 2:
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .addSelectedId('id_group', itemData.id);
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .getListSKGroupDetail();
+                              break;
                           }
+                          provider.setIndex(
+                            pageIndex + 1,
+                            itemData.title,
+                          );
                         },
+                        title: itemData.title,
                       ),
                     ).addMarginBottom(12);
                   },
@@ -117,11 +154,16 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
               else
                 ListView.builder(
                   padding: EdgeInsets.all(20.w),
-                  itemCount: data[paths[pageIndex]]?.length,
+                  itemCount: data[pageIndex].data.length,
                   itemBuilder: (context, index) {
+                    final itemData = data[pageIndex].data[index];
+
                     return AnimatedItem(
                       index: index,
-                      child: const ItemStandardTotal(),
+                      child: ItemStandardTotal(
+                        title: itemData.title,
+                        total: itemData.count,
+                      ),
                     ).addMarginBottom(12);
                   },
                 ).addExpanded

@@ -1,17 +1,21 @@
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/textareas/textarea.dart';
+import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../../data/network/entity/scientific_event_lecture_response.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 
 class ItemEventRejection extends StatelessWidget {
+  final ScientificEventData data;
   final TextEditingController reasonController;
 
   const ItemEventRejection({
     super.key,
+    required this.data,
     required this.reasonController,
   });
 
@@ -23,26 +27,26 @@ class ItemEventRejection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          'Mini-CEX'.textBold14,
-          const ItemInfoSegment(
+          '${data.header?.namaKegiatan}'.textBold14,
+          ItemInfoSegment(
             title: 'Tanggal',
-            value: '10 August 2022',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: data.header?.tanggal?.formatDate('dd MMMM yyyy'),
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ),
-          const ItemInfoSegment(
+          ItemInfoSegment(
             title: 'Jam',
-            value: '9.00',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: data.header?.tanggal?.formatDate('HH:mm'),
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ).addMarginBottom(12),
-          const ItemInfoSegment(
+          ItemInfoSegment(
             title: 'Peran',
-            value: 'Hadirin Acara',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: '${data.header?.namaPeran}',
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ).addMarginBottom(12),
-          const ItemInfoSegment(
+          ItemInfoSegment(
             title: 'Departemen',
-            value: 'Ilmu Penyakit Dalam',
-            padding: EdgeInsets.symmetric(vertical: 12),
+            value: '${data.header?.namaDepartment}',
+            padding: const EdgeInsets.symmetric(vertical: 12),
           ).addMarginBottom(12),
           'Alasan Penolakan'.textBold12.addMarginBottom(8),
           TextArea(

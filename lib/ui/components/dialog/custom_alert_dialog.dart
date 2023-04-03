@@ -6,7 +6,7 @@ import 'package:responsive/responsive.dart';
 import '../../../config/themes.dart';
 
 enum AlertType {
-  sucecss,
+  success,
   error,
 }
 
@@ -17,7 +17,7 @@ class CustomAlertDialog extends StatelessWidget {
     this.message,
     this.onConfirm,
     this.buttonText = 'OK',
-    this.alertType = AlertType.sucecss,
+    this.alertType = AlertType.success,
   }) : super(key: key);
 
   final String? title;
@@ -42,7 +42,7 @@ class CustomAlertDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (alertType == AlertType.sucecss)
+              if (alertType == AlertType.success)
                 Container(
                   margin: const EdgeInsets.only(bottom: 14),
                   padding: EdgeInsets.all(8.w),

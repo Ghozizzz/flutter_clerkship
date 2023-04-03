@@ -2,16 +2,21 @@ import 'package:clerkship/ui/screens/add_scientific_event/add_scientific_event_s
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/reference_provider.dart';
 import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
-import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_event_student.dart';
+import '../clinic_activity/providers/item_list_all_provider.dart';
+import 'components/item_list_all.dart';
+import 'components/item_list_approve.dart';
+import 'components/item_list_draft.dart';
+import 'components/item_list_reject.dart';
 
 class ScientificEventStudentScreen extends StatefulWidget {
   const ScientificEventStudentScreen({super.key});
@@ -37,6 +42,8 @@ class _ScientificEventStudentScreenState
 
   @override
   Widget build(BuildContext context) {
+    final batch = context.watch<ItemListAllClinicProvider>().batch;
+
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -63,7 +70,7 @@ class _ScientificEventStudentScreenState
               left: 20.w,
             ),
             Text(
-              'Batch I',
+              'Batch $batch',
               style: Themes().gray10?.boldText(),
             ).addMarginLeft(20.w),
             Container(
@@ -85,28 +92,19 @@ class _ScientificEventStudentScreenState
             ).addMarginTop(12),
             Stack(
               children: [
-                TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                    4,
-                    (index) => ListView.builder(
-                      itemCount: 12,
-                      padding: EdgeInsets.all(20.w),
-                      itemBuilder: (context, index) {
-                        return AnimatedItem(
-                          index: index,
-                          child: const ItemEventStudent().addMarginBottom(12),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                TabBarView(controller: tabController, children: const [
+                  ListItemAllScientific(),
+                  ListItemDraftScientific(),
+                  ListItemApproveScientific(),
+                  ListItemRejectScientific(),
+                ]),
                 Positioned(
                   right: 20.w,
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
-                      NavHelper.navigatePush(AddScientificEventScreen());
+                      context.read<ReferenceProvider>().getBatch(idFlow: 2);
+                      NavHelper.navigatePush(const AddScientificEventScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),

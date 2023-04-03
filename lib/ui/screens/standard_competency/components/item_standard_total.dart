@@ -7,7 +7,13 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 class ItemStandardTotal extends StatelessWidget {
-  const ItemStandardTotal({super.key});
+  final String title;
+  final int total;
+  const ItemStandardTotal({
+    super.key,
+    required this.title,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +39,11 @@ class ItemStandardTotal extends StatelessWidget {
             ),
           ).addMarginRight(12.w),
           Text(
-            'Influenza',
+            title,
             style: Themes().blackBold12?.withColor(Themes.content),
           ).addExpanded,
           Text(
-            '24',
+            total.toString(),
             style: Themes().black12?.withColor(Themes.content),
           )
         ],

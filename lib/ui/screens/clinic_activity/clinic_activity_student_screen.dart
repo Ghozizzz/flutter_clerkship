@@ -1,17 +1,22 @@
-import 'package:clerkship/ui/screens/add_clinic_activity/add_clinic_activity_screen.dart';
-import 'package:clerkship/utils/nav_helper.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/item_list_all.dart';
+import 'package:clerkship/ui/screens/clinic_activity/components/item_list_draft.dart';
+import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/reference_provider.dart';
 import '../../../r.dart';
+import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
-import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_activity.dart';
+import '../add_clinic_activity/add_clinic_activity_screen.dart';
+import 'components/item_list_approve.dart';
+import 'components/item_list_reject.dart';
 
 class ClinicActivityStudentScreen extends StatefulWidget {
   const ClinicActivityStudentScreen({super.key});
@@ -37,6 +42,7 @@ class _ClinicActivityStudentScreenState
 
   @override
   Widget build(BuildContext context) {
+    final batch = context.watch<ItemListAllClinicProvider>().batch;
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -63,7 +69,7 @@ class _ClinicActivityStudentScreenState
               left: 20.w,
             ),
             Text(
-              'Batch I',
+              'Batch $batch',
               style: Themes().gray10?.boldText(),
             ).addMarginLeft(20.w),
             Container(
@@ -85,28 +91,19 @@ class _ClinicActivityStudentScreenState
             ).addMarginTop(12),
             Stack(
               children: [
-                TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                    4,
-                    (index) => ListView.builder(
-                      itemCount: 12,
-                      padding: EdgeInsets.all(20.w),
-                      itemBuilder: (context, index) {
-                        return AnimatedItem(
-                          index: index,
-                          child: const ItemActivity().addMarginBottom(12),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                TabBarView(controller: tabController, children: const [
+                  ListItemAllClinic(),
+                  ListItemDraftClinic(),
+                  ListItemApproveClinic(),
+                  ListItemRejectClinic(),
+                ]),
                 Positioned(
                   right: 20.w,
                   bottom: 20.w,
                   child: FloatingActionButton(
                     onPressed: () {
-                      NavHelper.navigatePush(AddClinicActivityScreen());
+                      context.read<ReferenceProvider>().getBatch(idFlow: 1);
+                      NavHelper.navigatePush(const AddClinicActivityScreen());
                     },
                     child: SvgPicture.asset(AssetIcons.icPlus),
                   ),

@@ -1,13 +1,19 @@
+import 'package:clerkship/data/shared_providers/user_provider.dart';
+import 'package:clerkship/ui/screens/dashboard/dashboard_student_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/auth_provider.dart';
+import '../../../injection.dart';
 import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../../utils/tools.dart';
+import '../dashboard_lecture/dashboard_lecture_screen.dart';
 import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,10 +27,32 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    injectService();
+
     Tools.onViewCreated(() {
-      Future.delayed(const Duration(seconds: 1), () {
-        NavHelper.navigateReplace(LoginScreen());
+      Future.delayed(const Duration(seconds: 1), () async {
+        final isLogged = await context.read<AuthProvider>().isLogged();
+        if (isLogged) {
+          getCurrentUser();
+        } else {
+          NavHelper.navigateReplace(LoginScreen());
+        }
       });
+    });
+  }
+
+  void getCurrentUser() {
+    context.read<UserProvider>().getCurrentUser().then((value) {
+      var role = context.read<UserProvider>().user.roleId;
+      if (role == 1) {
+        NavHelper.navigateReplace(
+          const DashboardLectureScreen(),
+        );
+      } else {
+        NavHelper.navigateReplace(
+          const DashboardStudentScreen(),
+        );
+      }
     });
   }
 

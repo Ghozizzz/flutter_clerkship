@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/models/dropdown_item.dart';
@@ -14,6 +15,11 @@ class DropDownController extends ValueNotifier<DropDownItem?> {
 
   DropDownController({this.selected}) : super(selected);
 
+  void resetValue() {
+    selected = null;
+    notifyListeners();
+  }
+
   void setSelected(DropDownItem value) {
     selected = value;
     notifyListeners();
@@ -26,6 +32,7 @@ class DropdownField extends StatefulWidget {
   final Color? iconColor;
   final double? iconSize;
   final Function(DropDownItem value)? onSelected;
+  final VoidCallback? onRemoved;
   final double? width;
   final double? height;
   final Color? color;
@@ -37,6 +44,7 @@ class DropdownField extends StatefulWidget {
   final BoxShadow? shadow;
   final Color? textColor;
   final bool withSearchField;
+  final bool withReset;
 
   const DropdownField({
     super.key,
@@ -46,6 +54,7 @@ class DropdownField extends StatefulWidget {
     this.iconSize = 18,
     this.hint,
     this.onSelected,
+    this.onRemoved,
     this.width,
     this.height,
     this.color,
@@ -56,6 +65,7 @@ class DropdownField extends StatefulWidget {
     this.shadow,
     this.textColor,
     this.withSearchField = true,
+    this.withReset = false,
   });
 
   @override
@@ -63,6 +73,30 @@ class DropdownField extends StatefulWidget {
 }
 
 class _DropdownFieldState<T> extends State<DropdownField> {
+  Widget rightIcon(BuildContext context) {
+    if (!widget.withReset || widget.controller.selected == null) {
+      return widget.icon ??
+          SvgPicture.asset(
+            AssetIcons.icChevronRight,
+          );
+    } else {
+      if (widget.withReset && widget.controller.selected != null) {
+        return RippleButton(
+          onTap: () {
+            widget.controller.resetValue();
+            widget.onRemoved?.call();
+          },
+          padding: EdgeInsets.zero,
+          child: SvgPicture.asset(
+            AssetIcons.icClose,
+          ),
+        );
+      }
+    }
+
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
@@ -82,17 +116,18 @@ class _DropdownFieldState<T> extends State<DropdownField> {
               vertical: 16,
             ),
             onTap: showBottomSheetOptions,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ValueListenableBuilder(
-                  valueListenable: widget.controller,
-                  builder: (context, value, _) {
-                    final searchItem = widget.items.where(
-                      (element) =>
-                          element.value == widget.controller.selected?.value,
-                    );
-                    return Text(
+            child: ValueListenableBuilder(
+              valueListenable: widget.controller,
+              builder: (context, value, _) {
+                final searchItem = widget.items.where(
+                  (element) =>
+                      element.value == widget.controller.selected?.value,
+                );
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
                       searchItem.isNotEmpty
                           ? searchItem.first.title
                           : widget.hint ?? '',
@@ -101,11 +136,11 @@ class _DropdownFieldState<T> extends State<DropdownField> {
                       style: Themes().black12?.withColor(searchItem.isNotEmpty
                           ? widget.textColor
                           : Themes.hint),
-                    );
-                  },
-                ),
-                widget.icon ?? SvgPicture.asset(AssetIcons.icChevronRight),
-              ],
+                    ).addFlexible,
+                    rightIcon(context),
+                  ],
+                );
+              },
             ),
           ),
         ),

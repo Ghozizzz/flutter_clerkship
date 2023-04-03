@@ -62,6 +62,8 @@ class MultiDropdownField extends StatefulWidget {
   final BoxShadow? shadow;
   final Color? textColor;
   final String otherHint;
+  final bool isOtherItem;
+  final Function(DropDownItem item)? onRemoveItem;
   final Widget Function(
     DropDownItem item,
     Function(DropDownItem item) onRemoveItem,
@@ -87,6 +89,8 @@ class MultiDropdownField extends StatefulWidget {
     this.textColor,
     this.otherHint = 'Lainnya',
     this.customItem,
+    this.isOtherItem = false,
+    this.onRemoveItem,
     this.showSelected = true,
     this.textStyle,
   });
@@ -97,16 +101,15 @@ class MultiDropdownField extends StatefulWidget {
 
 class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
   @override
-  void initState() {
-    super.initState();
-    widget.items.add(DropDownItem(
-      title: 'Lainnya',
-      value: -1,
-    ));
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (widget.items.isNotEmpty &&
+        widget.items.last.value != -1 &&
+        widget.isOtherItem) {
+      widget.items.add(DropDownItem(
+        title: 'Lainnya',
+        value: -1,
+      ));
+    }
     return IgnorePointer(
       ignoring: !widget.enable,
       child: ValueListenableBuilder(
@@ -196,6 +199,9 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
           ).addMarginLeft(12.w),
           RippleButton(
             onTap: () {
+              if (widget.onRemoveItem != null) {
+                widget.onRemoveItem!(item);
+              }
               removeItem(item);
             },
             child: SvgPicture.asset(AssetIcons.icClose),

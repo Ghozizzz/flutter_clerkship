@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
@@ -7,9 +8,11 @@ import '../../../components/buttons/ripple_button.dart';
 
 class ItemStandard extends StatelessWidget {
   final VoidCallback onTap;
+  final String title;
 
   const ItemStandard({
     super.key,
+    required this.title,
     required this.onTap,
   });
 
@@ -21,9 +24,13 @@ class ItemStandard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Ilmu Penyakit Dalam',
-            style: Themes().blackBold12?.withColor(Themes.content),
+          Expanded(
+            child: Text(
+                title,
+                style: Themes().blackBold12?.withColor(Themes.content),
+                softWrap: true,
+                maxLines: 2,
+              ),
           ),
           SvgPicture.asset(AssetIcons.icChevronRight),
         ],

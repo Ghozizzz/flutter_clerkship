@@ -1,16 +1,21 @@
+import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../r.dart';
+import '../provider/final_score_recap_provider.dart';
 
 class ScoreRecapHeader extends StatelessWidget {
   const ScoreRecapHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final headerData = context.watch<FinalScoreRecapProvider>().headerData;
+
     return Container(
       padding: EdgeInsets.only(
         top: 20.w,
@@ -39,7 +44,7 @@ class ScoreRecapHeader extends StatelessWidget {
                 color: Themes.grey,
               ).addMarginRight(8.w),
               Text(
-                'Ilmu Penyakit Dalam',
+                headerData?.namaRs ?? '',
                 style: Themes().blackBold10,
               ),
             ],
@@ -54,7 +59,7 @@ class ScoreRecapHeader extends StatelessWidget {
                 color: Themes.grey,
               ).addMarginRight(8.w),
               Text(
-                '5 Mei 2022 - 10 Agustus 2022',
+                '${headerData?.startDate?.formatDate('d MMMM yyyy') ?? ''} - ${headerData?.endDate?.formatDate('d MMMM yyyy') ?? ''}',
                 style: Themes().blackBold10,
               ),
             ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/shared_providers/auth_provider.dart';
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../../components/buttons/ripple_button.dart';
@@ -43,6 +45,15 @@ class NotificationBar extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        RippleButton(
+          onTap: () {
+            context.read<AuthProvider>().doLogout();
+          },
+          child: const Icon(
+            Icons.logout_rounded,
+            color: Colors.white,
+          ),
         ),
       ],
     );

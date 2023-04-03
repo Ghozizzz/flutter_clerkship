@@ -26,14 +26,14 @@ class SelectedFile {
 }
 
 class FilePickerController extends ValueNotifier<List<SelectedFile>> {
-  final List<SelectedFile> selectedFiles = [];
+  List<SelectedFile> selectedFiles = [];
 
   FilePickerController() : super([]);
 
-  void addFile(File file) {
+  void addFile(File file, {dynamic id}) {
     selectedFiles.add(
       SelectedFile(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: id ?? DateTime.now().millisecondsSinceEpoch.toString(),
         file: file,
       ),
     );
@@ -49,10 +49,12 @@ class FilePickerController extends ValueNotifier<List<SelectedFile>> {
 class FilePickerButton extends StatelessWidget {
   final bool onlyImage;
   final FilePickerController controller;
+  final Function? onDelete;
 
   const FilePickerButton({
     super.key,
     required this.controller,
+    this.onDelete,
     this.onlyImage = false,
   });
 
@@ -90,6 +92,7 @@ class FilePickerButton extends StatelessWidget {
                       RippleButton(
                         padding: EdgeInsets.all(12.w),
                         onTap: () {
+                          onDelete!(file);
                           controller.removeFile(file);
                         },
                         child: SvgPicture.asset(
