@@ -44,18 +44,22 @@ class SKListJenis {
   SKListJenis({
     this.id,
     this.namaJenis,
+    this.tipe,
   });
 
   int? id;
   String? namaJenis;
+  int? tipe;
 
   factory SKListJenis.fromJson(Map<String, dynamic> json) => SKListJenis(
         id: json['id'],
         namaJenis: json['nama_jenis'],
+        tipe: json['tipe'],
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'nama_jenis': namaJenis,
+        'tipe': tipe
       };
 }

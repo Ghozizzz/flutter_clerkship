@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -40,11 +40,11 @@ class DetailStandardCompetencyScreen extends StatelessWidget {
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(
