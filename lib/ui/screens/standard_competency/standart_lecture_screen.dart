@@ -50,7 +50,9 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
     final data = context.watch<StandartCompetencyProvider>().data;
     final paths = context.watch<StandartCompetencyProvider>().paths;
     final pageIndex = context.watch<StandartCompetencyProvider>().index;
+    final tipe = context.watch<StandartCompetencyProvider>().tipe;
     final selectedId = context.watch<StandartCompetencyProvider>().selectedId;
+    final loading = context.watch<StandartCompetencyProvider>().loading;
 
     return WillPopScope(
       onWillPop: () async {
@@ -101,58 +103,73 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
                   top: 18,
                   left: 20.w,
                 ),
-              if (pageIndex < data.length - 1)
-                ListView.builder(
-                  padding: EdgeInsets.all(20.w),
-                  itemCount: paths.isNotEmpty ? data[pageIndex].data.length : 0,
-                  itemBuilder: (context, index) {
-                    final itemData = data[pageIndex].data[index];
+              if(loading)
+                Center(child: CircularProgressIndicator()),
+                if ((pageIndex < data.length - 1) && (tipe==true))
+                  ListView.builder(
+                    padding: EdgeInsets.all(20.w),
+                    itemCount: paths.isNotEmpty ? data[pageIndex].data.length : 0,
+                    itemBuilder: (context, index) {
+                      final itemData = data[pageIndex].data[index];
 
-                    return AnimatedItem(
-                      index: index,
-                      child: ItemStandard(
-                        onTap: () {
-                          switch (pageIndex) {
-                            case 0:
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .addSelectedId('id_batch', itemData.id);
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .getListSKJenis();
-                              break;
-                            case 1:
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .addSelectedId('id_jenis', itemData.id);
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .getListSKGroup(
-                                    idJenisSK: itemData.id,
-                                    idBatch: selectedId['id_batch'] ?? '',
-                                  );
-                              break;
-                            case 2:
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .addSelectedId('id_group', itemData.id);
-                              context
-                                  .read<StandartCompetencyProvider>()
-                                  .getListSKGroupDetail();
-                              break;
-                          }
-                          provider.setIndex(
-                            pageIndex + 1,
-                            itemData.title,
-                          );
-                        },
-                        title: itemData.title,
-                      ),
-                    ).addMarginBottom(12);
-                  },
-                ).addExpanded
-              else
-                ListView.builder(
+                      return AnimatedItem(
+                        index: index,
+                        child: ItemStandard(
+                          onTap: () {
+                            switch (pageIndex) {
+                              case 0:
+                                context
+                                    .read<StandartCompetencyProvider>()
+                                    .addSelectedId('id_batch', itemData.id);
+                                context
+                                    .read<StandartCompetencyProvider>()
+                                    .getListSKJenis();
+                                break;
+                              case 1:
+                                if(itemData.tipe=='0'){
+                                  context
+                                      .read<StandartCompetencyProvider>()
+                                      .addSelectedId('id_jenis', itemData.id);
+                                  context
+                                    .read<StandartCompetencyProvider>()
+                                    .addSelectedId('id_group', '0');
+                                  context
+                                      .read<StandartCompetencyProvider>()
+                                      .getListSKGroupDetailBypass();
+                                }else{
+                                  
+                                  context
+                                      .read<StandartCompetencyProvider>()
+                                      .addSelectedId('id_jenis', itemData.id);
+                                  context
+                                      .read<StandartCompetencyProvider>()
+                                      .getListSKGroup(
+                                        idJenisSK: itemData.id,
+                                        idBatch: selectedId['id_batch'] ?? '',
+                                      );
+                                }
+                                break;
+                              case 2:
+                                context
+                                    .read<StandartCompetencyProvider>()
+                                    .addSelectedId('id_group', itemData.id);
+                                context
+                                    .read<StandartCompetencyProvider>()
+                                    .getListSKGroupDetail();
+                                break;
+                            }
+                            provider.setIndex(
+                              pageIndex + 1,
+                              itemData.title,
+                            );
+                          },
+                          title: itemData.title,
+                        ),
+                      ).addMarginBottom(12);
+                    },
+                  ).addExpanded
+                else
+                  ListView.builder(
                   padding: EdgeInsets.all(20.w),
                   itemCount: data[pageIndex].data.length,
                   itemBuilder: (context, index) {
