@@ -83,7 +83,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
       data[1].data.add(StandartCompetencyData(
             id: '${skListJenis.id}',
             title: '${skListJenis.namaJenis}',
-            tipe: '${skListJenis.tipe}' ?? '0'
+            tipe: '${skListJenis.tipe}'
           ));
     }
     loading = false;
