@@ -166,7 +166,7 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
                               overflow: TextOverflow.ellipsis,
                               style: widget.textStyle ?? Themes().black14,
                             ).addExpanded,
-                          widget.icon ??
+                            widget.icon ??
                               SvgPicture.asset(
                                 AssetIcons.icChevronRight,
                               ),

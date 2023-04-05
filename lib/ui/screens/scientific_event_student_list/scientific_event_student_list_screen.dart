@@ -66,6 +66,7 @@ class _ScientificEventStudentListScreenState
                       return AnimatedItem(
                         child: ItemStudent(
                           participant: participant,
+                          from: 1,
                           onTap: () => onTapItemStudent(participant),
                         ),
                       ).addMarginBottom(10);

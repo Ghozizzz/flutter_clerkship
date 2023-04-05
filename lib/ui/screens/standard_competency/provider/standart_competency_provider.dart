@@ -21,11 +21,13 @@ class StandartCompetencyDataGroup {
 class StandartCompetencyData {
   String id;
   String title;
+  String tipe;
   int count;
 
   StandartCompetencyData({
     required this.id,
     required this.title,
+    this.tipe = '0',
     this.count = 0,
   });
 }
@@ -43,6 +45,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
   final paths = [];
   final selectedId = <String, String>{};
   int index = 0;
+  bool tipe = true;
   bool loading = true;
 
   void addSelectedId(String key, String value) {
@@ -80,6 +83,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
       data[1].data.add(StandartCompetencyData(
             id: '${skListJenis.id}',
             title: '${skListJenis.namaJenis}',
+            tipe: '${skListJenis.tipe}'
           ));
     }
     loading = false;
@@ -125,6 +129,25 @@ class StandartCompetencyProvider extends ChangeNotifier {
     loading = false;
     notifyListeners();
   }
+  
+  void getListSKGroupDetailBypass() async {
+    loading = true;
+    tipe = false;
+    data[2].data.clear();
+    notifyListeners();
+
+    final result =
+        await standartCompetencyLectureService.getListGroupDetail(selectedId);
+    for (SKListGroupDetail sklistGroupDetail in result.data?.data ?? []) {
+      data[2].data.add(StandartCompetencyData(
+            id: '-1',
+            title: '${sklistGroupDetail.name}',
+            count: sklistGroupDetail.jumlah ?? 0,
+          ));
+    }
+    loading = false;
+    notifyListeners();
+  }
 
   void removeLastPath() {
     paths.removeAt(paths.length - 1);
@@ -138,6 +161,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
   }
 
   void goBack() {
+    tipe = true;
     index = index - 1;
     removeLastPath();
     notifyListeners();

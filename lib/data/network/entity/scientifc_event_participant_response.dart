@@ -48,11 +48,13 @@ class ScientificEventParticipant {
     this.idUser,
     this.tanggal,
     this.namaStudent,
+    this.pending,
   });
 
   int? idUser;
   DateTime? tanggal;
   String? namaStudent;
+  int? pending;
 
   factory ScientificEventParticipant.fromJson(Map<String, dynamic> json) =>
       ScientificEventParticipant(
@@ -60,6 +62,7 @@ class ScientificEventParticipant {
         tanggal:
             json['tanggal'] == null ? null : DateTime.parse(json['tanggal']),
         namaStudent: json['nama_student'],
+        pending: json['pending'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,5 +70,6 @@ class ScientificEventParticipant {
         'tanggal':
             "${tanggal!.year.toString().padLeft(4, '0')}-${tanggal!.month.toString().padLeft(2, '0')}-${tanggal!.day.toString().padLeft(2, '0')}",
         'nama_student': namaStudent,
+        'pending': pending
       };
 }

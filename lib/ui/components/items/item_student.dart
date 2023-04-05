@@ -12,15 +12,24 @@ import '../../../utils/extensions.dart';
 class ItemStudent extends StatelessWidget {
   final VoidCallback onTap;
   final ScientificEventParticipant participant;
+  final from;
 
   const ItemStudent({
     super.key,
     required this.participant,
+    required this.from,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    Color statusColor = Themes.grey;
+
+    if(participant.pending! > 0 && from==1){
+        statusColor = Themes.orange;
+    }
+
     return RippleButton(
       onTap: onTap,
       border: Border.all(color: Themes.stroke),
@@ -52,6 +61,7 @@ class ItemStudent extends StatelessWidget {
           SvgPicture.asset(
             AssetIcons.icChevronRight,
             height: 24.w,
+            color: statusColor,
           )
         ],
       ),

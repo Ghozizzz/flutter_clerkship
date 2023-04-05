@@ -92,6 +92,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                         });
                       },
                       title: Stack(
+                        clipBehavior: Clip.none,
                         children: [
                           Center(
                             child: Text(
@@ -120,7 +121,7 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                               ),
                             )
                           else
-                          Positioned(
+                            Positioned(
                               right: 0,
                               child:  Container(
                                 height: 15,

@@ -14,7 +14,7 @@ class ScientificEventLectureService extends ScientificEventLectureInterface {
 
   @override
   Future<ResultData<ScientificEventParticipantResponse>>
-      getParticipant() async {
+    getParticipant() async {
     final endpoint = '${ApiConfig.baseUrl}/dokter/acara_detail';
     debugPrint(endpoint);
 

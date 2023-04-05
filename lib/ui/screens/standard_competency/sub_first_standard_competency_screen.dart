@@ -1,6 +1,7 @@
 import 'package:clerkship/ui/screens/standard_competency/sub_standard_competency_screen.dart';
+import 'package:clerkship/ui/screens/standard_competency/detail_standard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
@@ -35,11 +36,11 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(
@@ -74,14 +75,37 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
                             idbatch: '${breadcrumSK.id}',
                           );
 
-                      NavHelper.navigatePush(
-                        SubStandardCompetencyScreen(
-                          breadcrumSK: breadcrumSK,
-                          breadcrumSKJenis: BreadcrumSK(
-                              id: skListJenis[index].id!,
-                              title: skListJenis[index].namaJenis!),
-                        ),
-                      );
+                      if(skListJenis[index].tipe! == 1){
+                        NavHelper.navigatePush(
+                          SubStandardCompetencyScreen(
+                            breadcrumSK: breadcrumSK,
+                            breadcrumSKJenis: BreadcrumSK(
+                                id: skListJenis[index].id!,
+                                title: skListJenis[index].namaJenis!),
+                          ),
+                        );
+                      }else{
+                        context
+                            .read<StandardCompetencyProvider>()
+                            .getListSKGroupDetail(
+                              idJenisSK: skListJenis[index].id!,
+                              idBatch: breadcrumSK.id,
+                              idGroup: 0,
+                            );
+
+                        NavHelper.navigatePush(
+                          DetailStandardCompetencyScreen(
+                            breadcrumSK: breadcrumSK,
+                            breadcrumSKJenis: BreadcrumSK(
+                                id: skListJenis[index].id!,
+                                title: skListJenis[index].namaJenis!),
+                            breadcrumSKGroup: BreadcrumSK(
+                              id: 0,
+                              title: 'Semua',
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ).addMarginBottom(12);
                 },

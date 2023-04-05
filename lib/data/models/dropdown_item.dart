@@ -16,7 +16,7 @@ class DropDownItem {
     this.color,
     this.selected = false,
     this.other = '',
-    this.count = 0,
+    this.count = 1,
     this.flagDelete = 0,
     this.id,
   });
