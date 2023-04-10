@@ -15,7 +15,7 @@ class AssessmentDetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final headerData =
-        context.watch<FinalAssessmentDetailProvder>().headerDataMiddle;
+        context.watch<FinalAssessmentDetailProvder>().headerDataFinal;
 
     return Container(
       padding: EdgeInsets.only(

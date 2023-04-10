@@ -25,7 +25,7 @@ class FinalAssessmentDetailProvder extends ChangeNotifier {
     required String id,
     required String idUser,
   }) {
-    getDetailMiddle(id: id, idUser: idUser);
+    // getDetailMiddle(id: id, idUser: idUser);
     getDetailFinal(id: id, idUser: idUser);
   }
 

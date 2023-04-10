@@ -22,7 +22,7 @@ class ItemRatingLecture extends StatelessWidget {
   });
 
   final titles = [
-    'GRS - Tengah Rotasi',
+    // 'GRS - Tengah Rotasi',
     'GRS - Akhir Rotasi',
     'Rekapitulasi Nilai Akhir',
   ];
@@ -31,10 +31,10 @@ class ItemRatingLecture extends StatelessWidget {
   Widget build(BuildContext context) {
     return RippleButton(
       onTap: () {
-        if (index < 2) {
+        if (index < 1) {
           NavHelper.navigatePush(GlobalRatingScreen(
             data: data,
-            idRatingType: '$index',
+            idRatingType: '1',
           ));
         } else {
           NavHelper.navigatePush(FinalScoreRecapScreen(data: data));
