@@ -54,7 +54,7 @@ class _FinalAssessmentDetailScreenState
                   ),
                 )
               : ListView.builder(
-                  itemCount: 3,
+                  itemCount: 2,
                   padding: EdgeInsets.all(20.w),
                   itemBuilder: (context, index) {
                     return AnimatedItem(

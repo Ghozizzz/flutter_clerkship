@@ -11,6 +11,7 @@ import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../screens/crop/crop_image_screen.dart';
 import 'ripple_button.dart';
@@ -58,6 +59,12 @@ class FilePickerButton extends StatelessWidget {
     this.onlyImage = false,
   });
 
+  Future<Directory?> getLocalDirectory() async {
+    return Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationSupportDirectory();
+  }
+
   @override
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
@@ -94,6 +101,7 @@ class FilePickerButton extends StatelessWidget {
                         onTap: () {
                           onDelete!(file);
                           controller.removeFile(file);
+                          debugPrint('DiDelete');
                         },
                         child: SvgPicture.asset(
                           AssetIcons.icDelete,
@@ -121,6 +129,7 @@ class FilePickerButton extends StatelessWidget {
                       return Permission.storage.request().isGranted;
                     },
                     rootDirectory: Directory('/storage/emulated/0'),
+                    // rootDirectory: Directory(getLocalDirectory()),
                   );
                   if (path != null) {
                     final mimeType = lookupMimeType(path);
