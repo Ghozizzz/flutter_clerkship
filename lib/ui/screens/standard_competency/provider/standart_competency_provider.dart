@@ -57,6 +57,7 @@ class StandartCompetencyProvider extends ChangeNotifier {
   }) async {
     selectedId['id_user'] = '$idUser';
     loading = true;
+    tipe = true;
     data[0].data.clear();
     notifyListeners();
 

@@ -114,7 +114,11 @@ class _ClinicActivityLectureScreenState
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const FooterWidget()
+                  FooterWidget(
+                    onTap: (checkAll) => context
+                        .read<ClinicActivityLectureProvider>()
+                        .toggleCheckAll(checkAll),
+                  )
                       .animate(
                         target: showFooter ? 0 : 1,
                       )

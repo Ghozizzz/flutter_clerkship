@@ -135,6 +135,7 @@ class Header {
   Header({
     this.id,
     this.status,
+    this.isForm,
     this.remarks,
     this.topik,
     this.tanggal,
@@ -146,6 +147,7 @@ class Header {
 
   int? id;
   int? status;
+  int? isForm;
   String? remarks;
   String? topik;
   DateTime? tanggal;
@@ -157,6 +159,7 @@ class Header {
   factory Header.fromJson(Map<String, dynamic> json) => Header(
         id: json['id'],
         status: json['status'],
+        isForm: json['is_form'],
         remarks: json['remarks'],
         topik: json['topik'],
         tanggal:
@@ -170,6 +173,7 @@ class Header {
   Map<String, dynamic> toJson() => {
         'id': id,
         'status': status,
+        'is_form': isForm,
         'remarks': remarks,
         'topik': topik,
         'tanggal': tanggal?.toIso8601String(),

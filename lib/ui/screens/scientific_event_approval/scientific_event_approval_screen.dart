@@ -54,6 +54,8 @@ class _ScientificEventApprovalScreenState
     final loading = context.watch<ScientificEventApprovalProvider>().loading;
     final approvalForm =
         context.watch<ScientificEventApprovalProvider>().approvalForm;
+    final header =
+        context.watch<ScientificEventApprovalProvider>().header;
     final controllers =
         context.watch<ScientificEventApprovalProvider>().controllers;
 
@@ -72,7 +74,7 @@ class _ScientificEventApprovalScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tinjauan Presentasi Kasus',
+                        'Tinjauan ${header?.namaKegiatan}',
                         style: Themes().blackBold20,
                       ).addMarginBottom(12),
                       Text(

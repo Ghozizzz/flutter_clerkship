@@ -59,9 +59,13 @@ class _RejectActivityScreenState extends State<RejectActivityScreen> {
                         AssetIcons.icAlert,
                         width: 20.w,
                       ).addMarginRight(10.w),
-                      Text(
-                        'Silahkan isi semua alasan terlebih dahulu!',
-                        style: Themes().primaryBold12,
+                      Expanded(
+                        child: Text(
+                          'Silahkan isi semua alasan terlebih dahulu!',
+                          style: Themes().primaryBold12,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),

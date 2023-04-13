@@ -44,18 +44,22 @@ class FilterKegiatan {
   FilterKegiatan({
     this.id,
     this.name,
+    this.idJenis,
   });
 
   int? id;
   String? name;
+  int? idJenis;
 
   factory FilterKegiatan.fromJson(Map<String, dynamic> json) => FilterKegiatan(
         id: json['id'],
         name: json['name'],
+        idJenis: json['id_jenis'],
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
+        'id_jenis': idJenis,
       };
 }

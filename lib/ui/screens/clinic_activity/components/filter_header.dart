@@ -26,7 +26,7 @@ class _FilterHeaderState extends State<FilterHeader> {
         context.watch<ClinicActivityLectureProvider>();
     final refrenceProvider = context.watch<ReferenceProvider>();
 
-    final filterKegiatan = refrenceProvider.filterKegiatan;
+    final filterKegiatan = refrenceProvider.filterKegiatan.where((i) => i.idJenis == 1).toList();
     final dateController = clinicActivityLectureProvider.dateController;
     final activityFilterController =
         clinicActivityLectureProvider.activityFilterController;
@@ -54,7 +54,7 @@ class _FilterHeaderState extends State<FilterHeader> {
             filterKegiatan.length,
             (index) => DropDownItem(
               title: filterKegiatan[index].name!,
-              value: index,
+              value: filterKegiatan[index].id,
             ),
           ),
           onSelected: (value) => refreshData(context),

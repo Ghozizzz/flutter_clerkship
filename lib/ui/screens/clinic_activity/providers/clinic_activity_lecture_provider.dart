@@ -11,8 +11,11 @@ import '../../../../main.dart';
 
 class ClinicActivityLectureProvider extends ChangeNotifier {
   final service = getIt<ClinicActivityLectureService>();
+
   final List<ClinicActivityData> clinicActivities = [];
   final List<ClinicActivityData> ratedClinicActivities = [];
+
+  // final clinicActivity = <ActivityData>[];
   final List<int> checkedId = [];
 
   final dateController = DatePickerController();
@@ -41,6 +44,25 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
 
   void removeCheckId(int id) {
     if (checkedId.contains(id)) checkedId.remove(id);
+    notifyListeners();
+  }
+  
+  void toggleCheckAll(bool checkAll) {
+    checkedId.clear();
+    notifyListeners();
+    for (ClinicActivityData clinicActivityData in clinicActivities) {
+      for (ActivityData activityData in clinicActivityData.data!) {
+        if (activityData.header == null) return;
+
+        if (activityData.header!.isForm == 0){
+          activityData.checked = checkAll;
+          if (checkAll) {
+            // debugPrint(activityData.header!.id!.toString());
+            checkedId.add(activityData.header!.id!);
+          }
+        }
+      }
+    }
     notifyListeners();
   }
 

@@ -25,6 +25,7 @@ import '../../../components/modal/modal_confirmation.dart';
 import '../../clinic_detail_approval/components/item_file.dart';
 import '../../clinic_detail_approval/components/item_info_segment.dart';
 import '../../mini_cex_approval/mini_cex_approval_screen.dart';
+import '../../scientific_event_approval/scientific_event_approval_screen.dart';
 import '../providers/clinic_activity_lecture_provider.dart';
 import 'bullet_list.dart';
 import 'item_review_segment.dart';
@@ -64,6 +65,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
     final Map<String, List<String>> detail = {};
     final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
     final isMiniCex = widget.data.header?.isMinicex == 1;
+    final isForm = widget.data.header?.isForm ?? 0;
 
     for (Detail detalBody in details ?? []) {
       if (detalBody.namaJenis != null && detalBody.namaItem != null) {
@@ -129,7 +131,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                 // ),
               ],
             ).addMarginBottom(12)
-          else if (!isMiniCex)
+          else if (isForm == 0)
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
@@ -275,7 +277,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                         ),
                       ),
                     if (widget.rated &&
-                        isMiniCex &&
+                        (isForm > 0) &&
                         (reviews?.isNotEmpty ?? false))
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,6 +375,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                   onTap: () => approveActivity(
                     context: context,
                     isMiniCex: isMiniCex,
+                    isForm: isForm,
                     id: header?.id,
                   ),
                   padding: EdgeInsets.all(10.w),
@@ -449,12 +452,19 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
   approveActivity({
     required BuildContext context,
     required bool isMiniCex,
+    required int isForm,
     int? id,
   }) {
-    if (isMiniCex && id != null) {
-      NavHelper.navigatePush(MiniCexApprovalScreen(
-        id: '$id',
-      ));
+    if (isForm > 0 && id != null) {
+      if(isMiniCex){
+        NavHelper.navigatePush(MiniCexApprovalScreen(
+          id: '$id',
+        ));
+      }else{
+        NavHelper.navigatePush(ScientificEventApprovalScreen(
+          id: '$id'
+        ));
+      }
     } else {
       DialogHelper.showModalConfirmation(
         title: 'Konfirmasi Persetujuan',
