@@ -42,14 +42,14 @@ class _FooterWidgetState extends State<FooterWidget> {
       padding: EdgeInsets.all(20.w),
       child: Column(
         children: [
-          // PrimaryCheckbox(
-          //   controller: checkAllController,
-          //   title: 'Select All',
-          //   checkBoxSize: Size(20.w, 20.w),
-          //   unCheckColor: Themes.hint,
-          //   strokeWidth: 2,
-          //   onValueChange: (value) => widget.onTap?.call(value),
-          // ).addMarginBottom(12),
+          PrimaryCheckbox(
+            controller: checkAllController,
+            title: 'Select All',
+            checkBoxSize: Size(20.w, 20.w),
+            unCheckColor: Themes.hint,
+            strokeWidth: 2,
+            onValueChange: (value) => widget.onTap?.call(value),
+          ).addMarginBottom(12),
           Row(
             children: [
               PrimaryButton(

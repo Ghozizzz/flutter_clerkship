@@ -57,7 +57,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
         if (activityData.header!.isForm == 0){
           activityData.checked = checkAll;
           if (checkAll) {
-            // debugPrint(activityData.header!.id!.toString());
+            debugPrint(activityData.header!.id!.toString());
             checkedId.add(activityData.header!.id!);
           }
         }

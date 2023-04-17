@@ -49,15 +49,15 @@ class FinalAssessmentStudentScreen extends StatelessWidget {
               left: 20.w,
               bottom: 16,
             ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: 24,
-              itemBuilder: (context, index) {
-                return const AnimatedItem(
-                  child: ItemAssessment(),
-                );
-              },
-            ).addExpanded
+            // ListView.builder(
+            //   padding: EdgeInsets.all(20.w),
+            //   itemCount: 24,
+            //   itemBuilder: (context, index) {
+            //     return const AnimatedItem(
+            //       child: ItemAssessment(),
+            //     );
+            //   },
+            // ).addExpanded
           ],
         ),
       ),

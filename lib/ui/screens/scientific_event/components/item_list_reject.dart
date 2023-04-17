@@ -62,6 +62,7 @@ class ListItemRejectScientific extends StatelessWidget {
               doctor: listAllScientific[k].namaDokter!,
               status: status,
               colorStatus: color,
+              updatedAt: '',
               onTap: () async {
                 if (listAllScientific[k].status == 0) {
                   context.read<ReferenceProvider>().getBatch(

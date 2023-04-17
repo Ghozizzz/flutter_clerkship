@@ -14,6 +14,7 @@ class ItemActivity extends StatelessWidget {
   final String date;
   final String doctor;
   final String status;
+  final String updatedAt;
   final Color colorStatus;
 
   const ItemActivity(
@@ -23,6 +24,7 @@ class ItemActivity extends StatelessWidget {
       required this.date,
       required this.doctor,
       required this.status,
+      required this.updatedAt,
       required this.colorStatus});
 
   @override
@@ -72,6 +74,14 @@ class ItemActivity extends StatelessWidget {
                 ),
               ],
             ),
+            if(updatedAt!='')
+              Text(
+                updatedAt,
+                style: Themes().black10?.copyWith(
+                  fontStyle: FontStyle.italic,
+                  color: Themes.black,
+                ),
+              ).addMarginTop(12),
           ],
         ),
       ),

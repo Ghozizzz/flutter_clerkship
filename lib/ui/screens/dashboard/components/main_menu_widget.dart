@@ -2,6 +2,7 @@ import 'package:clerkship/data/shared_providers/standard_competency_provider.dar
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
+import 'package:clerkship/data/shared_providers/survey_provider.dart';
 // import 'package:clerkship/ui/screens/final_assessment/final_assessment_student_screen.dart';
 import 'package:clerkship/ui/screens/survey/survey_screen.dart';
 import 'package:clerkship/ui/screens/pengumuman/pengumuman_main_screen.dart';
@@ -92,10 +93,10 @@ class MainMenuWidget extends StatelessWidget {
         Row(
           children: [
             ItemMenu(
-              icon: AssetIcons.icStandartCompetence,
+              icon: AssetIcons.icHospital,
               title: 'Survey',
               onTap: () {
-                // context.read<StandardCompetencyProvider>().getListSk();
+                context.read<SurveyProvider>().getSurveyList();
                 NavHelper.navigatePush(const SurveyScreen());
               },
             ).addExpanded,

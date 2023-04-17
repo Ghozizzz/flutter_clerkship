@@ -1,8 +1,11 @@
 import 'package:clerkship/ui/components/commons/animated_item.dart';
+import 'package:clerkship/data/shared_providers/survey_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/themes.dart';
 import '../../../r.dart';
@@ -16,6 +19,10 @@ class SurveyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final surveyList = context.watch<SurveyProvider>().surveyList;
+    final isLoading =
+        context.watch<SurveyProvider>().isloadingSurveyList;
+
     return SafeStatusBar(
       child: Scaffold(
         body: Column(
@@ -41,15 +48,25 @@ class SurveyScreen extends StatelessWidget {
               right: 20.w,
               left: 20.w,
             ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: 24,
-              itemBuilder: (context, index) {
-                return const AnimatedItem(
-                  child: ItemAssessment(),
-                );
-              },
-            ).addExpanded
+            isLoading
+              ? const Expanded(
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.all(20.w),
+                  itemCount: surveyList.length,
+                  itemBuilder: (context, k) {
+                    return AnimatedItem(
+                      index: k,
+                      child: ItemAssessment(
+                        id: surveyList[k].id!,
+                        namaDepartment: surveyList[k].namaDepartment!,
+                        tanggal: DateFormat('dd MMMM yyyy').format(surveyList[k].startDate!)+' - '+DateFormat('dd MMMM yyyy').format(surveyList[k].endDate!),
+                        flagSurvey: surveyList[k].flagSurvey!
+                      ),
+                    );
+                  },
+                ).addExpanded
           ],
         ),
       ),

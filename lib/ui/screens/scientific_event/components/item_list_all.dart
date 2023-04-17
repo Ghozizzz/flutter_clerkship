@@ -62,6 +62,8 @@ class ListItemAllScientific extends StatelessWidget {
               doctor: listAllScientific[k].namaDokter!,
               status: status,
               colorStatus: color,
+              updatedAt: DateFormat('dd MMMM yyyy hh:mm')
+                  .format(listAllScientific[k].updatedAt!),
               onTap: () async {
                 if (listAllScientific[k].status == 0) {
                   context.read<ReferenceProvider>().getBatch(

@@ -11,12 +11,14 @@ import 'data/network/services/scoring_lecture_service.dart';
 import 'data/network/services/standard_competency_service.dart';
 import 'data/network/services/standart_competency_lecture_service.dart';
 import 'data/network/services/user_service.dart';
+import 'data/network/services/survey_service.dart';
 import 'data/shared_providers/auth_provider.dart';
 import 'data/shared_providers/clinic_activity_provider.dart';
 import 'data/shared_providers/reference_provider.dart';
 import 'data/shared_providers/scientific_provider.dart';
 import 'data/shared_providers/standard_competency_provider.dart';
 import 'data/shared_providers/user_provider.dart';
+import 'data/shared_providers/survey_provider.dart';
 import 'main.dart';
 import 'ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'ui/screens/clinic_activity/providers/item_list_all_provider.dart';
@@ -37,6 +39,7 @@ import 'ui/screens/scientific_event_approval/provider/scientific_event_approval_
 import 'ui/screens/scientific_event_student_list/provider/scientific_event_student_provider.dart';
 import 'ui/screens/standard_competency/provider/standart_competency_provider.dart';
 import 'ui/screens/standart_competency_student_list/provider/standart_competency_lecture_provider.dart';
+import 'ui/screens/survey/providers/survey_approval_provider.dart';
 
 MultiProvider provideInjection() {
   return MultiProvider(
@@ -68,6 +71,8 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => FinalAssessmentDetailProvder()),
       ChangeNotifierProvider(create: (_) => RatingAssessmentProvider()),
       ChangeNotifierProvider(create: (_) => FinalScoreRecapProvider()),
+      ChangeNotifierProvider(create: (_) => SurveyProvider()),
+      ChangeNotifierProvider(create: (_) => SurveyApprovalProvider()),
     ],
     child: const MyApp(),
   );
@@ -89,4 +94,5 @@ void injectService() {
   getIt.registerSingleton<StandartCompetencyLectureService>(
       StandartCompetencyLectureService());
   getIt.registerSingleton<ScoringLectureService>(ScoringLectureService());
+  getIt.registerSingleton<SurveyService>(SurveyService());
 }
