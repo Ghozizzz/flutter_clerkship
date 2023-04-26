@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -18,13 +16,12 @@ class ItemAssessment extends StatelessWidget {
   final String tanggal;
   final int flagSurvey;
 
-  const ItemAssessment({
-    super.key,
-    required this.id,
-    required this.namaDepartment,
-    required this.tanggal,
-    required this.flagSurvey
-  });
+  const ItemAssessment(
+      {super.key,
+      required this.id,
+      required this.namaDepartment,
+      required this.tanggal,
+      required this.flagSurvey});
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +47,13 @@ class ItemAssessment extends StatelessWidget {
     }
     return RippleButton(
       onTap: () {
-        NavHelper.navigatePush(SurveyAddScreen(
-          id: id.toString(),
-          flagSurvey: flagSurvey
-        ));
+        NavHelper.navigatePush(
+            SurveyAddScreen(id: id.toString(), flagSurvey: flagSurvey));
       },
       child: Column(
         children: [
           Column(
-            children:   [
+            children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +107,7 @@ class ItemAssessment extends StatelessWidget {
                   ).addMarginBottom(10),
                 ],
               ),
-              if(flagSurvey != 1)
+              if (flagSurvey != 1)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -120,7 +115,7 @@ class ItemAssessment extends StatelessWidget {
                       AssetIcons.icAlert,
                       width: 12.w,
                       height: 12.w,
-                      color: Color(0xFF1890FF),
+                      color: const Color(0xFF1890FF),
                     ).addMarginRight(8.w),
                     Text(
                       'Silahkan isi survey untuk dapat melihat nilai akhir',

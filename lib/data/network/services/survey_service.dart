@@ -7,9 +7,7 @@ import 'package:clerkship/data/network/entity/survey_form_response.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../entity/default_response.dart';
-import '../../../utils/extensions.dart';
 import '../api_config.dart';
-import '../api_helper.dart';
 
 class SurveyService extends SurveyInterface {
   final apiClient = ApiConfig.client;
@@ -58,7 +56,7 @@ class SurveyService extends SurveyInterface {
       );
     }
   }
-  
+
   @override
   Future<ResultData<DefaultResponse>> approveSurveyForm({
     required String id,

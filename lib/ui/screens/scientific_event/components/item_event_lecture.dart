@@ -272,7 +272,7 @@ class ItemEventLecture extends StatelessWidget {
                   onTap: () => approveActivity(
                     context: context,
                     isForm: header!.isForm!,
-                    id: header?.id,
+                    id: header.id,
                   ),
                   padding: EdgeInsets.all(10.w),
                   child: Row(
@@ -376,8 +376,8 @@ class ItemEventLecture extends StatelessWidget {
     required BuildContext context,
     required int isForm,
     int? id,
-  }){
-    if(isForm == 0){
+  }) {
+    if (isForm == 0) {
       DialogHelper.showModalConfirmation(
         title: 'Konfirmasi Persetujuan',
         message: 'Apakah anda yakin ingin menyetujui catatan ini?',
@@ -391,16 +391,16 @@ class ItemEventLecture extends StatelessWidget {
           if (id != null) {
             context.read<ScientificEventLectureProvider>().approveEvent([
               KeyValueData(
-                id: '${id}',
+                id: '$id',
                 reason: fieldValue,
               ),
             ]);
           }
         },
       );
-    }else{
+    } else {
       NavHelper.navigatePush(
-        ScientificEventApprovalScreen(id: '${id}'),
+        ScientificEventApprovalScreen(id: '$id'),
       );
     }
   }

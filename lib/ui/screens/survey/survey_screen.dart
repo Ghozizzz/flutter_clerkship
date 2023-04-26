@@ -20,8 +20,7 @@ class SurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final surveyList = context.watch<SurveyProvider>().surveyList;
-    final isLoading =
-        context.watch<SurveyProvider>().isloadingSurveyList;
+    final isLoading = context.watch<SurveyProvider>().isloadingSurveyList;
 
     return SafeStatusBar(
       child: Scaffold(
@@ -49,24 +48,24 @@ class SurveyScreen extends StatelessWidget {
               left: 20.w,
             ),
             isLoading
-              ? const Expanded(
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              : ListView.builder(
-                  padding: EdgeInsets.all(20.w),
-                  itemCount: surveyList.length,
-                  itemBuilder: (context, k) {
-                    return AnimatedItem(
-                      index: k,
-                      child: ItemAssessment(
-                        id: surveyList[k].id!,
-                        namaDepartment: surveyList[k].namaDepartment!,
-                        tanggal: DateFormat('dd MMMM yyyy').format(surveyList[k].startDate!)+' - '+DateFormat('dd MMMM yyyy').format(surveyList[k].endDate!),
-                        flagSurvey: surveyList[k].flagSurvey!
-                      ),
-                    );
-                  },
-                ).addExpanded
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.all(20.w),
+                    itemCount: surveyList.length,
+                    itemBuilder: (context, k) {
+                      return AnimatedItem(
+                        index: k,
+                        child: ItemAssessment(
+                            id: surveyList[k].id!,
+                            namaDepartment: surveyList[k].namaDepartment!,
+                            tanggal:
+                                '${DateFormat('dd MMMM yyyy').format(surveyList[k].startDate!)} - ${DateFormat('dd MMMM yyyy').format(surveyList[k].endDate!)}',
+                            flagSurvey: surveyList[k].flagSurvey!),
+                      );
+                    },
+                  ).addExpanded
           ],
         ),
       ),

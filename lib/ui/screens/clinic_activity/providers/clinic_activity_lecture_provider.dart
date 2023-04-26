@@ -46,7 +46,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     if (checkedId.contains(id)) checkedId.remove(id);
     notifyListeners();
   }
-  
+
   void toggleCheckAll(bool checkAll) {
     checkedId.clear();
     notifyListeners();
@@ -54,7 +54,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
       for (ActivityData activityData in clinicActivityData.data!) {
         if (activityData.header == null) return;
 
-        if (activityData.header!.isForm == 0){
+        if (activityData.header!.isForm == 0) {
           activityData.checked = checkAll;
           if (checkAll) {
             debugPrint(activityData.header!.id!.toString());

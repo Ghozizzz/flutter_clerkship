@@ -102,7 +102,7 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     for (ScientificEventData scientificEventData in scientificEvents) {
       if (scientificEventData.header == null) return;
 
-      if(scientificEventData.header!.isForm! == 0){
+      if (scientificEventData.header!.isForm! == 0) {
         scientificEventData.checked = checkAll;
         if (checkAll) {
           // debugPrint(scientificEventData.header!.id!.toString());

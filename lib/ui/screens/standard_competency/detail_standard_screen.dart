@@ -7,7 +7,6 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../config/themes.dart';
 import '../../../data/models/breadcrum_sk.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
-import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';

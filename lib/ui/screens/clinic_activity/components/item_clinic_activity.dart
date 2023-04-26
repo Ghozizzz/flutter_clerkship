@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:clerkship/utils/extensions.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -30,42 +29,34 @@ import '../providers/clinic_activity_lecture_provider.dart';
 import 'bullet_list.dart';
 import 'item_review_segment.dart';
 import 'notes_segment.dart';
+import '../../../../utils/extensions.dart';
 
-class ItemClinicActivity extends StatefulWidget {
+class ItemClinicActivity extends StatelessWidget {
   final bool rated;
   final ActivityData data;
 
-  const ItemClinicActivity({
+  ItemClinicActivity({
     super.key,
     required this.data,
     this.rated = false,
-  });
+  }) {
+    expandableController.expanded = rated;
+    checkboxController.value = data.checked;
+  }
 
-  @override
-  State<ItemClinicActivity> createState() => _ItemClinicActivityState();
-}
-
-class _ItemClinicActivityState extends State<ItemClinicActivity> {
   final checkboxController = CheckboxController(false);
   final expandableController = ExpandableController();
 
   @override
-  void initState() {
-    super.initState();
-    expandableController.expanded = widget.rated;
-    checkboxController.value = widget.data.checked;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final header = widget.data.header;
-    final details = widget.data.detail;
-    final documents = widget.data.document;
-    final reviews = widget.data.tinjauan;
+    final header = data.header;
+    final details = data.detail;
+    final documents = data.document;
+    final reviews = data.tinjauan;
     final Map<String, List<String>> detail = {};
     final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
-    final isMiniCex = widget.data.header?.isMinicex == 1;
-    final isForm = widget.data.header?.isForm ?? 0;
+    final isMiniCex = data.header?.isMinicex == 1;
+    final isForm = data.header?.isForm ?? 0;
 
     for (Detail detalBody in details ?? []) {
       if (detalBody.namaJenis != null && detalBody.namaItem != null) {
@@ -105,7 +96,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.rated)
+          if (rated)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -138,7 +129,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               unCheckColor: Themes.hint,
               strokeWidth: 2,
               onValueChange: (value) {
-                widget.data.checked = value;
+                data.checked = value;
 
                 if (header == null) return;
                 if (value) {
@@ -156,7 +147,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
             header?.namaKegiatan ?? '',
             style: Themes().blackBold14?.withColor(Themes.black),
           ).addMarginTop(12),
-          if (widget.rated)
+          if (rated)
             Column(
               children: [
                 ItemInfoSegment(
@@ -276,9 +267,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                           },
                         ),
                       ),
-                    if (widget.rated &&
-                        (isForm > 0) &&
-                        (reviews?.isNotEmpty ?? false))
+                    if (rated && (isForm > 0) && (reviews?.isNotEmpty ?? false))
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -316,7 +305,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
                           )
                         ],
                       ),
-                    if (!widget.rated)
+                    if (!rated)
                       RippleButton(
                         onTap: () {
                           expandableController.toggle();
@@ -345,7 +334,7 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
               );
             },
           ),
-          if (!widget.rated && checkedId.isEmpty)
+          if (!rated && checkedId.isEmpty)
             Row(
               children: [
                 PrimaryButton(
@@ -437,10 +426,10 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
       onPositiveTapWithField: (fieldValue) {
         Navigator.pop(context);
 
-        if (widget.data.header?.id != null) {
+        if (data.header?.id != null) {
           context.read<ClinicActivityLectureProvider>().rejectActivity([
             KeyValueData(
-              id: '${widget.data.header?.id}',
+              id: '${data.header?.id}',
               reason: fieldValue,
             ),
           ]);
@@ -456,14 +445,12 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
     int? id,
   }) {
     if (isForm > 0 && id != null) {
-      if(isMiniCex){
+      if (isMiniCex) {
         NavHelper.navigatePush(MiniCexApprovalScreen(
           id: '$id',
         ));
-      }else{
-        NavHelper.navigatePush(ScientificEventApprovalScreen(
-          id: '$id'
-        ));
+      } else {
+        NavHelper.navigatePush(ScientificEventApprovalScreen(id: '$id'));
       }
     } else {
       DialogHelper.showModalConfirmation(
@@ -476,10 +463,10 @@ class _ItemClinicActivityState extends State<ItemClinicActivity> {
         onPositiveTapWithField: (fieldValue) {
           Navigator.pop(context);
 
-          if (widget.data.header?.id != null) {
+          if (data.header?.id != null) {
             context.read<ClinicActivityLectureProvider>().approveActivity([
               KeyValueData(
-                id: '${widget.data.header?.id}',
+                id: '${data.header?.id}',
                 reason: fieldValue,
               ),
             ]);

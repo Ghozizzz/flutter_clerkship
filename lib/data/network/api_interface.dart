@@ -199,12 +199,14 @@ abstract class ScoringLectureInterface {
 }
 
 abstract class GetFeatureInterface {
-  Future<ResultData<GetFeatureResponse>> getFeature({
-    required int idBatch
-  });
+  Future<ResultData<GetFeatureResponse>> getFeature({required int idBatch});
 }
 
 abstract class SurveyInterface {
   Future<ResultData<SurveyResponse>> getSurveyList();
   Future<ResultData<SurveyFormResponse>> getSurveyFormDetail(String id);
+  Future<ResultData<DefaultResponse>> approveSurveyForm({
+    required String id,
+    required List<Map<String, String>> data,
+  });
 }
