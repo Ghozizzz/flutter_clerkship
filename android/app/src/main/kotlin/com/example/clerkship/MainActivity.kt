@@ -1,4 +1,4 @@
-package com.example.clerkship
+package edu.uph.clerkship
 
 import io.flutter.embedding.android.FlutterActivity
 
