@@ -111,7 +111,7 @@ class ItemEventLecture extends StatelessWidget {
                 // ),
               ],
             ).addMarginBottom(12)
-          else if (showCheckbox)
+          else if (showCheckbox && (header!.isForm! == 0))
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
@@ -269,8 +269,10 @@ class ItemEventLecture extends StatelessWidget {
                   width: 8.w,
                 ),
                 PrimaryButton(
-                  onTap: () => NavHelper.navigatePush(
-                    ScientificEventApprovalScreen(id: '${header?.id}'),
+                  onTap: () => approveActivity(
+                    context: context,
+                    isForm: header!.isForm!,
+                    id: header.id,
                   ),
                   padding: EdgeInsets.all(10.w),
                   child: Row(
@@ -366,6 +368,39 @@ class ItemEventLecture extends StatelessWidget {
         savedDir: '/storage/emulated/0/Download/',
         showNotification: true,
         openFileFromNotification: true,
+      );
+    }
+  }
+
+  approveActivity({
+    required BuildContext context,
+    required int isForm,
+    int? id,
+  }) {
+    if (isForm == 0) {
+      DialogHelper.showModalConfirmation(
+        title: 'Konfirmasi Persetujuan',
+        message: 'Apakah anda yakin ingin menyetujui catatan ini?',
+        type: ConfirmationType.withField,
+        labelField: 'Masukan',
+        hintField: 'Masukkan Alasan Penolakan',
+        optionalField: true,
+        onPositiveTapWithField: (fieldValue) {
+          Navigator.pop(context);
+
+          if (id != null) {
+            context.read<ScientificEventLectureProvider>().approveEvent([
+              KeyValueData(
+                id: '$id',
+                reason: fieldValue,
+              ),
+            ]);
+          }
+        },
+      );
+    } else {
+      NavHelper.navigatePush(
+        ScientificEventApprovalScreen(id: '$id'),
       );
     }
   }

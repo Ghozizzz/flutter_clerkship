@@ -9,7 +9,6 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../config/themes.dart';
 import '../../../data/models/breadcrum_sk.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
-import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
@@ -75,7 +74,7 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
                             idbatch: '${breadcrumSK.id}',
                           );
 
-                      if(skListJenis[index].tipe! == 1){
+                      if (skListJenis[index].tipe! == 1) {
                         NavHelper.navigatePush(
                           SubStandardCompetencyScreen(
                             breadcrumSK: breadcrumSK,
@@ -84,7 +83,7 @@ class SubFirstStandardCompetencyScreen extends StatelessWidget {
                                 title: skListJenis[index].namaJenis!),
                           ),
                         );
-                      }else{
+                      } else {
                         context
                             .read<StandardCompetencyProvider>()
                             .getListSKGroupDetail(

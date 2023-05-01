@@ -70,6 +70,7 @@ class Clinic {
     this.tanggal,
     this.namaDokter,
     this.status,
+    this.updatedAt,
   });
 
   int? id;
@@ -77,6 +78,7 @@ class Clinic {
   DateTime? tanggal;
   String? namaDokter;
   int? status;
+  DateTime? updatedAt;
 
   factory Clinic.fromJson(Map<String, dynamic> json) => Clinic(
         id: json['id'],
@@ -85,6 +87,8 @@ class Clinic {
             json['tanggal'] == null ? null : DateTime.parse(json['tanggal']),
         namaDokter: json['nama_dokter'],
         status: json['status'],
+        updatedAt: 
+            json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,5 +97,6 @@ class Clinic {
         'tanggal': tanggal?.toIso8601String(),
         'nama_dokter': namaDokter,
         'status': status,
+        'updated_at': updatedAt?.toIso8601String(),
       };
 }

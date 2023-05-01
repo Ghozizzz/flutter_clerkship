@@ -8,7 +8,6 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
-import '../../../r.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';

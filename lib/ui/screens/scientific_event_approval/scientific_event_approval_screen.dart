@@ -21,6 +21,7 @@ import '../../components/buttons/multi_dropdown_field.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
 import '../../components/textareas/textarea.dart';
+import '../clinic_activity/providers/clinic_activity_lecture_provider.dart';
 import 'provider/scientific_event_approval_provider.dart';
 
 class ScientificEventApprovalScreen extends StatefulWidget {
@@ -54,6 +55,8 @@ class _ScientificEventApprovalScreenState
     final loading = context.watch<ScientificEventApprovalProvider>().loading;
     final approvalForm =
         context.watch<ScientificEventApprovalProvider>().approvalForm;
+    final header =
+        context.watch<ScientificEventApprovalProvider>().header;
     final controllers =
         context.watch<ScientificEventApprovalProvider>().controllers;
 
@@ -72,7 +75,7 @@ class _ScientificEventApprovalScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tinjauan Presentasi Kasus',
+                        'Tinjauan ${header?.namaKegiatan}',
                         style: Themes().blackBold20,
                       ).addMarginBottom(12),
                       Text(
@@ -139,9 +142,14 @@ class _ScientificEventApprovalScreenState
                                   .approveScientificEvent(
                                     id: widget.id,
                                     formData: formData,
-                                    onFinish: () => context
+                                    onFinish: () => {
+                                      context
                                         .read<ScientificEventLectureProvider>()
                                         .reloadEvents(),
+                                      context
+                                        .read<ClinicActivityLectureProvider>()
+                                        .reloadActivities(),
+                                    }
                                   );
                             },
                             text: 'Simpan Penilaian',

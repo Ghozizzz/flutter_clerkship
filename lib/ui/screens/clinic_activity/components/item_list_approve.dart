@@ -62,6 +62,7 @@ class ListItemApproveClinic extends StatelessWidget {
               doctor: listAllClinic[k].namaDokter!,
               status: status,
               colorStatus: color,
+              updatedAt: '',
               onTap: () async {
                 if (listAllClinic[k].status == 0) {
                   context.read<ReferenceProvider>().getBatch(

@@ -101,9 +101,13 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     checkedId.clear();
     for (ScientificEventData scientificEventData in scientificEvents) {
       if (scientificEventData.header == null) return;
-      scientificEventData.checked = checkAll;
-      if (checkAll) {
-        checkedId.add(scientificEventData.header!.id!);
+
+      if (scientificEventData.header!.isForm! == 0) {
+        scientificEventData.checked = checkAll;
+        if (checkAll) {
+          // debugPrint(scientificEventData.header!.id!.toString());
+          checkedId.add(scientificEventData.header!.id!);
+        }
       }
     }
     notifyListeners();

@@ -177,6 +177,7 @@ class Header {
     this.namaKegiatan,
     this.namaBatch,
     this.isMinicex,
+    this.isForm,
   });
 
   int? id;
@@ -190,6 +191,7 @@ class Header {
   String? namaKegiatan;
   String? namaBatch;
   int? isMinicex;
+  int? isForm;
 
   factory Header.fromJson(Map<String, dynamic> json) => Header(
         id: json['id'],
@@ -204,6 +206,7 @@ class Header {
         namaKegiatan: json['nama_kegiatan'],
         namaBatch: json['name'],
         isMinicex: json['is_minicex'],
+        isForm: json['is_form'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -218,6 +221,7 @@ class Header {
         'nama_kegiatan': namaKegiatan,
         'name': namaBatch,
         'is_minicex': isMinicex,
+        'is_form': isForm,
       };
 }
 

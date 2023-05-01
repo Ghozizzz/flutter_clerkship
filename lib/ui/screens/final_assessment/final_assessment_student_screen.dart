@@ -1,4 +1,3 @@
-import 'package:clerkship/ui/components/commons/animated_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
@@ -9,7 +8,6 @@ import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
-import 'components/item_assessment.dart';
 
 class FinalAssessmentStudentScreen extends StatelessWidget {
   const FinalAssessmentStudentScreen({super.key});
@@ -49,15 +47,15 @@ class FinalAssessmentStudentScreen extends StatelessWidget {
               left: 20.w,
               bottom: 16,
             ),
-            ListView.builder(
-              padding: EdgeInsets.all(20.w),
-              itemCount: 24,
-              itemBuilder: (context, index) {
-                return const AnimatedItem(
-                  child: ItemAssessment(),
-                );
-              },
-            ).addExpanded
+            // ListView.builder(
+            //   padding: EdgeInsets.all(20.w),
+            //   itemCount: 24,
+            //   itemBuilder: (context, index) {
+            //     return const AnimatedItem(
+            //       child: ItemAssessment(),
+            //     );
+            //   },
+            // ).addExpanded
           ],
         ),
       ),

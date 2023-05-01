@@ -26,7 +26,7 @@ class FilterHeader extends StatelessWidget {
         context.watch<ScientificEventLectureProvider>();
     final refrenceProvider = context.watch<ReferenceProvider>();
 
-    final filterKegiatan = refrenceProvider.filterKegiatan;
+    final filterKegiatan = refrenceProvider.filterKegiatan.where((i) => i.idJenis == 7).toList();
     final dateController = scientificEventLectureProvider.dateController;
     final activityFilterController =
         scientificEventLectureProvider.activityFilterController;
@@ -71,7 +71,7 @@ class FilterHeader extends StatelessWidget {
                 filterKegiatan.length,
                 (index) => DropDownItem(
                   title: filterKegiatan[index].name!,
-                  value: index,
+                  value: filterKegiatan[index].id!,
                 ),
               ),
               onSelected: (value) => refreshData(context),
