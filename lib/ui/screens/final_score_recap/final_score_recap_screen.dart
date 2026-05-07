@@ -3,16 +3,14 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:clerkship/config/themes.dart';
-import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/buttons/ripple_button.dart';
-import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:clerkship/ui/components/commons/primary_appbar.dart';
 import 'package:clerkship/ui/screens/final_score_recap/provider/final_score_recap_provider.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -53,7 +51,6 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
   @override
   Widget build(BuildContext context) {
     final detailData = context.watch<FinalScoreRecapProvider>().detailData;
-    final document = context.watch<FinalScoreRecapProvider>().document;
 
     return Scaffold(
       body: Column(
@@ -64,11 +61,11 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
             action: RippleButton(
               onTap: () {},
               padding: EdgeInsets.all(4.w),
-              child: SvgPicture.asset(
-                AssetIcons.icSearch,
-                width: 18.w,
-                height: 18.w,
-              ),
+              // child: SvgPicture.asset(
+              //   AssetIcons.icSearch,
+              //   width: 18.w,
+              //   height: 18.w,
+              // ),
             ),
           ),
           const ScoreRecapHeader(),
@@ -90,41 +87,41 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
             color: Themes.stroke,
             margin: EdgeInsets.symmetric(horizontal: 20.w),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Validasi Kelulusan',
-                style: Themes().blackBold12?.withColor(Themes.hint),
-              ).addMarginBottom(8),
-              FlatCard(
-                padding: EdgeInsets.all(8.w),
-                border: Border.all(color: Themes.stroke),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'dokumen-validasi.pdf',
-                      style: Themes().black12?.withUnderline(offset: 2),
-                    ).addMarginLeft(8.w),
-                    RippleButton(
-                      onTap: () {
-                        if (document == null) return;
-                        downloadFile(document);
-                      },
-                      padding: EdgeInsets.all(8.w),
-                      child: SvgPicture.asset(
-                        AssetIcons.icDownload,
-                        color: Themes.primary,
-                        width: 20.w,
-                        height: 20.w,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ).addAllPadding(20.w),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     Text(
+          //       'Validasi Kelulusan',
+          //       style: Themes().blackBold12?.withColor(Themes.hint),
+          //     ).addMarginBottom(8),
+          //     FlatCard(
+          //       padding: EdgeInsets.all(8.w),
+          //       border: Border.all(color: Themes.stroke),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Text(
+          //             'dokumen-validasi.pdf',
+          //             style: Themes().black12?.withUnderline(offset: 2),
+          //           ).addMarginLeft(8.w),
+          //           RippleButton(
+          //             onTap: () {
+          //               if (document == null) return;
+          //               downloadFile(document);
+          //             },
+          //             padding: EdgeInsets.all(8.w),
+          //             child: SvgPicture.asset(
+          //               AssetIcons.icDownload,
+          //               theme: const SvgTheme(currentColor: Themes.primary),
+          //               width: 20.w,
+          //               height: 20.w,
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ).addAllPadding(20.w),
         ],
       ),
     );
@@ -132,8 +129,12 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
 
   void downloadFile(String url) async {
     if (await Permission.storage.request().isGranted) {
+      final Directory root = Tools.findRoot(
+        await getApplicationDocumentsDirectory(),
+      );
+
       String fileName = url.split('/').last;
-      final currentFile = File('/storage/emulated/0/Download/$fileName');
+      final currentFile = File('${root.path}/Download/$fileName');
 
       if ((await currentFile.exists())) {
         await currentFile.delete();
@@ -145,7 +146,7 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
         url: url,
         fileName: fileName,
         headers: {},
-        savedDir: '/storage/emulated/0/Download/',
+        savedDir: '${root.path}/Download/',
         showNotification: true,
         openFileFromNotification: true,
       );
@@ -181,11 +182,12 @@ class _FinalScoreRecapScreenState extends State<FinalScoreRecapScreen> {
   @pragma('vm:entry-point')
   static void downloadCallback(
     String id,
-    DownloadTaskStatus status,
+    // DownloadTaskStatus status,
+    int status,
     int progress,
   ) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send?.send([id, status.value, progress]);
+    send?.send([id, status, progress]);
   }
 }

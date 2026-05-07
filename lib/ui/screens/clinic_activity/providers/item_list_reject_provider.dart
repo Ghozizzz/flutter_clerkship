@@ -14,11 +14,11 @@ class ItemListRejectClinicProvider extends ChangeNotifier {
     getListClinic();
   }
 
-  void getListClinic() async {
+  void getListClinic({int? idActivity}) async {
     loading = true;
     notifyListeners();
-    final result =
-        await clinicActivityService.getListClinic(status: 9, idFlow: 1);
+    final result = await clinicActivityService.getListClinic(
+        status: 9, idFlow: 1, idActivity: idActivity);
 
     if (result.statusCode == 200) {
       listClinic.clear();

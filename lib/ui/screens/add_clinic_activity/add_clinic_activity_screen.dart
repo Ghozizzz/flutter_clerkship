@@ -6,6 +6,7 @@ import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:clerkship/data/shared_providers/reference_provider.dart';
 import 'package:clerkship/data/shared_providers/user_provider.dart';
+import 'package:clerkship/ui/components/textareas/textarea.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,16 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
   final symptomsController = MultiDropDownController();
   FleatherController? noteController;
   final filePickerController = FilePickerController();
+
+  // add data mini-cex from activity clinic
+  final problemController = TextEditingController();
+  final ageController = TextEditingController();
+  final genderController = DropDownController();
+  final settingController = TextEditingController();
+  final complexityProblemController = DropDownController();
+
+  int isActivityMiniCex = 0;
+
   bool loadingPage = false;
   bool isEdit = false;
   // exisiting data
@@ -62,6 +73,15 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
   List<DropDownItem> listProsedurSelected = [];
   List<DropDownItem> listKeterampilanSelected = [];
   List<DropDownItem> listGejalaSelected = [];
+  List<DropDownItem> listGender = [
+    DropDownItem(title: 'Male', value: 1),
+    DropDownItem(title: 'Female', value: 2),
+  ];
+  List<DropDownItem> listKerumitan = [
+    DropDownItem(title: 'Low', value: 1),
+    DropDownItem(title: 'Moderate', value: 2),
+    DropDownItem(title: 'High', value: 3),
+  ];
 
   @override
   void initState() {
@@ -72,6 +92,7 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     procedureController.setSelected([]);
     symptomsController.setSelected([]);
     doctorController.setSelected([]);
+    // surveyFormController.setSelected([]);
     loadingPage = widget.id != null;
 
     Tools.onViewCreated(() async {
@@ -102,9 +123,28 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     final listGejala = context.read<ClinicActivityProvider>().gejala;
     final listDocument = context.read<ClinicActivityProvider>().listDocument;
     noteController = FleatherController(
-        ParchmentDocument.fromJson(jsonDecode(headerData.remarks!)));
+        document: ParchmentDocument.fromJson(
+      jsonDecode(headerData.remarks ?? '{}'),
+    ));
+    final listTrxMini = context.read<ClinicActivityProvider>().listTrxMini;
 
     showOtherRef(context, headerData.idFeature!);
+
+    // action if jenis kegiatan is mini-cex
+    if (jenisKegiatan.isMinicex == 1) {
+      problemController.text = listTrxMini.masalah ?? '';
+      ageController.text = listTrxMini.umur ?? '';
+      settingController.text = listTrxMini.deskripsi ?? '';
+      final kerumitan = listKerumitan.firstWhere(
+        (element) => element.title == listTrxMini.kerumitanMasalah,
+      );
+      complexityProblemController.setSelected(kerumitan);
+      final gender = listGender
+          .firstWhere((element) => element.title == listTrxMini.gender);
+      genderController.setSelected(gender);
+
+      isActivityMiniCex = 1;
+    }
 
     for (ClinicDetailItem element in listPenyakit) {
       if (element.idItem == -1) {
@@ -230,15 +270,83 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                         enable: jeniskegiatan.isNotEmpty,
                         onSelected: (item) {
                           activityTypeController.selected!.flagDelete = 1;
+                          isActivityMiniCex = item.isMinicex ?? 0;
+                          setState(() {});
                         },
                         items: List.generate(
                           jeniskegiatan.length,
                           (index) => DropDownItem(
                             title: jeniskegiatan[index].name!,
                             value: jeniskegiatan[index].id!,
+                            isMinicex: jeniskegiatan[index].isMinicex,
                           ),
                         ),
                       ).addMarginBottom(20),
+                      if (isActivityMiniCex == 1)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const LabelText(
+                              text: 'Masalah Pasien',
+                              mandatory: true,
+                            ).addMarginBottom(8),
+                            TextArea(
+                              controller: problemController,
+                              hint: 'Deskripsi Masalah Pasien',
+                            ).addMarginBottom(20),
+                            const LabelText(
+                              text: 'Umur Pasien',
+                              mandatory: true,
+                            ).addMarginBottom(8),
+                            TextArea(
+                              controller: ageController,
+                              inputType: TextInputType.number,
+                              hint: 'Umur Pasien',
+                            ).addMarginBottom(20),
+                            const LabelText(
+                              text: 'Gender Pasien',
+                              mandatory: true,
+                            ).addMarginBottom(8),
+                            DropdownField(
+                              hint: 'Pilih Gender Pasien',
+                              controller: genderController,
+                              enable: listGender.isNotEmpty,
+                              onSelected: (item) {},
+                              items: List.generate(
+                                listGender.length,
+                                (index) => DropDownItem(
+                                  title: listGender[index].title,
+                                  value: listGender[index].value,
+                                ),
+                              ),
+                            ).addMarginBottom(20),
+                            const LabelText(
+                              text: 'Setting',
+                              mandatory: true,
+                            ).addMarginBottom(8),
+                            TextArea(
+                              controller: settingController,
+                              hint: 'Deskripsi Setting',
+                            ).addMarginBottom(20),
+                            const LabelText(
+                              text: 'Kerumitan Masalah',
+                              mandatory: true,
+                            ).addMarginBottom(8),
+                            DropdownField(
+                              hint: 'Pilih Kerumitan Masalah',
+                              controller: complexityProblemController,
+                              enable: listKerumitan.isNotEmpty,
+                              onSelected: (item) {},
+                              items: List.generate(
+                                listKerumitan.length,
+                                (index) => DropDownItem(
+                                  title: listKerumitan[index].title,
+                                  value: listKerumitan[index].value,
+                                ),
+                              ),
+                            ).addMarginBottom(20),
+                          ],
+                        ),
                       const LabelText(
                         mandatory: true,
                         text: 'Preseptor',
@@ -409,10 +517,18 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                       ).addMarginBottom(24),
                       btnSimpanClinic(context).addMarginBottom(18),
                       PrimaryButton(
-                        enable: (dateController.selected != null &&
-                            timeController.selected != null &&
-                            departmentController.selected != null &&
-                            activityTypeController.selected != null),
+                        enable: ((dateController.selected != null &&
+                                timeController.selected != null &&
+                                departmentController.selected != null &&
+                                activityTypeController.selected != null) &&
+                            (isActivityMiniCex == 1 &&
+                                    (problemController.text.isNotEmpty &&
+                                        ageController.text.isNotEmpty &&
+                                        genderController.selected != null &&
+                                        settingController.text.isNotEmpty &&
+                                        complexityProblemController.selected !=
+                                            null) ||
+                                isActivityMiniCex == 0)),
                         onTap: () {
                           DialogHelper.showModalConfirmation(
                               title: 'Konfirmasi Pengiriman',
@@ -451,6 +567,12 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                                         penyakit: diseaseController.selected,
                                         prosedur: procedureController.selected,
                                         preseptor: doctorController.selected,
+                                        age: ageController.text,
+                                        complexity: complexityProblemController
+                                            .selected,
+                                        gender: genderController.selected,
+                                        problem: problemController.text,
+                                        setting: settingController.text,
                                       );
                                 }
                               });
@@ -489,16 +611,28 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                 penyakit: diseaseController.selected,
                 prosedur: procedureController.selected,
                 preseptor: doctorController.selected,
+                age: ageController.text,
+                complexity: complexityProblemController.selected,
+                gender: genderController.selected,
+                problem: problemController.text,
+                setting: settingController.text,
               );
         } else {
           doUpdateClinic(context, '0');
         }
       },
       text: 'Simpan Perubahan',
-      enable: (dateController.selected != null &&
-          timeController.selected != null &&
-          departmentController.selected != null &&
-          activityTypeController.selected != null),
+      enable: ((dateController.selected != null &&
+              timeController.selected != null &&
+              departmentController.selected != null &&
+              activityTypeController.selected != null) &&
+          (isActivityMiniCex == 1 &&
+                  (problemController.text.isNotEmpty &&
+                      ageController.text.isNotEmpty &&
+                      genderController.selected != null &&
+                      settingController.text.isNotEmpty &&
+                      complexityProblemController.selected != null) ||
+              isActivityMiniCex == 0)),
     );
   }
 
@@ -544,7 +678,12 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
         existingDocument: listExistingLampiran,
         penyakit: listPenyakitSelected,
         prosedur: listProsedurSelected,
-        preseptor: doctorController.selected);
+        preseptor: doctorController.selected,
+        age: ageController.text,
+        complexity: complexityProblemController.selected,
+        gender: genderController.selected,
+        problem: problemController.text,
+        setting: settingController.text);
   }
 
   void checkBtnEnable() {
@@ -563,6 +702,24 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
     departmentController.addListener(() {
       setState(() {});
     });
+
+    if (isActivityMiniCex == 1) {
+      problemController.addListener(() {
+        setState(() {});
+      });
+      ageController.addListener(() {
+        setState(() {});
+      });
+      genderController.addListener(() {
+        setState(() {});
+      });
+      settingController.addListener(() {
+        setState(() {});
+      });
+      complexityProblemController.addListener(() {
+        setState(() {});
+      });
+    }
   }
 
   DropdownField selectDepartement(List<Batch> batch, BuildContext context) {

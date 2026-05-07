@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
+
 MiniCexFormResponse miniCexFormResponseFromJson(String str) =>
     MiniCexFormResponse.fromJson(json.decode(str));
 
@@ -39,10 +41,12 @@ class Data {
   Data({
     this.header,
     this.detail,
+    this.trxmini,
   });
 
   CexHeader? header;
   List<DetailCexForm>? detail;
+  Trxmini? trxmini;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         header:
@@ -51,6 +55,8 @@ class Data {
             ? []
             : List<DetailCexForm>.from(
                 json['detail']!.map((x) => DetailCexForm.fromJson(x))),
+        trxmini:
+            json['trxmini'] == null ? null : Trxmini.fromJson(json['trxmini']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +64,7 @@ class Data {
         'detail': detail == null
             ? []
             : List<dynamic>.from(detail!.map((x) => x.toJson())),
+        'trxmini': trxmini?.toJson(),
       };
 }
 
@@ -67,12 +74,16 @@ class DetailCexForm {
     this.tipeScoring,
     this.keterangan,
     this.placeholder,
+    this.isEnable,
+    this.defaultValue,
   });
 
   int? id;
   int? tipeScoring;
   String? keterangan;
   String? placeholder;
+  bool? isEnable;
+  String? defaultValue;
 
   factory DetailCexForm.fromJson(Map<String, dynamic> json) => DetailCexForm(
         id: json['id'],
@@ -90,23 +101,20 @@ class DetailCexForm {
 }
 
 class CexHeader {
-  CexHeader({
-    this.id,
-    this.nama,
-    this.nim,
-    this.namaKegiatan,
-  });
+  CexHeader({this.id, this.nama, this.nim, this.namaKegiatan, this.peran});
 
   int? id;
   String? nama;
   String? nim;
   String? namaKegiatan;
+  String? peran;
 
   factory CexHeader.fromJson(Map<String, dynamic> json) => CexHeader(
         id: json['id'],
         nama: json['nama'],
         nim: json['nim'],
         namaKegiatan: json['nama_kegiatan'],
+        peran: json['peran'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -114,5 +122,6 @@ class CexHeader {
         'nama': nama,
         'nim': nim,
         'nama_kegiatan': namaKegiatan,
+        'peran': peran,
       };
 }

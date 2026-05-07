@@ -8,6 +8,7 @@ class Themes {
   static const primary = Color(0xff006950);
   static const darkPrimary = Color(0xff006950);
   static const lightPrimary = Color(0xff00AD84);
+  static const verylightPrimary = Color.fromARGB(255, 229, 244, 240);
   static const secondary = Color(0xffFF9E2C);
   static const abu = Color(0xffADB3BC);
   static const background = Color(0xFFF9F9F9);

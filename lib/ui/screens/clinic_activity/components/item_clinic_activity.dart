@@ -5,6 +5,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -181,8 +182,18 @@ class ItemClinicActivity extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 ItemInfoSegment(
+                  title: 'Mahasiswa',
+                  value: header?.namaStudent ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                ItemInfoSegment(
                   title: 'Batch',
                   value: header?.namaBatch ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ).addMarginBottom(12),
+                ItemInfoSegment(
+                  title: 'Submited At',
+                  value: header?.updatedAt ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
@@ -203,6 +214,11 @@ class ItemClinicActivity extends StatelessWidget {
                 ItemInfoSegment(
                   title: 'Batch',
                   value: header?.namaBatch ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ).addMarginBottom(12),
+                ItemInfoSegment(
+                  title: 'Submited At',
+                  value: header?.updatedAt ?? '',
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ).addMarginBottom(12),
               ],
@@ -347,7 +363,7 @@ class ItemClinicActivity extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AssetIcons.icClose,
-                        color: Themes.white,
+                        theme: const SvgTheme(currentColor: Themes.white),
                         width: 24.w,
                       ).addMarginRight(8.w),
                       Text(
@@ -374,7 +390,7 @@ class ItemClinicActivity extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AssetIcons.icCheck,
-                        color: Themes.white,
+                        theme: const SvgTheme(currentColor: Themes.white),
                         width: 24.w,
                       ).addMarginRight(8.w),
                       Text(
@@ -395,11 +411,15 @@ class ItemClinicActivity extends StatelessWidget {
     if (await Permission.storage.request().isGranted) {
       if (document?.fileUrl == null) return;
       String fileName = document?.fileName ?? '';
-      final currentFile =
-          File('/storage/emulated/0/Download/${document?.fileName}');
+      final root = await getDownloadPath();
+      final currentFile = File('$root/$fileName');
 
-      if ((await currentFile.exists())) {
-        await currentFile.delete();
+      if (await currentFile.exists()) {
+        try {
+          await currentFile.delete();
+        } catch (err) {
+          fileName = '${Random().nextInt(100)}_$fileName';
+        }
       }
 
       DialogHelper.showProgressDialog();
@@ -408,11 +428,34 @@ class ItemClinicActivity extends StatelessWidget {
         url: document?.fileUrl ?? '',
         fileName: fileName,
         headers: {},
-        savedDir: '/storage/emulated/0/Download/',
+        savedDir: root!,
         showNotification: true,
         openFileFromNotification: true,
       );
+    } else {
+      // open setting and set manualy
+      if (await Permission.storage.isPermanentlyDenied) {
+        openAppSettings();
+      }
     }
+  }
+
+  Future<String?> getDownloadPath() async {
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = Directory('/storage/emulated/0/Download');
+      }
+
+      if (!await directory.exists()) {
+        directory = await getExternalStorageDirectory();
+      }
+    } catch (err) {
+      // print('Cannot get download folder path');
+    }
+    return directory?.path;
   }
 
   rejectActivity(BuildContext context) {
@@ -458,7 +501,7 @@ class ItemClinicActivity extends StatelessWidget {
         message: 'Apakah anda yakin ingin menyetujui catatan ini?',
         type: ConfirmationType.withField,
         labelField: 'Masukan',
-        hintField: 'Masukkan Alasan Penolakan',
+        hintField: 'Masukkan Alasan Persetujuan',
         optionalField: true,
         onPositiveTapWithField: (fieldValue) {
           Navigator.pop(context);

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:clerkship/ui/components/commons/animated_item.dart';
+import 'package:clerkship/ui/components/textareas/textarea.dart';
 import 'package:clerkship/ui/screens/standard_competency/provider/standart_competency_provider.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +33,9 @@ class StandartLectureScreen extends StatefulWidget {
 }
 
 class _StandartLectureScreenState extends State<StandartLectureScreen> {
+  bool isClickSearch = false;
+  Timer? _debounce;
+
   @override
   void initState() {
     super.initState();
@@ -54,136 +60,213 @@ class _StandartLectureScreenState extends State<StandartLectureScreen> {
     final selectedId = context.watch<StandartCompetencyProvider>().selectedId;
     final loading = context.watch<StandartCompetencyProvider>().loading;
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (pageIndex > 0) {
-          provider.goBack();
-        } else {
-          NavHelper.pop();
-        }
-        return false;
-      },
-      child: SafeStatusBar(
-        child: Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PrimaryAppBar(
-                title: 'Kembali',
-                action: RippleButton(
-                  onTap: () {},
-                  padding: EdgeInsets.all(4.w),
-                  child: SvgPicture.asset(
-                    AssetIcons.icSearch,
-                    width: 18.w,
-                    height: 18.w,
+    return SafeStatusBar(
+      child: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            isClickSearch
+                ? // create search bar
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.w),
+                      color: Themes.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Themes.black.withOpacity(0.1),
+                          blurRadius: 10.w,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.w),
+                    child: Row(
+                      children: [
+                        RippleButton(
+                          onTap: () {
+                            setState(() {
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .searchSK('');
+                              // clear search
+                              isClickSearch = false;
+                            });
+                          },
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                            AssetIcons.icClose,
+                            width: 18.w,
+                            height: 18.w,
+                          ),
+                        ),
+                        TextArea(
+                          hint: 'Cari Standar Kompetensi',
+                          onChangedText: (value) {
+                            // make delay 1 second after user stop typing
+                            if (_debounce?.isActive ?? false) {
+                              _debounce?.cancel();
+                            }
+                            _debounce =
+                                Timer(const Duration(milliseconds: 500), () {
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .searchSK(value);
+                            });
+                          },
+                        ).addExpanded,
+                      ],
+                    )).addMarginBottom(20.w)
+                : PrimaryAppBar(
+                    title: 'Kembali',
+                    onTapBack: () {
+                      if (pageIndex > 0) {
+                        provider.goBack();
+                      } else {
+                        NavHelper.pop();
+                      }
+                    },
+                    action: RippleButton(
+                      onTap: () {
+                        setState(() {
+                          isClickSearch = true;
+                        });
+                      },
+                      padding: EdgeInsets.all(4.w),
+                      child: SvgPicture.asset(
+                        AssetIcons.icSearch,
+                        width: 18.w,
+                        height: 18.w,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+            Text(
+              'Standar Kompetensi',
+              style: Themes().primaryBold20,
+            ).addMarginOnly(
+              right: 20.w,
+              left: 20.w,
+            ),
+            Text(
+              '${widget.participant.namaStudent}',
+              style: Themes().black16,
+            ).addMarginLeft(20.w),
+            Text(
+              '${widget.participant.idUser}',
+              style: Themes().black10?.withFontWeight(FontWeight.w500),
+            ).addMarginLeft(20.w),
+            if (pageIndex > 0)
               Text(
-                'Standar Kompetensi',
-                style: Themes().primaryBold20,
+                paths.sublist(1, pageIndex + 1).join(' > '),
+                style: Themes().gray10?.boldText(),
               ).addMarginOnly(
-                right: 20.w,
+                top: 18,
                 left: 20.w,
               ),
-              Text(
-                '${widget.participant.namaStudent}',
-                style: Themes().black16,
-              ).addMarginLeft(20.w),
-              Text(
-                '${widget.participant.idUser}',
-                style: Themes().black10?.withFontWeight(FontWeight.w500),
-              ).addMarginLeft(20.w),
-              if (pageIndex > 0)
-                Text(
-                  paths.sublist(1, pageIndex + 1).join(' > '),
-                  style: Themes().gray10?.boldText(),
-                ).addMarginOnly(
-                  top: 18,
-                  left: 20.w,
+            if ((pageIndex >= data.length - 1) && (tipe == true))
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Name',
+                      style: Themes().blackBold12?.withColor(Themes.black),
+                    ).addFlexible,
+                    Text(
+                      'Frekuensi',
+                      style:
+                          Themes().blackBold12?.withFontWeight(FontWeight.w500),
+                      textAlign: TextAlign.end,
+                    ).addFlexible,
+                  ],
                 ),
-              if (loading) const Center(child: CircularProgressIndicator()),
-              if ((pageIndex < data.length - 1) && (tipe == true))
-                ListView.builder(
-                  padding: EdgeInsets.all(20.w),
-                  itemCount: paths.isNotEmpty ? data[pageIndex].data.length : 0,
-                  itemBuilder: (context, index) {
-                    final itemData = data[pageIndex].data[index];
+              ),
+            if (loading) const Center(child: CircularProgressIndicator()),
+            if ((pageIndex < data.length - 1) && (tipe == true))
+              ListView.builder(
+                padding: EdgeInsets.all(20.w),
+                itemCount: paths.isNotEmpty ? data[pageIndex].data.length : 0,
+                itemBuilder: (context, index) {
+                  final itemData = data[pageIndex].data[index];
 
-                    return AnimatedItem(
-                      index: index,
-                      child: ItemStandard(
-                        onTap: () {
-                          switch (pageIndex) {
-                            case 0:
+                  return AnimatedItem(
+                    index: index,
+                    child: ItemStandard(
+                      onTap: () {
+                        context.read<StandartCompetencyProvider>().searchSK('');
+                        switch (pageIndex) {
+                          case 0:
+                            context
+                                .read<StandartCompetencyProvider>()
+                                .addSelectedId('id_batch', itemData.id);
+                            context
+                                .read<StandartCompetencyProvider>()
+                                .getListSKJenis();
+                            break;
+                          case 1:
+                            if (itemData.tipe == '0') {
                               context
                                   .read<StandartCompetencyProvider>()
-                                  .addSelectedId('id_batch', itemData.id);
+                                  .addSelectedId('id_jenis', itemData.id);
                               context
                                   .read<StandartCompetencyProvider>()
-                                  .getListSKJenis();
-                              break;
-                            case 1:
-                              if (itemData.tipe == '0') {
-                                context
-                                    .read<StandartCompetencyProvider>()
-                                    .addSelectedId('id_jenis', itemData.id);
-                                context
-                                    .read<StandartCompetencyProvider>()
-                                    .addSelectedId('id_group', '0');
-                                context
-                                    .read<StandartCompetencyProvider>()
-                                    .getListSKGroupDetailBypass();
-                              } else {
-                                context
-                                    .read<StandartCompetencyProvider>()
-                                    .addSelectedId('id_jenis', itemData.id);
-                                context
-                                    .read<StandartCompetencyProvider>()
-                                    .getListSKGroup(
-                                      idJenisSK: itemData.id,
-                                      idBatch: selectedId['id_batch'] ?? '',
-                                    );
-                              }
-                              break;
-                            case 2:
+                                  .addSelectedId('id_group', '0');
                               context
                                   .read<StandartCompetencyProvider>()
-                                  .addSelectedId('id_group', itemData.id);
+                                  .getListSKGroupDetailBypass();
+                            } else {
                               context
                                   .read<StandartCompetencyProvider>()
-                                  .getListSKGroupDetail();
-                              break;
-                          }
-                          provider.setIndex(
-                            pageIndex + 1,
-                            itemData.title,
-                          );
-                        },
-                        title: itemData.title,
-                      ),
-                    ).addMarginBottom(12);
-                  },
-                ).addExpanded
-              else
-                ListView.builder(
-                  padding: EdgeInsets.all(20.w),
-                  itemCount: data[pageIndex].data.length,
-                  itemBuilder: (context, index) {
-                    final itemData = data[pageIndex].data[index];
+                                  .addSelectedId('id_jenis', itemData.id);
+                              context
+                                  .read<StandartCompetencyProvider>()
+                                  .getListSKGroup(
+                                    idJenisSK: itemData.id,
+                                    idBatch: selectedId['id_batch'] ?? '',
+                                  );
+                            }
+                            break;
+                          case 2:
+                            context
+                                .read<StandartCompetencyProvider>()
+                                .addSelectedId('id_group', itemData.id);
+                            context
+                                .read<StandartCompetencyProvider>()
+                                .getListSKGroupDetail();
+                            break;
+                        }
+                        provider.setIndex(
+                          pageIndex + 1,
+                          itemData.title,
+                        );
 
-                    return AnimatedItem(
-                      index: index,
-                      child: ItemStandardTotal(
-                        title: itemData.title,
-                        total: itemData.count,
-                      ),
-                    ).addMarginBottom(12);
-                  },
-                ).addExpanded
-            ],
-          ),
+                        isClickSearch = false;
+                      },
+                      title: itemData.title,
+                      subtitle: itemData.subtitle,
+                    ),
+                  ).addMarginBottom(12);
+                },
+              ).addExpanded
+            else
+              ListView.builder(
+                padding: EdgeInsets.all(20.w),
+                itemCount: data[pageIndex].data.length,
+                itemBuilder: (context, index) {
+                  final itemData = data[pageIndex].data[index];
+
+                  return AnimatedItem(
+                    index: index,
+                    child: ItemStandardTotal(
+                      title: itemData.title,
+                      total: itemData.count,
+                    ),
+                  ).addMarginBottom(12);
+                },
+              ).addExpanded
+          ],
         ),
       ),
     );

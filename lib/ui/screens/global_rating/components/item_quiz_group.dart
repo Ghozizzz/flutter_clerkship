@@ -46,7 +46,7 @@ class ItemQuizGroup extends StatelessWidget {
             } else {
               if ((itemData?.jawabanString ?? '').isNotEmpty) {
                 itemData?.notesController = FleatherController(
-                  ParchmentDocument.fromJson(
+                  document: ParchmentDocument.fromJson(
                       jsonDecode(itemData.jawabanString ?? '')),
                 );
               }

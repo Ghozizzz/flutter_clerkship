@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
 import '../../../data/models/dropdown_item.dart';
-import '../../../r.dart';
 import '../commons/flat_card.dart';
 import '../textareas/textarea.dart';
 
@@ -139,10 +137,10 @@ class _ModalDropDownWidgetState extends State<ModalDropDownWidget> {
                 },
                 endIcon: Padding(
                   padding: EdgeInsets.all(12.w),
-                  child: SvgPicture.asset(
-                    AssetIcons.icSearch,
-                    color: Themes.hint,
-                  ),
+                  // child: SvgPicture.asset(
+                  //   AssetIcons.icSearch,
+                  //   color: Themes.hint,
+                  // ),
                 ),
               ).addMarginOnly(
                 top: 20.w,

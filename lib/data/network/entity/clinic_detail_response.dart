@@ -40,11 +40,13 @@ class DetailClinic {
     this.header,
     this.detail,
     this.document,
+    this.trxmini,
   });
 
   HeaderClinic? header;
   List<ClinicDetailItem>? detail;
   List<ClinicDocument>? document;
+  Trxmini? trxmini;
 
   factory DetailClinic.fromJson(Map<String, dynamic> json) => DetailClinic(
         header: HeaderClinic.fromJson(json['header']),
@@ -60,6 +62,8 @@ class DetailClinic {
                 ? []
                 : List<ClinicDocument>.from(
                     json['document']!.map((x) => ClinicDocument.fromJson(x))),
+        trxmini:
+            json['trxmini'] == null ? null : Trxmini.fromJson(json['trxmini']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,6 +94,7 @@ class ClinicDetailItem {
     this.updatedAt,
     this.namaJenis,
     this.namaItem,
+    this.isMinicex,
   });
 
   int? id;
@@ -103,6 +108,7 @@ class ClinicDetailItem {
   DateTime? updatedAt;
   String? namaJenis;
   String? namaItem;
+  int? isMinicex;
 
   factory ClinicDetailItem.fromJson(Map<String, dynamic> json) =>
       ClinicDetailItem(
@@ -121,6 +127,7 @@ class ClinicDetailItem {
             : DateTime.parse(json['updated_at']),
         namaJenis: json['nama_jenis'],
         namaItem: json['nama_item'],
+        isMinicex: json['is_minicex'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -244,5 +251,37 @@ class HeaderClinic {
         'updated_at': updatedAt?.toIso8601String(),
         'nama_dokter': namaDokter,
         'nama_department': namaDepartment,
+      };
+}
+
+class Trxmini {
+  String? masalah;
+  String? umur;
+  String? gender;
+  String? deskripsi;
+  String? kerumitanMasalah;
+
+  Trxmini({
+    this.masalah,
+    this.umur,
+    this.gender,
+    this.deskripsi,
+    this.kerumitanMasalah,
+  });
+
+  factory Trxmini.fromJson(Map<String, dynamic> json) => Trxmini(
+        masalah: json['masalah'],
+        umur: json['umur'],
+        gender: json['gender'],
+        deskripsi: json['deskripsi'],
+        kerumitanMasalah: json['kerumitan_masalah'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'masalah': masalah,
+        'umur': umur,
+        'gender': gender,
+        'deskripsi': deskripsi,
+        'kerumitan_masalah': kerumitanMasalah,
       };
 }

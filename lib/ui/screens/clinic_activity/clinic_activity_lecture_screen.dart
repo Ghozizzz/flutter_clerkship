@@ -170,12 +170,13 @@ class _ClinicActivityLectureScreenState
   @pragma('vm:entry-point')
   static void downloadCallback(
     String id,
-    DownloadTaskStatus status,
+    // DownloadTaskStatus status,
+    int status,
     int progress,
   ) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send?.send([id, status.value, progress]);
+    send?.send([id, status, progress]);
   }
 }
 
@@ -206,26 +207,41 @@ class ListWidget extends StatelessWidget {
             child: Center(child: CircularProgressIndicator()),
           )
         else
-          ListView.builder(
-            itemCount: listData[pageIndex].length,
-            padding: EdgeInsets.only(
-              top: 20.w,
-              left: 20.w,
-              right: 20.w,
-              bottom: 16.hp,
-            ),
-            itemBuilder: (context, index) {
-              final clinicActivities = listData[pageIndex][index];
+          listData[pageIndex].isEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, //Center Row contents horizontally,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                      const SizedBox(height: 150),
+                      Text(
+                        'Belum ada inputan untuk di Approval',
+                        style: Themes()
+                            .blackBold12
+                            ?.withFontWeight(FontWeight.w500),
+                        textAlign: TextAlign.end,
+                      ).addFlexible,
+                    ])
+              : ListView.builder(
+                  itemCount: listData[pageIndex].length,
+                  padding: EdgeInsets.only(
+                    top: 20.w,
+                    left: 20.w,
+                    right: 20.w,
+                    bottom: 16.hp,
+                  ),
+                  itemBuilder: (context, index) {
+                    final clinicActivities = listData[pageIndex][index];
 
-              return AnimatedItem(
-                index: index,
-                child: ItemGroupClinicActivity(
-                  clinicActivities: clinicActivities,
-                  rated: pageIndex == 1,
-                ),
-              ).addMarginBottom(20);
-            },
-          ).addExpanded,
+                    return AnimatedItem(
+                      index: index,
+                      child: ItemGroupClinicActivity(
+                        clinicActivities: clinicActivities,
+                        rated: pageIndex == 1,
+                      ),
+                    ).addMarginBottom(20);
+                  },
+                ).addExpanded,
       ],
     );
   }

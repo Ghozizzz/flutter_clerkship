@@ -22,6 +22,8 @@ class AssetIcons {
 	static const String icItalic = 'assets/icons/ic_italic.svg';
 	static const String icLink = 'assets/icons/ic_link.svg';
 	static const String icLogBook = 'assets/icons/ic_log_book.svg';
+	static const String icNotifBook = 'assets/icons/ic_notif_book.svg';
+	static const String icNotifHospital = 'assets/icons/ic_notif_hospital.svg';
 	static const String icNotification = 'assets/icons/ic_notification.svg';
 	static const String icOffice = 'assets/icons/ic_office.svg';
 	static const String icPlus = 'assets/icons/ic_plus.svg';
@@ -36,6 +38,7 @@ class AssetIcons {
 	static const String icTime = 'assets/icons/ic_time.svg';
 	static const String icUnderline = 'assets/icons/ic_underline.svg';
 	static const String icVerified = 'assets/icons/ic_verified.svg';
+	static const String iconParkOutlineHospitalFour = 'assets/icons/icon-park-outline_hospital-four.svg';
 }
 
 class AssetImages {

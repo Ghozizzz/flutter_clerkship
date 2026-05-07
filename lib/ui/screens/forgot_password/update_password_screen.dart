@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/forgot_provider.dart';
 import '../../../r.dart';
 import '../../components/buttons/primary_button.dart';
 import '../../components/commons/primary_appbar.dart';
@@ -12,7 +14,8 @@ import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/password_textarea.dart';
 
 class UpdatePasswordScreen extends StatelessWidget {
-  UpdatePasswordScreen({super.key});
+  final String id;
+  UpdatePasswordScreen({super.key, required this.id});
 
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -68,7 +71,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                     builder: (context, value, _) {
                       return PrimaryButton(
                         enable: isFormValid(),
-                        onTap: () {},
+                        onTap: () {
+                          doResetPassword(context);
+                        },
                         text: 'Update',
                       ).addAllMargin(20.w);
                     }),
@@ -86,5 +91,15 @@ class UpdatePasswordScreen extends StatelessWidget {
         passwordController.text == confirmPasswordController.text;
 
     return isPasswordValid && isPasswordConfirmValid;
+  }
+
+  void doResetPassword(
+    BuildContext context,
+  ) async {
+    context.read<ForgotProvider>().doResetPassword(
+          email: id,
+          password: passwordController.text,
+          confirmPassword: confirmPasswordController.text,
+        );
   }
 }

@@ -14,10 +14,12 @@ import '../../../config/themes.dart';
 import '../../../data/models/dropdown_item.dart';
 import '../../../data/models/key_value_data.dart';
 import '../../../data/network/entity/mini_cex_form_response.dart';
+import '../../../data/shared_providers/notification_provider.dart';
 import '../../../data/shared_providers/user_provider.dart';
 import '../../../utils/tools.dart';
 import '../../components/buttons/dropdown_field.dart';
 import '../../components/buttons/multi_dropdown_field.dart';
+import '../../components/buttons/survey_score_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/textareas/rich_text_editor.dart';
 import '../../components/textareas/textarea.dart';
@@ -51,12 +53,11 @@ class _ScientificEventApprovalScreenState
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<UserProvider>().user;
+    // final user = context.watch<UserProvider>().user;
     final loading = context.watch<ScientificEventApprovalProvider>().loading;
     final approvalForm =
         context.watch<ScientificEventApprovalProvider>().approvalForm;
-    final header =
-        context.watch<ScientificEventApprovalProvider>().header;
+    final header = context.watch<ScientificEventApprovalProvider>().header;
     final controllers =
         context.watch<ScientificEventApprovalProvider>().controllers;
 
@@ -79,11 +80,15 @@ class _ScientificEventApprovalScreenState
                         style: Themes().blackBold20,
                       ).addMarginBottom(12),
                       Text(
-                        '${user.name}',
+                        '${header?.nama}',
                         style: Themes().blackBold14,
                       ),
                       Text(
-                        'ID. ${user.nim}',
+                        'ID. ${header?.nim} / ${header?.id}',
+                        style: Themes().gray10?.boldText(),
+                      ),
+                      Text(
+                        'Peran: ${header?.peran}',
                         style: Themes().gray10?.boldText(),
                       ).addMarginBottom(20),
                       Container(
@@ -128,6 +133,9 @@ class _ScientificEventApprovalScreenState
                                 } else if (controller is FleatherController) {
                                   value =
                                       jsonEncode(controller.document.toJson());
+                                } else if (controller
+                                    is SurveyScoreController) {
+                                  value = controller.score.toString();
                                 }
 
                                 final keyValueData = KeyValueData(
@@ -140,17 +148,27 @@ class _ScientificEventApprovalScreenState
                               context
                                   .read<ScientificEventApprovalProvider>()
                                   .approveScientificEvent(
-                                    id: widget.id,
-                                    formData: formData,
-                                    onFinish: () => {
-                                      context
-                                        .read<ScientificEventLectureProvider>()
-                                        .reloadEvents(),
-                                      context
-                                        .read<ClinicActivityLectureProvider>()
-                                        .reloadActivities(),
-                                    }
-                                  );
+                                      id: widget.id,
+                                      formData: formData,
+                                      onFinish: () => {
+                                            context
+                                                .read<
+                                                    ScientificEventLectureProvider>()
+                                                .reloadEvents(),
+                                            context
+                                                .read<
+                                                    ClinicActivityLectureProvider>()
+                                                .reloadActivities(),
+                                          })
+                                  .then((value) {
+                                final role =
+                                    context.read<UserProvider>().user.roleId;
+                                context
+                                    .read<NotificationProvider>()
+                                    .getNotification(
+                                      role: role!,
+                                    );
+                              });
                             },
                             text: 'Simpan Penilaian',
                           ).addMarginBottom(26);
@@ -215,6 +233,7 @@ class _ScientificEventApprovalScreenState
           controller: controller,
         ).addMarginBottom(20);
       case 3:
+      case 5:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -231,6 +250,13 @@ class _ScientificEventApprovalScreenState
             ).addMarginBottom(20),
           ],
         );
+      case 4:
+        return SurveyScoreButton(
+          title: '${form.keterangan}',
+          readOnly: false,
+          nilai: 0,
+          controller: controller,
+        ).addMarginBottom(20);
       default:
         return Container();
     }
@@ -247,7 +273,6 @@ class _ScientificEventApprovalScreenState
       } else if (controller is DropDownController) {
         isAllFormValid.add(controller.selected != null);
       } else if (controller is ScoreController) {
-        debugPrint(controller.score.toString());
         isAllFormValid.add(controller.score != null);
       } else if (controller is FleatherController) {
         isAllFormValid.add(controller.document.toPlainText().isNotEmpty);

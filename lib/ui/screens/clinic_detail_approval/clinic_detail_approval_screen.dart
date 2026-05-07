@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -22,6 +23,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -140,12 +142,16 @@ class _ClinicDetailApprovalScreenState
                         );
                       },
                 padding: EdgeInsets.all(8.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icDelete,
-                  color: headerData.status != 1 && !loading
-                      ? Themes.red
-                      : Themes.grey,
-                ),
+                child: (headerData.status != 1 && loading == false)
+                    ? SvgPicture.asset(
+                        AssetIcons.icDelete,
+                        theme: SvgTheme(
+                          currentColor: headerData.status != 1 && !loading
+                              ? Themes.red
+                              : Themes.grey,
+                        ),
+                      )
+                    : null,
               ),
             ),
             if (loading)
@@ -202,22 +208,23 @@ class _ClinicDetailApprovalScreenState
                     ),
                     ItemInfoSegment(
                       title: 'Preseptor',
-                      valueWidget: Row(
-                        children: [
-                          ClipOval(
-                            child: Image.asset(
-                              AssetImages.avatar,
-                              width: 24.w,
-                              height: 24.w,
-                              fit: BoxFit.cover,
-                            ),
-                          ).addMarginRight(8.w),
-                          Text(
-                            headerData.namaDokter!,
-                            style: Themes().blackBold12,
-                          ),
-                        ],
-                      ),
+                      value: headerData.namaDokter!,
+                      // valueWidget: Row(
+                      //   children: [
+                      //     ClipOval(
+                      //       child: Image.asset(
+                      //         AssetImages.avatar,
+                      //         width: 24.w,
+                      //         height: 24.w,
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //     ).addMarginRight(8.w),
+                      //     Text(
+                      //       headerData.namaDokter!,
+                      //       style: Themes().blackBold12,
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                     ItemInfoSegment(
                       title: 'Departemen',
@@ -253,7 +260,7 @@ class _ClinicDetailApprovalScreenState
                               readOnly: true,
                               controller: headerData.remarks != null
                                   ? FleatherController(
-                                      ParchmentDocument.fromJson(
+                                      document: ParchmentDocument.fromJson(
                                           jsonDecode(headerData.remarks!)))
                                   : FleatherController(),
                             ),
@@ -281,16 +288,23 @@ class _ClinicDetailApprovalScreenState
                           onTap: () async {
                             if (await Permission.storage.request().isGranted) {
                               DialogHelper.showProgressDialog();
+                              // final Directory root = Tools.findRoot(
+                              //   await getApplicationDocumentsDirectory(),
+                              // );
+                              final root = await getDownloadPath();
+                              debugPrint(listDocument[index].fileUrl!);
+                              debugPrint(root);
                               await FlutterDownloader.cancelAll();
                               await FlutterDownloader.enqueue(
                                 url: listDocument[index].fileUrl!,
                                 headers: {}, // optional: header send with url (auth token etc)
-                                savedDir: '/storage/emulated/0/Download/',
+                                savedDir: root,
                                 showNotification:
                                     true, // show download progress in status bar (for Android)
                                 openFileFromNotification:
                                     true, // click on notification to open downloaded file (for Android)
                               );
+                              DialogHelper.closeDialog();
                             }
                           },
                           title: listDocument[index].fileName!,
@@ -310,6 +324,15 @@ class _ClinicDetailApprovalScreenState
         ),
       ),
     );
+  }
+
+  Future<String> getDownloadPath() async {
+    if (Platform.isAndroid) {
+      return '/storage/emulated/0/download/';
+    } else {
+      var directory = await getApplicationDocumentsDirectory();
+      return '${directory.path}${Platform.pathSeparator}Download';
+    }
   }
 
   Future<void> deleteConfirmation(
@@ -342,9 +365,12 @@ class _ClinicDetailApprovalScreenState
 
   @pragma('vm:entry-point')
   static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
+      // String id, DownloadTaskStatus status, int progress) {
+      String id,
+      int status,
+      int progress) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send?.send([id, status.value, progress]);
+    send?.send([id, status, progress]);
   }
 }

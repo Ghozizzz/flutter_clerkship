@@ -21,7 +21,7 @@ void main() async {
 
   const String environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: Environment.dev,
+    defaultValue: Environment.prod,
   );
 
   Environment().initConfig(environment);

@@ -44,7 +44,7 @@ class AssessmentDetailHeader extends StatelessWidget {
                 AssetIcons.icOffice,
                 width: 12.w,
                 height: 12.w,
-                color: Themes.grey,
+                theme: const SvgTheme(currentColor: Themes.grey),
               ).addMarginRight(8.w),
               Text(
                 headerData?.namaRs ?? '',
@@ -59,7 +59,7 @@ class AssessmentDetailHeader extends StatelessWidget {
                 AssetIcons.icCalendar,
                 width: 12.w,
                 height: 12.w,
-                color: Themes.grey,
+                theme: const SvgTheme(currentColor: Themes.grey),
               ).addMarginRight(8.w),
               Text(
                 headerData?.startDate != null && headerData?.endDate != null

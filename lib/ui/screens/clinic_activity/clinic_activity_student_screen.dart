@@ -1,6 +1,8 @@
+import 'package:clerkship/ui/screens/clinic_activity/components/filter_header_student.dart';
 import 'package:clerkship/ui/screens/clinic_activity/components/item_list_all.dart';
 import 'package:clerkship/ui/screens/clinic_activity/components/item_list_draft.dart';
 import 'package:clerkship/ui/screens/clinic_activity/providers/item_list_all_provider.dart';
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,7 @@ import '../../components/commons/safe_statusbar.dart';
 import '../add_clinic_activity/add_clinic_activity_screen.dart';
 import 'components/item_list_approve.dart';
 import 'components/item_list_reject.dart';
+import 'components/item_list_waiting.dart';
 
 class ClinicActivityStudentScreen extends StatefulWidget {
   const ClinicActivityStudentScreen({super.key});
@@ -35,9 +38,13 @@ class _ClinicActivityStudentScreenState
   void initState() {
     super.initState();
     tabController = TabController(
-      length: 4,
+      length: 5,
       vsync: this,
     );
+
+    Tools.onViewCreated(() {
+      context.read<ReferenceProvider>().getFilterKegiatanStudent(idFlow: 1);
+    });
   }
 
   @override
@@ -53,11 +60,11 @@ class _ClinicActivityStudentScreenState
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(
@@ -72,6 +79,7 @@ class _ClinicActivityStudentScreenState
               'Batch $batch',
               style: Themes().gray10?.boldText(),
             ).addMarginLeft(20.w),
+            const FilterHeaderStudent().addMarginTop(12),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               height: 38,
@@ -86,6 +94,7 @@ class _ClinicActivityStudentScreenState
                   Tab(text: 'Proses'),
                   Tab(text: 'Diterima'),
                   Tab(text: 'Ditolak'),
+                  Tab(text: 'Menunggu'),
                 ],
               ),
             ).addMarginTop(12),
@@ -96,6 +105,7 @@ class _ClinicActivityStudentScreenState
                   ListItemDraftClinic(),
                   ListItemApproveClinic(),
                   ListItemRejectClinic(),
+                  ListItemWaitingClinic(),
                 ]),
                 Positioned(
                   right: 20.w,

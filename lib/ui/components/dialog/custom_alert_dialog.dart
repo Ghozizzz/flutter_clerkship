@@ -54,7 +54,9 @@ class CustomAlertDialog extends StatelessWidget {
                     AssetIcons.icCheck,
                     width: 24.w,
                     height: 24.w,
-                    color: Themes.white,
+                    theme: const SvgTheme(
+                      currentColor: Themes.white,
+                    ),
                   ),
                 ),
               if (title != null)

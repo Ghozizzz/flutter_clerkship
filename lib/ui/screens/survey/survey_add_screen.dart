@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clerkship/ui/components/buttons/survey_score_button.dart';
+import 'package:clerkship/ui/components/dialog/custom_alert_dialog.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_value_listenable_builder/multi_value_listenable_builder.dart';
@@ -13,6 +14,7 @@ import '../../../data/models/dropdown_item.dart';
 import '../../../data/models/survey_value.dart';
 import '../../../data/network/entity/survey_form_response.dart';
 import '../../../data/shared_providers/survey_provider.dart';
+import '../../../utils/dialog_helper.dart';
 import '../../../utils/tools.dart';
 import '../../components/buttons/dropdown_field.dart';
 import '../../components/buttons/multi_dropdown_field.dart';
@@ -44,7 +46,7 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
     Tools.onViewCreated(() {
       context
           .read<SurveyApprovalProvider>()
-          .getSurveyFormDetail(widget.id);
+          .getSurveyFormDetail(widget.id, '1');
     });
   }
 
@@ -54,6 +56,7 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
     final approvalForm = context.watch<SurveyApprovalProvider>().approvalForm;
     final controllers = context.watch<SurveyApprovalProvider>().controllers;
     final header = context.watch<SurveyApprovalProvider>().header;
+    bool isFillAll = false;
 
     return Scaffold(
       body: Column(
@@ -62,7 +65,7 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
           const PrimaryAppBar(
             title: 'Kembali',
           ),
-            loading
+          loading
               ? const Expanded(
                   child: Center(child: CircularProgressIndicator()),
                 )
@@ -101,54 +104,79 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
                             return formWidget(form, controller);
                           }),
                         ),
-                        if(widget.flagSurvey != 1)
+                        if (widget.flagSurvey != 1)
                           MultiValueListenableBuilder(
                             valueListenables: List.generate(
                               controllers.length,
-                              (index) => controllers[index] is FleatherController
-                                  ? MultiDropDownController()
-                                  : controllers[index],
+                              (index) =>
+                                  controllers[index] is FleatherController
+                                      ? MultiDropDownController()
+                                      : controllers[index],
                             ),
                             builder: (context, _, __) {
                               return PrimaryButton(
-                                enable: isValidForm(),
-                                onTap: () async {
-                                  final formData = <SurveyKeyValueData>[];
-                                  for (int i = 0; i < approvalForm.length; i++) {
-                                    String value = '';
-                                    final controller = controllers[i];
+                                      enable: isValidForm(),
+                                      onTap: () async {
+                                        final formData = <SurveyKeyValueData>[];
+                                        isFillAll = true;
+                                        for (int i = 0;
+                                            i < approvalForm.length;
+                                            i++) {
+                                          String value = '';
+                                          final controller = controllers[i];
 
-                                    if (controller is TextEditingController) {
-                                      value = controller.text;
-                                    } else if (controller is DropDownController) {
-                                      value = controller.selected?.value;
-                                    } else if (controller is SurveyScoreController) {
-                                      value = controller.score.toString();
-                                    } else if (controller is FleatherController) {
-                                      value = jsonEncode(
-                                          controller.document.toJson());
-                                    }
+                                          if (controller
+                                              is TextEditingController) {
+                                            value = controller.text;
+                                          } else if (controller
+                                              is DropDownController) {
+                                            value = controller.selected?.value;
+                                          } else if (controller
+                                              is SurveyScoreController) {
+                                            value = controller.score.toString();
+                                          } else if (controller
+                                              is FleatherController) {
+                                            value = jsonEncode(
+                                                controller.document.toJson());
+                                            if (controller.document.length <
+                                                5) {
+                                              isFillAll = false;
+                                            }
+                                          }
 
-                                    final keyValueData = SurveyKeyValueData(
-                                      id: '${approvalForm[i].id}',
-                                      jenisSurvey: '${approvalForm[i].jenisSurvey}',
-                                      reason: value,
-                                    );
-                                    formData.add(keyValueData);
-                                  }
+                                          if (value == 'null') {
+                                            isFillAll = false;
+                                          }
 
-                                  context
-                                      .read<SurveyApprovalProvider>()
-                                      .approveSurveyForm(
-                                        id: widget.id,
-                                        formData: formData,
-                                        onFinish: () => context
-                                            .read<SurveyProvider>()
-                                            .getSurveyList(),
-                                      );
-                                },
-                                text: 'Simpan Penilaian',
-                              ).addMarginBottom(26);
+                                          final keyValueData =
+                                              SurveyKeyValueData(
+                                            id: '${approvalForm[i].id}',
+                                            jenisSurvey:
+                                                '${approvalForm[i].jenisSurvey}',
+                                            reason: value,
+                                          );
+                                          formData.add(keyValueData);
+                                        }
+                                        if (isFillAll == true) {
+                                          context
+                                              .read<SurveyApprovalProvider>()
+                                              .approveSurveyForm(
+                                                id: widget.id,
+                                                formData: formData,
+                                                onFinish: () => context
+                                                    .read<SurveyProvider>()
+                                                    .getSurveyList(),
+                                              );
+                                        } else {
+                                          DialogHelper.showMessageDialog(
+                                              title: 'Error',
+                                              body:
+                                                  'Pertanyaan belum diisi semua',
+                                              alertType: AlertType.error);
+                                        }
+                                      },
+                                      text: 'Simpan Penilaian')
+                                  .addMarginBottom(26);
                             },
                           ),
                       ],
@@ -203,49 +231,47 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
                 ),
               ],
             ).addMarginBottom(20),
-        ],
+          ],
         );
-      case 2:
+      case 4:
         return SurveyScoreButton(
           title: '${form.description}',
           readOnly: widget.flagSurvey == 1 ? true : false,
           nilai: int.parse(form.nilai ?? '0'),
           controller: controller,
         ).addMarginBottom(20);
-      case 3:
+      case 5:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               form.description ?? '',
               style: Themes().blackBold12,
+            ).addMarginBottom(2),
+            Text(
+              '*Minimum 4 karakter',
+              style: Themes().black10,
             ).addMarginBottom(8),
-            (widget.flagSurvey==1)?
-              SizedBox(
-                height: 300,
-                child: 
-                  // Text(
-                  //   form.nilai ?? '',
-                  //   style: Themes().black14,
-                  // ).addMarginBottom(8)
-                  RichTextEditor(
-                    readOnly: true,
-                    controller: (widget.flagSurvey == 1 && form.nilai != null)
-                                  ? FleatherController(
-                                      ParchmentDocument.fromJson(
-                                          jsonDecode(form.nilai ?? '{}')))
-                                  : controller,
-                    hint: '',
-                  ),
-              )
-              :
-              SizedBox(
-                height: 300,
-                child: RichTextEditor(
-                  controller: controller,
-                  hint: '',
-                ),
-              ).addMarginBottom(20)
+            (widget.flagSurvey == 1)
+                ? SizedBox(
+                    height: 300,
+                    child: RichTextEditor(
+                      readOnly: true,
+                      controller: (widget.flagSurvey == 1 && form.nilai != null)
+                          ? FleatherController(
+                              document: ParchmentDocument.fromJson(
+                                  jsonDecode(form.nilai ?? '{}')))
+                          : FleatherController(),
+                      hint: '',
+                    ),
+                  )
+                : SizedBox(
+                    height: 300,
+                    child: RichTextEditor(
+                      controller: controller,
+                      hint: '',
+                    ),
+                  ).addMarginBottom(20)
           ],
         );
       default:
@@ -263,7 +289,6 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
       } else if (controller is DropDownController) {
         isAllFormValid.add(controller.selected != null);
       } else if (controller is RatingController) {
-        debugPrint(controller.rating.toString());
         isAllFormValid.add(controller.rating != null);
       } else if (controller is FleatherController) {
         isAllFormValid.add(controller.document.toPlainText().isNotEmpty);

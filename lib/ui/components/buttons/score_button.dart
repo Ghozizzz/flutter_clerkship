@@ -56,6 +56,7 @@ class ScoreButton extends StatelessWidget {
                     border: Border.all(
                       color: selected ? Themes.primary : Themes.stroke,
                     ),
+                    color: selected ? Themes.verylightPrimary : Themes.white,
                     borderRadius: BorderRadius.circular(50.w),
                     padding: EdgeInsets.zero,
                     text: data,

@@ -75,7 +75,7 @@ class ScientificActivityService extends ScientificActivityInterface {
 
   @override
   Future<ResultData<ScientificResponse>> getListScientific(
-      {int? status, int? idFlow}) async {
+      {int? status, int? idFlow, int? idActivity}) async {
     final endpoint = '${ApiConfig.baseUrl}/logbook/list';
     debugPrint(endpoint);
     final body = {};
@@ -85,6 +85,10 @@ class ScientificActivityService extends ScientificActivityInterface {
 
     if (idFlow != null) {
       body['id_flow'] = idFlow.toString();
+    }
+
+    if (idActivity != null) {
+      body['id_jenis'] = idActivity.toString();
     }
 
     debugPrint(jsonEncode(body));

@@ -11,6 +11,7 @@ import '../../../components/commons/flat_card.dart';
 class ItemActivity extends StatelessWidget {
   final VoidCallback? onTap;
   final String title;
+  final String? activityName;
   final String date;
   final String doctor;
   final String status;
@@ -21,6 +22,7 @@ class ItemActivity extends StatelessWidget {
       {super.key,
       this.onTap,
       required this.title,
+      this.activityName,
       required this.date,
       required this.doctor,
       required this.status,
@@ -41,6 +43,14 @@ class ItemActivity extends StatelessWidget {
               title,
               style: Themes().blackBold12?.withColor(Themes.black),
             ).addMarginBottom(8),
+            if (activityName != null)
+              Text(
+                activityName!,
+                style: Themes().black12?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: Themes.black,
+                    ),
+              ).addMarginBottom(8),
             Text(
               date,
               style: Themes().black12?.copyWith(
@@ -74,13 +84,13 @@ class ItemActivity extends StatelessWidget {
                 ),
               ],
             ),
-            if(updatedAt!='')
+            if (updatedAt != '')
               Text(
                 updatedAt,
                 style: Themes().black10?.copyWith(
-                  fontStyle: FontStyle.italic,
-                  color: Themes.black,
-                ),
+                      fontStyle: FontStyle.italic,
+                      color: Themes.black,
+                    ),
               ).addMarginTop(12),
           ],
         ),

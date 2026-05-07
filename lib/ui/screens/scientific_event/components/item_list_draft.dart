@@ -60,9 +60,10 @@ class ListItemDraftScientific extends StatelessWidget {
               date: DateFormat('dd MMMM yyyy')
                   .format(listAllScientific[k].tanggal!),
               doctor: listAllScientific[k].namaDokter!,
+              activityName: listAllScientific[k].namaKegiatan,
               status: status,
               colorStatus: color,
-              updatedAt: DateFormat('dd MMMM yyyy hh:mm')
+              updatedAt: DateFormat('dd MMMM yyyy HH:mm')
                   .format(listAllScientific[k].updatedAt!),
               onTap: () async {
                 if (listAllScientific[k].status == 0) {

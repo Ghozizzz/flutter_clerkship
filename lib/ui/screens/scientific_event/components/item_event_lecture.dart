@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:clerkship/ui/screens/scientific_event_approval/scientific_event_approval_screen.dart';
 import 'package:clerkship/utils/nav_helper.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -111,7 +113,7 @@ class ItemEventLecture extends StatelessWidget {
                 // ),
               ],
             ).addMarginBottom(12)
-          else if (showCheckbox && (header!.isForm! == 0))
+          else if (showCheckbox && (header!.isForm == 0))
             PrimaryCheckbox(
               controller: checkboxController,
               checkBoxSize: Size(20.w, 20.w),
@@ -119,7 +121,6 @@ class ItemEventLecture extends StatelessWidget {
               strokeWidth: 2,
               onValueChange: (value) {
                 data.checked = value;
-                if (header == null) return;
                 if (value) {
                   context
                       .read<ScientificEventLectureProvider>()
@@ -138,6 +139,11 @@ class ItemEventLecture extends StatelessWidget {
           if (rated)
             Column(
               children: [
+                ItemInfoSegment(
+                  title: 'Mahasiswa',
+                  value: header?.namaStudent ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
                 ItemInfoSegment(
                   title: 'Tanggal',
                   value: header?.tanggal?.formatDate('dd MMMM yyyy'),
@@ -173,6 +179,11 @@ class ItemEventLecture extends StatelessWidget {
           else
             Column(
               children: [
+                ItemInfoSegment(
+                  title: 'Mahasiswa',
+                  value: header?.namaStudent ?? '',
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
                 ItemInfoSegment(
                   title: 'Tanggal',
                   value: header?.tanggal?.formatDate('dd MMMM yyyy'),
@@ -255,8 +266,10 @@ class ItemEventLecture extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AssetIcons.icClose,
-                        color: Themes.white,
                         width: 24.w,
+                        theme: const SvgTheme(
+                          currentColor: Themes.white,
+                        ),
                       ).addMarginRight(8.w),
                       Text(
                         'Tolak',
@@ -281,7 +294,7 @@ class ItemEventLecture extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AssetIcons.icCheck,
-                        color: Themes.white,
+                        theme: const SvgTheme(currentColor: Themes.white),
                         width: 24.w,
                       ).addMarginRight(8.w),
                       Text(
@@ -352,11 +365,15 @@ class ItemEventLecture extends StatelessWidget {
     if (await Permission.storage.request().isGranted) {
       if (document?.fileUrl == null) return;
       String fileName = document?.fileName ?? '';
-      final currentFile =
-          File('/storage/emulated/0/Download/${document?.fileName}');
+      final root = await getDownloadPath();
+      final currentFile = File('$root/$fileName');
 
-      if ((await currentFile.exists())) {
-        await currentFile.delete();
+      if (await currentFile.exists()) {
+        try {
+          await currentFile.delete();
+        } catch (err) {
+          fileName = '${Random().nextInt(100)}_$fileName';
+        }
       }
 
       DialogHelper.showProgressDialog();
@@ -365,11 +382,34 @@ class ItemEventLecture extends StatelessWidget {
         url: document?.fileUrl ?? '',
         fileName: fileName,
         headers: {},
-        savedDir: '/storage/emulated/0/Download/',
+        savedDir: root!,
         showNotification: true,
         openFileFromNotification: true,
       );
+    } else {
+      // open setting and set manualy
+      if (await Permission.storage.isPermanentlyDenied) {
+        openAppSettings();
+      }
     }
+  }
+
+  Future<String?> getDownloadPath() async {
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = Directory('/storage/emulated/0/Download');
+      }
+
+      if (!await directory.exists()) {
+        directory = await getExternalStorageDirectory();
+      }
+    } catch (err) {
+      // print('Cannot get download folder path');
+    }
+    return directory?.path;
   }
 
   approveActivity({
@@ -383,7 +423,7 @@ class ItemEventLecture extends StatelessWidget {
         message: 'Apakah anda yakin ingin menyetujui catatan ini?',
         type: ConfirmationType.withField,
         labelField: 'Masukan',
-        hintField: 'Masukkan Alasan Penolakan',
+        hintField: 'Masukkan Alasan Persetujuan',
         optionalField: true,
         onPositiveTapWithField: (fieldValue) {
           Navigator.pop(context);

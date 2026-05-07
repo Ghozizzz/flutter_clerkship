@@ -33,8 +33,9 @@ class SurveyService extends SurveyInterface {
   }
 
   @override
-  Future<ResultData<SurveyFormResponse>> getSurveyFormDetail(String id) async {
-    final endpoint = '${ApiConfig.baseUrl}/survey_form/$id';
+  Future<ResultData<SurveyFormResponse>> getSurveyFormDetail(
+      String id, String tipeSurvey) async {
+    final endpoint = '${ApiConfig.baseUrl}/survey_form/$id/$tipeSurvey';
     debugPrint(endpoint);
 
     try {
@@ -63,6 +64,45 @@ class SurveyService extends SurveyInterface {
     required List<Map<String, String>> data,
   }) async {
     final endpoint = '${ApiConfig.baseUrl}/survey/approve';
+    debugPrint(endpoint);
+
+    final body = {
+      'id': id,
+      'detail': data,
+    };
+
+    debugPrint(jsonEncode(body));
+    try {
+      final response = await apiClient.post(
+        Uri.parse(endpoint),
+        body: jsonEncode(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      );
+      debugPrint(response.body);
+
+      final defaultResponse = defaultResponseFromJson(response.body);
+      return ResultData(
+        data: defaultResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ResultData<DefaultResponse>> approveSurveyApprovalForm({
+    required String id,
+    required List<Map<String, String>> data,
+  }) async {
+    final endpoint = '${ApiConfig.baseUrl}/survey/form_approve';
     debugPrint(endpoint);
 
     final body = {

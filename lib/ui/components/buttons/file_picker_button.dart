@@ -4,11 +4,10 @@ import 'package:another_dashed_container/another_dashed_container.dart';
 import 'package:clerkship/config/themes.dart';
 import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
-import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mime/mime.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 import 'package:path_provider/path_provider.dart';
@@ -47,7 +46,7 @@ class FilePickerController extends ValueNotifier<List<SelectedFile>> {
   }
 }
 
-class FilePickerButton extends StatelessWidget {
+class FilePickerButton extends StatefulWidget {
   final bool onlyImage;
   final FilePickerController controller;
   final Function? onDelete;
@@ -59,6 +58,11 @@ class FilePickerButton extends StatelessWidget {
     this.onlyImage = false,
   });
 
+  @override
+  State<FilePickerButton> createState() => _FilePickerButtonState();
+}
+
+class _FilePickerButtonState extends State<FilePickerButton> {
   Future<Directory?> getLocalDirectory() async {
     return Platform.isAndroid
         ? await getExternalStorageDirectory()
@@ -70,7 +74,7 @@ class FilePickerButton extends StatelessWidget {
     final navigator = Navigator.of(context);
 
     return ValueListenableBuilder(
-      valueListenable: controller,
+      valueListenable: widget.controller,
       builder: (context, __, _) {
         return Column(
           children: [
@@ -78,9 +82,9 @@ class FilePickerButton extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               primary: true,
               shrinkWrap: true,
-              itemCount: controller.selectedFiles.length,
+              itemCount: widget.controller.selectedFiles.length,
               itemBuilder: (context, index) {
-                final file = controller.selectedFiles[index];
+                final file = widget.controller.selectedFiles[index];
 
                 return FlatCard(
                   child: Row(
@@ -99,14 +103,16 @@ class FilePickerButton extends StatelessWidget {
                       RippleButton(
                         padding: EdgeInsets.all(12.w),
                         onTap: () {
-                          onDelete!(file);
-                          controller.removeFile(file);
+                          widget.onDelete!(file);
+                          widget.controller.removeFile(file);
                           debugPrint('DiDelete');
                         },
                         child: SvgPicture.asset(
                           AssetIcons.icDelete,
                           width: 20.w,
-                          color: Themes.red,
+                          theme: const SvgTheme(
+                            currentColor: Themes.red,
+                          ),
                         ),
                       ),
                     ],
@@ -121,31 +127,41 @@ class FilePickerButton extends StatelessWidget {
               dashedLength: 6,
               child: RippleButton(
                 onTap: () async {
-                  String? path = await FilesystemPicker.open(
-                    context: context,
-                    fileTileSelectMode: FileTileSelectMode.wholeTile,
-                    fsType: FilesystemType.file,
-                    requestPermission: () {
-                      return Permission.storage.request().isGranted;
-                    },
-                    rootDirectory: Directory('/storage/emulated/0'),
-                    // rootDirectory: Directory(getLocalDirectory()),
+                  if (!mounted) return;
+                  // String? path = await FilesystemPicker.open(
+                  //   context: context,
+                  //   fileTileSelectMode: FileTileSelectMode.wholeTile,
+                  //   fsType: FilesystemType.file,
+                  //   requestPermission: () {
+                  //     return Permission.storage.request().isGranted;
+                  //   },
+                  //   rootDirectory: root,
+                  //   // rootDirectory: Directory(getLocalDirectory()),
+                  // );
+                  String? path;
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(
+                    type: FileType.custom,
+                    allowedExtensions: ['jpg', 'png', 'pdf', 'docx'],
                   );
+                  if (result != null) {
+                    path = result.files.single.path;
+                  }
                   if (path != null) {
                     final mimeType = lookupMimeType(path);
                     if (mimeType?.contains('image') ?? false) {
                       File? croppedFile = await navigator.push(
                         MaterialPageRoute(
                           builder: (context) => CropImageScreen(
-                            imageFile: File(path),
+                            imageFile: File(path!),
                           ),
                         ),
                       );
 
                       if (croppedFile == null) return;
-                      controller.addFile(croppedFile);
+                      widget.controller.addFile(croppedFile);
                     } else {
-                      controller.addFile(File(path));
+                      widget.controller.addFile(File(path));
                     }
                   }
                 },

@@ -165,20 +165,20 @@ class Document {
 }
 
 class Header {
-  Header({
-    this.id,
-    this.status,
-    this.remarks,
-    this.topik,
-    this.tanggal,
-    this.namaStudent,
-    this.namaDepartment,
-    this.namaPeran,
-    this.namaKegiatan,
-    this.namaBatch,
-    this.isMinicex,
-    this.isForm,
-  });
+  Header(
+      {this.id,
+      this.status,
+      this.remarks,
+      this.topik,
+      this.tanggal,
+      this.namaStudent,
+      this.namaDepartment,
+      this.namaPeran,
+      this.namaKegiatan,
+      this.namaBatch,
+      this.isMinicex,
+      this.isForm,
+      this.updatedAt});
 
   int? id;
   int? status;
@@ -192,6 +192,7 @@ class Header {
   String? namaBatch;
   int? isMinicex;
   int? isForm;
+  String? updatedAt;
 
   factory Header.fromJson(Map<String, dynamic> json) => Header(
         id: json['id'],
@@ -207,6 +208,7 @@ class Header {
         namaBatch: json['name'],
         isMinicex: json['is_minicex'],
         isForm: json['is_form'],
+        updatedAt: json['updatedat'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -222,6 +224,7 @@ class Header {
         'name': namaBatch,
         'is_minicex': isMinicex,
         'is_form': isForm,
+        'updated_at': updatedAt
       };
 }
 

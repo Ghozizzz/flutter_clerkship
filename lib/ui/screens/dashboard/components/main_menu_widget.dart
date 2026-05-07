@@ -15,11 +15,13 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../../r.dart';
 import '../../../../utils/nav_helper.dart';
 import '../../clinic_activity/providers/item_list_all_provider.dart';
+import '../../clinic_activity/providers/item_list_waiting_provider.dart';
 import '../../scientific_event/providers/item_list_all_provider.dart';
 import '../../scientific_event/providers/item_list_approve_provider.dart';
 import '../../scientific_event/providers/item_list_draft_provider.dart';
 import '../../scientific_event/providers/item_list_reject_provider.dart';
 import '../../clinic_activity/clinic_activity_student_screen.dart';
+import '../../scientific_event/providers/item_list_waiting_provider.dart';
 import '../../scientific_event/scientific_event_student_screen.dart';
 import 'item_menu.dart';
 
@@ -43,6 +45,7 @@ class MainMenuWidget extends StatelessWidget {
                 context.read<ItemListDraftClinicProvider>().getListClinic();
                 context.read<ItemListApproveClinicProvider>().getListClinic();
                 context.read<ItemListRejectClinicProvider>().getListClinic();
+                context.read<ItemListWaitingClinicProvider>().getListClinic();
               },
             ).addExpanded,
             Container(width: 20.w),
@@ -63,11 +66,16 @@ class MainMenuWidget extends StatelessWidget {
                 context
                     .read<ItemListRejectScientificProvider>()
                     .getListScientific();
+                context
+                    .read<ItemListWaitingScientificProvider>()
+                    .getListScientific();
               },
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
-        Container(height: 20.w),
+        const SizedBox(
+          height: 10.0,
+        ),
         Row(
           children: [
             ItemMenu(
@@ -81,7 +89,7 @@ class MainMenuWidget extends StatelessWidget {
             Container(width: 20.w),
             ItemMenu(
               icon: AssetIcons.icFinalAssesment,
-              title: 'Pengumuman',
+              title: 'Peraturan dan Tata Tertib',
               onTap: () {
                 context.read<StandardCompetencyProvider>().getListSk();
                 // NavHelper.navigatePush(const FinalAssessmentStudentScreen());
@@ -90,6 +98,9 @@ class MainMenuWidget extends StatelessWidget {
             ).addExpanded,
           ],
         ).addSymmetricMargin(horizontal: 20.w),
+        const SizedBox(
+          height: 10.0,
+        ),
         Row(
           children: [
             ItemMenu(

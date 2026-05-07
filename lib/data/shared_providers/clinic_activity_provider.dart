@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:clerkship/data/models/activity_mini_cex.dart';
 import 'package:clerkship/data/models/dropdown_item.dart';
 import 'package:clerkship/data/models/existing_lampiran.dart';
 import 'package:clerkship/ui/components/buttons/file_picker_button.dart';
+import 'package:clerkship/ui/screens/clinic_detail_approval/survey_approval_screen.dart';
 import 'package:clerkship/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,7 +17,6 @@ import '../../ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import '../../ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
-import '../../ui/screens/clinic_detail_approval/clinic_detail_approval_screen.dart';
 import '../../utils/dialog_helper.dart';
 import '../../utils/nav_helper.dart';
 import '../models/item_clinic.dart';
@@ -33,6 +34,8 @@ class ClinicActivityProvider extends ChangeNotifier {
   ClinicDetailItem jenisKegiatan = ClinicDetailItem(
     namaItem: '',
   );
+
+  Trxmini listTrxMini = Trxmini();
 
   Future deleteClinic({
     required int id,
@@ -91,6 +94,9 @@ class ClinicActivityProvider extends ChangeNotifier {
         }
       }
 
+      if (result.data!.data!.trxmini != null) {
+        listTrxMini = result.data!.data!.trxmini!;
+      }
       listDocument.addAll(result.data!.data!.document!);
       // loading = false;
       notifyListeners();
@@ -113,6 +119,11 @@ class ClinicActivityProvider extends ChangeNotifier {
     String? catatan,
     List<ExistingLampiran>? existingDocument,
     List<SelectedFile>? lampiran,
+    String? problem,
+    String? age,
+    DropDownItem? gender,
+    String? setting,
+    DropDownItem? complexity,
   }) async {
     var bodyTgl = tanggal.formatDate('yyyy-MM-dd');
     var bodyJam =
@@ -122,6 +133,7 @@ class ClinicActivityProvider extends ChangeNotifier {
     var bodyRemarks = catatan;
     List<ItemClinic> bodyItem = [];
     List<File> fileLampiran = [];
+    ActivityMiniCex? activityMiniCex;
 
     for (SelectedFile item in lampiran!) {
       if (existingDocument!
@@ -129,6 +141,21 @@ class ClinicActivityProvider extends ChangeNotifier {
           .isEmpty) {
         fileLampiran.add(item.file);
       }
+    }
+
+    // optional for activity mini cex
+    if (jenisKegiatan.isMinicex == 1 ||
+        (problem != null &&
+            age != null &&
+            gender != null &&
+            setting != null &&
+            complexity != null)) {
+      activityMiniCex = ActivityMiniCex(
+          problem: problem!,
+          age: age!,
+          gender: gender!.title,
+          setting: setting!,
+          clomplexity: complexity!.title);
     }
 
     bodyItem.add(ItemClinic(
@@ -218,21 +245,26 @@ class ClinicActivityProvider extends ChangeNotifier {
             item: jsonEncode(bodyItemJson),
             lampiran: fileLampiran,
             idBatch: bodyDepartemen,
-            existingLampiran: jsonEncode(bodyExistingJson))
+            existingLampiran: jsonEncode(bodyExistingJson),
+            activityMiniCex: activityMiniCex)
         .then((result) {
-      context.read<ItemListAllClinicProvider>().getListClinic();
-      context.read<ItemListDraftClinicProvider>().getListClinic();
-      context.read<ItemListApproveClinicProvider>().getListClinic();
-      context.read<ItemListRejectClinicProvider>().getListClinic();
       DialogHelper.closeDialog();
 
       if (result.statusCode == 200) {
-        Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
         if (status == '2') {
-          NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+          NavHelper.navigatePush(SurveyApprovalScreen(
             id: result.data!.data,
+            flow: 1,
           ));
+          // NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+          //   id: result.data!.data,
+          // ));
         } else {
+          context.read<ItemListAllClinicProvider>().getListClinic();
+          context.read<ItemListDraftClinicProvider>().getListClinic();
+          context.read<ItemListApproveClinicProvider>().getListClinic();
+          context.read<ItemListRejectClinicProvider>().getListClinic();
+          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
           NavHelper.pop();
         }
       } else {
@@ -259,6 +291,11 @@ class ClinicActivityProvider extends ChangeNotifier {
     List<DropDownItem>? gejala,
     String? catatan,
     List<SelectedFile>? lampiran,
+    String? problem,
+    String? age,
+    DropDownItem? gender,
+    String? setting,
+    DropDownItem? complexity,
   }) async {
     var bodyTgl = tanggal.formatDate('yyyy-MM-dd');
     var bodyJam =
@@ -268,6 +305,7 @@ class ClinicActivityProvider extends ChangeNotifier {
     var bodyRemarks = catatan;
     List<ItemClinic> bodyItem = [];
     List<File> images = [];
+    ActivityMiniCex? activityMiniCex;
 
     for (SelectedFile item in lampiran!) {
       images.add(item.file);
@@ -280,6 +318,16 @@ class ClinicActivityProvider extends ChangeNotifier {
       remarks: null,
       counter: 0,
     ));
+
+    // optional for activity mini cex
+    if (jenisKegiatan.isMinicex == 1) {
+      activityMiniCex = ActivityMiniCex(
+          problem: problem!,
+          age: age!,
+          gender: gender!.title,
+          setting: setting!,
+          clomplexity: complexity!.title);
+    }
 
     for (DropDownItem item in penyakit!) {
       if (item.value == -1) {
@@ -344,21 +392,26 @@ class ClinicActivityProvider extends ChangeNotifier {
             status: status,
             item: jsonEncode(bodyItemJson),
             lampiran: images,
-            idBatch: bodyDepartemen)
+            idBatch: bodyDepartemen,
+            activityMiniCex: activityMiniCex)
         .then((result) {
-      context.read<ItemListAllClinicProvider>().getListClinic();
-      context.read<ItemListDraftClinicProvider>().getListClinic();
-      context.read<ItemListApproveClinicProvider>().getListClinic();
-      context.read<ItemListRejectClinicProvider>().getListClinic();
       DialogHelper.closeDialog();
 
       if (result.statusCode == 200) {
-        Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
         if (status == '2') {
-          NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+          NavHelper.navigateReplace(SurveyApprovalScreen(
             id: result.data!.data,
+            flow: 1,
           ));
+          // NavHelper.navigateReplace(ClinicDetailApprovalScreen(
+          //   id: result.data!.data,
+          // ));
         } else {
+          context.read<ItemListAllClinicProvider>().getListClinic();
+          context.read<ItemListDraftClinicProvider>().getListClinic();
+          context.read<ItemListApproveClinicProvider>().getListClinic();
+          context.read<ItemListRejectClinicProvider>().getListClinic();
+          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
           NavHelper.pop();
         }
       } else {

@@ -10,10 +10,12 @@ import '../../../../main.dart';
 
 class StandartCompetencyDataGroup {
   String title;
+  String? subtitle;
   List<StandartCompetencyData> data;
 
   StandartCompetencyDataGroup({
     required this.title,
+    this.subtitle,
     required this.data,
   });
 }
@@ -21,12 +23,14 @@ class StandartCompetencyDataGroup {
 class StandartCompetencyData {
   String id;
   String title;
+  String? subtitle;
   String tipe;
   int count;
 
   StandartCompetencyData({
     required this.id,
     required this.title,
+    this.subtitle,
     this.tipe = '0',
     this.count = 0,
   });
@@ -37,6 +41,12 @@ class StandartCompetencyProvider extends ChangeNotifier {
   final standartCompetencyLectureService =
       getIt<StandartCompetencyLectureService>();
   final List<StandartCompetencyDataGroup> data = [
+    StandartCompetencyDataGroup(title: '', data: []),
+    StandartCompetencyDataGroup(title: '', data: []),
+    StandartCompetencyDataGroup(title: '', data: []),
+    StandartCompetencyDataGroup(title: '', data: []),
+  ];
+  final List<StandartCompetencyDataGroup> dataBackup = [
     StandartCompetencyDataGroup(title: '', data: []),
     StandartCompetencyDataGroup(title: '', data: []),
     StandartCompetencyDataGroup(title: '', data: []),
@@ -67,7 +77,13 @@ class StandartCompetencyProvider extends ChangeNotifier {
       data[0].data.add(StandartCompetencyData(
             id: '${departement.id}',
             title: '${departement.namaBatch}',
+            subtitle: '${departement.batchName}',
           ));
+    }
+
+    dataBackup[0].data.clear();
+    for (StandartCompetencyData data in data[0].data) {
+      dataBackup[0].data.add(data);
     }
 
     loading = false;
@@ -82,11 +98,16 @@ class StandartCompetencyProvider extends ChangeNotifier {
     final result = await standardCompetencyService.getListSkJenis();
     for (SKListJenis skListJenis in result.data?.data ?? []) {
       data[1].data.add(StandartCompetencyData(
-            id: '${skListJenis.id}',
-            title: '${skListJenis.namaJenis}',
-            tipe: '${skListJenis.tipe}'
-          ));
+          id: '${skListJenis.id}',
+          title: '${skListJenis.namaJenis}',
+          tipe: '${skListJenis.tipe}'));
     }
+
+    dataBackup[1].data.clear();
+    for (StandartCompetencyData data in data[1].data) {
+      dataBackup[1].data.add(data);
+    }
+
     loading = false;
     notifyListeners();
   }
@@ -109,6 +130,12 @@ class StandartCompetencyProvider extends ChangeNotifier {
             title: '${sklistGroup.namaGroup}',
           ));
     }
+
+    dataBackup[2].data.clear();
+    for (StandartCompetencyData data in data[2].data) {
+      dataBackup[2].data.add(data);
+    }
+
     loading = false;
     notifyListeners();
   }
@@ -127,10 +154,16 @@ class StandartCompetencyProvider extends ChangeNotifier {
             count: sklistGroupDetail.jumlah ?? 0,
           ));
     }
+
+    dataBackup[3].data.clear();
+    for (StandartCompetencyData data in data[3].data) {
+      dataBackup[3].data.add(data);
+    }
+
     loading = false;
     notifyListeners();
   }
-  
+
   void getListSKGroupDetailBypass() async {
     loading = true;
     tipe = false;
@@ -146,7 +179,33 @@ class StandartCompetencyProvider extends ChangeNotifier {
             count: sklistGroupDetail.jumlah ?? 0,
           ));
     }
+
+    dataBackup[2].data.clear();
+    for (StandartCompetencyData data in data[2].data) {
+      dataBackup[2].data.add(data);
+    }
     loading = false;
+    notifyListeners();
+  }
+
+  void searchSK(String query) {
+    final List<StandartCompetencyData> filteredList = [];
+    // save data before search
+    if (dataBackup[index].data.isEmpty) {
+      for (StandartCompetencyData data in data[index].data) {
+        dataBackup[index].data.add(data);
+      }
+    } else {
+      data[index].data.clear();
+      data[index].data.addAll(dataBackup[index].data);
+    }
+
+    for (StandartCompetencyData data in data[index].data) {
+      if (data.title.toLowerCase().contains(query.toLowerCase())) {
+        filteredList.add(data);
+      }
+    }
+    data[index].data = filteredList;
     notifyListeners();
   }
 

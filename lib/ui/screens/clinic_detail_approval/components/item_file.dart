@@ -37,7 +37,7 @@ class ItemFile extends StatelessWidget {
             onTap: onTap,
             child: SvgPicture.asset(
               AssetIcons.icDownload,
-              color: Themes.primary,
+              theme: const SvgTheme(currentColor: Themes.primary),
               width: 20.w,
               height: 20.w,
             ),

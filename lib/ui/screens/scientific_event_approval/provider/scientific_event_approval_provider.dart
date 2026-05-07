@@ -8,6 +8,7 @@ import '../../../../main.dart';
 import '../../../../utils/dialog_helper.dart';
 import '../../../components/buttons/dropdown_field.dart';
 import '../../../components/buttons/score_button.dart';
+import '../../../components/buttons/survey_score_button.dart';
 import '../../../components/dialog/custom_alert_dialog.dart';
 
 class ScientificEventApprovalProvider extends ChangeNotifier {
@@ -40,7 +41,11 @@ class ScientificEventApprovalProvider extends ChangeNotifier {
           controllers.add(ScoreController());
           break;
         case 3:
+        case 5:
           controllers.add(FleatherController());
+          break;
+        case 4:
+          controllers.add(SurveyScoreController());
           break;
       }
     }
@@ -48,7 +53,7 @@ class ScientificEventApprovalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void approveScientificEvent({
+  Future approveScientificEvent({
     required String id,
     required List<KeyValueData> formData,
     VoidCallback? onFinish,

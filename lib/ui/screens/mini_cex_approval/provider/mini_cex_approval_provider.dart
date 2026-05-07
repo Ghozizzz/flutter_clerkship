@@ -1,3 +1,4 @@
+import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class MiniCexApprovalProvider extends ChangeNotifier {
 
   CexHeader? header;
   bool loading = true;
+  Trxmini? trxmini;
+  List<String?> listtrx = [];
 
   void getMiniCexFrom(String id) async {
     loading = true;
@@ -26,7 +29,20 @@ class MiniCexApprovalProvider extends ChangeNotifier {
 
     final response = await service.getMiniCexForm(id);
     header = response.data?.data?.header;
+    trxmini = response.data?.data?.trxmini;
+    if (trxmini != null) {
+      listtrx.add(trxmini!.masalah);
+      listtrx.add(trxmini!.umur);
+      listtrx.add(trxmini!.gender);
+      listtrx.add(trxmini!.deskripsi);
+      listtrx.add(trxmini!.kerumitanMasalah);
+    }
+
     for (DetailCexForm form in response.data?.data?.detail ?? []) {
+      if (form.id! <= 5 && trxmini != null) {
+        form.isEnable = false;
+        form.defaultValue = listtrx[form.id! - 1];
+      }
       approvalForm.add(form);
 
       switch (form.tipeScoring) {

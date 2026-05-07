@@ -40,7 +40,7 @@ class ItemStudentAssessment extends StatelessWidget {
                   SvgPicture.asset(
                     AssetIcons.icOffice,
                     width: 12.w,
-                    color: Themes.grey,
+                    theme: const SvgTheme(currentColor: Themes.grey),
                   ).addMarginRight(8.w),
                   Text(
                     '${data.namaRs}',
@@ -54,7 +54,7 @@ class ItemStudentAssessment extends StatelessWidget {
                   SvgPicture.asset(
                     AssetIcons.icCalendar,
                     width: 12.w,
-                    color: Themes.grey,
+                    theme: const SvgTheme(currentColor: Themes.grey),
                   ).addMarginRight(8.w),
                   Text(
                     '${data.startDate?.formatDate('d MMMM yyyy')} - ${data.endDate?.formatDate('d MMMM yyyy')}',

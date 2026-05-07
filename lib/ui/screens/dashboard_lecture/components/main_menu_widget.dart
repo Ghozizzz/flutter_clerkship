@@ -36,6 +36,7 @@ class MainMenuWidget extends StatelessWidget {
               icon: AssetIcons.icScienceShow,
               title: 'Acara\nIlmiah',
               onTap: () {
+                context.read<ReferenceProvider>().getFilterKegiatan();
                 NavHelper.navigatePush(
                   const ScientificEventStudentListScreen(),
                 );

@@ -12,6 +12,7 @@ class PrimaryAppBar extends StatelessWidget {
   final VoidCallback? onTapBack;
   final Widget? action;
   final bool showBackButton;
+  final bool colorGreen;
 
   const PrimaryAppBar({
     super.key,
@@ -19,6 +20,7 @@ class PrimaryAppBar extends StatelessWidget {
     this.action,
     this.onTapBack,
     this.showBackButton = true,
+    this.colorGreen = false,
   });
 
   @override
@@ -33,10 +35,10 @@ class PrimaryAppBar extends StatelessWidget {
           Container(
             width: double.infinity,
             height: statusBarHeight,
-            color: Themes.primary,
+            color: colorGreen ? Themes.white : Themes.primary,
           ),
           Container(
-            color: Themes.white,
+            color: colorGreen ? Themes.primary : Themes.white,
             padding: EdgeInsets.all(16.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,7 +66,7 @@ class PrimaryAppBar extends StatelessWidget {
                   ),
                 Text(
                   title,
-                  style: Themes().black14,
+                  style: colorGreen ? Themes().white14 : Themes().black14,
                 ),
                 Expanded(child: Container()),
                 if (action != null) action!,

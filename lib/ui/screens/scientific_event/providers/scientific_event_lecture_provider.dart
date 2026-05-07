@@ -97,6 +97,43 @@ class ScientificEventLectureProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getScientificEventV2() async {
+    loading = true;
+    checkedId.clear();
+    notifyListeners();
+
+    final response = await service.getEvent(
+      status: 2,
+      date: dateController.selected,
+      idKegiatan: activityFilterController.selected?.value,
+    );
+
+    scientificEvents.clear();
+    for (ScientificEventLectureData data in response.data?.data ?? []) {
+      scientificEvents.addAll(data.data ?? []);
+    }
+    loading = false;
+    notifyListeners();
+  }
+
+  void getRatedScientificEventV2() async {
+    loadingRated = true;
+    notifyListeners();
+
+    final response = await service.getEvent(
+      status: 1,
+      date: dateController.selected,
+      idKegiatan: activityFilterController.selected?.value,
+    );
+
+    ratedScientificEvents.clear();
+    for (ScientificEventLectureData data in response.data?.data ?? []) {
+      ratedScientificEvents.addAll(data.data ?? []);
+    }
+    loadingRated = false;
+    notifyListeners();
+  }
+
   void toggleCheckAll(bool checkAll) {
     checkedId.clear();
     for (ScientificEventData scientificEventData in scientificEvents) {
@@ -154,5 +191,10 @@ class ScientificEventLectureProvider extends ChangeNotifier {
   void reloadEvents() {
     getScientificEvent();
     getRatedScientificEvent();
+  }
+
+  void reloadEventsV2() {
+    getScientificEventV2();
+    getRatedScientificEventV2();
   }
 }

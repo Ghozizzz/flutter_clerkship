@@ -1,11 +1,18 @@
 import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/data/network/entity/notification_response.dart';
+import 'package:clerkship/data/shared_providers/notification_provider.dart';
 import 'package:clerkship/ui/screens/notification/components/item_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../../utils/nav_helper.dart';
+import '../../notification/notification_screen.dart';
+
 class LatestNotification extends StatelessWidget {
-  const LatestNotification({super.key});
+  final Notifications lastNotif;
+  const LatestNotification({super.key, required this.lastNotif});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,13 @@ class LatestNotification extends StatelessWidget {
           top: 16,
           bottom: 10,
         ),
-        const ItemNotification(),
+        ItemNotification(
+          notif: lastNotif,
+          onTap: () {
+            context.read<NotificationProvider>().getNotification(role: 1);
+            NavHelper.navigatePush(const NotificationScreen());
+          },
+        ),
       ],
     ).addSymmetricMargin(
       horizontal: 20.w,

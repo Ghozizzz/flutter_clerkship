@@ -14,11 +14,13 @@ class ItemListRejectScientificProvider extends ChangeNotifier {
     getListScientific();
   }
 
-  void getListScientific() async {
+  void getListScientific({
+    int? idActivity,
+  }) async {
     loading = true;
     notifyListeners();
-    final result =
-        await clinicActivityService.getListScientific(status: 9, idFlow: 2);
+    final result = await clinicActivityService.getListScientific(
+        status: 9, idFlow: 2, idActivity: idActivity);
 
     if (result.statusCode == 200) {
       listScientific.clear();

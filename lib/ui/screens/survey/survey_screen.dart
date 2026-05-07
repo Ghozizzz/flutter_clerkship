@@ -2,13 +2,11 @@ import 'package:clerkship/ui/components/commons/animated_item.dart';
 import 'package:clerkship/data/shared_providers/survey_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/themes.dart';
-import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
@@ -32,11 +30,11 @@ class SurveyScreen extends StatelessWidget {
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(
@@ -58,11 +56,11 @@ class SurveyScreen extends StatelessWidget {
                       return AnimatedItem(
                         index: k,
                         child: ItemAssessment(
-                            id: surveyList[k].id!,
-                            namaDepartment: surveyList[k].namaDepartment!,
+                            id: surveyList[k].id ?? 0,
+                            namaDepartment: surveyList[k].namaDepartment ?? '',
                             tanggal:
-                                '${DateFormat('dd MMMM yyyy').format(surveyList[k].startDate!)} - ${DateFormat('dd MMMM yyyy').format(surveyList[k].endDate!)}',
-                            flagSurvey: surveyList[k].flagSurvey!),
+                                '${DateFormat('dd MMMM yyyy').format(surveyList[k].startDate ?? DateTime.now())} - ${DateFormat('dd MMMM yyyy').format(surveyList[k].endDate ?? DateTime.now())}',
+                            flagSurvey: surveyList[k].flagSurvey ?? 0),
                       );
                     },
                   ).addExpanded

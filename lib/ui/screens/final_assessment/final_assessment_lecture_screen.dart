@@ -3,13 +3,11 @@ import 'package:clerkship/ui/screens/final_assessment_detail/final_assessment_de
 import 'package:clerkship/utils/nav_helper.dart';
 import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
-import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/animated_item.dart';
 import '../../components/commons/primary_appbar.dart';
@@ -55,11 +53,11 @@ class _FinalAssessmentLectureScreenState
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(

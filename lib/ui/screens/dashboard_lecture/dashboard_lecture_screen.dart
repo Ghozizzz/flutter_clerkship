@@ -1,12 +1,14 @@
 import 'dart:math';
 
-import 'package:clerkship/ui/screens/dashboard_lecture/components/latest_notification.dart';
+// import 'package:clerkship/ui/screens/dashboard_lecture/components/latest_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+// import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+// import '../../../data/shared_providers/notification_provider.dart';
 import '../../../r.dart';
 import '../../../utils/dialog_helper.dart';
 import '../../../utils/nav_helper.dart';
@@ -22,6 +24,9 @@ class DashboardLectureScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     NavHelper.initNavHelper(context);
     DialogHelper.initDialogHelper(context);
+
+    // final lastNotif = context.watch<NotificationProvider>().lastNotif;
+    // final loadingNotif = context.watch<NotificationProvider>().isLoadingNotif;
 
     return SafeStatusBar(
       child: Scaffold(
@@ -53,9 +58,14 @@ class DashboardLectureScreen extends StatelessWidget {
                 height: 177.h,
               ),
             ),
+            // if (loadingNotif)
+            //   const Center(child: CircularProgressIndicator())
+            // else
+            // Expanded(
+            // child:
             Column(
               children: [
-                const NotificationBar(),
+                const NotificationBar(role: 1),
                 const UserDataWidget().addMarginOnly(
                   top: 30.h,
                   left: 20.w,
@@ -63,14 +73,17 @@ class DashboardLectureScreen extends StatelessWidget {
                   bottom: 40.h,
                 ),
                 const MainMenuWidget(),
-                const LatestNotification(),
+                // LatestNotification(
+                //   lastNotif: lastNotif,
+                // ),
                 Container().addExpanded,
                 SvgPicture.asset(
                   AssetImages.logoAlt,
                   width: 155.w,
                 ).addMarginBottom(15.h),
               ],
-            )
+            ),
+            // )
           ],
         ),
       ),

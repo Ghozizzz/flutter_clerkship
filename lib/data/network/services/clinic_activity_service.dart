@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:clerkship/data/models/activity_mini_cex.dart';
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
 import 'package:clerkship/data/network/entity/clinic_detail_response.dart';
@@ -23,7 +24,8 @@ class ClinicActivityService extends ClinicActivityInterface {
       required String remarks,
       required String status,
       required String item,
-      required List<File> lampiran}) async {
+      required List<File> lampiran,
+      ActivityMiniCex? activityMiniCex}) async {
     final endpoint = '${ApiConfig.baseUrl}/logbook/insert';
     debugPrint(endpoint);
 
@@ -38,13 +40,22 @@ class ClinicActivityService extends ClinicActivityInterface {
     final body = {
       'id_batch': idBatch.toString(),
       'id_preseptor': idPreseptor.toString(),
-      'id_flow': '1',//ID Flow 1 =  Kegiatan Klinik
+      'id_flow': '1', //ID Flow 1 =  Kegiatan Klinik
       'tanggal': tanggal,
       'jam': jam,
       'remarks': remarks,
       'status': status,
       'item': item,
     };
+
+    if (activityMiniCex != null) {
+      // add on body if activityMiniCex is not null
+      body['masalah'] = activityMiniCex.problem;
+      body['umur'] = activityMiniCex.age;
+      body['gender'] = activityMiniCex.gender;
+      body['deskripsi'] = activityMiniCex.setting;
+      body['kerumitan_masalah'] = activityMiniCex.clomplexity;
+    }
 
     request.fields.addAll(body);
     debugPrint(jsonEncode(body));
@@ -71,7 +82,7 @@ class ClinicActivityService extends ClinicActivityInterface {
 
   @override
   Future<ResultData<ClinicResponse>> getListClinic(
-      {int? status, int? idFlow}) async {
+      {int? status, int? idFlow, int? idActivity}) async {
     final endpoint = '${ApiConfig.baseUrl}/logbook/list';
     debugPrint(endpoint);
     final body = {};
@@ -81,6 +92,10 @@ class ClinicActivityService extends ClinicActivityInterface {
 
     if (idFlow != null) {
       body['id_flow'] = idFlow.toString();
+    }
+
+    if (idActivity != null) {
+      body['id_jenis'] = idActivity.toString();
     }
 
     debugPrint(jsonEncode(body));
@@ -163,7 +178,8 @@ class ClinicActivityService extends ClinicActivityInterface {
       required String status,
       required String item,
       required String existingLampiran,
-      required List<File> lampiran}) async {
+      required List<File> lampiran,
+      ActivityMiniCex? activityMiniCex}) async {
     final endpoint = '${ApiConfig.baseUrl}/logbook/update';
     debugPrint(endpoint);
 
@@ -186,6 +202,15 @@ class ClinicActivityService extends ClinicActivityInterface {
       'item': item,
       'existing_lampiran': existingLampiran,
     };
+
+    if (activityMiniCex != null) {
+      // add on body if activityMiniCex is not null
+      body['masalah'] = activityMiniCex.problem;
+      body['umur'] = activityMiniCex.age;
+      body['gender'] = activityMiniCex.gender;
+      body['deskripsi'] = activityMiniCex.setting;
+      body['kerumitan_masalah'] = activityMiniCex.clomplexity;
+    }
 
     request.fields.addAll(body);
     debugPrint(jsonEncode(body));

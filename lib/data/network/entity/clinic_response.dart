@@ -69,6 +69,7 @@ class Clinic {
     this.namaDepartment,
     this.tanggal,
     this.namaDokter,
+    this.namaKegiatan,
     this.status,
     this.updatedAt,
   });
@@ -77,6 +78,7 @@ class Clinic {
   String? namaDepartment;
   DateTime? tanggal;
   String? namaDokter;
+  String? namaKegiatan;
   int? status;
   DateTime? updatedAt;
 
@@ -86,9 +88,11 @@ class Clinic {
         tanggal:
             json['tanggal'] == null ? null : DateTime.parse(json['tanggal']),
         namaDokter: json['nama_dokter'],
+        namaKegiatan: json['nama_kegiatan'],
         status: json['status'],
-        updatedAt: 
-            json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
+        updatedAt: json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -96,6 +100,7 @@ class Clinic {
         'nama_department': namaDepartment,
         'tanggal': tanggal?.toIso8601String(),
         'nama_dokter': namaDokter,
+        'nama_kegiatan': namaKegiatan,
         'status': status,
         'updated_at': updatedAt?.toIso8601String(),
       };

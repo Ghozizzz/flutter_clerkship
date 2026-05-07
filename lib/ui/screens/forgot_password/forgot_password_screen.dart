@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
-import '../../../utils/nav_helper.dart';
+import '../../../data/shared_providers/forgot_provider.dart';
 import '../../../utils/string_helper.dart';
 import '../../components/buttons/primary_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/textarea.dart';
-import 'forgot_password_otp_screen.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
 
-  final emailController = TextEditingController(text: 'dummmy@gmail.com');
+  final emailController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       return PrimaryButton(
                         enable: StringHelper.isEmail(value.text),
                         onTap: () {
-                          NavHelper.navigatePush(ForgotPasswordOtpScreen());
+                          doForgot(context);
                         },
                         text: 'Send',
                       ).addAllMargin(20.w);
@@ -64,5 +64,13 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void doForgot(
+    BuildContext context,
+  ) async {
+    context.read<ForgotProvider>().doForgot(
+          email: emailController.text,
+        );
   }
 }

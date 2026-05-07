@@ -36,84 +36,84 @@ class _FooterWidgetState extends State<FooterWidget> {
     final clinicActivityProvider =
         context.watch<ClinicActivityLectureProvider>();
     final activities = clinicActivityProvider.clinicActivities;
+    final checkedId = context.watch<ClinicActivityLectureProvider>().checkedId;
+    String jumlah = checkedId.length.toString();
 
     return FlatCard(
       shadow: Themes.softShadow,
       padding: EdgeInsets.all(20.w),
-      child: Column(
-        children: [
-          PrimaryCheckbox(
-            controller: checkAllController,
-            title: 'Select All',
-            checkBoxSize: Size(20.w, 20.w),
-            unCheckColor: Themes.hint,
-            strokeWidth: 2,
-            onValueChange: (value) => widget.onTap?.call(value),
-          ).addMarginBottom(12),
-          Row(
-            children: [
-              PrimaryButton(
-                onTap: () {
-                  final allActivities = <ActivityData>[];
-                  for (ClinicActivityData data in activities) {
-                    allActivities.addAll(data.data ?? []);
-                  }
-                  final checkedActivities =
-                      allActivities.where((element) => element.checked).toList();
-        
-                  NavHelper.navigatePush(RejectActivityScreen(
-                    data: checkedActivities,
-                  ));
-                },
-                color: Themes.red,
-                padding: EdgeInsets.all(14.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      AssetIcons.icClose,
-                      color: Themes.white,
-                      width: 14.w,
-                    ).addMarginRight(8.w),
-                    Text(
-                      'Tolak Semua',
-                      style: Themes().whiteBold14,
-                    )
-                  ],
-                ),
-              ).addExpanded,
-              Container(width: 8.w),
-              PrimaryButton(
-                onTap: () {
-                  DialogHelper.showModalConfirmation(
-                    title: 'Konfirmasi Persetujuan',
-                    message: 'Yakin ingin menyetujui semua kegiatan klinik?',
-                    positiveText: 'Setujui Semua',
-                    onPositiveTap: () => approveActivities(context),
-                  );
-                },
-                padding: EdgeInsets.all(14.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      AssetIcons.icCheck,
-                      color: Themes.white,
-                      width: 14.w,
-                    ).addMarginRight(8.w),
-                    Text(
-                      'Setujui Semua',
-                      style: Themes().whiteBold14,
-                    )
-                  ],
-                ),
-              ).addExpanded,
-            ],
-          ),
-        ]
-      ),
+      child: Column(children: [
+        PrimaryCheckbox(
+          controller: checkAllController,
+          title: 'Select All ($jumlah)',
+          checkBoxSize: Size(20.w, 20.w),
+          unCheckColor: Themes.hint,
+          strokeWidth: 2,
+          onValueChange: (value) => widget.onTap?.call(value),
+        ).addMarginBottom(12),
+        Row(
+          children: [
+            PrimaryButton(
+              onTap: () {
+                final allActivities = <ActivityData>[];
+                for (ClinicActivityData data in activities) {
+                  allActivities.addAll(data.data ?? []);
+                }
+                final checkedActivities =
+                    allActivities.where((element) => element.checked).toList();
+
+                NavHelper.navigatePush(RejectActivityScreen(
+                  data: checkedActivities,
+                ));
+              },
+              color: Themes.red,
+              padding: EdgeInsets.all(14.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AssetIcons.icClose,
+                    theme: const SvgTheme(currentColor: Themes.white),
+                    width: 14.w,
+                  ).addMarginRight(8.w),
+                  Text(
+                    'Tolak Semua',
+                    style: Themes().whiteBold14,
+                  )
+                ],
+              ),
+            ).addExpanded,
+            Container(width: 8.w),
+            PrimaryButton(
+              onTap: () {
+                DialogHelper.showModalConfirmation(
+                  title: 'Konfirmasi Persetujuan',
+                  message: 'Yakin ingin menyetujui semua kegiatan klinik?',
+                  positiveText: 'Setujui Semua',
+                  onPositiveTap: () => approveActivities(context),
+                );
+              },
+              padding: EdgeInsets.all(14.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AssetIcons.icCheck,
+                    theme: const SvgTheme(currentColor: Themes.white),
+                    width: 14.w,
+                  ).addMarginRight(8.w),
+                  Text(
+                    'Setujui Semua',
+                    style: Themes().whiteBold14,
+                  )
+                ],
+              ),
+            ).addExpanded,
+          ],
+        ),
+      ]),
     );
   }
 

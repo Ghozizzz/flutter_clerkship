@@ -111,15 +111,16 @@ class CropImageScreenState extends State<CropImageScreen> {
                   '${(await getTemporaryDirectory()).path}/IMG_${DateTime.now().millisecondsSinceEpoch}.jpg');
               await writtedImage.writeAsBytes(image);
 
-              File? result = await FlutterImageCompress.compressAndGetFile(
+              XFile? result = await FlutterImageCompress.compressAndGetFile(
                 writtedImage.absolute.path,
                 '${(await getTemporaryDirectory()).path}/IMG_${DateTime.now().millisecondsSinceEpoch}.jpg',
                 quality: 75,
               );
 
               if (mounted) {
+                File? result2 = File(result!.path);
                 Navigator.pop(context);
-                Navigator.pop(context, result);
+                Navigator.pop(context, result2);
               }
             },
             controller: controller,

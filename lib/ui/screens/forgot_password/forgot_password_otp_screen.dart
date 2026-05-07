@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../config/themes.dart';
+import '../../../data/shared_providers/forgot_provider.dart';
 import '../../../r.dart';
-import '../../../utils/nav_helper.dart';
 import '../../components/buttons/primary_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
 import '../../components/textareas/otp_field.dart';
-import 'update_password_screen.dart';
 
 class ForgotPasswordOtpScreen extends StatelessWidget {
-  ForgotPasswordOtpScreen({super.key});
+  final String id;
+  ForgotPasswordOtpScreen({super.key, required this.id});
 
   final otpController = TextEditingController();
 
@@ -42,7 +43,7 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                       style: Themes().primaryBold20,
                     ),
                     Text(
-                      'We sent a verification code to your email.\nEnter the code from the email\nin the field below.',
+                      'We sent a verification code to your email.\nEnter the code from $id \nin the field below.',
                       textAlign: TextAlign.center,
                       style: Themes().black14,
                     ).addMarginTop(16.h),
@@ -57,7 +58,8 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
                       return PrimaryButton(
                         enable: value.text.length == 4,
                         onTap: () {
-                          NavHelper.navigatePush(UpdatePasswordScreen());
+                          doOtpCheck(context);
+                          // NavHelper.navigatePush(UpdatePasswordScreen());
                         },
                         text: 'Confirm My Account',
                       ).addAllMargin(20.w);
@@ -68,5 +70,14 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void doOtpCheck(
+    BuildContext context,
+  ) async {
+    context.read<ForgotProvider>().doOtpCheck(
+          email: id,
+          otp: otpController.text,
+        );
   }
 }

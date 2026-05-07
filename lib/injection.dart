@@ -1,9 +1,12 @@
+import 'package:clerkship/data/network/services/notification_service.dart';
+import 'package:clerkship/data/shared_providers/notification_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'data/network/services/auth_service.dart';
 import 'data/network/services/clinic_activity_lecture_service.dart';
 import 'data/network/services/clinic_activity_service.dart';
+import 'data/network/services/forgot_service.dart';
 import 'data/network/services/reference_service.dart';
 import 'data/network/services/scientific_activity_service.dart';
 import 'data/network/services/scientific_event_lecture_service.dart';
@@ -12,12 +15,15 @@ import 'data/network/services/standard_competency_service.dart';
 import 'data/network/services/standart_competency_lecture_service.dart';
 import 'data/network/services/user_service.dart';
 import 'data/network/services/survey_service.dart';
+import 'data/network/services/version_service.dart';
 import 'data/shared_providers/auth_provider.dart';
 import 'data/shared_providers/clinic_activity_provider.dart';
+import 'data/shared_providers/forgot_provider.dart';
 import 'data/shared_providers/reference_provider.dart';
 import 'data/shared_providers/scientific_provider.dart';
 import 'data/shared_providers/standard_competency_provider.dart';
 import 'data/shared_providers/user_provider.dart';
+import 'data/shared_providers/version_provider.dart';
 import 'data/shared_providers/survey_provider.dart';
 import 'main.dart';
 import 'ui/screens/clinic_activity/providers/clinic_activity_lecture_provider.dart';
@@ -25,6 +31,7 @@ import 'ui/screens/clinic_activity/providers/item_list_all_provider.dart';
 import 'ui/screens/clinic_activity/providers/item_list_approve_provider.dart';
 import 'ui/screens/clinic_activity/providers/item_list_draft_provider.dart';
 import 'ui/screens/clinic_activity/providers/item_list_reject_provider.dart';
+import 'ui/screens/clinic_activity/providers/item_list_waiting_provider.dart';
 import 'ui/screens/final_assessment/providers/final_assessment_lecture_provider.dart';
 import 'ui/screens/final_assessment_detail/provider/final_assessment_detail_provider.dart';
 import 'ui/screens/final_score_recap/provider/final_score_recap_provider.dart';
@@ -34,6 +41,7 @@ import 'ui/screens/scientific_event/providers/item_list_all_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_approve_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_draft_provider.dart';
 import 'ui/screens/scientific_event/providers/item_list_reject_provider.dart';
+import 'ui/screens/scientific_event/providers/item_list_waiting_provider.dart';
 import 'ui/screens/scientific_event/providers/scientific_event_lecture_provider.dart';
 import 'ui/screens/scientific_event_approval/provider/scientific_event_approval_provider.dart';
 import 'ui/screens/scientific_event_student_list/provider/scientific_event_student_provider.dart';
@@ -45,6 +53,7 @@ MultiProvider provideInjection() {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ChangeNotifierProvider(create: (_) => ForgotProvider()),
       ChangeNotifierProvider(create: (_) => ReferenceProvider()),
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => ClinicActivityProvider()),
@@ -53,8 +62,12 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => ItemListDraftClinicProvider()),
       ChangeNotifierProvider(create: (_) => ItemListApproveClinicProvider()),
       ChangeNotifierProvider(create: (_) => ItemListRejectClinicProvider()),
+      ChangeNotifierProvider(create: (_) => ItemListWaitingClinicProvider()),
       ChangeNotifierProvider(create: (_) => ItemListAllScientificProvider()),
       ChangeNotifierProvider(create: (_) => ItemListDraftScientificProvider()),
+      ChangeNotifierProvider(
+          create: (_) => ItemListWaitingScientificProvider()),
+      ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ChangeNotifierProvider(
           create: (_) => ItemListApproveScientificProvider()),
       ChangeNotifierProvider(create: (_) => ItemListRejectScientificProvider()),
@@ -73,6 +86,7 @@ MultiProvider provideInjection() {
       ChangeNotifierProvider(create: (_) => FinalScoreRecapProvider()),
       ChangeNotifierProvider(create: (_) => SurveyProvider()),
       ChangeNotifierProvider(create: (_) => SurveyApprovalProvider()),
+      ChangeNotifierProvider(create: (_) => VersionProvider()),
     ],
     child: const MyApp(),
   );
@@ -80,6 +94,7 @@ MultiProvider provideInjection() {
 
 void injectService() {
   getIt.registerSingleton<AuthService>(AuthService());
+  getIt.registerSingleton<ForgotService>(ForgotService());
   getIt.registerSingleton<ReferenceService>(ReferenceService());
   getIt.registerSingleton<UserService>(UserService());
   getIt.registerSingleton<ClinicActivityService>(ClinicActivityService());
@@ -95,4 +110,6 @@ void injectService() {
       StandartCompetencyLectureService());
   getIt.registerSingleton<ScoringLectureService>(ScoringLectureService());
   getIt.registerSingleton<SurveyService>(SurveyService());
+  getIt.registerSingleton<NotificationService>(NotificationService());
+  getIt.registerSingleton<VersionService>(VersionService());
 }

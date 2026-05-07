@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-extension addMargin on Widget {
+extension AddMargin on Widget {
   Widget addMarginBottom(double margin) {
     return Container(
       margin: EdgeInsets.only(bottom: margin),
@@ -126,11 +126,11 @@ extension addMargin on Widget {
 
 extension AddEdgeInsert on num {
   EdgeInsets get toEdgeInsert {
-    return EdgeInsets.all(this.toDouble());
+    return EdgeInsets.all(toDouble());
   }
 
   BorderRadius get toBorderRadius {
-    return BorderRadius.circular(this.toDouble());
+    return BorderRadius.circular(toDouble());
   }
 }
 

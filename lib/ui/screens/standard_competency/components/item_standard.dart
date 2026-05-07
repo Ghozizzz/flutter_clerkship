@@ -8,10 +8,12 @@ import '../../../components/buttons/ripple_button.dart';
 class ItemStandard extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
+  final String? subtitle;
 
   const ItemStandard({
     super.key,
     required this.title,
+    this.subtitle,
     required this.onTap,
   });
 
@@ -24,11 +26,20 @@ class ItemStandard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Text(
-              title,
-              style: Themes().blackBold12?.withColor(Themes.content),
-              softWrap: true,
-              maxLines: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Themes().blackBold12?.withColor(Themes.content),
+                  softWrap: true,
+                  maxLines: 2,
+                ),
+                Text(
+                  subtitle ?? '',
+                  style: Themes().blackBold10?.withColor(Themes.content),
+                ),
+              ],
             ),
           ),
           SvgPicture.asset(AssetIcons.icChevronRight),

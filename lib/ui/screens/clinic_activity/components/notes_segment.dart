@@ -21,8 +21,8 @@ class NotesSegment extends StatefulWidget {
 }
 
 class _NotesSegmentState extends State<NotesSegment> {
-  late FleatherController controller =
-      FleatherController(ParchmentDocument.fromJson(jsonDecode(widget.body)));
+  late FleatherController controller = FleatherController(
+      document: ParchmentDocument.fromJson(jsonDecode(widget.body)));
 
   @override
   Widget build(BuildContext context) {

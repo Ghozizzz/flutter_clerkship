@@ -60,6 +60,7 @@ class ListItemRejectClinic extends StatelessWidget {
               date:
                   DateFormat('dd MMMM yyyy').format(listAllClinic[k].tanggal!),
               doctor: listAllClinic[k].namaDokter!,
+              activityName: listAllClinic[k].namaKegiatan,
               status: status,
               colorStatus: color,
               updatedAt: '',

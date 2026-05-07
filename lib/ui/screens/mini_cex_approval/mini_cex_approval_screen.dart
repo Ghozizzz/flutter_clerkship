@@ -92,6 +92,7 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
                           children: List.generate(approvalForm.length, (index) {
                             final form = approvalForm[index];
                             final controller = controllers[index];
+
                             return formWidget(form, controller);
                           }),
                         ),
@@ -155,6 +156,7 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
   Widget formWidget(DetailCexForm form, controller) {
     switch (form.tipeScoring) {
       case 0:
+        controller.text = form.defaultValue ?? '';
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -164,11 +166,19 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
             ).addMarginBottom(8),
             TextArea(
               controller: controller,
+              enable: form.isEnable ?? true,
               hint: form.placeholder ?? '',
             ).addMarginBottom(20),
           ],
         );
       case 1:
+        // create default value
+        if (form.defaultValue != null) {
+          controller.selected = DropDownItem(
+            title: form.defaultValue!,
+            value: form.defaultValue!,
+          );
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -180,6 +190,7 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
               withSearchField: false,
               controller: controller,
               hint: form.placeholder ?? '',
+              enable: form.isEnable ?? true,
               items: [
                 DropDownItem(
                   title: 'Low',
@@ -234,7 +245,7 @@ class _MiniCexApprovalScreenState extends State<MiniCexApprovalScreen> {
       } else if (controller is DropDownController) {
         isAllFormValid.add(controller.selected != null);
       } else if (controller is RatingController) {
-        debugPrint(controller.rating.toString());
+        // debugPrint(controller.rating.toString());
         isAllFormValid.add(controller.rating != null);
       } else if (controller is FleatherController) {
         isAllFormValid.add(controller.document.toPlainText().isNotEmpty);

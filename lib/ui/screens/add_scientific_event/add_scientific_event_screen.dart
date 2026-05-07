@@ -420,7 +420,9 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
     final listDocument =
         context.read<ScientificActivityProvider>().listDocument;
     noteController = FleatherController(
-        ParchmentDocument.fromJson(jsonDecode(headerData.remarks!)));
+        document: ParchmentDocument.fromJson(
+      jsonDecode(headerData.remarks ?? '{}'),
+    ));
 
     showOtherRef(context, headerData.idFeature!);
 

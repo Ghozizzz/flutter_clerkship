@@ -8,6 +8,7 @@ class DropDownItem {
   String other;
   int count;
   int flagDelete;
+  int? isMinicex;
   int? id;
 
   DropDownItem({
@@ -19,5 +20,6 @@ class DropDownItem {
     this.count = 1,
     this.flagDelete = 0,
     this.id,
+    this.isMinicex,
   });
 }

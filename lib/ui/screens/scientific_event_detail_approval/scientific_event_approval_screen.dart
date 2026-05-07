@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -20,6 +21,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
@@ -147,10 +149,12 @@ class _ScientificEventDetailApprovalScreenState
                         );
                       },
                 padding: EdgeInsets.all(8.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icDelete,
-                  color: Themes.red,
-                ),
+                child: (headerData.status != 1 && loading == false)
+                    ? SvgPicture.asset(
+                        AssetIcons.icDelete,
+                        theme: const SvgTheme(currentColor: Themes.red),
+                      )
+                    : null,
               ),
             ),
             if (loading)
@@ -247,8 +251,9 @@ class _ScientificEventDetailApprovalScreenState
                     FleatherEditor(
                       readOnly: true,
                       controller: headerData.remarks != null
-                          ? FleatherController(ParchmentDocument.fromJson(
-                              jsonDecode(headerData.remarks!)))
+                          ? FleatherController(
+                              document: ParchmentDocument.fromJson(
+                                  jsonDecode(headerData.remarks!)))
                           : FleatherController(),
                     ),
                     Container(
@@ -270,11 +275,15 @@ class _ScientificEventDetailApprovalScreenState
                           onTap: () async {
                             if (await Permission.storage.request().isGranted) {
                               DialogHelper.showProgressDialog();
+                              final Directory root = Tools.findRoot(
+                                await getApplicationDocumentsDirectory(),
+                              );
+
                               await FlutterDownloader.cancelAll();
                               await FlutterDownloader.enqueue(
                                 url: listDocument[index].fileUrl!,
                                 headers: {}, // optional: header send with url (auth token etc)
-                                savedDir: '/storage/emulated/0/Download/',
+                                savedDir: '${root.path}/Download/',
                                 showNotification:
                                     true, // show download progress in status bar (for Android)
                                 openFileFromNotification:

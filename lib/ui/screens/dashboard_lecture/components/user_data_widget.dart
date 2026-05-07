@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../data/shared_providers/user_provider.dart';
-import '../../../../r.dart';
-import '../../../components/commons/flat_card.dart';
 
 class UserDataWidget extends StatelessWidget {
   const UserDataWidget({
@@ -26,9 +23,9 @@ class UserDataWidget extends StatelessWidget {
           children: [
             Text(
               '${user.name}',
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: Themes().whiteBold24,
+              style: Themes().whiteBold20,
             ),
             Text(
               '${user.nim}',
@@ -39,27 +36,27 @@ class UserDataWidget extends StatelessWidget {
               style: Themes().white10,
             ).addMarginTop(9),
             Text(
-              'Ilmu Penyakit Dalam',
+              '${user.namaDepartment}',
               style: Themes().whiteBold12,
             ).addMarginTop(2),
           ],
         ).addFlexible,
-        FlatCard(
-          borderRadius: BorderRadius.circular(56.w),
-          border: Border.all(
-            color: Themes.white,
-            width: 4,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(56.w),
-            child: Image.asset(
-              AssetImages.avatarPlaceholder,
-              width: 56.w,
-              height: 56.w,
-              fit: BoxFit.cover,
-            ),
-          ),
-        )
+        // FlatCard(
+        //   borderRadius: BorderRadius.circular(56.w),
+        //   border: Border.all(
+        //     color: Themes.white,
+        //     width: 4,
+        //   ),
+        //   child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(56.w),
+        //     child: Image.asset(
+        //       AssetImages.avatarPlaceholder,
+        //       width: 56.w,
+        //       height: 56.w,
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

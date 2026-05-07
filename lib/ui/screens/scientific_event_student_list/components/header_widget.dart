@@ -5,7 +5,6 @@ import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../data/shared_providers/user_provider.dart';
-import '../../../../r.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
@@ -29,22 +28,22 @@ class HeaderWidget extends StatelessWidget {
             children: [
               Text(
                 '${user.name}',
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Themes().whiteBold24,
-              ).addMarginBottom(8),
+              ).addMarginBottom(8).addFlexible,
               Text(
                 'ID. ${user.nim}',
                 style: Themes().white14,
               ),
             ],
           ).addFlexible,
-          ClipOval(
-            child: Image.asset(
-              AssetImages.avatarPlaceholder,
-              width: 56.w,
-            ),
-          )
+          // ClipOval(
+          //   child: Image.asset(
+          //     AssetImages.avatarPlaceholder,
+          //     width: 56.w,
+          //   ),
+          // )
         ],
       ),
     );

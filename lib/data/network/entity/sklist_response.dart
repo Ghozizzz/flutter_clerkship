@@ -57,6 +57,7 @@ class SKList {
   SKList({
     this.id,
     this.namaBatch,
+    this.batchName,
     this.nomorBatch,
     this.namaDepartment,
     this.status,
@@ -64,6 +65,7 @@ class SKList {
 
   int? id;
   String? namaBatch;
+  String? batchName;
   String? nomorBatch;
   String? namaDepartment;
   int? status;
@@ -71,6 +73,7 @@ class SKList {
   factory SKList.fromJson(Map<String, dynamic> json) => SKList(
         id: json['id'],
         namaBatch: json['nama_batch'],
+        batchName: json['batch_name'],
         nomorBatch: json['nomor_batch'],
         namaDepartment: json['nama_department'],
         status: json['status'],
@@ -78,7 +81,7 @@ class SKList {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'nama_batch': namaBatch,
+        'nama_batch': batchName,
         'nomor_batch': nomorBatch,
         'nama_department': namaDepartment,
         'status': status,

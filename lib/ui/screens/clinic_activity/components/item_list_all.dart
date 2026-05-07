@@ -59,9 +59,10 @@ class ListItemAllClinic extends StatelessWidget {
               date:
                   DateFormat('dd MMMM yyyy').format(listAllClinic[k].tanggal!),
               doctor: listAllClinic[k].namaDokter!,
+              activityName: listAllClinic[k].namaKegiatan,
               status: status,
               colorStatus: color,
-              updatedAt: DateFormat('dd MMMM yyyy hh:mm')
+              updatedAt: DateFormat('dd MMMM yyyy HH:mm')
                   .format(listAllClinic[k].updatedAt!),
               onTap: () async {
                 if (listAllClinic[k].status == 0) {

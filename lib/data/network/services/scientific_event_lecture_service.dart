@@ -14,7 +14,7 @@ class ScientificEventLectureService extends ScientificEventLectureInterface {
 
   @override
   Future<ResultData<ScientificEventParticipantResponse>>
-    getParticipant() async {
+      getParticipant() async {
     final endpoint = '${ApiConfig.baseUrl}/dokter/acara_detail';
     debugPrint(endpoint);
 
@@ -37,7 +37,7 @@ class ScientificEventLectureService extends ScientificEventLectureInterface {
   @override
   Future<ResultData<ScientificEventLectureResponse>> getEvent({
     required int status,
-    required int idUser,
+    int? idUser,
     int? idKegiatan,
     DateTime? date,
   }) async {
@@ -45,7 +45,7 @@ class ScientificEventLectureService extends ScientificEventLectureInterface {
     debugPrint(endpoint);
 
     final body = {
-      'id_user': '$idUser',
+      if (idUser != null) 'id_user': '$idUser',
       'status': '$status',
       if (idKegiatan != null) 'id_kegiatan': '$idKegiatan',
       if (date != null) 'tanggal': date.formatDate('yyyy-MM-dd'),

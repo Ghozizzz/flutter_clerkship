@@ -2,18 +2,21 @@ import 'dart:io';
 
 import 'package:clerkship/data/network/entity/department_lecture_response.dart';
 import 'package:clerkship/data/network/entity/get_feature_response.dart';
+import 'package:clerkship/data/network/entity/notification_response.dart';
 import 'package:clerkship/data/network/entity/scientific_event_lecture_response.dart';
 import 'package:clerkship/data/network/entity/scoring_response.dart';
 import 'package:clerkship/data/network/services/scoring_recap_response.dart';
 
 import '../models/result_data.dart';
 import 'entity/batch_response.dart';
+import 'entity/check_version_response.dart';
 import 'entity/clinic_detail_response.dart';
 import 'entity/clinic_lecture_response.dart';
 import 'entity/clinic_response.dart';
 import 'entity/default_response.dart';
 import 'entity/departemen_response.dart';
 import 'entity/filter_kegiatan_response.dart';
+import 'entity/forgot_response.dart';
 import 'entity/item_reference_response.dart';
 import 'entity/login_response.dart';
 import 'entity/mini_cex_form_response.dart';
@@ -39,6 +42,23 @@ abstract class AuthApiInterface {
   Future<ResultData> doLogout();
 }
 
+abstract class ForgotPassInterface {
+  Future<ResultData<ForgotResponse>> doForgot({
+    required String email,
+  });
+
+  Future<ResultData<ForgotResponse>> doOtpCheck({
+    required String email,
+    required String otp,
+  });
+
+  Future<ResultData<ForgotResponse>> doResetPassword({
+    required String email,
+    required String password,
+    required String confirmPassword,
+  });
+}
+
 abstract class UserInterface {
   Future<ResultData<UsersResponse>> getAllUser({
     required int role,
@@ -46,6 +66,12 @@ abstract class UserInterface {
   });
 
   Future<ResultData<UserResponse>> getCurrentUser();
+}
+
+abstract class NotificationInterface {
+  Future<ResultData<NotificationResponse>> getNotification({
+    required int role,
+  });
 }
 
 abstract class ReferenceApiInterface {
@@ -204,9 +230,20 @@ abstract class GetFeatureInterface {
 
 abstract class SurveyInterface {
   Future<ResultData<SurveyResponse>> getSurveyList();
-  Future<ResultData<SurveyFormResponse>> getSurveyFormDetail(String id);
+  Future<ResultData<SurveyFormResponse>> getSurveyFormDetail(
+      String id, String tipeSurvey);
   Future<ResultData<DefaultResponse>> approveSurveyForm({
     required String id,
     required List<Map<String, String>> data,
+  });
+  Future<ResultData<DefaultResponse>> approveSurveyApprovalForm({
+    required String id,
+    required List<Map<String, String>> data,
+  });
+}
+
+abstract class VersionInterface {
+  Future<ResultData<CheckVersionResponse>> checkVersion({
+    required String version,
   });
 }

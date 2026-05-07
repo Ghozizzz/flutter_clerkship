@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
@@ -40,6 +41,10 @@ class ItemAssessment extends StatelessWidget {
         statusTxt = 'Waiting';
         color = Themes.yellow;
         break;
+      case 9:
+        statusTxt = 'Expired';
+        color = Themes.red;
+        break;
       default:
         statusTxt = 'Proses';
         color = Themes.blue;
@@ -47,8 +52,13 @@ class ItemAssessment extends StatelessWidget {
     }
     return RippleButton(
       onTap: () {
-        NavHelper.navigatePush(
-            SurveyAddScreen(id: id.toString(), flagSurvey: flagSurvey));
+        if (flagSurvey == 9) {
+          Fluttertoast.showToast(
+              msg: 'Your survey already expired, Please contact admin');
+        } else {
+          NavHelper.navigatePush(
+              SurveyAddScreen(id: id.toString(), flagSurvey: flagSurvey));
+        }
       },
       child: Column(
         children: [
@@ -68,7 +78,7 @@ class ItemAssessment extends StatelessWidget {
                             AssetIcons.icOffice,
                             width: 12.w,
                             height: 12.w,
-                            color: Themes.grey,
+                            theme: const SvgTheme(currentColor: Themes.grey),
                           ).addMarginRight(8.w),
                           Text(
                             namaDepartment,
@@ -83,7 +93,7 @@ class ItemAssessment extends StatelessWidget {
                             AssetIcons.icCalendar,
                             width: 12.w,
                             height: 12.w,
-                            color: Themes.grey,
+                            theme: const SvgTheme(currentColor: Themes.grey),
                           ).addMarginRight(8.w),
                           Text(
                             tanggal,
@@ -115,11 +125,14 @@ class ItemAssessment extends StatelessWidget {
                       AssetIcons.icAlert,
                       width: 12.w,
                       height: 12.w,
-                      color: const Color(0xFF1890FF),
+                      theme: const SvgTheme(currentColor: Color(0xFF1890FF)),
                     ).addMarginRight(8.w),
                     Text(
-                      'Silahkan isi survey untuk dapat melihat nilai akhir',
-                      style: Themes().blackBold10?.withColor(Themes.blue),
+                      (flagSurvey == 9)
+                          ? 'Please contact admin to continue'
+                          : 'Silahkan isi survey untuk dapat melihat nilai akhir',
+                      style: Themes().blackBold10?.withColor(
+                          (flagSurvey == 9) ? Themes.red : Themes.blue),
                     ),
                   ],
                 ).addMarginBottom(12),

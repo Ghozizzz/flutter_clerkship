@@ -36,7 +36,9 @@ class ToggleButton extends StatelessWidget {
               icon,
               width: 24.w,
               height: 24.w,
-              color: isToggled ? Themes.black : Themes.hint,
+              theme: SvgTheme(
+                currentColor: isToggled ? Themes.black : Themes.hint,
+              ),
             ),
           ),
         );

@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:clerkship/ui/screens/login/login_screen.dart';
+import 'package:clerkship/utils/nav_helper.dart';
+import 'package:clerkship/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -28,10 +31,14 @@ class ApiClient extends InterceptorContract {
   }
 
   @override
-  Future<BaseResponse> interceptResponse(
-      {required BaseResponse response}) async {
+  Future<BaseResponse> interceptResponse({
+    required BaseResponse response,
+  }) async {
     if (response.statusCode == 401) {
       Fluttertoast.showToast(msg: 'Unauthenticated');
+      Tools.onViewCreated(() {
+        NavHelper.navigateRefresh(LoginScreen(), '/login');
+      });
     }
 
     return response;

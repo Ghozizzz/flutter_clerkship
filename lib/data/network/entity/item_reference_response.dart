@@ -47,6 +47,7 @@ class ItemReference {
     this.idJenis,
     this.idGroup,
     this.name,
+    this.isMinicex,
     this.status,
     this.createdBy,
     this.createdAt,
@@ -58,6 +59,7 @@ class ItemReference {
   int? idJenis;
   int? idGroup;
   String? name;
+  int? isMinicex;
   int? status;
   int? createdBy;
   DateTime? createdAt;
@@ -69,6 +71,7 @@ class ItemReference {
         idJenis: json['id_jenis'],
         idGroup: json['id_group'],
         name: json['name'],
+        isMinicex: json['is_minicex'],
         status: json['status'],
         createdBy: json['created_by'],
         createdAt: json['created_at'] == null
@@ -85,6 +88,7 @@ class ItemReference {
         'id_jenis': idJenis,
         'id_group': idGroup,
         'name': name,
+        'is_minicex': isMinicex,
         'status': status,
         'created_by': createdBy,
         'created_at': createdAt?.toIso8601String(),

@@ -15,14 +15,17 @@ class ItemListAllScientificProvider extends ChangeNotifier {
     getListScientific();
   }
 
-  void getListScientific() async {
+  void getListScientific({
+    int? idActivity,
+  }) async {
     loading = true;
     notifyListeners();
-    final result = await scientificActivityService.getListScientific(idFlow: 2);
+    final result = await scientificActivityService.getListScientific(
+        idFlow: 2, idActivity: idActivity);
 
     if (result.statusCode == 200) {
       listScientific.clear();
-      if(result.data!.data!.list!.isNotEmpty){
+      if (result.data!.data!.list!.isNotEmpty) {
         listScientific.addAll(result.data!.data!.list!);
       }
       batch = result.data!.data!.nomor!;

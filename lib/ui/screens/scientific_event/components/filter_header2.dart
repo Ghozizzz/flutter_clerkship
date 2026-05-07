@@ -1,0 +1,85 @@
+import 'package:clerkship/ui/components/buttons/dropdown_field.dart';
+import 'package:clerkship/ui/screens/scientific_event/providers/scientific_event_lecture_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive/responsive.dart';
+import 'package:widget_helper/widget_helper.dart';
+
+import '../../../../config/themes.dart';
+import '../../../../data/models/dropdown_item.dart';
+import '../../../../data/shared_providers/reference_provider.dart';
+import '../../../../r.dart';
+import '../../../components/buttons/date_picker_button.dart';
+
+class FilterHeader2 extends StatelessWidget {
+  const FilterHeader2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scientificEventLectureProvider =
+        context.watch<ScientificEventLectureProvider>();
+    final refrenceProvider = context.watch<ReferenceProvider>();
+
+    final filterKegiatan =
+        refrenceProvider.filterKegiatan.where((i) => i.idJenis == 7).toList();
+    final dateController = scientificEventLectureProvider.dateController;
+    final activityFilterController =
+        scientificEventLectureProvider.activityFilterController;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            DatePickerButton(
+              controller: dateController,
+              dateFormat: 'dd/MM/yyyy',
+              hint: 'Tanggal',
+              icon: SvgPicture.asset(
+                AssetIcons.icChevronRight,
+              ),
+              textStyle: Themes().black12,
+              onDatePicked: (date) => refreshData(context),
+              onRemoved: () => refreshData(context),
+              withReset: true,
+            ).addExpanded,
+            Container(width: 10.w),
+            DropdownField(
+              hint: 'Kegiatan',
+              controller: activityFilterController,
+              enable: filterKegiatan.isNotEmpty,
+              items: List.generate(
+                filterKegiatan.length,
+                (index) => DropDownItem(
+                  title: filterKegiatan[index].name!,
+                  value: filterKegiatan[index].id!,
+                ),
+              ),
+              onSelected: (value) => refreshData(context),
+              onRemoved: () => refreshData(context),
+              withReset: true,
+            ).addExpanded,
+            // Container(width: 10.w),
+            // PrimaryButton(
+            //   onTap: () {},
+            //   padding: EdgeInsets.all(10.w),
+            //   child: SvgPicture.asset(
+            //     AssetIcons.icSearch,
+            //     color: Themes.white,
+            //     width: 24.w,
+            //   ),
+            // ),
+          ],
+        ).addSymmetricMargin(horizontal: 24.w),
+      ],
+    );
+  }
+
+  void refreshData(BuildContext context) {
+    context.read<ScientificEventLectureProvider>().getScientificEventV2();
+    context.read<ScientificEventLectureProvider>().getRatedScientificEventV2();
+  }
+}

@@ -75,7 +75,9 @@ class PrimaryCheckboxState extends State<PrimaryCheckbox> {
                     scale: 0.8,
                     child: SvgPicture.asset(
                       AssetIcons.icCheck,
-                      color: value ? Themes.white : Colors.transparent,
+                      theme: SvgTheme(
+                        currentColor: value ? Themes.white : Colors.transparent,
+                      ),
                     ),
                   ),
                 ).addMarginRight(8.w);

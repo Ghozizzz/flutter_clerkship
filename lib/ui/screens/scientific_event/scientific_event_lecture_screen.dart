@@ -183,12 +183,13 @@ class _ScientificEventLectureScreenState
   @pragma('vm:entry-point')
   static void downloadCallback(
     String id,
-    DownloadTaskStatus status,
+    // DownloadTaskStatus status,
+    int status,
     int progress,
   ) {
     final SendPort? send =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send?.send([id, status.value, progress]);
+    send?.send([id, status, progress]);
   }
 }
 

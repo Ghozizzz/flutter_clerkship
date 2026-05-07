@@ -11,11 +11,11 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../ui/components/dialog/custom_alert_dialog.dart';
+import '../../ui/screens/clinic_detail_approval/survey_approval_screen.dart';
 import '../../ui/screens/scientific_event/providers/item_list_all_provider.dart';
 import '../../ui/screens/scientific_event/providers/item_list_approve_provider.dart';
 import '../../ui/screens/scientific_event/providers/item_list_draft_provider.dart';
 import '../../ui/screens/scientific_event/providers/item_list_reject_provider.dart';
-import '../../ui/screens/scientific_event_detail_approval/scientific_event_approval_screen.dart';
 import '../../utils/dialog_helper.dart';
 import '../../utils/nav_helper.dart';
 import '../models/item_scientific.dart';
@@ -146,19 +146,23 @@ class ScientificActivityProvider extends ChangeNotifier {
             idPeran: peran.value!,
             existingLampiran: jsonEncode(bodyExistingJson))
         .then((result) {
-      context.read<ItemListAllScientificProvider>().getListScientific();
-      context.read<ItemListDraftScientificProvider>().getListScientific();
-      context.read<ItemListApproveScientificProvider>().getListScientific();
-      context.read<ItemListRejectScientificProvider>().getListScientific();
       DialogHelper.closeDialog();
 
       if (result.statusCode == 200) {
-        Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
         if (status == '2') {
-          NavHelper.navigateReplace(ScientificEventDetailApprovalScreen(
+          NavHelper.navigateReplace(SurveyApprovalScreen(
             id: result.data!.data,
+            flow: 2,
           ));
+          // NavHelper.navigateReplace(ScientificEventDetailApprovalScreen(
+          //   id: result.data!.data,
+          // ));
         } else {
+          context.read<ItemListAllScientificProvider>().getListScientific();
+          context.read<ItemListDraftScientificProvider>().getListScientific();
+          context.read<ItemListApproveScientificProvider>().getListScientific();
+          context.read<ItemListRejectScientificProvider>().getListScientific();
+          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
           NavHelper.pop();
         }
       } else {
@@ -223,19 +227,27 @@ class ScientificActivityProvider extends ChangeNotifier {
             idBatch: bodyDepartemen)
         .then(
       (result) {
-        context.read<ItemListAllScientificProvider>().getListScientific();
-        context.read<ItemListDraftScientificProvider>().getListScientific();
-        context.read<ItemListApproveScientificProvider>().getListScientific();
-        context.read<ItemListRejectScientificProvider>().getListScientific();
         DialogHelper.closeDialog();
 
         if (result.statusCode == 200) {
-          Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
           if (status == '2') {
-            NavHelper.navigateReplace(ScientificEventDetailApprovalScreen(
+            NavHelper.navigateReplace(SurveyApprovalScreen(
               id: result.data!.data,
+              flow: 2,
             ));
+            // NavHelper.navigateReplace(ScientificEventDetailApprovalScreen(
+            //   id: result.data!.data,
+            // ));
           } else {
+            context.read<ItemListAllScientificProvider>().getListScientific();
+            context.read<ItemListDraftScientificProvider>().getListScientific();
+            context
+                .read<ItemListApproveScientificProvider>()
+                .getListScientific();
+            context
+                .read<ItemListRejectScientificProvider>()
+                .getListScientific();
+            Fluttertoast.showToast(msg: result.data?.message ?? 'Success');
             NavHelper.pop();
           }
         } else {

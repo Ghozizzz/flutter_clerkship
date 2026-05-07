@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -7,7 +6,6 @@ import 'package:clerkship/data/network/services/get_feature_service.dart';
 
 import '../../../data/models/breadcrum_sk.dart';
 import '../../../config/themes.dart';
-import '../../../r.dart';
 import '../../components/buttons/ripple_button.dart';
 import '../../components/commons/primary_appbar.dart';
 import '../../components/commons/safe_statusbar.dart';
@@ -49,11 +47,11 @@ class _PengumumanScreenState extends State<PengumumanScreen> {
               action: RippleButton(
                 onTap: () {},
                 padding: EdgeInsets.all(4.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  width: 18.w,
-                  height: 18.w,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   width: 18.w,
+                //   height: 18.w,
+                // ),
               ),
             ),
             Text(
@@ -72,7 +70,6 @@ class _PengumumanScreenState extends State<PengumumanScreen> {
               child: SingleChildScrollView(
                 child: Html(
                   data: htmlData,
-                  tagsList: Html.tags,
                 ).addMarginOnly(
                     top: 10.w, right: 10.w, left: 10.w, bottom: 20.w),
               ),

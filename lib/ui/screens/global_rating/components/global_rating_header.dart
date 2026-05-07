@@ -51,7 +51,7 @@ class GlobalRatingHeader extends StatelessWidget {
                       AssetIcons.icOffice,
                       width: 12.w,
                       height: 12.w,
-                      color: Themes.grey,
+                      theme: const SvgTheme(currentColor: Themes.grey),
                     ).addMarginRight(8.w),
                     Text(
                       'Ilmu Penyakit Dalam',
@@ -66,7 +66,7 @@ class GlobalRatingHeader extends StatelessWidget {
                       AssetIcons.icCalendar,
                       width: 12.w,
                       height: 12.w,
-                      color: Themes.grey,
+                      theme: const SvgTheme(currentColor: Themes.grey),
                     ).addMarginRight(8.w),
                     Text(
                       '5 Mei 2022 - 10 Agustus 2022',

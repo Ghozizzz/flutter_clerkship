@@ -48,7 +48,7 @@ class DetailApprovalScreen extends StatelessWidget {
                 padding: EdgeInsets.all(8.w),
                 child: SvgPicture.asset(
                   AssetIcons.icDelete,
-                  color: Themes.red,
+                  theme: const SvgTheme(currentColor: Themes.red),
                 ),
               ),
             ),

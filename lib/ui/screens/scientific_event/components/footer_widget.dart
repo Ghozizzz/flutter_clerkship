@@ -7,7 +7,9 @@ import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
 import '../../../../config/themes.dart';
+import '../../../../data/models/key_value_data.dart';
 import '../../../../r.dart';
+import '../../../../utils/dialog_helper.dart';
 import '../../../components/buttons/primary_button.dart';
 import '../../../components/commons/flat_card.dart';
 import '../../reject_event/reject_event_screen.dart';
@@ -33,6 +35,8 @@ class _FooterWidgetState extends State<FooterWidget> {
     final scientificEventProvider =
         context.watch<ScientificEventLectureProvider>();
     final events = scientificEventProvider.scientificEvents;
+    final checkedId = context.watch<ScientificEventLectureProvider>().checkedId;
+    String jumlah = checkedId.length.toString();
 
     return FlatCard(
       shadow: Themes.softShadow,
@@ -46,7 +50,7 @@ class _FooterWidgetState extends State<FooterWidget> {
         children: [
           PrimaryCheckbox(
             controller: checkAllController,
-            title: 'Select All',
+            title: 'Select All ($jumlah)',
             checkBoxSize: Size(20.w, 20.w),
             unCheckColor: Themes.hint,
             strokeWidth: 2,
@@ -70,7 +74,7 @@ class _FooterWidgetState extends State<FooterWidget> {
                   children: [
                     SvgPicture.asset(
                       AssetIcons.icClose,
-                      color: Themes.white,
+                      theme: const SvgTheme(currentColor: Themes.white),
                       width: 14.w,
                     ).addMarginRight(8.w),
                     Text(
@@ -80,30 +84,50 @@ class _FooterWidgetState extends State<FooterWidget> {
                   ],
                 ),
               ).addExpanded,
-              // Container(width: 8.w),
-              // PrimaryButton(
-              //   onTap: () {},
-              //   padding: EdgeInsets.all(14.w),
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       SvgPicture.asset(
-              //         AssetIcons.icCheck,
-              //         color: Themes.white,
-              //         width: 14.w,
-              //       ).addMarginRight(8.w),
-              //       Text(
-              //         'Setujui Semua',
-              //         style: Themes().whiteBold14,
-              //       )
-              //     ],
-              //   ),
-              // ).addExpanded,
+              Container(width: 8.w),
+              PrimaryButton(
+                onTap: () {
+                  DialogHelper.showModalConfirmation(
+                    title: 'Konfirmasi Persetujuan',
+                    message: 'Yakin ingin menyetujui semua acara ilmiah ?',
+                    positiveText: 'Setujui Semua',
+                    onPositiveTap: () => approveActivities(context),
+                  );
+                },
+                padding: EdgeInsets.all(14.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      AssetIcons.icCheck,
+                      theme: const SvgTheme(currentColor: Themes.white),
+                      width: 14.w,
+                    ).addMarginRight(8.w),
+                    Text(
+                      'Setujui Semua',
+                      style: Themes().whiteBold14,
+                    )
+                  ],
+                ),
+              ).addExpanded,
             ],
           ),
         ],
       ),
     );
+  }
+
+  void approveActivities(BuildContext context) {
+    DialogHelper.closeDialog();
+    final checkedId = context.read<ScientificEventLectureProvider>().checkedId;
+    final data = List<KeyValueData>.generate(
+      checkedId.length,
+      (index) => KeyValueData(id: '${checkedId[index]}', reason: ''),
+    );
+
+    if (data.isNotEmpty) {
+      context.read<ScientificEventLectureProvider>().approveEvent(data);
+    }
   }
 }

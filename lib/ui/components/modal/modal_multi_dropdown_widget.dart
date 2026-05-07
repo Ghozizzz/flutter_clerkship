@@ -117,21 +117,21 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                               right: 0,
                               child: SvgPicture.asset(
                                 AssetIcons.icCheck,
-                                color: Themes.primary,
+                                theme: const SvgTheme(
+                                  currentColor: Themes.primary,
+                                ),
                               ),
                             )
                           else
                             Positioned(
-                              right: 0,
-                              child:  Container(
-                                height: 15,
-                                width: 15,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(color:  Themes.primary)
-                                )
-                              )
-                            )
+                                right: 0,
+                                child: Container(
+                                    height: 15,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border:
+                                            Border.all(color: Themes.primary))))
                         ],
                       ),
                     ),
@@ -188,10 +188,10 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
               },
               endIcon: Padding(
                 padding: EdgeInsets.all(12.w),
-                child: SvgPicture.asset(
-                  AssetIcons.icSearch,
-                  color: Themes.hint,
-                ),
+                // child: SvgPicture.asset(
+                //   AssetIcons.icSearch,
+                //   color: Themes.hint,
+                // ),
               ),
             ).addMarginOnly(
               top: 20.w,

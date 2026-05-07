@@ -12,6 +12,7 @@ import 'package:widget_helper/widget_helper.dart';
 import '../../../data/network/entity/scientifc_event_participant_response.dart';
 import '../../../utils/nav_helper.dart';
 import '../../components/commons/animated_item.dart';
+import '../../components/commons/primary_appbar.dart';
 import '../standard_competency/standart_lecture_screen.dart';
 
 class StandartCompetencyStudentListScreen extends StatefulWidget {
@@ -43,6 +44,10 @@ class _StandartCompetencyStudentListScreenState
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const PrimaryAppBar(
+              title: 'Kembali',
+              colorGreen: true,
+            ),
             const HeaderWidget(),
             Text(
               'Standar Kompetensi Mahasiswa',

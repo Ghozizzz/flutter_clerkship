@@ -34,8 +34,8 @@ class ItemStandardTotal extends StatelessWidget {
               ),
             ),
             child: SvgPicture.asset(
-              AssetIcons.icCheck,
-              color: Themes.primary,
+              total > 0 ? AssetIcons.icCheck : AssetIcons.icClose,
+              theme: const SvgTheme(currentColor: Themes.primary),
             ),
           ).addMarginRight(12.w),
           Text(

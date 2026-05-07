@@ -65,19 +65,20 @@ class Data {
 }
 
 class Scientific {
-  Scientific({
-    this.id,
-    this.namaDepartment,
-    this.tanggal,
-    this.namaDokter,
-    this.status,
-    this.updatedAt
-  });
+  Scientific(
+      {this.id,
+      this.namaDepartment,
+      this.tanggal,
+      this.namaDokter,
+      this.namaKegiatan,
+      this.status,
+      this.updatedAt});
 
   int? id;
   String? namaDepartment;
   DateTime? tanggal;
   String? namaDokter;
+  String? namaKegiatan;
   int? status;
   DateTime? updatedAt;
 
@@ -87,9 +88,11 @@ class Scientific {
         tanggal:
             json['tanggal'] == null ? null : DateTime.parse(json['tanggal']),
         namaDokter: json['nama_dokter'],
+        namaKegiatan: json['nama_kegiatan'],
         status: json['status'],
-        updatedAt:
-            json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
+        updatedAt: json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,6 +100,7 @@ class Scientific {
         'nama_department': namaDepartment,
         'tanggal': tanggal?.toIso8601String(),
         'nama_dokter': namaDokter,
+        'nama_kegiatan': namaKegiatan,
         'status': status,
         'updated_at': updatedAt?.toIso8601String(),
       };

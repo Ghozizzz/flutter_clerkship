@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
 
 extension ResponsiveInt on int {
-  double get w => Responsive.w(this.toDouble());
-  double get h => Responsive.h(this.toDouble());
-  double get wp => Responsive.wp(this.toDouble());
-  double get hp => Responsive.hp(this.toDouble());
+  double get w => Responsive.w(toDouble());
+  double get h => Responsive.h(toDouble());
+  double get wp => Responsive.wp(toDouble());
+  double get hp => Responsive.hp(toDouble());
 }
 
 extension ResponsiveDouble on double {
-  double get w => Responsive.w(this.toDouble());
-  double get h => Responsive.h(this.toDouble());
-  double get wp => Responsive.wp(this.toDouble());
-  double get hp => Responsive.hp(this.toDouble());
+  double get w => Responsive.w(toDouble());
+  double get h => Responsive.h(toDouble());
+  double get wp => Responsive.wp(toDouble());
+  double get hp => Responsive.hp(toDouble());
 }
 
 class Responsive {

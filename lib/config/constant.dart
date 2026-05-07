@@ -3,4 +3,5 @@ class Constant {
   static const String token = 'TOKEN';
   static const String ratingData = 'RATING_DATA';
   static const String ratingNotes = 'RATING_NOTES';
+  static const String version = 'VERSION';
 }

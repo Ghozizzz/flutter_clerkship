@@ -54,7 +54,7 @@ class DashboardStudentScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                const NotificationBar(),
+                const NotificationBar(role: 2),
                 const UserDataWidget().addMarginOnly(
                   top: 30.h,
                   left: 20.w,

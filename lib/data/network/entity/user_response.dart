@@ -45,6 +45,7 @@ class User {
     this.superuser,
     this.roleId,
     this.rememberToken,
+    this.namaDepartment,
     this.createdAt,
     this.updatedAt,
   });
@@ -59,6 +60,7 @@ class User {
   int? superuser;
   int? roleId;
   dynamic rememberToken;
+  String? namaDepartment;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -73,6 +75,7 @@ class User {
         superuser: json['superuser'],
         roleId: json['role_id'],
         rememberToken: json['remember_token'],
+        namaDepartment: json['nama_department'],
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at']),
@@ -92,6 +95,7 @@ class User {
         'superuser': superuser,
         'role_id': roleId,
         'remember_token': rememberToken,
+        'nama_department': namaDepartment,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };

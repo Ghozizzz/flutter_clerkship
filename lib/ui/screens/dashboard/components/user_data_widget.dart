@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive/responsive.dart';
 
 import '../../../../config/themes.dart';
 import '../../../../data/shared_providers/user_provider.dart';
-import '../../../../r.dart';
-import '../../../components/commons/flat_card.dart';
 
 class UserDataWidget extends StatelessWidget {
   const UserDataWidget({
@@ -32,22 +29,22 @@ class UserDataWidget extends StatelessWidget {
             ),
           ],
         ),
-        FlatCard(
-          borderRadius: BorderRadius.circular(56.w),
-          border: Border.all(
-            color: Themes.white,
-            width: 4,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(56.w),
-            child: Image.asset(
-              AssetImages.avatarPlaceholder,
-              width: 56.w,
-              height: 56.w,
-              fit: BoxFit.cover,
-            ),
-          ),
-        )
+        // FlatCard(
+        //   borderRadius: BorderRadius.circular(56.w),
+        //   border: Border.all(
+        //     color: Themes.white,
+        //     width: 4,
+        //   ),
+        //   child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(56.w),
+        //     child: Image.asset(
+        //       AssetImages.avatarPlaceholder,
+        //       width: 56.w,
+        //       height: 56.w,
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

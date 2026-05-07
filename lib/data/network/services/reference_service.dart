@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clerkship/data/network/entity/batch_response.dart';
 import 'package:clerkship/data/network/entity/filter_kegiatan_response.dart';
+import 'package:clerkship/data/network/entity/filter_kegiatan_student_response.dart';
 import 'package:clerkship/data/network/entity/item_reference_response.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -116,6 +117,32 @@ class ReferenceService extends ReferenceApiInterface {
           filterKegiatanResponseFromJson(response.body);
       return ResultData(
         data: filterKegiatanResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return ResultData(
+        statusCode: 500,
+        unexpectedErrorMessage: e.toString(),
+      );
+    }
+  }
+
+  Future<ResultData<FilterKegiatanStudentResponse>> getFilterKegiatanStudent(
+      {required int idFlow}) async {
+    final endpoint = '${ApiConfig.baseUrl}/logbook/kegiatan';
+    debugPrint(endpoint);
+    final body = {'id_flow': idFlow.toString()};
+    debugPrint(jsonEncode(body));
+
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: body);
+      debugPrint(response.body);
+
+      final filterKegiatanStudentResponse =
+          filterKegiatanStudentResponseFromJson(response.body);
+      return ResultData(
+        data: filterKegiatanStudentResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {

@@ -60,6 +60,7 @@ class ListItemApproveScientific extends StatelessWidget {
               date: DateFormat('dd MMMM yyyy')
                   .format(listAllScientific[k].tanggal!),
               doctor: listAllScientific[k].namaDokter!,
+              activityName: listAllScientific[k].namaKegiatan,
               status: status,
               colorStatus: color,
               updatedAt: '',

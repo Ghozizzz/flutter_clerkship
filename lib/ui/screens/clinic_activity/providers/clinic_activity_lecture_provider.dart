@@ -104,7 +104,7 @@ class ClinicActivityLectureProvider extends ChangeNotifier {
     getRatedClinicActivities();
   }
 
-  void approveActivity(List<KeyValueData> activityData) async {
+  Future approveActivity(List<KeyValueData> activityData) async {
     DialogHelper.showProgressDialog();
 
     final response = await service.approveActivity(

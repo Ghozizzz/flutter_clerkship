@@ -45,8 +45,9 @@ class Data {
   List<SurveyCexForm>? detail;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        header:
-            json['header'] == null ? null : SurveyCexHeader.fromJson(json['header']),
+        header: json['header'] == null
+            ? null
+            : SurveyCexHeader.fromJson(json['header']),
         detail: json['detail'] == null
             ? []
             : List<SurveyCexForm>.from(
@@ -62,12 +63,7 @@ class Data {
 }
 
 class SurveyCexForm {
-  SurveyCexForm({
-    this.id,
-    this.jenisSurvey,
-    this.description,
-    this.nilai
-  });
+  SurveyCexForm({this.id, this.jenisSurvey, this.description, this.nilai});
 
   int? id;
   int? jenisSurvey;
@@ -94,6 +90,7 @@ class SurveyCexHeader {
     this.id,
     this.namaDepartment,
     this.namaBatch,
+    this.namaDokter,
     this.startDate,
     this.endDate,
   });
@@ -101,13 +98,16 @@ class SurveyCexHeader {
   int? id;
   String? namaDepartment;
   String? namaBatch;
+  String? namaDokter;
   String? startDate;
   String? endDate;
 
-  factory SurveyCexHeader.fromJson(Map<String, dynamic> json) => SurveyCexHeader(
+  factory SurveyCexHeader.fromJson(Map<String, dynamic> json) =>
+      SurveyCexHeader(
         id: json['id'],
         namaDepartment: json['nama_department'],
         namaBatch: json['nama_batch'],
+        namaDokter: json['nama_dokter'],
         startDate: json['start_Date'],
         endDate: json['end_date'],
       );
@@ -116,6 +116,7 @@ class SurveyCexHeader {
         'id': id,
         'nama_department': namaDepartment,
         'nama_batch': namaBatch,
+        'nama_dokter': namaDokter,
         'start_Date': startDate,
         'end_date': endDate,
       };

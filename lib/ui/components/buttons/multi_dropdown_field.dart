@@ -166,7 +166,7 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
                               overflow: TextOverflow.ellipsis,
                               style: widget.textStyle ?? Themes().black14,
                             ).addExpanded,
-                            widget.icon ??
+                          widget.icon ??
                               SvgPicture.asset(
                                 AssetIcons.icChevronRight,
                               ),
@@ -196,7 +196,7 @@ class _MultiDropdownStateButton<T> extends State<MultiDropdownField> {
           Text(
             item.value == -1 ? item.other : item.title,
             style: Themes().black12,
-          ).addMarginLeft(12.w),
+          ).addMarginLeft(12.w).addExpanded,
           RippleButton(
             onTap: () {
               if (widget.onRemoveItem != null) {

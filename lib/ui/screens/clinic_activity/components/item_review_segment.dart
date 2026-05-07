@@ -30,8 +30,7 @@ class ItemReviewSegment extends StatefulWidget {
 
 class _ItemReviewSegmentState extends State<ItemReviewSegment> {
   late final richTextController = FleatherController(
-    ParchmentDocument.fromJson(jsonDecode(widget.value ?? '')),
-  );
+      document: ParchmentDocument.fromJson(jsonDecode(widget.value ?? '')));
 
   @override
   Widget build(BuildContext context) {

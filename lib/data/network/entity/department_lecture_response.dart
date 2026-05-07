@@ -60,6 +60,7 @@ class DepartmentLecture {
   DepartmentLecture({
     this.id,
     this.namaBatch,
+    this.batchName,
     this.nomorBatch,
     this.namaDepartment,
     this.status,
@@ -67,6 +68,7 @@ class DepartmentLecture {
 
   int? id;
   String? namaBatch;
+  String? batchName;
   String? nomorBatch;
   String? namaDepartment;
   int? status;
@@ -75,6 +77,7 @@ class DepartmentLecture {
       DepartmentLecture(
         id: json['id'],
         namaBatch: json['nama_batch'],
+        batchName: json['batch_name'],
         nomorBatch: json['nomor_batch'],
         namaDepartment: json['nama_department'],
         status: json['status'],
@@ -83,6 +86,7 @@ class DepartmentLecture {
   Map<String, dynamic> toJson() => {
         'id': id,
         'nama_batch': namaBatch,
+        'batch_name': batchName,
         'nomor_batch': nomorBatch,
         'nama_department': namaDepartment,
         'status': status,
