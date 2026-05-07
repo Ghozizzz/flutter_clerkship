@@ -172,6 +172,10 @@ class _SurveyApprovalScreenState extends State<SurveyApprovalScreen> {
                               return PrimaryButton(
                                       enable: isValidForm(),
                                       onTap: () async {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        await Future.delayed(
+                                            const Duration(milliseconds: 250));
                                         final formData = <SurveyKeyValueData>[];
                                         isFillAll = true;
                                         for (int i = 0;
@@ -193,13 +197,20 @@ class _SurveyApprovalScreenState extends State<SurveyApprovalScreen> {
                                               is FleatherController) {
                                             value = jsonEncode(
                                                 controller.document.toJson());
-                                            if (controller.document.length <
-                                                5) {
+                                            final plainText = controller
+                                                .document
+                                                .toPlainText()
+                                                .replaceAll('\n', '')
+                                                .trim();
+
+                                            if (plainText.length < 4) {
                                               isFillAll = false;
                                             }
                                           }
 
-                                          if (value == 'null') {
+                                          if (value == 'null' ||
+                                              value.isEmpty ||
+                                              value == '0') {
                                             isFillAll = false;
                                           }
 
@@ -319,11 +330,7 @@ class _SurveyApprovalScreenState extends State<SurveyApprovalScreen> {
                   // ).addMarginBottom(8)
                   RichTextEditor(
                 readOnly: false,
-                controller: (form.nilai != null)
-                    ? FleatherController(
-                        document: ParchmentDocument.fromJson(
-                            jsonDecode(form.nilai ?? '{}')))
-                    : FleatherController(),
+                controller: controller as FleatherController,
                 hint: '',
               ),
             )
