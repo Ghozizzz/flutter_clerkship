@@ -1,5 +1,6 @@
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/models/survey_value.dart';
@@ -38,6 +39,11 @@ class SurveyApprovalProvider extends ChangeNotifier {
     notifyListeners();
 
     final response = await surveyService.getSurveyFormDetail(id, tipeSurvey);
+    if (response.statusCode != 200) {
+      Fluttertoast.showToast(
+        msg: response.data?.message ?? 'Gagal memuat form survey',
+      );
+    }
     header = response.data?.data?.header;
     for (SurveyCexForm form in response.data?.data?.detail ?? []) {
       approvalForm.add(form);
