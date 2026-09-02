@@ -104,7 +104,7 @@ class _SurveyAddScreenState extends State<SurveyAddScreen> {
                             return formWidget(form, controller);
                           }),
                         ),
-                        if (widget.flagSurvey != 1)
+                        if (widget.flagSurvey != 1 && controllers.isNotEmpty)
                           MultiValueListenableBuilder(
                             valueListenables: List.generate(
                               controllers.length,
