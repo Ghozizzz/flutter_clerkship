@@ -1,5 +1,6 @@
 import 'package:clerkship/data/models/result_data.dart';
 import 'package:clerkship/data/network/api_interface.dart';
+import 'package:clerkship/data/network/entity/sk_detail_response.dart';
 import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
 import 'package:clerkship/data/network/entity/sklist_response.dart';
@@ -32,17 +33,42 @@ class StandardCompetencyService extends StandardCompetencyInterface {
   }
 
   @override
-  Future<ResultData<SkListJenisResponse>> getListSkJenis() async {
+  Future<ResultData<SkListJenisResponse>> getListSkJenis(
+      {required String idBatch}) async {
     final endpoint = '${ApiConfig.baseUrl}/sk/list_detail';
     debugPrint(endpoint);
 
     try {
-      final response = await apiClient.post(Uri.parse(endpoint));
+      final response = await apiClient.post(Uri.parse(endpoint), body: {
+        'id_batch': idBatch,
+      });
       debugPrint(response.body);
 
       final skListJenisResponse = skListJenisResponseFromJson(response.body);
       return ResultData(
         data: skListJenisResponse,
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return Future.error(e);
+    }
+  }
+
+  @override
+  Future<ResultData<SkDetailResponse>> getSkDetail({required String id}) async {
+    final endpoint = '${ApiConfig.baseUrl}/sk/detail';
+    debugPrint(endpoint);
+
+    try {
+      final response = await apiClient.post(Uri.parse(endpoint), body: {
+        'id': id,
+      });
+      debugPrint(response.body);
+
+      final skDetailResponse = skDetailResponseFromJson(response.body);
+      return ResultData(
+        data: skDetailResponse,
         statusCode: response.statusCode,
       );
     } catch (e) {

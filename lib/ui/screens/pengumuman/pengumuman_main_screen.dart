@@ -60,6 +60,9 @@ class PengumumanMainScreen extends StatelessWidget {
                     title: skList[index].namaBatch!,
                     subtitle: skList[index].batchName!,
                     onTap: () {
+                      context.read<StandardCompetencyProvider>().getSkDetail(
+                            id: '${skList[index].id}',
+                          );
                       NavHelper.navigatePush(
                         PengumumanScreen(
                           breadcrumSK: BreadcrumSK(

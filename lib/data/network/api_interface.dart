@@ -24,6 +24,7 @@ import 'entity/scientifc_event_participant_response.dart';
 import 'entity/scientific_detail_response.dart';
 import 'entity/scientific_response.dart';
 import 'entity/scoring_detail_response.dart';
+import 'entity/sk_detail_response.dart';
 import 'entity/sklist_group_detail.dart';
 import 'entity/sklist_group_response.dart';
 import 'entity/sklist_jenis_response.dart';
@@ -185,7 +186,9 @@ abstract class ScientificEventLectureInterface {
 
 abstract class StandardCompetencyInterface {
   Future<ResultData<SkListResponse>> getListSk();
-  Future<ResultData<SkListJenisResponse>> getListSkJenis();
+  Future<ResultData<SkListJenisResponse>> getListSkJenis(
+      {required String idBatch});
+  Future<ResultData<SkDetailResponse>> getSkDetail({required String id});
   Future<ResultData<SkListGroupResponse>> getListGroup({
     required String idJenisSK,
     required String idBatch,

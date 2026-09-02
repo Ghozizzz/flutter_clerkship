@@ -33,7 +33,13 @@ class _StandardCompetencyScreenState extends State<StandardCompetencyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final skList = context.watch<StandardCompetencyProvider>().skList;
+    // id 0 ("Tata Tertib") adalah entri umum khusus menu Peraturan dan Tata
+    // Tertib — tidak relevan sebagai batch, jadi disembunyikan di sini.
+    final skList = context
+        .watch<StandardCompetencyProvider>()
+        .skList
+        .where((sk) => sk.id != 0)
+        .toList();
     final isLoading =
         context.watch<StandardCompetencyProvider>().isloadingListSK;
 
@@ -130,9 +136,9 @@ class _StandardCompetencyScreenState extends State<StandardCompetencyScreen> {
                     title: skList[index].namaBatch!,
                     subtitle: skList[index].batchName!,
                     onTap: () {
-                      context
-                          .read<StandardCompetencyProvider>()
-                          .getListSKJenis();
+                      context.read<StandardCompetencyProvider>().getListSKJenis(
+                            idBatch: '${skList[index].id}',
+                          );
                       NavHelper.navigatePush(
                         SubFirstStandardCompetencyScreen(
                           breadcrumSK: BreadcrumSK(

@@ -1,3 +1,4 @@
+import 'package:clerkship/data/network/entity/sk_detail_response.dart';
 import 'package:clerkship/data/network/entity/sklist_group_detail.dart';
 import 'package:clerkship/data/network/entity/sklist_group_response.dart';
 import 'package:clerkship/data/network/entity/sklist_jenis_response.dart';
@@ -24,6 +25,9 @@ class StandardCompetencyProvider extends ChangeNotifier {
   bool isloadingListSKGroup = false;
   bool isloadingListSKGroupDetail = false;
 
+  SKDetail? skDetail;
+  bool isloadingSkDetail = false;
+
   void getListSk() async {
     isloadingListSK = true;
     notifyListeners();
@@ -40,10 +44,11 @@ class StandardCompetencyProvider extends ChangeNotifier {
     }
   }
 
-  void getListSKJenis() async {
+  void getListSKJenis({required String idBatch}) async {
     isloadingListSKJenis = true;
     notifyListeners();
-    final result = await standardCompetencyService.getListSkJenis();
+    final result =
+        await standardCompetencyService.getListSkJenis(idBatch: idBatch);
     if (result.statusCode == 200) {
       skListJenis.clear();
       skListJenis.addAll(result.data!.data!);
@@ -53,6 +58,30 @@ class StandardCompetencyProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       Fluttertoast.showToast(msg: result.data!.message!);
+    }
+  }
+
+  void getSkDetail({required String id}) async {
+    isloadingSkDetail = true;
+    skDetail = null;
+    notifyListeners();
+    try {
+      final result = await standardCompetencyService.getSkDetail(id: id);
+      if (result.statusCode == 200) {
+        skDetail = result.data?.data;
+      } else {
+        Fluttertoast.showToast(
+          msg: result.data?.message ?? 'Gagal memuat deskripsi',
+        );
+      }
+    } catch (e) {
+      // Server sedang bermasalah / respons bukan JSON (mis. halaman error
+      // HTML) — jangan crash, cukup gagal senyap dan biarkan bagian
+      // deskripsi tidak tampil.
+      Fluttertoast.showToast(msg: 'Gagal memuat deskripsi');
+    } finally {
+      isloadingSkDetail = false;
+      notifyListeners();
     }
   }
 

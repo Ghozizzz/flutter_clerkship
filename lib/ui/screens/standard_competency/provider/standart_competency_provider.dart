@@ -95,7 +95,9 @@ class StandartCompetencyProvider extends ChangeNotifier {
     data[1].data.clear();
     notifyListeners();
 
-    final result = await standardCompetencyService.getListSkJenis();
+    final result = await standardCompetencyService.getListSkJenis(
+      idBatch: selectedId['id_batch'] ?? '',
+    );
     for (SKListJenis skListJenis in result.data?.data ?? []) {
       data[1].data.add(StandartCompetencyData(
           id: '${skListJenis.id}',
