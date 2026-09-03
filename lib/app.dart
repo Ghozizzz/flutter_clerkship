@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Clerkship Logbook',
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Themes.primaryMaterialColor,
         scaffoldBackgroundColor: Themes.white,
       ),

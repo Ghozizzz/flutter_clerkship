@@ -103,8 +103,12 @@ class _FilePickerButtonState extends State<FilePickerButton> {
                       RippleButton(
                         padding: EdgeInsets.all(12.w),
                         onTap: () {
-                          widget.onDelete!(file);
+                          // Remove from the visible list first — the caller's
+                          // onDelete (e.g. flagging an existing server
+                          // document for deletion) must not be able to block
+                          // the file from disappearing if it throws/no-ops.
                           widget.controller.removeFile(file);
+                          widget.onDelete?.call(file);
                           debugPrint('DiDelete');
                         },
                         child: SvgPicture.asset(

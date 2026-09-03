@@ -207,11 +207,17 @@ class _AddScientificEventScreenState extends State<AddScientificEventScreen> {
                       FilePickerButton(
                         controller: attachmentController,
                         onDelete: (SelectedFile file) {
-                          listExistingLampiran
-                              .where(
-                                  (element) => element.id.toString() == file.id)
-                              .first
-                              .flagDelete = 1;
+                          // Only existing (already-uploaded) attachments are
+                          // tracked here — a freshly picked file that hasn't
+                          // been saved yet won't have a match, and that's
+                          // fine, there's nothing on the server to flag.
+                          final existing = listExistingLampiran
+                              .where((element) =>
+                                  element.id.toString() == file.id)
+                              .toList();
+                          if (existing.isNotEmpty) {
+                            existing.first.flagDelete = 1;
+                          }
                         },
                       ).addMarginBottom(8),
                       Text(
