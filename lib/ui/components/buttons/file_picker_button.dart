@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:another_dashed_container/another_dashed_container.dart';
 import 'package:clerkship/config/themes.dart';
+import 'package:clerkship/data/models/existing_lampiran.dart';
 import 'package:clerkship/r.dart';
 import 'package:clerkship/ui/components/commons/flat_card.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +15,22 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../screens/crop/crop_image_screen.dart';
 import 'ripple_button.dart';
+
+/// Flags [file] for deletion in [existingAttachments] if it's an
+/// already-uploaded document. A freshly picked file that was never
+/// uploaded has no match — that's expected, there's nothing on the
+/// server to flag, so this is a no-op rather than an error.
+void flagExistingLampiranForDeletion(
+  List<ExistingLampiran> existingAttachments,
+  SelectedFile file,
+) {
+  final existing = existingAttachments
+      .where((element) => element.id.toString() == file.id)
+      .toList();
+  if (existing.isNotEmpty) {
+    existing.first.flagDelete = 1;
+  }
+}
 
 class SelectedFile {
   String id;

@@ -503,19 +503,11 @@ class _AddClinicActivityScreenState extends State<AddClinicActivityScreen> {
                       ).addMarginBottom(8),
                       FilePickerButton(
                         controller: filePickerController,
-                        onDelete: (SelectedFile file) {
-                          // Only existing (already-uploaded) attachments are
-                          // tracked here — a freshly picked file that hasn't
-                          // been saved yet won't have a match, and that's
-                          // fine, there's nothing on the server to flag.
-                          final existing = listExistingLampiran
-                              .where((element) =>
-                                  element.id.toString() == file.id)
-                              .toList();
-                          if (existing.isNotEmpty) {
-                            existing.first.flagDelete = 1;
-                          }
-                        },
+                        onDelete: (SelectedFile file) =>
+                            flagExistingLampiranForDeletion(
+                          listExistingLampiran,
+                          file,
+                        ),
                       ).addMarginBottom(8),
                       Text(
                         'pdf, jpg, png, xlsx, xls, jpeg, docx, doc, csv, txt, ppt, pptx with maximum size 10MB',

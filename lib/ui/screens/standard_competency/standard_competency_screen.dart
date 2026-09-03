@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive/responsive.dart';
 import 'package:widget_helper/widget_helper.dart';
 
+import '../../../config/sk_constants.dart';
 import '../../../config/themes.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
 import '../../../utils/nav_helper.dart';
@@ -38,7 +39,7 @@ class _StandardCompetencyScreenState extends State<StandardCompetencyScreen> {
     final skList = context
         .watch<StandardCompetencyProvider>()
         .skList
-        .where((sk) => sk.id != 0)
+        .where((sk) => sk.id != kTataTertibBatchId)
         .toList();
     final isLoading =
         context.watch<StandardCompetencyProvider>().isloadingListSK;

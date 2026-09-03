@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:clerkship/data/network/services/get_feature_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../config/sk_constants.dart';
 import '../../../data/models/breadcrum_sk.dart';
 import '../../../data/shared_providers/standard_competency_provider.dart';
 import '../../../config/themes.dart';
@@ -43,7 +44,13 @@ class _PengumumanScreenState extends State<PengumumanScreen> {
     });
   }
 
-  final _urlRegex = RegExp(r'((https?:\/\/)[^\s]+)', caseSensitive: false);
+  // The trailing [^\s<>".,;:!?)\]}] forces the match to end on a
+  // "safe" character, so a sentence-ending mark right after the URL
+  // (".", ",", ")", …) isn't swallowed into the link itself.
+  final _urlRegex = RegExp(
+    r'https?:\/\/[^\s<>"]*[^\s<>".,;:!?)\]}]',
+    caseSensitive: false,
+  );
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.tryParse(url);
@@ -182,7 +189,7 @@ class _PengumumanScreenState extends State<PengumumanScreen> {
                         skDetail!.description!.isNotEmpty) ...[
                       // Kartu link-preview cuma buat "Tata Tertib" (id 0);
                       // batch lain cukup teks biasa dengan link inline.
-                      if (widget.breadcrumSK.id == 0) ...[
+                      if (widget.breadcrumSK.id == kTataTertibBatchId) ...[
                         _buildDescription(skDetail.description!).addMarginOnly(
                             right: 20.w, left: 20.w, bottom: 12.w),
                         _buildLinkPreviews(skDetail.description!)

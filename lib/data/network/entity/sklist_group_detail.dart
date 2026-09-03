@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../utils/text_sanitizer.dart';
+
 SkListGroupDetailResponse skListGroupDetailResponseFromJson(String str) =>
     SkListGroupDetailResponse.fromJson(json.decode(str));
 
@@ -51,7 +53,7 @@ class SKListGroupDetail {
 
   factory SKListGroupDetail.fromJson(Map<String, dynamic> json) =>
       SKListGroupDetail(
-        name: json['name'],
+        name: TextSanitizer.clean(json['name']),
         jumlah: json['jumlah'],
       );
 

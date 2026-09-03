@@ -27,46 +27,66 @@ class StandardCompetencyProvider extends ChangeNotifier {
 
   SKDetail? skDetail;
   bool isloadingSkDetail = false;
+  // Guards against a slower, earlier getSkDetail(id: A) response landing
+  // after a newer getSkDetail(id: B) already started — without this, A's
+  // stale result could overwrite B's once it finally resolves.
+  String? _skDetailRequestedId;
 
   void getListSk() async {
     isloadingListSK = true;
     notifyListeners();
-    final result = await standardCompetencyService.getListSk();
-    if (result.statusCode == 200) {
-      skList.clear();
-      skList.addAll(result.data!.data!.list!);
+    try {
+      final result = await standardCompetencyService.getListSk();
+      if (result.statusCode == 200) {
+        skList.clear();
+        skList.addAll(result.data!.data!.list!);
+        skListBackup.clear();
+        skListBackup.addAll(skList);
+      } else {
+        Fluttertoast.showToast(
+          msg: result.data?.message ?? 'Gagal memuat data',
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Gagal memuat data');
+    } finally {
       isloadingListSK = false;
-      skListBackup.clear();
-      skListBackup.addAll(skList);
       notifyListeners();
-    } else {
-      Fluttertoast.showToast(msg: result.data!.message!);
     }
   }
 
   void getListSKJenis({required String idBatch}) async {
     isloadingListSKJenis = true;
     notifyListeners();
-    final result =
-        await standardCompetencyService.getListSkJenis(idBatch: idBatch);
-    if (result.statusCode == 200) {
-      skListJenis.clear();
-      skListJenis.addAll(result.data!.data!);
+    try {
+      final result =
+          await standardCompetencyService.getListSkJenis(idBatch: idBatch);
+      if (result.statusCode == 200) {
+        skListJenis.clear();
+        skListJenis.addAll(result.data!.data!);
+        skListJenisBackup.clear();
+        skListJenisBackup.addAll(skListJenis);
+      } else {
+        Fluttertoast.showToast(
+          msg: result.data?.message ?? 'Gagal memuat data',
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Gagal memuat data');
+    } finally {
       isloadingListSKJenis = false;
-      skListJenisBackup.clear();
-      skListJenisBackup.addAll(skListJenis);
       notifyListeners();
-    } else {
-      Fluttertoast.showToast(msg: result.data!.message!);
     }
   }
 
   void getSkDetail({required String id}) async {
+    _skDetailRequestedId = id;
     isloadingSkDetail = true;
     skDetail = null;
     notifyListeners();
     try {
       final result = await standardCompetencyService.getSkDetail(id: id);
+      if (_skDetailRequestedId != id) return; // superseded by a newer call
       if (result.statusCode == 200) {
         skDetail = result.data?.data;
       } else {
@@ -78,10 +98,13 @@ class StandardCompetencyProvider extends ChangeNotifier {
       // Server sedang bermasalah / respons bukan JSON (mis. halaman error
       // HTML) — jangan crash, cukup gagal senyap dan biarkan bagian
       // deskripsi tidak tampil.
+      if (_skDetailRequestedId != id) return;
       Fluttertoast.showToast(msg: 'Gagal memuat deskripsi');
     } finally {
-      isloadingSkDetail = false;
-      notifyListeners();
+      if (_skDetailRequestedId == id) {
+        isloadingSkDetail = false;
+        notifyListeners();
+      }
     }
   }
 
@@ -91,19 +114,26 @@ class StandardCompetencyProvider extends ChangeNotifier {
   }) async {
     isloadingListSKGroup = true;
     notifyListeners();
-    final result = await standardCompetencyService.getListGroup(
-      idJenisSK: idJenisSK,
-      idBatch: idbatch,
-    );
-    if (result.statusCode == 200) {
-      skListGroup.clear();
-      skListGroup.addAll(result.data!.data!);
+    try {
+      final result = await standardCompetencyService.getListGroup(
+        idJenisSK: idJenisSK,
+        idBatch: idbatch,
+      );
+      if (result.statusCode == 200) {
+        skListGroup.clear();
+        skListGroup.addAll(result.data!.data!);
+        skListGroupBackup.clear();
+        skListGroupBackup.addAll(skListGroup);
+      } else {
+        Fluttertoast.showToast(
+          msg: result.data?.message ?? 'Gagal memuat data',
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Gagal memuat data');
+    } finally {
       isloadingListSKGroup = false;
-      skListGroupBackup.clear();
-      skListGroupBackup.addAll(skListGroup);
       notifyListeners();
-    } else {
-      Fluttertoast.showToast(msg: result.data!.message!);
     }
   }
 
@@ -114,20 +144,27 @@ class StandardCompetencyProvider extends ChangeNotifier {
   }) async {
     isloadingListSKGroupDetail = true;
     notifyListeners();
-    final result = await standardCompetencyService.getListGroupDetail(
-      idGroup: idGroup,
-      idBatch: idBatch,
-      idJenisSK: idJenisSK,
-    );
-    if (result.statusCode == 200) {
-      skListGroupDetail.clear();
-      skListGroupDetail.addAll(result.data!.data!);
+    try {
+      final result = await standardCompetencyService.getListGroupDetail(
+        idGroup: idGroup,
+        idBatch: idBatch,
+        idJenisSK: idJenisSK,
+      );
+      if (result.statusCode == 200) {
+        skListGroupDetail.clear();
+        skListGroupDetail.addAll(result.data!.data!);
+        skListGroupDetailBackup.clear();
+        skListGroupDetailBackup.addAll(skListGroupDetail);
+      } else {
+        Fluttertoast.showToast(
+          msg: result.data?.message ?? 'Gagal memuat data',
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Gagal memuat data');
+    } finally {
       isloadingListSKGroupDetail = false;
-      skListGroupDetailBackup.clear();
-      skListGroupDetailBackup.addAll(skListGroupDetail);
       notifyListeners();
-    } else {
-      Fluttertoast.showToast(msg: result.data!.message!);
     }
   }
 
