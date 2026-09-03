@@ -76,7 +76,6 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
                 margin: EdgeInsets.symmetric(horizontal: 12.w),
-                height: item.value == -1 ? null : 56,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color:
@@ -95,21 +94,27 @@ class _ModalMultiDropDownWidgetState extends State<ModalMultiDropDownWidget> {
                         clipBehavior: Clip.none,
                         children: [
                           Center(
-                            child: Text(
-                              item.title,
-                              textAlign: TextAlign.center,
-                              style: Themes()
-                                  .black14
-                                  ?.withColor(
-                                    item.selected
-                                        ? Themes.primary
-                                        : Themes.text,
-                                  )
-                                  .copyWith(
-                                    fontWeight: item.selected
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  ),
+                            child: Padding(
+                              // Reserve room on the right so long titles
+                              // never render underneath the check/radio
+                              // icon that's positioned there.
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              child: Text(
+                                item.title,
+                                textAlign: TextAlign.center,
+                                style: Themes()
+                                    .black14
+                                    ?.withColor(
+                                      item.selected
+                                          ? Themes.primary
+                                          : Themes.text,
+                                    )
+                                    .copyWith(
+                                      fontWeight: item.selected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                              ),
                             ),
                           ),
                           if (item.selected)
