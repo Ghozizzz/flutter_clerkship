@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../utils/text_sanitizer.dart';
+
 ItemReferenceResponse itemReferenceResponseFromJson(String str) =>
     ItemReferenceResponse.fromJson(json.decode(str));
 
@@ -70,7 +72,7 @@ class ItemReference {
         idFeature: json['id_feature'],
         idJenis: json['id_jenis'],
         idGroup: json['id_group'],
-        name: json['name'],
+        name: TextSanitizer.clean(json['name']),
         isMinicex: json['is_minicex'],
         status: json['status'],
         createdBy: json['created_by'],
