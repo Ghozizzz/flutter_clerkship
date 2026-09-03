@@ -49,21 +49,34 @@ class SurveyScreen extends StatelessWidget {
                 ? const Expanded(
                     child: Center(child: CircularProgressIndicator()),
                   )
-                : ListView.builder(
-                    padding: EdgeInsets.all(20.w),
-                    itemCount: surveyList.length,
-                    itemBuilder: (context, k) {
-                      return AnimatedItem(
-                        index: k,
-                        child: ItemAssessment(
-                            id: surveyList[k].id ?? 0,
-                            namaDepartment: surveyList[k].namaDepartment ?? '',
-                            tanggal:
-                                '${DateFormat('dd MMMM yyyy').format(surveyList[k].startDate ?? DateTime.now())} - ${DateFormat('dd MMMM yyyy').format(surveyList[k].endDate ?? DateTime.now())}',
-                            flagSurvey: surveyList[k].flagSurvey ?? 0),
-                      );
-                    },
-                  ).addExpanded
+                : surveyList.isEmpty
+                    ? Expanded(
+                        child: Center(
+                          child: Text(
+                            'Belum ada survey',
+                            style: Themes()
+                                .blackBold12
+                                ?.withFontWeight(FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: EdgeInsets.all(20.w),
+                        itemCount: surveyList.length,
+                        itemBuilder: (context, k) {
+                          return AnimatedItem(
+                            index: k,
+                            child: ItemAssessment(
+                                id: surveyList[k].id ?? 0,
+                                namaDepartment:
+                                    surveyList[k].namaDepartment ?? '',
+                                tanggal:
+                                    '${DateFormat('dd MMMM yyyy').format(surveyList[k].startDate ?? DateTime.now())} - ${DateFormat('dd MMMM yyyy').format(surveyList[k].endDate ?? DateTime.now())}',
+                                flagSurvey: surveyList[k].flagSurvey ?? 0),
+                          );
+                        },
+                      ).addExpanded
           ],
         ),
       ),
