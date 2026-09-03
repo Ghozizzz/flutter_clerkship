@@ -100,13 +100,20 @@ class _SplashScreenState extends State<SplashScreen> {
   void getCurrentUser() {
     context.read<UserProvider>().getCurrentUser().then((value) {
       int? role = context.read<UserProvider>().user.roleId;
+      if (role == null) {
+        // /myaccount failed (expired session, server down/blocked, bad
+        // response, etc.) — bounce to Login instead of crashing on a null
+        // role.
+        NavHelper.navigateReplace(LoginScreen());
+        return;
+      }
       if (role == 1) {
-        context.read<NotificationProvider>().getNotification(role: role!);
+        context.read<NotificationProvider>().getNotification(role: role);
         NavHelper.navigateReplace(
           const DashboardLectureScreen(),
         );
       } else {
-        context.read<NotificationProvider>().getNotification(role: role!);
+        context.read<NotificationProvider>().getNotification(role: role);
         NavHelper.navigateReplace(
           const DashboardStudentScreen(),
         );
