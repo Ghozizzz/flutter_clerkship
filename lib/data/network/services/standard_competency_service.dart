@@ -14,7 +14,7 @@ class StandardCompetencyService extends StandardCompetencyInterface {
 
   @override
   Future<ResultData<SkListResponse>> getListSk() async {
-    final endpoint = '${ApiConfig.baseUrl}/sk/list';
+    final endpoint = '${ApiConfig.baseUrl}/v2/sk/list';
     debugPrint(endpoint);
 
     try {
